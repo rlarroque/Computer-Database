@@ -1,59 +1,77 @@
 package com.excilys.computerDatabase.main;
 
+import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Scanner;
 
+import javax.naming.directory.InvalidAttributesException;
+
+import com.excilys.computerDatabase.dao.interfaces.CompanyDAO;
+import com.excilys.computerDatabase.dao.interfaces.ComputerDAO;
 import com.excilys.computerDatabase.model.Company;
 import com.excilys.computerDatabase.model.Computer;
-import com.excilys.computerDatabse.dao.CompanyJDBCTemplate;
-import com.excilys.computerDatabse.dao.ComputerJDBCTemplate;
-import java.sql.Timestamp;
+import com.sun.xml.internal.ws.addressing.model.InvalidAddressingHeaderException;
 
 public class CmdLineInterface {
 	
-	public static void main(String[] args) {
+	private ComputerDAO computerDAO;
+	private CompanyDAO companyDAO;
+	
+	private static final Scanner sc;
+	static{
+		sc = new Scanner(System.in);
+	}
+	
+	public CmdLineInterface(ComputerDAO computerDAO, CompanyDAO companyDAO) {
+		this.computerDAO = computerDAO;
+		this.companyDAO = companyDAO;
+	}
+	
+	/**
+	 * Will start an execution of the cmdLine program. The user will be able to pick a command such as displaying a list
+	 * of computer or creating new ones. The program wont exit unless the user picks the exit command.
+	 */
+	public void startCmdLineInterface() {
 		
 		boolean doContinue = true;
-		ComputerJDBCTemplate computerTemplate = new ComputerJDBCTemplate();
-		CompanyJDBCTemplate companyTemplate = new CompanyJDBCTemplate();
 		
-		Scanner sc = new Scanner(System.in);
-		
+		// loop while 'exit' has not been chosen.s
 		while(doContinue)
 		{
 			displayWelcomeMsg();
 			
-			String cmd = sc.nextLine();
+			String cmd = sc.next();
 			
 			switch (cmd) {
 			case "list -company":
 			case "1":
-				listCompany(companyTemplate);
+				listCompany(companyDAO);
 				break;
 				
 			case "list -computer":
 			case "2":
-				listComputer(computerTemplate);
+				listComputer(computerDAO);
 				break;
 				
 			case "create":
 			case "3":
-				createComputer(sc, computerTemplate);
+				createComputer(computerDAO);
 				break;
 				
 			case "update":
 			case "4":
-				updateComputer(sc, computerTemplate);
+				updateComputer(computerDAO);
 				break;
 				
 			case "delete":
 			case "5":
-				deleteComputer(sc, computerTemplate);
+				deleteComputer(computerDAO);
 				break;
 				
 			case "details":
 			case "6":
-				detailsComputer(sc, computerTemplate);
+				detailsComputer(computerDAO);
 				break;
 				
 			case "exit":
@@ -65,24 +83,34 @@ public class CmdLineInterface {
 			default:
 				break;
 			}
+			
+			System.out.println("\nPress 'enter' to continue.");
+			try {
+				System.in.read();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		sc.close();
 	}
 
+	/**
+	 * Display the help menu.
+	 */
 	public static void displayWelcomeMsg(){
-		System.out.println("\nWelcome to the fabulous Computer-Database!");
+		System.out.println("Welcome to the fabulous Computer-Database!");
 		System.out.println("Here are the available commands:");
-		System.out.println("	1 list -computer. To display all the computers.");
-		System.out.println("	2 list -company. To display all the companies.");
-		System.out.println("	3 create. To create a new computer.");
-		System.out.println("	4 update. To update an existing computer;");
-		System.out.println("	5 delete. To delete an existing computer.");
-		System.out.println("	6 details. To display a computer's details.");
-		System.out.println("	7 exit. To exit the application.\n");
+		System.out.println("  1 list -company.");
+		System.out.println("  2 list -computer.");
+		System.out.println("  3 create.");
+		System.out.println("  4 update.");
+		System.out.println("  5 delete.");
+		System.out.println("  6 details.");
+		System.out.println("  7 exit.\n");
 	}
 	
-	public static void listComputer(ComputerJDBCTemplate computerTemplate){
+	public static void listComputer(ComputerDAO computerTemplate){
 		List <Computer> computers = computerTemplate.getComputers();
         
         for (Computer computer : computers) {
@@ -90,7 +118,7 @@ public class CmdLineInterface {
 		}
 	}
 	
-	public static void listCompany(CompanyJDBCTemplate companyTemplate){
+	public static void listCompany(CompanyDAO companyTemplate){
 		List <Company> companies = companyTemplate.getCompanies();
         
         for (Company company : companies) {
@@ -98,8 +126,11 @@ public class CmdLineInterface {
 		}
 	}
 	
-	public static void createComputer(Scanner sc, ComputerJDBCTemplate computerTemplate){
+	public static void createComputer(ComputerDAO computerTemplate){
 		
+		sc.nextLine();
+		
+		Boolean before = true;
 		String buffer = null;
 		Timestamp discontinuedDate = null;
 		Timestamp IntroducedDate = null;
@@ -108,25 +139,47 @@ public class CmdLineInterface {
 		buffer = sc.nextLine();
 		Computer computer = new Computer(buffer);
 		
-		System.out.println("Enter the introducing date of the computer (press 'enter' for current date):");
+		System.out.println("Introduction date of the computer, format YYYY-MM-DD (press 'enter' for current date):");
 		buffer = sc.nextLine();
 		
 		if("".equals(buffer)){
 			IntroducedDate = new Timestamp(new java.util.Date().getTime());
 		} else{
-			IntroducedDate = Timestamp.valueOf(buffer);
+			
+			try{
+				IntroducedDate = Timestamp.valueOf(buffer.concat(" 00:00:00"));
+			} catch(IllegalArgumentException iae){
+				System.out.println("Not a good format for a date. Current date has been chosen.");
+				IntroducedDate = new Timestamp(new java.util.Date().getTime());
+			}
 		}
 		
 		computer.setIntroduced(IntroducedDate);
 		
-		System.out.println("Enter the discontinuing date of the computer (press 'enter' for current date):");
-		buffer = sc.nextLine();
+		do {
+			
+			System.out.println("Discontinuing date of the computer, format YYYY-MM-DD (press 'enter' for current date):");
+			buffer = sc.nextLine();
+					
+			if("".equals(buffer)){
+				discontinuedDate = new Timestamp(new java.util.Date().getTime());
+			} else{
 				
-		if("".equals(buffer)){
-			discontinuedDate = new Timestamp(new java.util.Date().getTime());
-		} else{
-			discontinuedDate = Timestamp.valueOf(buffer);
-		}
+				try{
+					discontinuedDate = Timestamp.valueOf(buffer.concat(" 00:00:00"));
+				} catch(IllegalArgumentException iae){
+					System.out.println("Not a good format for a date. Current date has been chosen.");
+					discontinuedDate = new Timestamp(new java.util.Date().getTime());
+				}
+			}
+			
+			if(discontinuedDate.before(IntroducedDate)){
+				System.out.println("This date is invalid because earlier than the introduction date");
+			} else{
+				before = false;
+			}
+			
+		} while (before);
 		
 		computer.setDiscontinued(discontinuedDate);
 		
@@ -136,20 +189,96 @@ public class CmdLineInterface {
 		computer.setCompany_id(company_id);
 		
 		computerTemplate.createComputer(computer);
+		
+		sc.nextLine();
 	}
 	
-	private static void deleteComputer(Scanner sc, ComputerJDBCTemplate computerTemplate) {
+	private static void deleteComputer(ComputerDAO computerTemplate) {
 		System.out.println("Enter the id of the computer to delete:");		
 		int id = sc.nextInt();
 		
 		computerTemplate.deleteComputer(id);
 	}
 
-	private static void updateComputer(Scanner sc, ComputerJDBCTemplate computerTemplate) {
+	private static void updateComputer(ComputerDAO computerTemplate) {
 		
+		Boolean before = true;
+		String buffer = null;
+		Timestamp discontinuedDate = null;
+		Timestamp IntroducedDate = null;
+		
+		System.out.println("Enter the id of the computer:");		
+		int bufferInt = sc.nextInt();
+		sc.nextLine();
+		Computer computer = computerTemplate.getComputer(bufferInt);
+		
+		System.out.print("Computer retrieved: ");	
+		System.out.println(computer);
+		
+		System.out.println("Enter the new name of the computer (press 'enter' to keep the old name):");
+		buffer = sc.nextLine();
+		
+		if(! "".equals(buffer)){
+			computer.setName(buffer);
+		}
+		
+		System.out.println("New introducing date of the computer, format YYYY-MM-DD (press 'enter' to keep the old date):");
+		buffer = sc.nextLine();
+		
+		if(! "".equals(buffer)){
+			
+			try{
+				IntroducedDate = Timestamp.valueOf(buffer.concat(" 00:00:00"));
+				computer.setIntroduced(IntroducedDate);
+			} catch(IllegalArgumentException iae){
+				System.out.println("Not a good format for a date. Date hasn't been modified.");
+			}
+		}
+		
+		do {
+			
+			System.out.println("New discontinuing date of the computer, format YYYY-MM-DD (press 'enter' to keep the old date):");
+			buffer = sc.nextLine();
+					
+			if(! "".equals(buffer)){
+				
+				try{
+					discontinuedDate = Timestamp.valueOf(buffer.concat(" 00:00:00"));
+					computer.setDiscontinued(discontinuedDate);
+				} catch(IllegalArgumentException iae){
+					System.out.println("Not a good format for a date. Date hasn't been modified.");
+				}
+			}
+			
+			if(discontinuedDate.before(IntroducedDate)){
+				System.out.println("This date is invalid because earlier than the introduction date");
+			} else{
+				before = false;
+			}
+			
+		} while (before);
+			
+		System.out.println("Enter the new company tag of the computer (press 'enter' to keep the old one):");		
+		buffer = sc.nextLine();
+		
+		if(! "".equals(buffer)){
+			
+			try{
+				computer.setCompany_id(Integer.parseInt(buffer));
+			} catch (NumberFormatException nfe)
+		    {
+				System.out.println("NumberFormatException: " + nfe.getMessage());
+		    }
+		}
+		
+		computerTemplate.updateComputer(computer);
 	}
 	
-	private static void detailsComputer(Scanner sc, ComputerJDBCTemplate computerTemplate) {
+	private static void detailsComputer(ComputerDAO computerTemplate) {
+		System.out.println("Enter the id of the computer to retrieve:");
+		int id = sc.nextInt();
 		
+		Computer computer = computerTemplate.getComputer(id);
+		System.out.println(computer);
 	}
 }

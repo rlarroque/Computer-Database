@@ -1,4 +1,4 @@
-package com.excilys.computerDatabse.dao;
+package com.excilys.computerDatabase.dao;
 
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -7,14 +7,19 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.excilys.computerDatabase.dao.interfaces.ComputerDAO;
+import com.excilys.computerDatabase.db.ConnectionFactory;
+import com.excilys.computerDatabase.mapping.ComputerMapper;
 import com.excilys.computerDatabase.model.Computer;
-import com.excilys.computerDatabase.model.ComputerMapper;
-import com.excilys.computerDatabse.dao.interfaces.ComputerDAO;
-import com.excilys.computerDatabse.db.ConnectionFactory;
 import com.mysql.jdbc.PreparedStatement;
 
+/**
+ * Implementation of ComputerDAO that is used to manipulate the db.
+ * @author excilys
+ */
 public class ComputerJDBCTemplate implements ComputerDAO {
 	
+	// Queries that will be used.
 	private static String getComputersQuery = "SELECT * FROM `computer-database-db`.computer;";
 	private static String getComputerByIdQuery = "SELECT * FROM `computer-database-db`.computer where id=?";
 	private static String getComputerByNameQuery = "SELECT * FROM `computer-database-db`.computer where name=?";

@@ -1,5 +1,10 @@
 package com.excilys.computerDatabase.model;
 
+/**
+ * This class describe a company with all its parameters. id, and name. This is a simple POJO.
+ * @author excilys
+ *
+ */
 public class Company {
 	
 	private int id;

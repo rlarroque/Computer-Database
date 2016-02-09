@@ -2,6 +2,12 @@ package com.excilys.computerDatabase.model;
 
 import java.sql.Timestamp;
 
+/**
+ * This class describe a computer with all its parameters. id, name, introduced date, discontinued date,
+ * and company id. This is a simple POJO.
+ * @author excilys
+ *
+ */
 public class Computer {
 	
 	private int id;
