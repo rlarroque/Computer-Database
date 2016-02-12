@@ -9,7 +9,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDateTime;
 
 import org.junit.After;
 import org.junit.Before;
@@ -19,9 +18,7 @@ import org.slf4j.LoggerFactory;
 
 import com.excilys.computer_database.db.DbUtils;
 import com.excilys.computer_database.dto.CompanyDTO;
-import com.excilys.computer_database.dto.ComputerDTO;
 import com.excilys.computer_database.model.Company;
-import com.excilys.computer_database.model.Computer;
 
 public class TestCompanyMapping {
 
@@ -49,7 +46,7 @@ public class TestCompanyMapping {
 	}
 
 	@Before
-	public void executeBeforeAllTests() {
+	public void executeBeforeEachTests() {
 
 		try {
 			connection = getConnection();
@@ -68,7 +65,7 @@ public class TestCompanyMapping {
 	}
 
 	@After
-	public void executerApresChaqueTest() {
+	public void executeAfterEachTests() {
 
 		try {
 			DbUtils.close(statement);

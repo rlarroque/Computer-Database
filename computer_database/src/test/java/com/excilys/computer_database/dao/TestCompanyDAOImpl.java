@@ -3,7 +3,6 @@ package com.excilys.computer_database.dao;
 import static org.junit.Assert.assertEquals;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -32,7 +31,7 @@ public class TestCompanyDAOImpl {
 
 
 	@Before
-	public void executeBeforeAllTests() {
+	public void executeBeforeEachTests() {
 		companyDAO = CompanyDAOImpl.getInstance();
 
 		try {
@@ -47,7 +46,7 @@ public class TestCompanyDAOImpl {
 	}
 
 	@After
-	public void executerApresChaqueTest() {
+	public void executeAfterEachTests() {
 		companyDAO = null;
 
 		try {

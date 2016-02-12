@@ -13,9 +13,18 @@ public interface ComputerDAO {
 	
 	/**
 	 * Get the list of all the existing computers on the db.
-	 * @return The List of Computer
+	 * @return the List of Computer
 	 */
 	List<Computer> getComputers();
+	
+	/**
+	 * Get the list of all the computers between the limits passed.
+	 * This method is used for pagination needs..
+	 * @param first position in the db of the first computer of the current page
+	 * @param last position in the db of the last computer of the current page
+	 * @return the List of computers of the current page.
+	 */
+	List<Computer> getComputersPage(int first, int last);
 	
 	/**
 	 * Returns a computer according to the id passed.

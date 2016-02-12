@@ -1,6 +1,7 @@
-<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-	version="2.5">
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:web="http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+	version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee">
 
 	<display-name>Archetype Created Web Application</display-name>
 
@@ -8,15 +9,6 @@
 	<welcome-file-list>
 		<welcome-file>/jsp/dashboard.jsp</welcome-file>
 	</welcome-file-list>
-
-	<servlet>
-		<servlet-name>DisplayComputers</servlet-name>
-		<servlet-class>servlet.DisplayComputers</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>DisplayComputers</servlet-name>
-		<url-pattern>/DisplayComputers</url-pattern>
-	</servlet-mapping>
 
 	<error-page>
 		<error-code>404</error-code>

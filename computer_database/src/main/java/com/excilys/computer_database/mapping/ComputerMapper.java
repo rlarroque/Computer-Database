@@ -6,6 +6,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.excilys.computer_database.dto.ComputerDTO;
 import com.excilys.computer_database.model.Company;
@@ -90,6 +92,16 @@ public interface ComputerMapper {
 
 		return computer;
 	}
+	
+	public static List<Computer> listDTOToListComputer(List<ComputerDTO> dtoList) {
+		List<Computer> computerList = new ArrayList<>();
+		
+		for (ComputerDTO dto: dtoList) {
+			computerList.add(dtoToComputer(dto));
+		}
+		
+		return computerList;
+	}
 
 	public static ComputerDTO computerToDTO(Computer computer) {
 
@@ -120,6 +132,16 @@ public interface ComputerMapper {
 		}
 
 		return dto;
+	}
+	
+	public static List<ComputerDTO> listComputerToListDTO(List<Computer> computerList) {
+		List<ComputerDTO> computerDTOList = new ArrayList<>();
+		
+		for (Computer computer : computerList) {
+			computerDTOList.add(computerToDTO(computer));
+		}
+		
+		return computerDTOList;
 	}
 
 }

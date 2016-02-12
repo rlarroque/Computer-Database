@@ -2,12 +2,12 @@ package com.excilys.computer_database.dto;
 
 public class ComputerDTO {
 
-	private String name;
-	private String introducedDate;
-	private String introducedTime;
-	private String discontinuedDate;
-	private String discontinuedTime;
-	private String company_name;
+	public String name;
+	public String introducedDate;
+	public String introducedTime;
+	public String discontinuedDate;
+	public String discontinuedTime;
+	public String company_name;
 
 	public String getName() {
 		return name;
@@ -56,13 +56,19 @@ public class ComputerDTO {
 	public void setCompany_name(String company_name) {
 		this.company_name = company_name;
 	}
-	
-	public ComputerDTO(){
-		
+
+	public ComputerDTO() {
+
 	}
-	
+
 	public ComputerDTO(String name) {
 		this.name = name;
 	}
 
+	@Override
+	public String toString() {
+		return "ComputerDTO [name=" + name + ", introducedDate=" + introducedDate + ", introducedTime=" + introducedTime
+				+ ", discontinuedDate=" + discontinuedDate + ", discontinuedTime=" + discontinuedTime
+				+ ", company_name=" + company_name + "]";
+	}
 }

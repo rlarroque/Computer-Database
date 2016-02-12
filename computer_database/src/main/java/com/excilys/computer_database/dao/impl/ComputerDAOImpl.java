@@ -28,6 +28,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 	private static ComputerDAOImpl instance;
 
 	// SQL Queries
+	private static final String GET_COMPUTER_PAGE_QUERY = "SELECT * FROM computer LEFT JOIN company ON computer.company_id = company.id LIMIT ? OFFSET ?";
 	private static final String GET_COMPUTER_QUERY = "SELECT * FROM computer LEFT JOIN company ON computer.company_id = company.id";
 	private static final String GET_COMPUTER_BY_ID_QUERY = "SELECT * FROM computer LEFT JOIN company ON computer.company_id = company.id where computer.id=?";
 	private static final String GET_COMPUTER_BY_NAME_QUERY = "SELECT * FROM computer LEFT JOIN company ON computer.company_id = company.id where computer.name=?";
@@ -78,6 +79,33 @@ public class ComputerDAOImpl implements ComputerDAO {
 
 		try {
 			resSet = statement.executeQuery(GET_COMPUTER_QUERY);
+
+			while (resSet.next()) {
+				computers.add(ComputerMapper.resultSetToComputer(resSet));
+			}
+
+		} catch (SQLException e) {
+			logger.error("Cannot get computers. " + e.getMessage());
+		} finally {
+			closeConnection();
+		}
+
+		return computers;
+	}
+
+	@Override
+	public List<Computer> getComputersPage(int number, int startIndex) {
+
+		initConnection();
+
+		List<Computer> computers = new ArrayList<Computer>();
+
+		try {
+
+			PreparedStatement ps = (PreparedStatement) connection.prepareStatement(GET_COMPUTER_PAGE_QUERY);
+			ps.setInt(1, number);
+			ps.setInt(2, startIndex);
+			resSet = ps.executeQuery();
 
 			while (resSet.next()) {
 				computers.add(ComputerMapper.resultSetToComputer(resSet));
@@ -153,9 +181,25 @@ public class ComputerDAOImpl implements ComputerDAO {
 			PreparedStatement ps = (PreparedStatement) connection.prepareStatement(CREATE_COMPUTER_QUERY,
 					Statement.RETURN_GENERATED_KEYS);
 			ps.setString(1, c.getName());
-			ps.setTimestamp(2, Timestamp.valueOf(c.getIntroduced()));
-			ps.setTimestamp(3, Timestamp.valueOf(c.getDiscontinued()));
-			ps.setInt(4, c.getCompany().getId());
+			
+			if (c.getIntroduced() == null) {
+				ps.setObject(2, null);
+			} else {
+				ps.setTimestamp(2, Timestamp.valueOf(c.getIntroduced()));
+			}
+
+			if (c.getDiscontinued() == null) {
+				ps.setObject(3, null);
+			} else {
+				ps.setTimestamp(3, Timestamp.valueOf(c.getDiscontinued()));
+			}
+			
+			if(c.getCompany() == null){
+				ps.setObject(4, null);
+			} else{
+				ps.setInt(4, c.getCompany().getId());
+			}
+			
 			ps.executeUpdate();
 
 			resSet = ps.getGeneratedKeys();

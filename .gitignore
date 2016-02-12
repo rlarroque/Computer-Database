@@ -11,8 +11,7 @@ local.properties
 .settings/
 .loadpath
 .recommenders/*
-Computer_Database/.tern-project
-Computer_Database/doc/*
+computer_database/WebContent/*
 
 # Eclipse Core
 .project

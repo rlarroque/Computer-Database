@@ -3,7 +3,6 @@ package com.excilys.computer_database.dao;
 import static org.junit.Assert.assertEquals;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -35,7 +34,7 @@ public class TestComputerDAOImpl {
 	private Logger logger = LoggerFactory.getLogger(getClass().getName());
 
 	@Before
-	public void executeBeforeAllTests() {
+	public void executeBeforeEachTests() {
 		computerDAO = ComputerDAOImpl.getInstance();
 
 		try {
@@ -59,7 +58,7 @@ public class TestComputerDAOImpl {
 	}
 
 	@After
-	public void executerApresChaqueTest() {
+	public void executeAfterEachTests() {
 		computerDAO = null;
 
 		try {
@@ -88,6 +87,31 @@ public class TestComputerDAOImpl {
 
 		computers = computerDAO.getComputers();
 		assertEquals(1, computers.size());
+	}
+	
+	@Test
+	public void testGetComputersPage() throws SQLException {
+		List<Computer> computers = computerDAO.getComputers();
+		assertEquals(0, computers.size());
+		
+		for(int i = 0; i<50; i++){
+			computerDAO.createComputer(new Computer("Dummy computer " + i));
+		}
+
+		computers = computerDAO.getComputers();
+		assertEquals(50, computers.size());
+		assertEquals("Dummy computer 0", computers.get(0).getName());
+		assertEquals("Dummy computer 9", computers.get(9).getName());
+		
+		computers = computerDAO.getComputersPage(15, 0);
+		assertEquals(15, computers.size());
+		assertEquals("Dummy computer 0", computers.get(0).getName());
+		assertEquals("Dummy computer 14", computers.get(14).getName());
+		
+		computers = computerDAO.getComputersPage(10, 25);
+		assertEquals(10, computers.size());
+		assertEquals("Dummy computer 25", computers.get(0).getName());
+		assertEquals("Dummy computer 34", computers.get(9).getName());
 	}
 
 	@Test

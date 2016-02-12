@@ -6,15 +6,15 @@ import java.util.Scanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.excilys.computer_database.dao.CompanyDAO;
+import com.excilys.computer_database.dao.ComputerDAO;
 import com.excilys.computer_database.exception.IntegrityException;
-import com.excilys.computer_database.service.CompanyService;
-import com.excilys.computer_database.service.ComputerService;
 
 public class CmdLineInterface {
 
 	private Logger logger = LoggerFactory.getLogger(getClass().getName());
-	private ComputerService computerService;
-	private CompanyService companyService;
+	private ComputerDAO computerDAO;
+	private CompanyDAO companyDAO;
 	private CLIUtils utils;
 
 	private static final Scanner sc;
@@ -23,9 +23,9 @@ public class CmdLineInterface {
 		sc = new Scanner(System.in);
 	}
 
-	public CmdLineInterface(ComputerService computerService, CompanyService companyService) {
-		this.computerService = computerService;
-		this.companyService = companyService;
+	public CmdLineInterface(ComputerDAO computerService, CompanyDAO companyService) {
+		this.computerDAO = computerService;
+		this.companyDAO = companyService;
 		utils = new CLIUtils(sc);
 	}
 
@@ -48,32 +48,32 @@ public class CmdLineInterface {
 				switch (cmd) {
 				case "list -company":
 				case "1":
-					utils.listCompany(companyService);
+					utils.listCompany(companyDAO);
 					break;
 
 				case "list -computer":
 				case "2":
-					utils.listComputer(computerService);
+					utils.listComputer(computerDAO);
 					break;
 
 				case "create":
 				case "3":
-					utils.createComputer(computerService);
+					utils.createComputer(computerDAO);
 					break;
 
 				case "update":
 				case "4":
-					utils.updateComputer(computerService);
+					utils.updateComputer(computerDAO);
 					break;
 
 				case "delete":
 				case "5":
-					utils.deleteComputer(computerService);
+					utils.deleteComputer(computerDAO);
 					break;
 
 				case "details":
 				case "6":
-					utils.detailsComputer(computerService);
+					utils.detailsComputer(computerDAO);
 					break;
 
 				case "exit":

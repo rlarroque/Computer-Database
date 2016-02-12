@@ -4,11 +4,11 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Scanner;
 
+import com.excilys.computer_database.dao.CompanyDAO;
+import com.excilys.computer_database.dao.ComputerDAO;
 import com.excilys.computer_database.exception.IntegrityException;
 import com.excilys.computer_database.model.Company;
 import com.excilys.computer_database.model.Computer;
-import com.excilys.computer_database.service.CompanyService;
-import com.excilys.computer_database.service.ComputerService;
 
 /**
  * Utility methods that can be used in the CLI to modify and read the db.
@@ -49,7 +49,7 @@ public class CLIUtils {
 	 * 
 	 * @param computerService
 	 */
-	protected void listComputer(ComputerService computerService) {
+	protected void listComputer(ComputerDAO computerService) {
 		List<Computer> computers = computerService.getComputers();
 
 		for (Computer computer : computers) {
@@ -62,7 +62,7 @@ public class CLIUtils {
 	 * 
 	 * @param companyService
 	 */
-	protected void listCompany(CompanyService companyService) {
+	protected void listCompany(CompanyDAO companyService) {
 		List<Company> companies = companyService.getCompanies();
 
 		for (Company company : companies) {
@@ -75,7 +75,7 @@ public class CLIUtils {
 	 * 
 	 * @param computerService
 	 */
-	protected void createComputer(ComputerService computerService) throws IntegrityException {
+	protected void createComputer(ComputerDAO computerService) throws IntegrityException {
 
 		try {
 			sc.nextLine();
@@ -157,7 +157,7 @@ public class CLIUtils {
 	 * 
 	 * @param computerService
 	 */
-	protected void deleteComputer(ComputerService computerService) throws IntegrityException {
+	protected void deleteComputer(ComputerDAO computerService) throws IntegrityException {
 
 		try {
 			System.out.println("Enter the id of the computer to delete:");
@@ -175,7 +175,7 @@ public class CLIUtils {
 	 * 
 	 * @param computerService
 	 */
-	protected void updateComputer(ComputerService computerService) throws IntegrityException {
+	protected void updateComputer(ComputerDAO computerService) throws IntegrityException {
 
 		try {
 			Boolean before = true;
@@ -261,7 +261,7 @@ public class CLIUtils {
 	 * 
 	 * @param computerService
 	 */
-	protected void detailsComputer(ComputerService computerService) throws IntegrityException {
+	protected void detailsComputer(ComputerDAO computerService) throws IntegrityException {
 
 		try {
 			System.out.println("Enter the id of the computer to retrieve:");
