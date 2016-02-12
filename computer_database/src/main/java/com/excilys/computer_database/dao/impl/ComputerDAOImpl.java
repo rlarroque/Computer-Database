@@ -33,7 +33,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 	private static final String GET_COMPUTER_BY_NAME_QUERY = "SELECT * FROM computer LEFT JOIN company ON computer.company_id = company.id where computer.name=?";
 	private static final String CREATE_COMPUTER_QUERY = "INSERT INTO computer (name, introduced, discontinued, company_id) values (?, ?, ?, ?)";
 	private static final String UPDATE_COMPUTER_QUERY = "UPDATE computer SET name = ?, introduced = ?, discontinued = ?, company_id = ? where id = ?";
-	private static final String DELETE_COMPUTER_QUERY = "DELETE FROM computer where id = ?";;
+	private static final String DELETE_COMPUTER_QUERY = "DELETE FROM computer where id = ?";
 
 	private Logger logger = LoggerFactory.getLogger(getClass().getName());
 	private Connection connection;
@@ -80,7 +80,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 			resSet = statement.executeQuery(GET_COMPUTER_QUERY);
 
 			while (resSet.next()) {
-				computers.add(ComputerMapper.map(resSet));
+				computers.add(ComputerMapper.resultSetToComputer(resSet));
 			}
 
 		} catch (SQLException e) {
@@ -105,7 +105,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 			resSet = ps.executeQuery();
 
 			if (resSet.next()) {
-				computer = ComputerMapper.map(resSet);
+				computer = ComputerMapper.resultSetToComputer(resSet);
 			}
 
 		} catch (SQLException e) {
@@ -130,7 +130,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 			resSet = ps.executeQuery();
 
 			if (resSet.next()) {
-				computer = ComputerMapper.map(resSet);
+				computer = ComputerMapper.resultSetToComputer(resSet);
 			}
 
 		} catch (SQLException e) {

@@ -32,21 +32,27 @@ public class Company {
 		this.id = id;
 		this.name = name;
 	}
+	
+	public Company(String name) {
+		this.name = name;
+	}
 
 	public Company() {
 	}
-	
+
 	@Override
 	public String toString() {
-		
-		return "Company [id=" + id + 
-			   ", name=" + name + 
-			   "]";
+
+		return "Company [id=" + id + ", name=" + name + "]";
 	}
 
 	@Override
 	public int hashCode() {
-		return id;
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id;
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		return result;
 	}
 
 	@Override
@@ -68,8 +74,16 @@ public class Company {
 		if (id != other.id) {
 			return false;
 		}
-		
+
+		if (name == null) {
+
+			if (other.name != null) {
+				return false;
+			}
+		} else if (!name.equals(other.name)) {
+			return false;
+		}
+
 		return true;
 	}
-
 }

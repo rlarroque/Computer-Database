@@ -17,6 +17,7 @@ import com.excilys.computer_database.db.DbUtils;
 import com.excilys.computer_database.mapping.CompanyMapper;
 import com.excilys.computer_database.model.Company;
 
+
 /**
  * Implementation of CompanyDAO that is used to manipulate the db.
  * @author excilys
@@ -26,13 +27,13 @@ public class CompanyDAOImpl implements CompanyDAO {
 	private static CompanyDAOImpl instance;
 	
 	// Query that will be used.
-	private static final String GET_COMPANIES_QUERY = "SELECT * FROM `computer-database-db`.company;";
+	private static final String GET_COMPANIES_QUERY = "SELECT * FROM company;";
 	
 	private Logger logger = LoggerFactory.getLogger(getClass().getName());
 	private Connection connection;
     private Statement statement;
     private ResultSet resSet;
-    
+
 	public static CompanyDAOImpl getInstance(){
 		if(instance == null){
 			instance = new CompanyDAOImpl();
