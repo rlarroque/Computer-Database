@@ -18,20 +18,13 @@ public interface ComputerService {
 	List<ComputerDTO> getComputers();
 	
 	/**
-	 * Get the list of all the computers according to the current page
-	 * This method is used for pagination needs..
-	 * @return the List of computers of the current page.
-	 */
-	List<ComputerDTO> getComputersPage();
-	
-	/**
 	 * Get the list of all the computers between the limits passed.
 	 * This method is used for pagination needs..
 	 * @param first position in the db of the first computer of the current page
 	 * @param last position in the db of the last computer of the current page
 	 * @return the List of computers of the current page.
 	 */
-	List<ComputerDTO> getComputersPage(int first, int last);
+	List<ComputerDTO> getComputersPage(int number, int startIndex);
 
 	/**
 	 * Returns a computer according to the id passed.
@@ -69,5 +62,11 @@ public interface ComputerService {
 	 * @param id id of the computer you want to delete.
 	 */
 	void deleteComputer(int id);
+	
+	/**
+	 * Retrieve the number if computers available on the db.
+	 * @return the number of computers
+	 */
+	int computerNumber();
 
 }

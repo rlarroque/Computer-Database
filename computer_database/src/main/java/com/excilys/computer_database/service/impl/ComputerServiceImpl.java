@@ -23,7 +23,6 @@ public class ComputerServiceImpl implements ComputerService {
 
 	private static ComputerServiceImpl instance;
 	private static ComputerDAO computerDAO;
-	private static PageService page;
 
 	public static ComputerServiceImpl getInstance() {
 		if (instance == null) {
@@ -35,49 +34,16 @@ public class ComputerServiceImpl implements ComputerService {
 
 	private ComputerServiceImpl() {
 		computerDAO = ComputerDAOImpl.getInstance();
-		page = PageService.getInstance();
 	}
 
 	@Override
 	public List<ComputerDTO> getComputers() {
 		return ComputerMapper.listComputerToListDTO(computerDAO.getComputers());
 	}
-	
-	@Override
-	public List<ComputerDTO> getComputersPage() {
-		return ComputerMapper.listComputerToListDTO(computerDAO.getComputersPage(page.getOffset(), page.startIndex()));
-	}
-	
+
 	@Override
 	public List<ComputerDTO> getComputersPage(int number, int startIndex) {
 		return ComputerMapper.listComputerToListDTO(computerDAO.getComputersPage(number, startIndex));
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public List<ComputerDTO> nextPage(){
-		page.nextPage();
-		
-		return null;
-		//return getComputersPage(page.startIndex(), page.last());
-	}
-	
-	/**
-	 * 
-	 * @return
-	 * @throws IntegrityException
-	 */
-	public List<ComputerDTO> previousPage() throws IntegrityException{
-		try{
-			page.previousPage();
-		} catch (IntegrityException ie){
-			throw ie;
-		}
-		
-		return null;
-		//return getComputersPage(page.startIndex(), page.last());
 	}
 
 	@Override
@@ -102,14 +68,20 @@ public class ComputerServiceImpl implements ComputerService {
 
 	@Override
 	public int createComputer(ComputerDTO dto) throws IntegrityException {
-		
+
 		Computer computer = ComputerMapper.dtoToComputer(dto);
 
 		if (computer.getName() == null || computer.getName() == "") {
 			throw new IntegrityException("A name is mandatory for a computer.");
 		}
 
-		if (computer.getDiscontinued().isBefore(computer.getIntroduced())) {
+		if (computer.getDiscontinued() != null && computer.getIntroduced() == null) {
+			throw new IntegrityException("Discontinued date cannot exist if there is no introducing date.");
+		}
+
+		if (computer.getDiscontinued() != null && computer.getIntroduced() != null
+				&& computer.getDiscontinued().isBefore(computer.getIntroduced())) {
+
 			throw new IntegrityException("Discontinued date cannot be earlier than introducing date.");
 		}
 
@@ -118,7 +90,7 @@ public class ComputerServiceImpl implements ComputerService {
 
 	@Override
 	public void updateComputer(ComputerDTO dto) throws IntegrityException {
-		
+
 		Computer computer = ComputerMapper.dtoToComputer(dto);
 
 		if (computer.getName() == null || computer.getName() == "") {
@@ -140,5 +112,10 @@ public class ComputerServiceImpl implements ComputerService {
 		}
 
 		computerDAO.deleteComputer(id);
+	}
+
+	@Override
+	public int computerNumber() {
+		return computerDAO.computerNumber();
 	}
 }

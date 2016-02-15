@@ -131,7 +131,7 @@ public class TestComputerMapping {
 		assertEquals(dto.getIntroducedTime(), computer.getIntroduced().toLocalTime().toString());
 		assertEquals(dto.getDiscontinuedDate(), computer.getDiscontinued().toLocalDate().toString());
 		assertEquals(dto.getDiscontinuedTime(), computer.getDiscontinued().toLocalTime().toString());
-		assertEquals(dto.getCompany_name(), computer.getCompany().getName());
+		assertEquals(dto.getCompanyName(), computer.getCompany().getName());
 	}
 
 	@Test
@@ -149,7 +149,7 @@ public class TestComputerMapping {
 		assertEquals(dto.getIntroducedTime(), "");
 		assertEquals(dto.getDiscontinuedDate(), "");
 		assertEquals(dto.getDiscontinuedTime(), "");
-		assertEquals(dto.getCompany_name(), "");
+		assertEquals(dto.getCompanyName(), "");
 	}
 
 	@Test
@@ -160,7 +160,8 @@ public class TestComputerMapping {
 		dto.setIntroducedTime("00:00");
 		dto.setDiscontinuedDate("2001-01-01");
 		dto.setDiscontinuedTime("00:00");
-		dto.setCompany_name("Dummy Company");
+		dto.setCompanyId(1);
+		dto.setCompanyName("Dummy Company");
 
 		Computer computer = ComputerMapper.dtoToComputer(dto);
 
@@ -169,7 +170,7 @@ public class TestComputerMapping {
 		assertEquals(computer.getIntroduced().toLocalTime().toString(), dto.getIntroducedTime());
 		assertEquals(computer.getDiscontinued().toLocalDate().toString(), dto.getDiscontinuedDate());
 		assertEquals(computer.getDiscontinued().toLocalTime().toString(), dto.getDiscontinuedTime());
-		assertEquals(computer.getCompany().getName(), dto.getCompany_name());
+		assertEquals(computer.getCompany().getName(), dto.getCompanyName());
 	}
 
 	@Test
@@ -180,7 +181,8 @@ public class TestComputerMapping {
 		dto.setIntroducedTime("");
 		dto.setDiscontinuedDate("");
 		dto.setDiscontinuedTime("");
-		dto.setCompany_name("");
+		dto.setCompanyId(0);
+		dto.setCompanyName("");
 
 		Computer computer = ComputerMapper.dtoToComputer(dto);
 
@@ -198,7 +200,7 @@ public class TestComputerMapping {
 		dto.setIntroducedTime("");
 		dto.setDiscontinuedDate("2001-01-01");
 		dto.setDiscontinuedTime("");
-		dto.setCompany_name("");
+		dto.setCompanyId(0);
 
 		Computer computer = ComputerMapper.dtoToComputer(dto);
 

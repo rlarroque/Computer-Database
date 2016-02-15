@@ -1,28 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE xml>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:web="http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
-	version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee">
-
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xmlns:web="http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" version="3.1"
+		 xmlns="http://xmlns.jcp.org/xml/ns/javaee">
+	
 	<display-name>Archetype Created Web Application</display-name>
-
-	<!-- Default page -->
+	
 	<welcome-file-list>
-		<welcome-file>/jsp/dashboard.jsp</welcome-file>
+		<welcome-file>/WEB-INFjsp/dashboard.jsp</welcome-file>
 	</welcome-file-list>
-
+	
 	<error-page>
 		<error-code>404</error-code>
-		<location>/jsp/404.jsp</location>
+		<location>/WEB-INF/jsp/404.jsp</location>
 	</error-page>
-
+	
 	<error-page>
 		<error-code>403</error-code>
-		<location>/jsp/403.jsp</location>
+		<location>/WEB-INF/jsp/403.jsp</location>
 	</error-page>
-
+	
 	<error-page>
 		<error-code>500</error-code>
-		<location>/jsp/500.jsp</location>
+		<location>/WEB-INF/jsp/500.jsp</location>
 	</error-page>
-
+	
+	<jsp-config>
+	</jsp-config>
+	
 </web-app>

@@ -7,7 +7,8 @@ public class ComputerDTO {
 	public String introducedTime;
 	public String discontinuedDate;
 	public String discontinuedTime;
-	public String company_name;
+	public String companyName;
+	public int companyId;
 
 	public String getName() {
 		return name;
@@ -48,15 +49,22 @@ public class ComputerDTO {
 	public void setDiscontinuedTime(String discontinuedTime) {
 		this.discontinuedTime = discontinuedTime;
 	}
-
-	public String getCompany_name() {
-		return company_name;
+	public String getCompanyName() {
+		return companyName;
 	}
 
-	public void setCompany_name(String company_name) {
-		this.company_name = company_name;
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
 	}
 
+	public int getCompanyId() {
+		return companyId;
+	}
+
+	public void setCompanyId(int companyId) {
+		this.companyId = companyId;
+	}
+	
 	public ComputerDTO() {
 
 	}
@@ -69,6 +77,6 @@ public class ComputerDTO {
 	public String toString() {
 		return "ComputerDTO [name=" + name + ", introducedDate=" + introducedDate + ", introducedTime=" + introducedTime
 				+ ", discontinuedDate=" + discontinuedDate + ", discontinuedTime=" + discontinuedTime
-				+ ", company_name=" + company_name + "]";
+				+ ", companyId=" + companyId + "]";
 	}
 }

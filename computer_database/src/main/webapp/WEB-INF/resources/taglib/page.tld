@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE taglib PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN" "http://java.sun.com/dtd/web-jsptaglibrary_1_2.dtd">
+<taglib>
+	<tlib-version>1.0</tlib-version>
+	<jsp-version>2.1</jsp-version>
+	<short-name>page</short-name>
+	<uri>/WEB-INF/resources/taglib/page.tld</uri>
+	<description>used to manage the pagination</description>
+
+	<tag>
+		<name>page</name>
+		<tag-class>com.excilys.computer_database.tag.TagPage</tag-class>
+		<body-content>empty</body-content>
+
+		<attribute>
+			<name>uri</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+
+		<attribute>
+			<name>currentPage</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>int</type>
+		</attribute>
+
+		<attribute>
+			<name>itemsNumber</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>int</type>
+		</attribute>
+
+		<attribute>
+			<name>offset</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>int</type>
+		</attribute>
+	</tag>
+
+</taglib>

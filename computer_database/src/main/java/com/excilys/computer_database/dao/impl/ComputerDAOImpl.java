@@ -35,6 +35,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 	private static final String CREATE_COMPUTER_QUERY = "INSERT INTO computer (name, introduced, discontinued, company_id) values (?, ?, ?, ?)";
 	private static final String UPDATE_COMPUTER_QUERY = "UPDATE computer SET name = ?, introduced = ?, discontinued = ?, company_id = ? where id = ?";
 	private static final String DELETE_COMPUTER_QUERY = "DELETE FROM computer where id = ?";
+	private static final String COUNT_COMPUTER_QUERY = "SELECT COUNT(*) from computer";
 
 	private Logger logger = LoggerFactory.getLogger(getClass().getName());
 	private Connection connection;
@@ -104,7 +105,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 
 			PreparedStatement ps = (PreparedStatement) connection.prepareStatement(GET_COMPUTER_PAGE_QUERY);
 			ps.setInt(1, number);
-			ps.setInt(2, startIndex);
+			ps.setInt(2, number * ( startIndex - 1));
 			resSet = ps.executeQuery();
 
 			while (resSet.next()) {
@@ -253,5 +254,28 @@ public class ComputerDAOImpl implements ComputerDAO {
 		} finally {
 			closeConnection();
 		}
+	}
+
+	@Override
+	public int computerNumber() {
+		
+		int computerNumber = 0;
+		
+		initConnection();
+		
+		try{
+			resSet = statement.executeQuery(COUNT_COMPUTER_QUERY);
+			
+			if(resSet.next()){
+				computerNumber = resSet.getInt(1);
+			}
+		} catch(SQLException e){
+		
+			logger.error("Cannot count computers. " + e.getMessage());
+		} finally {
+			closeConnection();
+		}
+		
+		return computerNumber;
 	}
 }

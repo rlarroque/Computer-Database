@@ -2,6 +2,8 @@ package com.excilys.computer_database.mapping;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.excilys.computer_database.dto.CompanyDTO;
 import com.excilys.computer_database.model.Company;
@@ -32,21 +34,45 @@ public interface CompanyMapper {
 		
 		if(dto == null){
 			return null;
-		} else if(dto.getName() == null || dto.getName() == ""){
+		} else if(dto.name == null || dto.name == "" || dto.id == 0){
 			return null;
 		} else{
-			return new Company(dto.getName());
+			return new Company(dto.id, dto.name);
 		}
+	}
+	
+	public static List<Company> listDTOToListCompany(List<CompanyDTO> dtoList) {
+		List<Company> companyList = new ArrayList<>();
+		
+		for (CompanyDTO dto: dtoList) {
+			companyList.add(dtoToCompany(dto));
+		}
+		
+		return companyList;
 	}
 
 	public static CompanyDTO companyToDTO(Company company) {
 		
 		if(company == null){
 			return null;			
-		} else if( company.getName() == "" || company.getName() == null){
-			return new CompanyDTO("");
+		} else if(company.getId() == null){
+			return null;
 		} else{
-			return new CompanyDTO(company.getName());
+			if(company.getName() == "" || company.getName() == null){
+				return new CompanyDTO(company.getId(), "");
+			} else{
+				return new CompanyDTO(company.getId(), company.getName());				
+			}
 		}
+	}
+	
+	public static List<CompanyDTO> listCompanyToListDTO(List<Company> companyList) {
+		List<CompanyDTO> companyDTOList = new ArrayList<>();
+		
+		for (Company company: companyList) {
+			companyDTOList.add(companyToDTO(company));
+		}
+		
+		return companyDTOList;
 	}
 }

@@ -61,4 +61,10 @@ public interface ComputerDAO {
 	 * @param id id of the computer you want to delete.
 	 */
 	void deleteComputer(int id);
+	
+	/**
+	 * Retrieve the number if computers available on the db.
+	 * @return the number of computers
+	 */
+	int computerNumber();
 }

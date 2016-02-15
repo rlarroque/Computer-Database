@@ -1,6 +1,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <c:url value="/../resources/css" var="css" />
+<c:url value="/../resources/js" var="js" />
 
 <!DOCTYPE html>
 <html>
@@ -18,8 +19,8 @@
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
-			<a class="navbar-brand" href="dashboard.html"> Application -
-				Computer Database </a>
+			<a class="navbar-brand" href="displayComputers?page=1&offset=10">
+				Application - Computer Database </a>
 		</div>
 	</header>
 
@@ -28,27 +29,33 @@
 			<div class="row">
 				<div class="col-xs-8 col-xs-offset-2 box">
 					<h1>Add Computer</h1>
-					<form action="addComputer" method="POST">
+					<form action="/computer_database/addComputer" method="POST"
+						id="creation_form">
 						<fieldset>
 							<div class="form-group">
 								<label for="computerName">Computer name</label> <input
-									type="text" class="form-control" id="computerName"
-									placeholder="Computer name">
+									type="text" class="form-control has-feedback" id="computerName"
+									name="computerName" placeholder="Computer name">
 							</div>
 							<div class="form-group">
 								<label for="introduced">Introduced date</label> <input
-									type="date" class="form-control" id="introduced"
-									placeholder="Introduced date">
+									type="date" class="form-control has-feedback" id="introduced"
+									name="introduced" placeholder="Introduced date">
 							</div>
 							<div class="form-group">
 								<label for="discontinued">Discontinued date</label> <input
-									type="date" class="form-control" id="discontinued"
-									placeholder="Discontinued date">
+									type="date" class="form-control has-feedback" id="discontinued"
+									name="discontinued" placeholder="Discontinued date">
 							</div>
 							<div class="form-group">
 								<label for="companyId">Company</label> <select
-									class="form-control" id="companyId">
+									class="form-control has-feedback" id="companyId" name="companyId">
 									<option value="0">--</option>
+
+									<c:forEach items="${companies}" var="companies">
+										<option value="${companies.id}">${companies.name}</option>
+									</c:forEach>
+
 								</select>
 							</div>
 						</fieldset>
@@ -61,5 +68,9 @@
 			</div>
 		</div>
 	</section>
+
+	<script src="//code.jquery.com/jquery-1.9.1.js"></script>
+	<script src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js"></script>
+	<script src="<c:url value="${js}/addComputer.js" />"></script>
 </body>
 </html>

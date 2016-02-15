@@ -1,9 +1,10 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="page" uri="/WEB-INF/resources/taglib/page.tld"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="com.excilys.computer_database.dto.ComputerDTO"%>
 
 <c:url value="/../resources/css" var="css" />
 <c:url value="/../resources/js" var="js" />
+<c:url value="/displayComputers?page=##1&offset=##2" var="displayUri"/>
 
 <!DOCTYPE html>
 <html>
@@ -22,14 +23,14 @@
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
-			<a class="navbar-brand" href="index.html"> Application - Computer
+			<a class="navbar-brand" href="displayComputers?page=1&offset=10"> Application - Computer
 				Database </a>
 		</div>
 	</header>
 
 	<section id="main">
 		<div class="container">
-			<h1 id="homeTitle">121 Computers found</h1>
+			<h1 id="homeTitle">${computerNumber} Computers found</h1>
 			<div id="actions" class="form-horizontal">
 				<div class="pull-left">
 					<form id="searchForm" action="#" method="GET" class="form-inline">
@@ -42,7 +43,7 @@
 				</div>
 				<div class="pull-right">
 					<a class="btn btn-success" id="addComputer"
-						href="jsp/addComputer.jsp">Add Computer</a> <a
+						href="addComputer">Add Computer</a> <a
 						class="btn btn-default" id="editComputer" href="#"
 						onclick="$.fn.toggleEditMode();">Edit</a>
 				</div>
@@ -86,10 +87,9 @@
 							<td><a href="editComputer.html" onclick="">${computers.name}</a></td>
 							<td>${computers.introducedDate}</td>
 							<td>${computers.discontinuedDate}</td>
-							<td>${computers.company_name}</td>
+							<td>${computers.companyName}</td>
 						</tr>
 					</c:forEach>
-
 				</tbody>
 			</table>
 		</div>
@@ -97,19 +97,9 @@
 
 	<footer class="navbar-fixed-bottom">
 		<div class="container text-center">
-			<ul class="pagination">
-				<li><a href="#" aria-label="Previous"> <span
-						aria-hidden="true">&laquo;</span>
-				</a></li>
-				<li><a href="#">1</a></li>
-				<li><a href="#">2</a></li>
-				<li><a href="#">3</a></li>
-				<li><a href="#">4</a></li>
-				<li><a href="#">5</a></li>
-				<li><a href="#" aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-				</a></li>
-			</ul>
-
+		
+			<page:page itemsNumber="${computerNumber}" currentPage="${currentPage}" uri="${displayUri}" offset="${offset}"/>
+			
 			<div class="btn-group btn-group-sm pull-right" role="group">
 				<button type="button" class="btn btn-default">10</button>
 				<button type="button" class="btn btn-default">50</button>

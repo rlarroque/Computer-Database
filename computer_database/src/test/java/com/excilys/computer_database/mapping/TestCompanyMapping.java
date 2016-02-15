@@ -117,14 +117,14 @@ public class TestCompanyMapping {
 
 	@Test
 	public void testDtoToCompany() {
-		CompanyDTO dto = new CompanyDTO("Dummy Company");
+		CompanyDTO dto = new CompanyDTO(1, "Dummy Company");
 		Company company = CompanyMapper.dtoToCompany(dto);
 		assertEquals("Dummy Company", company.getName());
 	}
 
 	@Test
 	public void testDtoToCompanyWithNull() {
-		CompanyDTO dto = new CompanyDTO("");
+		CompanyDTO dto = new CompanyDTO(1, "");
 		Company company = CompanyMapper.dtoToCompany(dto);
 		assertEquals(null, company);
 		

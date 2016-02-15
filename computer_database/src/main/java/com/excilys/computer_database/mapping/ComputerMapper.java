@@ -83,23 +83,25 @@ public interface ComputerMapper {
 
 			computer.setDiscontinued(LocalDateTime.of(discontinuedLocaDate, discontinuedLocaTime));
 		}
-
-		if (dto.getCompany_name() == "" || dto.getCompany_name() == null) {
+		
+		if (dto.getCompanyId() == 0) {
 			computer.setCompany(null);
-		} else {
-			computer.setCompany(new Company(dto.getCompany_name()));
+		} else if(dto.getCompanyName() == null || dto.getCompanyName() == ""){
+			computer.setCompany(new Company(dto.getCompanyId(), ""));
+		} else{
+			computer.setCompany(new Company(dto.getCompanyId(), dto.getCompanyName()));
 		}
 
 		return computer;
 	}
-	
+
 	public static List<Computer> listDTOToListComputer(List<ComputerDTO> dtoList) {
 		List<Computer> computerList = new ArrayList<>();
-		
-		for (ComputerDTO dto: dtoList) {
+
+		for (ComputerDTO dto : dtoList) {
 			computerList.add(dtoToComputer(dto));
 		}
-		
+
 		return computerList;
 	}
 
@@ -126,21 +128,28 @@ public interface ComputerMapper {
 		}
 
 		if (computer.getCompany() == null) {
-			dto.setCompany_name("");
+			dto.setCompanyId(0);
+			dto.setCompanyName("");
 		} else {
-			dto.setCompany_name(computer.getCompany().getName());
+			dto.setCompanyId(computer.getCompany().getId());
+			
+			if(computer.getCompany().getName() == null){
+				dto.setCompanyName("");
+			} else{
+				dto.setCompanyName(computer.getCompany().getName());
+			}
 		}
 
 		return dto;
 	}
-	
+
 	public static List<ComputerDTO> listComputerToListDTO(List<Computer> computerList) {
 		List<ComputerDTO> computerDTOList = new ArrayList<>();
-		
+
 		for (Computer computer : computerList) {
 			computerDTOList.add(computerToDTO(computer));
 		}
-		
+
 		return computerDTOList;
 	}
 
