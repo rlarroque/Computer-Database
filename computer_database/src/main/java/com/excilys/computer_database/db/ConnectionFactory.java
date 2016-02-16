@@ -36,7 +36,6 @@ public class ConnectionFactory {
 	/**
 	 * Create a new connection when called. Every caller will get its own
 	 * instance.
-	 * 
 	 * @return a new connection
 	 */
 	private Connection createConnection() {
@@ -68,9 +67,7 @@ public class ConnectionFactory {
 	/**
 	 * Call the createConnection method that will return a new connection to the
 	 * db.
-	 * 
-	 * @param test
-	 *            is set as true if you want to use the test database
+	 * @param test is set as true if you want to use the test database
 	 * @return the new connection
 	 */
 	public static Connection getConnection() {

@@ -11,8 +11,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.excilys.computer_database.dto.ComputerDTO;
+import com.excilys.computer_database.mapping.ComputerMapper;
 import com.excilys.computer_database.service.impl.ComputerServiceImpl;
 
+/**
+ * 
+ * @author excilys
+ *
+ */
 @WebServlet(name = "DisplayComputers", urlPatterns = "/displayComputers")
 public class DisplayComputers extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -23,11 +29,12 @@ public class DisplayComputers extends HttpServlet {
 		ComputerServiceImpl compService = ComputerServiceImpl.getInstance();
 
 		if (request.getParameter("offset") == null || request.getParameter("page") == null) {
-			listComputers = compService.getComputersPage(10, 1);
+			listComputers = ComputerMapper.listComputerToListDTO(compService.getComputersPage(10, 1));
 			request.setAttribute("offset", 10);
 		} else {
-			listComputers = compService.getComputersPage(Integer.parseInt(request.getParameter("offset")),
-														 Integer.parseInt(request.getParameter("page")));
+			listComputers = ComputerMapper.listComputerToListDTO(compService.getComputersPage(
+															Integer.parseInt(request.getParameter("offset")),
+															Integer.parseInt(request.getParameter("page"))));
 			request.setAttribute("offset", request.getParameter("offset"));
 		}
 		

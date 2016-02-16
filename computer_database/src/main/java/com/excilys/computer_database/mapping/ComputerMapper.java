@@ -10,17 +10,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.excilys.computer_database.dto.ComputerDTO;
+import com.excilys.computer_database.exception.IntegrityException;
 import com.excilys.computer_database.model.Company;
 import com.excilys.computer_database.model.Computer;
 
 /**
- * Mapper used to convert a resultSet into a Computer object.
+ * Mapper used to convert a resultSet or DTO into a Computer object.
  * 
  * @author excilys
  *
  */
 public interface ComputerMapper {
 
+	/**
+	 * Take a resultSet as parameter and return a Computer.
+	 * @param rs resultSet that is returned from a SQL query
+	 * @return a Computer corresponding to the resultSet
+	 * @throws SQLException if a SQl exception occurred while reading the resultSet
+	 */
 	public static Computer resultSetToComputer(ResultSet rs) throws SQLException {
 
 		Computer computer = new Computer();
@@ -45,7 +52,16 @@ public interface ComputerMapper {
 		return computer;
 	}
 
+	/**
+	 * Used to map a ComputerDTO into a Computer
+	 * @param dto dto to map
+	 * @return the Computer mapped
+	 */
 	public static Computer dtoToComputer(ComputerDTO dto) {
+		
+		if(dto == null){
+			throw new IntegrityException("A null item was found.");
+		}
 
 		LocalDate introducedLocalDate = null;
 		LocalTime introducedLocaTime = null;
@@ -55,10 +71,12 @@ public interface ComputerMapper {
 		Computer computer = new Computer();
 
 		computer.setName(dto.getName());
-
+		
 		if (dto.getIntroducedDate() == "" || dto.getIntroducedDate() == null) {
 			computer.setIntroduced(null);
 		} else {
+			dto.setIntroducedDate(dto.getIntroducedDate().replace('/', '-'));
+			
 			introducedLocalDate = LocalDate.parse(dto.getIntroducedDate(), DateTimeFormatter.ISO_LOCAL_DATE);
 
 			if (dto.getIntroducedTime() == "" || dto.getIntroducedTime() == null) {
@@ -73,6 +91,8 @@ public interface ComputerMapper {
 		if (dto.getDiscontinuedDate() == "" || dto.getDiscontinuedDate() == null) {
 			computer.setIntroduced(null);
 		} else {
+			dto.setDiscontinuedDate(dto.getDiscontinuedDate().replace('/', '-'));
+			
 			discontinuedLocaDate = LocalDate.parse(dto.getDiscontinuedDate(), DateTimeFormatter.ISO_LOCAL_DATE);
 
 			if (dto.getDiscontinuedTime() == "" || dto.getDiscontinuedTime() == null) {
@@ -95,6 +115,11 @@ public interface ComputerMapper {
 		return computer;
 	}
 
+	/**
+	 * Used to map a list of ComputerDTO into a list of Computers
+	 * @param dtoList list to map
+	 * @return the list of Computers mapped
+	 */
 	public static List<Computer> listDTOToListComputer(List<ComputerDTO> dtoList) {
 		List<Computer> computerList = new ArrayList<>();
 
@@ -105,7 +130,16 @@ public interface ComputerMapper {
 		return computerList;
 	}
 
+	/**
+	 * Used to map a Computer into a ComputerDTO
+	 * @param computer to map
+	 * @return the dto mapped
+	 */
 	public static ComputerDTO computerToDTO(Computer computer) {
+		
+		if(computer == null){
+			throw new IntegrityException("A null item was found.");
+		}
 
 		ComputerDTO dto = new ComputerDTO();
 
@@ -143,6 +177,11 @@ public interface ComputerMapper {
 		return dto;
 	}
 
+	/**
+	 * Used to map a list of Computers into a list of ComputerDTO
+	 * @param computerList to map
+	 * @return the list of dto mapped
+	 */
 	public static List<ComputerDTO> listComputerToListDTO(List<Computer> computerList) {
 		List<ComputerDTO> computerDTOList = new ArrayList<>();
 

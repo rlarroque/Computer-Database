@@ -42,6 +42,9 @@ public class CompanyDAOImpl implements CompanyDAO {
 		return instance;
 	}
     
+	/**
+	 * Initial the connection and the statement. To be called at the beginning of each queries.
+	 */
 	private void initConnection() {
 		
 	    try {
@@ -52,6 +55,9 @@ public class CompanyDAOImpl implements CompanyDAO {
 		}
 	}
 	
+	/**
+	 * Close the resultSet, statement and connection. To be called at the end of each queries.
+	 */
 	private void closeConnection() {
 		
 	    try {
@@ -74,7 +80,7 @@ public class CompanyDAOImpl implements CompanyDAO {
 			resSet = statement.executeQuery(GET_COMPANIES_QUERY);
 	
 			while(resSet.next()){
-				companies.add(CompanyMapper.map(resSet));
+				companies.add(CompanyMapper.resultSetToCompany(resSet));
 			}
 			
 		} catch (SQLException e) {

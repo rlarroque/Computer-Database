@@ -9,6 +9,11 @@ import com.excilys.computer_database.service.ComputerService;
 import com.excilys.computer_database.service.impl.CompanyServiceImpl;
 import com.excilys.computer_database.service.impl.ComputerServiceImpl;
 
+/**
+ * Point of entry of the application for CLI launch.
+ * @author excilys
+ *
+ */
 public class Launcher {
 	
 	@SuppressWarnings("unused")

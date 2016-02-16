@@ -2,7 +2,7 @@ package com.excilys.computer_database.service;
 
 import java.util.List;
 
-import com.excilys.computer_database.dto.ComputerDTO;
+import com.excilys.computer_database.model.Computer;
 
 /**
  * Interface of the computer service
@@ -15,7 +15,7 @@ public interface ComputerService {
 	 * Get the list of all the existing computers on the db.
 	 * @return The List of Computer
 	 */
-	List<ComputerDTO> getComputers();
+	List<Computer> getComputers();
 	
 	/**
 	 * Get the list of all the computers between the limits passed.
@@ -24,21 +24,21 @@ public interface ComputerService {
 	 * @param last position in the db of the last computer of the current page
 	 * @return the List of computers of the current page.
 	 */
-	List<ComputerDTO> getComputersPage(int number, int startIndex);
+	List<Computer> getComputersPage(int number, int startIndex);
 
 	/**
 	 * Returns a computer according to the id passed.
 	 * @param id the id of the computer
 	 * @return the retrieved computer itself
 	 */
-	ComputerDTO getComputer(int id);
+	Computer getComputer(int id);
 
 	/**
 	 * Returns a computer according to the name passed.
 	 * @param name the name of the computer
 	 * @return the retrieved computer itself
 	 */
-	ComputerDTO getComputer(String name);
+	Computer getComputer(String name);
 
 	/**
 	 * Method used to create a new computer. A computer has to passed as an
@@ -46,7 +46,7 @@ public interface ComputerService {
 	 * @param c a computer previously created
 	 * @return the id of the created computer
 	 */
-	int createComputer(ComputerDTO dto);
+	int createComputer(Computer computer);
 
 	/**
 	 * Method used to update an existing computer. A computer has to passed as
@@ -55,7 +55,7 @@ public interface ComputerService {
 	 * @param c a computer with the id of the one we want to modify but 
 	 *  possibly with different parameters
 	 */
-	void updateComputer(ComputerDTO dto);
+	void updateComputer(Computer computer);
 
 	/**
 	 * Delete a computer according to the id passed.

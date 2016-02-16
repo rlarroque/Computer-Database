@@ -100,12 +100,6 @@
 		
 			<page:page itemsNumber="${computerNumber}" currentPage="${currentPage}" uri="${displayUri}" offset="${offset}"/>
 			
-			<div class="btn-group btn-group-sm pull-right" role="group">
-				<button type="button" class="btn btn-default">10</button>
-				<button type="button" class="btn btn-default">50</button>
-				<button type="button" class="btn btn-default">100</button>
-			</div>
-
 		</div>
 	</footer>
 	<script src="<c:url value="${js}/jquery.min.js" />"></script>

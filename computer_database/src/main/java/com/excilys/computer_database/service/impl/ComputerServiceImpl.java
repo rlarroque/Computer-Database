@@ -4,9 +4,7 @@ import java.util.List;
 
 import com.excilys.computer_database.dao.ComputerDAO;
 import com.excilys.computer_database.dao.impl.ComputerDAOImpl;
-import com.excilys.computer_database.dto.ComputerDTO;
 import com.excilys.computer_database.exception.IntegrityException;
-import com.excilys.computer_database.mapping.ComputerMapper;
 import com.excilys.computer_database.model.Computer;
 import com.excilys.computer_database.service.ComputerService;
 
@@ -37,39 +35,41 @@ public class ComputerServiceImpl implements ComputerService {
 	}
 
 	@Override
-	public List<ComputerDTO> getComputers() {
-		return ComputerMapper.listComputerToListDTO(computerDAO.getComputers());
+	public List<Computer> getComputers() {
+		return computerDAO.getComputers();
 	}
 
 	@Override
-	public List<ComputerDTO> getComputersPage(int number, int startIndex) {
-		return ComputerMapper.listComputerToListDTO(computerDAO.getComputersPage(number, startIndex));
+	public List<Computer> getComputersPage(int number, int startIndex) {
+		return computerDAO.getComputersPage(number, startIndex);
 	}
 
 	@Override
-	public ComputerDTO getComputer(int id) throws IntegrityException {
+	public Computer getComputer(int id) throws IntegrityException {
 
 		if (id < 1) {
 			throw new IntegrityException("Id cannot be negativ.");
 		}
 
-		return ComputerMapper.computerToDTO(computerDAO.getComputer(id));
+		return computerDAO.getComputer(id);
 	}
 
 	@Override
-	public ComputerDTO getComputer(String name) {
+	public Computer getComputer(String name) throws IntegrityException{
 
 		if (name == null || name == "") {
 			throw new IntegrityException("A name is mandatory for a computer.");
 		}
 
-		return ComputerMapper.computerToDTO(computerDAO.getComputer(name));
+		return computerDAO.getComputer(name);
 	}
 
 	@Override
-	public int createComputer(ComputerDTO dto) throws IntegrityException {
+	public int createComputer(Computer computer) throws IntegrityException {
 
-		Computer computer = ComputerMapper.dtoToComputer(dto);
+		if(computer == null){
+			throw new IntegrityException("A null computer was found.");
+		}
 
 		if (computer.getName() == null || computer.getName() == "") {
 			throw new IntegrityException("A name is mandatory for a computer.");
@@ -89,15 +89,19 @@ public class ComputerServiceImpl implements ComputerService {
 	}
 
 	@Override
-	public void updateComputer(ComputerDTO dto) throws IntegrityException {
-
-		Computer computer = ComputerMapper.dtoToComputer(dto);
-
+	public void updateComputer(Computer computer) throws IntegrityException {
+		
+		if(computer == null){
+			throw new IntegrityException("A null computer was found.");
+		}
+		
 		if (computer.getName() == null || computer.getName() == "") {
 			throw new IntegrityException("A name is mandatory for a computer.");
 		}
 
-		if (computer.getDiscontinued().isBefore(computer.getIntroduced())) {
+		if (computer.getDiscontinued() != null && computer.getIntroduced() != null
+				&& computer.getDiscontinued().isBefore(computer.getIntroduced())) {
+
 			throw new IntegrityException("Discontinued date cannot be earlier than introducing date.");
 		}
 

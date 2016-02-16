@@ -1,15 +1,22 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page isErrorPage="true"%>
 
+<c:url value="/../resources/css" var="css" />
+<c:url value="/../resources/js" var="js" />
+
 <!DOCTYPE html>
 <html>
 <head>
 	<title>Computer Database</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<!-- Bootstrap -->
-	<link href="<c:url value="../resources/css/bootstrap.min.css" />" rel="stylesheet" media="screen">
-	<link href="<c:url value="../resources/css/font-awesome.css" rel="stylesheet" />" media="screen">
-	<link href="<c:url value="../resources/css/main.css" rel="stylesheet" />" media="screen">
+<!-- Bootstrap -->
+<link href="<c:url value="${css}/bootstrap.min.css" />"
+	rel="stylesheet" media="screen">
+<link href="<c:url value="${css}/font-awesome.css" />" rel="stylesheet"
+	media="screen">
+<link href="<c:url value="${css}/main.css" />" rel="stylesheet"
+	media="screen">
+</head>
 </head>
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
@@ -29,8 +36,9 @@
 	</section>
 
 	<script src="<c:url value="../resources/js/jquery.min.js" />" ></script>
-	<script src="<c:url value="../resources/js/bootstrap.min.js" />" ></script>
-	<script src="<c:url value="../resources/js/dashboard.js" />" ></script>
+	<script src="<c:url value="${js}/jquery.min.js" />"></script>
+	<script src="<c:url value="${js}/bootstrap.min.js" />"></script>
+	<script src="<c:url value="${js}/dashboard.js" />"></script>
 
 </body>
 </html>

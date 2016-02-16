@@ -9,7 +9,7 @@ import com.excilys.computer_database.dto.CompanyDTO;
 import com.excilys.computer_database.model.Company;
 
 /**
- * Mapper used to convert a resultSet into a Company object.
+ * Mapper used to convert a resultSet or DTO into a Company object.
  * @author excilys
  *
  */
@@ -21,7 +21,7 @@ public interface CompanyMapper {
 	 * @return a company corresponding to the resultSet
 	 * @throws SQLException if a SQl exception occurred while reading the resultSet
 	 */
-	public static Company map(ResultSet rs) throws SQLException {
+	public static Company resultSetToCompany(ResultSet rs) throws SQLException {
 		
 		Company company = new Company();
 		company.setId(rs.getInt("id"));
@@ -30,6 +30,11 @@ public interface CompanyMapper {
 		return company;
 	}
 	
+	/**
+	 * Used to map a CompanyDTO into a company
+	 * @param dto dto to map
+	 * @return the comapny mapped
+	 */
 	public static Company dtoToCompany(CompanyDTO dto) {
 		
 		if(dto == null){
@@ -41,6 +46,11 @@ public interface CompanyMapper {
 		}
 	}
 	
+	/**
+	 * Used to map a list of CompanyDTO into a list of companies
+	 * @param dtoList list to map
+	 * @return the list of company mapped
+	 */
 	public static List<Company> listDTOToListCompany(List<CompanyDTO> dtoList) {
 		List<Company> companyList = new ArrayList<>();
 		
@@ -51,6 +61,11 @@ public interface CompanyMapper {
 		return companyList;
 	}
 
+	/**
+	 * Used to map a Company into a CompanyDTO
+	 * @param company to map
+	 * @return the dto mapped
+	 */
 	public static CompanyDTO companyToDTO(Company company) {
 		
 		if(company == null){
@@ -66,6 +81,11 @@ public interface CompanyMapper {
 		}
 	}
 	
+	/**
+	 * Used to map a list of Companies into a list of companyDTO
+	 * @param companyList to map
+	 * @return the list of dto mapped
+	 */
 	public static List<CompanyDTO> listCompanyToListDTO(List<Company> companyList) {
 		List<CompanyDTO> companyDTOList = new ArrayList<>();
 		

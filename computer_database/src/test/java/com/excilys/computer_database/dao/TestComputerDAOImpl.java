@@ -103,15 +103,15 @@ public class TestComputerDAOImpl {
 		assertEquals("Dummy computer 0", computers.get(0).getName());
 		assertEquals("Dummy computer 9", computers.get(9).getName());
 		
-		computers = computerDAO.getComputersPage(15, 0);
-		assertEquals(15, computers.size());
-		assertEquals("Dummy computer 0", computers.get(0).getName());
-		assertEquals("Dummy computer 14", computers.get(14).getName());
-		
-		computers = computerDAO.getComputersPage(10, 25);
+		computers = computerDAO.getComputersPage(10, 1);
 		assertEquals(10, computers.size());
-		assertEquals("Dummy computer 25", computers.get(0).getName());
-		assertEquals("Dummy computer 34", computers.get(9).getName());
+		assertEquals("Dummy computer 0", computers.get(0).getName());
+		assertEquals("Dummy computer 9", computers.get(9).getName());
+		
+		computers = computerDAO.getComputersPage(10, 2);
+		assertEquals(10, computers.size());
+		assertEquals("Dummy computer 10", computers.get(0).getName());
+		assertEquals("Dummy computer 19", computers.get(9).getName());
 	}
 
 	@Test

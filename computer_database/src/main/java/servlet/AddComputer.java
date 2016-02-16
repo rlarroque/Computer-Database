@@ -12,9 +12,16 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.excilys.computer_database.dto.CompanyDTO;
 import com.excilys.computer_database.dto.ComputerDTO;
+import com.excilys.computer_database.mapping.CompanyMapper;
+import com.excilys.computer_database.mapping.ComputerMapper;
 import com.excilys.computer_database.service.impl.CompanyServiceImpl;
 import com.excilys.computer_database.service.impl.ComputerServiceImpl;
 
+/**
+ * 
+ * @author excilys
+ *
+ */
 @WebServlet(name="AddComputer", urlPatterns="/addComputer")
 public class AddComputer extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -24,7 +31,7 @@ public class AddComputer extends HttpServlet {
 		
 		CompanyServiceImpl compService = CompanyServiceImpl.getInstance();
 		
-		listCompanies = compService.getCompanies();
+		listCompanies = CompanyMapper.listCompanyToListDTO(compService.getCompanies());
 		
 		request.setAttribute("companies", listCompanies); // Store the list of computers in the request scope
 		request.getRequestDispatcher("/WEB-INF/jsp/addComputer.jsp").forward(request, response); // Forward to JSP page
@@ -42,9 +49,10 @@ public class AddComputer extends HttpServlet {
 		dto.setCompanyId(companyId);
 		
 		ComputerServiceImpl compService = ComputerServiceImpl.getInstance();
-		compService.createComputer(dto);
+		compService.createComputer(ComputerMapper.dtoToComputer(dto));
 		
 		response.sendRedirect("displayComputers?page=1&offset=10"); // redirect to JSP page
+		
 	}
 
 }

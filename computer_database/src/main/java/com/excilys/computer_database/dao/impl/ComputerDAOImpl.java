@@ -50,6 +50,9 @@ public class ComputerDAOImpl implements ComputerDAO {
 		return instance;
 	}
 
+	/**
+	 * Initial the connection and the statement. To be called at the beginning of each queries.
+	 */
 	private void initConnection() {
 
 		try {
@@ -60,6 +63,9 @@ public class ComputerDAOImpl implements ComputerDAO {
 		}
 	}
 
+	/**
+	 * Close the resultSet, statement and connection. To be called at the end of each queries.
+	 */
 	private void closeConnection() {
 
 		try {

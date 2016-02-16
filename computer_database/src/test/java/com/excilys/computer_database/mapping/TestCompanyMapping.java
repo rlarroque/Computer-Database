@@ -82,7 +82,7 @@ public class TestCompanyMapping {
 			resSet = statement.executeQuery(GET_COMPANIES_QUERY);
 
 			if (resSet.next()) {
-				assertEquals("Dummy Company", CompanyMapper.map(resSet).getName());
+				assertEquals("Dummy Company", CompanyMapper.resultSetToCompany(resSet).getName());
 			} else {
 				fail("No ResultSet.");
 			}

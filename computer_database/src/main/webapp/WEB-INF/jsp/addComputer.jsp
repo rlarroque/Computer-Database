@@ -69,8 +69,9 @@
 		</div>
 	</section>
 
-	<script src="//code.jquery.com/jquery-1.9.1.js"></script>
-	<script src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js"></script>
+	<script src="<c:url value="${js}/jquery.min.js" />"></script>
+	<script src="<c:url value="${js}/jquery.validate.js" />"></script>
+	<script src="<c:url value="${js}/jquery.validate.additional.js" />"></script>
 	<script src="<c:url value="${js}/addComputer.js" />"></script>
 </body>
 </html>

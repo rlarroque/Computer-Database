@@ -4,8 +4,7 @@ import java.util.List;
 
 import com.excilys.computer_database.dao.CompanyDAO;
 import com.excilys.computer_database.dao.impl.CompanyDAOImpl;
-import com.excilys.computer_database.dto.CompanyDTO;
-import com.excilys.computer_database.mapping.CompanyMapper;
+import com.excilys.computer_database.model.Company;
 import com.excilys.computer_database.service.CompanyService;
 
 /**
@@ -36,7 +35,7 @@ public class CompanyServiceImpl implements CompanyService {
 	}
 
 	@Override
-	public List<CompanyDTO> getCompanies() {
-		return CompanyMapper.listCompanyToListDTO((companyDAO.getCompanies()));
+	public List<Company> getCompanies() {
+		return (companyDAO.getCompanies());
 	}
 }

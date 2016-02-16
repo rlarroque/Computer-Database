@@ -13,8 +13,11 @@
 		<mysqlVersion>5.1.6</mysqlVersion>
 		<checkStyleVersion>2.5</checkStyleVersion>
 		<logbackVersion>1.1.3</logbackVersion>
-		<mockitoVersion>1.9.5</mockitoVersion>
-		<seleniumVersion>2.51.0</seleniumVersion>
+		<mockitoVersion>1.10.19</mockitoVersion>
+		<powerMockitoModuleVersion>1.6.4</powerMockitoModuleVersion>
+		<powerMockitoAPIVersion>1.6.4</powerMockitoAPIVersion>
+		<seleniumVersion>2.52.0</seleniumVersion>
+		<coberturaVersion>2.7</coberturaVersion>
 	</properties>
 
 	<dependencies>
@@ -43,6 +46,22 @@
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-all</artifactId>
 			<version>${mockitoVersion}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Mock tool for static mocking -->
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-api-mockito</artifactId>
+			<version>${powerMockitoAPIVersion}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-module-junit4</artifactId>
+			<version>${powerMockitoModuleVersion}</version>
+			<scope>test</scope>
 		</dependency>
 
 		<!-- Testing tool -->
@@ -95,6 +114,13 @@
 		</resources>
 
 		<plugins>
+
+			<!-- Cobertura is a plugin for test completion information -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>cobertura-maven-plugin</artifactId>
+				<version>${coberturaVersion}</version>
+			</plugin>
 
 			<!-- Specify which JDK Maven should use -->
 			<plugin>

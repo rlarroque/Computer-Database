@@ -10,6 +10,11 @@ import com.excilys.computer_database.dao.CompanyDAO;
 import com.excilys.computer_database.dao.ComputerDAO;
 import com.excilys.computer_database.exception.IntegrityException;
 
+/**
+ * Main logic of the command line interface.
+ * @author excilys
+ *
+ */
 public class CmdLineInterface {
 
 	private Logger logger = LoggerFactory.getLogger(getClass().getName());
