@@ -40,8 +40,7 @@ public class TestCompanyService {
 	}
 
 	@Test
-	public void testGetCompanies() {	
-		System.out.println(compService.getCompanies().size());
+	public void testGetCompanies() {
 		assertEquals(0, compService.getCompanies().size());
 	}
 }

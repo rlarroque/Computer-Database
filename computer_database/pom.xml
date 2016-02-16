@@ -17,7 +17,8 @@
 		<powerMockitoModuleVersion>1.6.4</powerMockitoModuleVersion>
 		<powerMockitoAPIVersion>1.6.4</powerMockitoAPIVersion>
 		<seleniumVersion>2.52.0</seleniumVersion>
-		<coberturaVersion>2.7</coberturaVersion>
+		<seleniumServerVersion>2.52.0</seleniumServerVersion>
+		<coberturaVersion>2.6</coberturaVersion>
 	</properties>
 
 	<dependencies>
@@ -57,6 +58,7 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!-- Mock tool for static mocking -->
 		<dependency>
 			<groupId>org.powermock</groupId>
 			<artifactId>powermock-module-junit4</artifactId>
@@ -64,11 +66,18 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- Testing tool -->
+		<!-- UI testing tool -->
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-java</artifactId>
 			<version>${seleniumVersion}</version>
+		</dependency>
+
+		<!-- Embeded server for selenium -->
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-server</artifactId>
+			<version>${seleniumServerVersion}</version>
 		</dependency>
 
 		<dependency>
@@ -120,6 +129,12 @@
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>cobertura-maven-plugin</artifactId>
 				<version>${coberturaVersion}</version>
+				<configuration>
+					<formats>
+						<format>html</format>
+						<format>xml</format>
+					</formats>
+				</configuration>
 			</plugin>
 
 			<!-- Specify which JDK Maven should use -->
@@ -156,8 +171,6 @@
 					<configLocation>${basedir}/src/main/resources/checkstyle.xml</configLocation>
 					<suppressionsLocation>${basedir}/src/main/resources/suppressions.xml</suppressionsLocation>
 				</configuration>
-				<dependencies>
-				</dependencies>
 			</plugin>
 
 		</plugins>
