@@ -30,7 +30,7 @@
 
 	<section id="main">
 		<div class="container">
-			<h1 id="homeTitle">${computerNumber} Computers found</h1>
+			<h1 id="homeTitle">${page.totalComputer} Computers found</h1>
 			<div id="actions" class="form-horizontal">
 				<div class="pull-left">
 					<form id="searchForm" action="#" method="GET" class="form-inline">
@@ -80,14 +80,14 @@
 				<!-- Browse attribute computers -->
 
 				<tbody id="results">
-					<c:forEach items="${computers}" var="computers">
+					<c:forEach items="${page.computers}" var="computer">
 						<tr>
 							<td class="editMode"><input type="checkbox" name="cb"
 								class="cb" value="0"></td>
-							<td><a href="editComputer.html" onclick="">${computers.name}</a></td>
-							<td>${computers.introducedDate}</td>
-							<td>${computers.discontinuedDate}</td>
-							<td>${computers.companyName}</td>
+							<td><a href="editComputer.html" onclick="">${computer.name}</a></td>
+							<td>${computer.introducedDate}</td>
+							<td>${computer.discontinuedDate}</td>
+							<td>${computer.companyName}</td>
 						</tr>
 					</c:forEach>
 				</tbody>
@@ -98,7 +98,7 @@
 	<footer class="navbar-fixed-bottom">
 		<div class="container text-center">
 		
-			<page:page itemsNumber="${computerNumber}" currentPage="${currentPage}" uri="${displayUri}" offset="${offset}"/>
+			<page:page itemsNumber="${page.totalComputer}" currentPage="${page.pageNumber}" uri="${displayUri}" offset="${page.offset}"/>
 			
 		</div>
 	</footer>

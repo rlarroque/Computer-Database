@@ -6,6 +6,7 @@ public class Page {
 	
 	private int pageNumber;
 	private int offset;
+	private int totalComputer;
 	private List<Computer> computers;
 	
 	public int getPageNumber() {
@@ -22,6 +23,14 @@ public class Page {
 	
 	public void setOffset(int offset) {
 		this.offset = offset;
+	}
+
+	public int getTotalComputer() {
+		return totalComputer;
+	}
+
+	public void setTotalComputer(int totalComputer) {
+		this.totalComputer = totalComputer;
 	}
 	
 	public List<Computer> getComputers() {

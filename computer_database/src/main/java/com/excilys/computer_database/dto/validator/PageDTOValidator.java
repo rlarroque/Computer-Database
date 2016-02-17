@@ -10,6 +10,10 @@ public interface PageDTOValidator {
 		if (dto == null) {
 			throw new IntegrityException("The Page is null");
 		}
+		
+		if (dto.getTotalComputer() < 0) {
+			throw new IntegrityException("Total computer information is not valid");
+		}
 
 		if (dto.getPageNumber() < 1) {
 			throw new IntegrityException("Page number information is not valid");

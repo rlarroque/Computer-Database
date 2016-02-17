@@ -102,7 +102,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 	}
 
 	@Override
-	public List<Computer> getPage(int number, int startIndex) {
+	public List<Computer> getPage(int startIndex, int offset) {
 
 		initConnection();
 
@@ -111,8 +111,8 @@ public class ComputerDAOImpl implements ComputerDAO {
 		try {
 
 			PreparedStatement ps = (PreparedStatement) connection.prepareStatement(GET_COMPUTER_PAGE_QUERY);
-			ps.setInt(1, number);
-			ps.setInt(2, number * ( startIndex - 1));
+			ps.setInt(1, startIndex);
+			ps.setInt(2, startIndex * ( offset - 1));
 			resSet = ps.executeQuery();
 
 			while (resSet.next()) {

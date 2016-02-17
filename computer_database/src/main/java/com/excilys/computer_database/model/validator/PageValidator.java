@@ -10,6 +10,10 @@ public interface PageValidator {
 		if (page == null) {
 			throw new IntegrityException("The Page is null");
 		}
+		
+		if (page.getTotalComputer() < 0) {
+			throw new IntegrityException("Total computer information is not valid");
+		}
 
 		if (page.getPageNumber() < 1) {
 			throw new IntegrityException("Page number information is not valid");

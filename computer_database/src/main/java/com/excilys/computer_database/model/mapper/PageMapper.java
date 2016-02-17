@@ -18,6 +18,7 @@ public interface PageMapper {
 		
 		Page page = new Page(dto.getPageNumber(), dto.getOffset());
 		page.setComputers(ComputerMapper.toComputer(dto.getComputers()));
+		page.setTotalComputer(dto.getTotalComputer());
 		
 		return page;		
 	}
@@ -28,6 +29,7 @@ public interface PageMapper {
 		
 		PageDTO dto = new PageDTO(page.getPageNumber(), page.getOffset());
 		dto.setComputers(ComputerMapper.toDTO(page.getComputers()));
+		dto.setTotalComputer(page.getTotalComputer());
 		
 		return dto;
 	}

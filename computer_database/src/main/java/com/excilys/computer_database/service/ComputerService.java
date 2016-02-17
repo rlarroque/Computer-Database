@@ -3,6 +3,7 @@ package com.excilys.computer_database.service;
 import java.util.List;
 
 import com.excilys.computer_database.model.Computer;
+import com.excilys.computer_database.model.Page;
 
 /**
  * Interface of the computer service
@@ -18,13 +19,11 @@ public interface ComputerService {
 	List<Computer> getAll();
 	
 	/**
-	 * Get the list of all the computers between the limits passed.
+	 * Get the list of all the computers and fill the given page.
 	 * This method is used for pagination needs..
-	 * @param first position in the db of the first computer of the current page
-	 * @param last position in the db of the last computer of the current page
-	 * @return the List of computers of the current page.
+	 * @param page the page passed with current page and offset information
 	 */
-	List<Computer> getPage(int number, int startIndex);
+	void fillPage(Page page);
 
 	/**
 	 * Returns a computer according to the id passed.

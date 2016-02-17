@@ -6,6 +6,7 @@ public class PageDTO {
 	
 	private int pageNumber;
 	private int offset;
+	private int totalComputer;
 	private List<ComputerDTO> computers;
 	
 	public int getPageNumber() {
@@ -31,6 +32,14 @@ public class PageDTO {
 	public void setComputers(List<ComputerDTO> computers) {
 		this.computers = computers;
 	}
+	
+	public int getTotalComputer() {
+		return totalComputer;
+	}
+
+	public void setTotalComputer(int totalComputer) {
+		this.totalComputer = totalComputer;
+	}
 
 	public PageDTO(int pageNumber, int offset) {
 		this.pageNumber = pageNumber;
@@ -40,5 +49,4 @@ public class PageDTO {
 	public PageDTO() {
 		
 	}
-
 }

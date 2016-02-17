@@ -6,6 +6,7 @@ import com.excilys.computer_database.dao.ComputerDAO;
 import com.excilys.computer_database.dao.impl.ComputerDAOImpl;
 import com.excilys.computer_database.exception.IntegrityException;
 import com.excilys.computer_database.model.Computer;
+import com.excilys.computer_database.model.Page;
 import com.excilys.computer_database.model.validator.ComputerValidator;
 import com.excilys.computer_database.service.ComputerService;
 
@@ -14,6 +15,7 @@ import com.excilys.computer_database.service.ComputerService;
  * singleton and contains a DAO that is also a singleton. The layer service is
  * calling the DAO methods and also contains some validation of the integrity of
  * the data passed.
+ * 
  * @author rlarroque
  *
  */
@@ -40,8 +42,9 @@ public class ComputerServiceImpl implements ComputerService {
 	}
 
 	@Override
-	public List<Computer> getPage(int number, int startIndex) {
-		return computerDAO.getPage(number, startIndex);
+	public void fillPage(Page page) {
+		page.setComputers(computerDAO.getPage(page.getOffset(), (page.getPageNumber() - 1) * page.getOffset() + 1));
+		page.setTotalComputer(computerDAO.count());
 	}
 
 	@Override
@@ -67,7 +70,7 @@ public class ComputerServiceImpl implements ComputerService {
 	@Override
 	public int create(Computer computer) {
 		ComputerValidator.validate(computer);
-		
+
 		return computerDAO.create(computer);
 	}
 
