@@ -2,50 +2,41 @@ package com.excilys.computer_database.view;
 
 import static org.junit.Assert.assertTrue;
 
-import java.net.URL;
+import java.util.concurrent.TimeUnit;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.server.RemoteControlConfiguration;
-import org.openqa.selenium.server.SeleniumServer;
+import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class TestView {
-	private WebDriver driver;
-	private String baseUrl;
-	private static SeleniumServer server;
+	private static WebDriver driver;
+	private static String baseUrl;
 
-	@BeforeClass
-	public static void executeBeforeEachTest() throws Exception {
-		/*
-		 * driver = new FirefoxDriver(); 
-		 * baseUrl = "http://localhost:8080/";
-		 * driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
-		 */
+	@Before
+	public void executeBeforeEachTest() throws Exception {
+		
+		 driver = new FirefoxDriver(); 
+		 baseUrl = "http://localhost:8080/";
+		 driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
+		
 
-		RemoteControlConfiguration conf = new RemoteControlConfiguration();
+		/*RemoteControlConfiguration conf = new RemoteControlConfiguration();
 		conf.setPort(4444);
 		conf.setDebugURL("/wd/hub");
 		server = new SeleniumServer(conf);
 		server.start();
 
-		WebDriver driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub/"), DesiredCapabilities.firefox());
+		driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub/"), DesiredCapabilities.firefox());*/
 	}
 
-	@AfterClass
-	public static void executeAfterEachTest() throws Exception {
-		server.stop();
-	}
-	
-	@Test
-	public void test1(){
-		driver.getCurrentUrl();
+	@After
+	public void executeAfterEachTest() throws Exception {
+		driver.quit();
 	}
 
 	@Test

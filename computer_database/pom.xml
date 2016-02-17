@@ -19,6 +19,7 @@
 		<seleniumVersion>2.52.0</seleniumVersion>
 		<seleniumServerVersion>2.52.0</seleniumServerVersion>
 		<coberturaVersion>2.6</coberturaVersion>
+		<jettyPort>9090</jettyPort>
 	</properties>
 
 	<dependencies>
@@ -162,7 +163,7 @@
 				</dependencies>
 			</plugin>
 
-			<!-- checkstyle -->
+			<!-- Checkstyle -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
@@ -171,6 +172,47 @@
 					<configLocation>${basedir}/src/main/resources/checkstyle.xml</configLocation>
 					<suppressionsLocation>${basedir}/src/main/resources/suppressions.xml</suppressionsLocation>
 				</configuration>
+			</plugin>
+
+			<!-- Failsafe plugin for integration tests -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<version>2.12</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>integration-test</goal>
+							<goal>verify</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- Configuration for Selenium server -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>selenium-maven-plugin</artifactId>
+				<version>2.3</version>
+				<executions>
+					<execution>
+						<id>start</id>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>start-server</goal>
+						</goals>
+						<configuration>
+							<background>true</background>
+						</configuration>
+					</execution>
+					<execution>
+						<id>stop</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>stop-server</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 
 		</plugins>
