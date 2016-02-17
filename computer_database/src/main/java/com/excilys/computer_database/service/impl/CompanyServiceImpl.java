@@ -12,8 +12,7 @@ import com.excilys.computer_database.service.CompanyService;
  * singleton and contains a DAO that is also a singleton. The layer service is
  * calling the DAO methods and also contains some validation of the integrity of
  * the data passed.
- * 
- * @author excilys
+ * @author rlarroque
  *
  */
 public class CompanyServiceImpl implements CompanyService {
@@ -35,7 +34,7 @@ public class CompanyServiceImpl implements CompanyService {
 	}
 
 	@Override
-	public List<Company> getCompanies() {
-		return (companyDAO.getCompanies());
+	public List<Company> getAll() {
+		return (companyDAO.getAll());
 	}
 }

@@ -13,7 +13,7 @@ import com.excilys.computer_database.model.Computer;
 /**
  * Utility methods that can be used in the CLI to modify and read the db.
  * 
- * @author excilys
+ * @author rlarroque
  *
  */
 public class CLIUtils {
@@ -50,7 +50,7 @@ public class CLIUtils {
 	 * @param computerService
 	 */
 	protected void listComputer(ComputerDAO computerService) {
-		List<Computer> computers = computerService.getComputers();
+		List<Computer> computers = computerService.getAll();
 
 		for (Computer computer : computers) {
 			System.out.println(computer);
@@ -63,7 +63,7 @@ public class CLIUtils {
 	 * @param companyService
 	 */
 	protected void listCompany(CompanyDAO companyService) {
-		List<Company> companies = companyService.getCompanies();
+		List<Company> companies = companyService.getAll();
 
 		for (Company company : companies) {
 			System.out.println(company);
@@ -105,7 +105,7 @@ public class CLIUtils {
 				}
 			}
 
-			computer.setIntroduced(IntroducedDate.toLocalDateTime());
+			//computer.setIntroduced(IntroducedDate.toLocalDateTime());
 
 			do {
 
@@ -133,7 +133,7 @@ public class CLIUtils {
 
 			} while (before);
 
-			computer.setDiscontinued(discontinuedDate.toLocalDateTime());
+			//computer.setDiscontinued(discontinuedDate.toLocalDateTime());
 
 			System.out.println("Enter the company tag of the computer:");
 			int company_id = sc.nextInt();
@@ -143,7 +143,7 @@ public class CLIUtils {
 
 			computer.setCompany(company);
 
-			computerService.createComputer(computer);
+			computerService.create(computer);
 
 			sc.nextLine();
 
@@ -163,7 +163,7 @@ public class CLIUtils {
 			System.out.println("Enter the id of the computer to delete:");
 			int id = sc.nextInt();
 
-			computerService.deleteComputer(id);
+			computerService.delete(id);
 
 		} catch (IntegrityException ie) {
 			throw ie;
@@ -187,7 +187,7 @@ public class CLIUtils {
 			int bufferInt = sc.nextInt();
 			sc.nextLine();
 
-			Computer computer = computerService.getComputer(bufferInt);
+			Computer computer = computerService.get(bufferInt);
 
 			System.out.print("Computer retrieved: ");
 			System.out.println(computer);
@@ -207,7 +207,7 @@ public class CLIUtils {
 
 				try {
 					IntroducedDate = Timestamp.valueOf(buffer.concat(" 00:00:00"));
-					computer.setIntroduced(IntroducedDate.toLocalDateTime());
+					//computer.setIntroduced(IntroducedDate.toLocalDateTime());
 				} catch (IllegalArgumentException iae) {
 					System.out.println("Not a good format for a date. Date hasn't been modified.");
 				}
@@ -223,7 +223,7 @@ public class CLIUtils {
 
 					try {
 						discontinuedDate = Timestamp.valueOf(buffer.concat(" 00:00:00"));
-						computer.setDiscontinued(discontinuedDate.toLocalDateTime());
+						//computer.setDiscontinued(discontinuedDate.toLocalDateTime());
 					} catch (IllegalArgumentException iae) {
 						System.out.println("Not a good format for a date. Date hasn't been modified.");
 					}
@@ -249,7 +249,7 @@ public class CLIUtils {
 				}
 			}
 
-			computerService.updateComputer(computer);
+			computerService.update(computer);
 
 		} catch (IntegrityException ie) {
 			throw ie;
@@ -267,7 +267,7 @@ public class CLIUtils {
 			System.out.println("Enter the id of the computer to retrieve:");
 			int id = sc.nextInt();
 
-			Computer computer = computerService.getComputer(id);
+			Computer computer = computerService.get(id);
 			System.out.println(computer);
 
 		} catch (IntegrityException ie) {

@@ -7,7 +7,7 @@ import java.sql.Statement;
 
 /**
  * Some useful methods used to close connections, statements or ResultSets.
- * @author excilys
+ * @author rlarroque
  *
  */
 public class DbUtils {

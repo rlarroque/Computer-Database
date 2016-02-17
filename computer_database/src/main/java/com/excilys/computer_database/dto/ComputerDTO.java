@@ -3,18 +3,25 @@ package com.excilys.computer_database.dto;
 /**
  * Data Transfer Object used to bring information from the server to the view.
  * Only primitive types are allowed here.
- * @author excilys
+ * @author rlarroque
  *
  */
 public class ComputerDTO {
 
+	public int id;
 	public String name;
 	public String introducedDate;
-	public String introducedTime;
 	public String discontinuedDate;
-	public String discontinuedTime;
 	public String companyName;
 	public int companyId;
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
 
 	public String getName() {
 		return name;
@@ -32,14 +39,6 @@ public class ComputerDTO {
 		this.introducedDate = introducedDate;
 	}
 
-	public String getIntroducedTime() {
-		return introducedTime;
-	}
-
-	public void setIntroducedTime(String introducedtime) {
-		this.introducedTime = introducedtime;
-	}
-
 	public String getDiscontinuedDate() {
 		return discontinuedDate;
 	}
@@ -48,13 +47,6 @@ public class ComputerDTO {
 		this.discontinuedDate = discontinuedDate;
 	}
 
-	public String getDiscontinuedTime() {
-		return discontinuedTime;
-	}
-
-	public void setDiscontinuedTime(String discontinuedTime) {
-		this.discontinuedTime = discontinuedTime;
-	}
 	public String getCompanyName() {
 		return companyName;
 	}
@@ -70,7 +62,7 @@ public class ComputerDTO {
 	public void setCompanyId(int companyId) {
 		this.companyId = companyId;
 	}
-	
+
 	public ComputerDTO() {
 
 	}
@@ -81,8 +73,7 @@ public class ComputerDTO {
 
 	@Override
 	public String toString() {
-		return "ComputerDTO [name=" + name + ", introducedDate=" + introducedDate + ", introducedTime=" + introducedTime
-				+ ", discontinuedDate=" + discontinuedDate + ", discontinuedTime=" + discontinuedTime
-				+ ", companyId=" + companyId + "]";
+		return "ComputerDTO [id=" + id + ", name=" + name + ", introducedDate=" + introducedDate + ", discontinuedDate="
+				+ discontinuedDate + ", companyId=" + companyId + "]";
 	}
 }

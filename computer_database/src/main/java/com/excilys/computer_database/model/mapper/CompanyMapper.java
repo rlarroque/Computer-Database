@@ -1,4 +1,4 @@
-package com.excilys.computer_database.mapping;
+package com.excilys.computer_database.model.mapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -6,11 +6,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.excilys.computer_database.dto.CompanyDTO;
+import com.excilys.computer_database.dto.validator.CompanyDTOValidator;
+import com.excilys.computer_database.exception.IntegrityException;
 import com.excilys.computer_database.model.Company;
+import com.excilys.computer_database.model.validator.CompanyValidator;
 
 /**
  * Mapper used to convert a resultSet or DTO into a Company object.
- * @author excilys
+ * @author rlarroque
  *
  */
 public interface CompanyMapper {
@@ -21,11 +24,9 @@ public interface CompanyMapper {
 	 * @return a company corresponding to the resultSet
 	 * @throws SQLException if a SQl exception occurred while reading the resultSet
 	 */
-	public static Company resultSetToCompany(ResultSet rs) throws SQLException {
-		
-		Company company = new Company();
-		company.setId(rs.getInt("id"));
-		company.setName(rs.getString("name"));
+	public static Company toCompany(ResultSet rs) throws SQLException, IntegrityException {
+		Company company = new Company(rs.getInt("id"),rs.getString("name"));
+		CompanyValidator.validate(company);
 		
 		return company;
 	}
@@ -35,15 +36,10 @@ public interface CompanyMapper {
 	 * @param dto dto to map
 	 * @return the comapny mapped
 	 */
-	public static Company dtoToCompany(CompanyDTO dto) {
+	public static Company toCompany(CompanyDTO dto) throws IntegrityException {
+		CompanyDTOValidator.validate(dto);
 		
-		if(dto == null){
-			return null;
-		} else if(dto.name == null || dto.name == "" || dto.id == 0){
-			return null;
-		} else{
-			return new Company(dto.id, dto.name);
-		}
+		return new Company(dto.id, dto.name);
 	}
 	
 	/**
@@ -51,11 +47,11 @@ public interface CompanyMapper {
 	 * @param dtoList list to map
 	 * @return the list of company mapped
 	 */
-	public static List<Company> listDTOToListCompany(List<CompanyDTO> dtoList) {
+	public static List<Company> toCompany(List<CompanyDTO> dtoList) {
 		List<Company> companyList = new ArrayList<>();
 		
 		for (CompanyDTO dto: dtoList) {
-			companyList.add(dtoToCompany(dto));
+			companyList.add(toCompany(dto));
 		}
 		
 		return companyList;
@@ -66,19 +62,10 @@ public interface CompanyMapper {
 	 * @param company to map
 	 * @return the dto mapped
 	 */
-	public static CompanyDTO companyToDTO(Company company) {
+	public static CompanyDTO toDTO(Company company) throws IntegrityException {
+		CompanyValidator.validate(company);
 		
-		if(company == null){
-			return null;			
-		} else if(company.getId() == null){
-			return null;
-		} else{
-			if(company.getName() == "" || company.getName() == null){
-				return new CompanyDTO(company.getId(), "");
-			} else{
-				return new CompanyDTO(company.getId(), company.getName());				
-			}
-		}
+		return new CompanyDTO(company.getId(), company.getName());	
 	}
 	
 	/**
@@ -86,11 +73,11 @@ public interface CompanyMapper {
 	 * @param companyList to map
 	 * @return the list of dto mapped
 	 */
-	public static List<CompanyDTO> listCompanyToListDTO(List<Company> companyList) {
+	public static List<CompanyDTO> toDTO(List<Company> companyList) {
 		List<CompanyDTO> companyDTOList = new ArrayList<>();
 		
 		for (Company company: companyList) {
-			companyDTOList.add(companyToDTO(company));
+			companyDTOList.add(toDTO(company));
 		}
 		
 		return companyDTOList;

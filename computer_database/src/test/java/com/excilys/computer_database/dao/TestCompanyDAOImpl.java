@@ -58,7 +58,7 @@ public class TestCompanyDAOImpl {
 
 	@Test
 	public void testGetCompanies() {
-		List<Company> companies = companyDAO.getCompanies();
+		List<Company> companies = companyDAO.getAll();
 		assertEquals(0, companies.size());
 
 		try {
@@ -70,7 +70,7 @@ public class TestCompanyDAOImpl {
 			logger.error("Cannot connect to the test database");
 		}
 
-		companies = companyDAO.getCompanies();
+		companies = companyDAO.getAll();
 		assertEquals(1, companies.size());
 	}
 }

@@ -12,7 +12,7 @@ import com.excilys.computer_database.exception.IntegrityException;
 
 /**
  * Main logic of the command line interface.
- * @author excilys
+ * @author rlarroque
  *
  */
 public class CmdLineInterface {

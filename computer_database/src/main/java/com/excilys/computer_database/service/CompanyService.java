@@ -6,7 +6,7 @@ import com.excilys.computer_database.model.Company;
 
 /**
  * Interface of the company service
- * @author excilys
+ * @author rlarroque
  *
  */
 public interface CompanyService {
@@ -15,5 +15,5 @@ public interface CompanyService {
 	 * Get the list of all the existing companies in the db.
 	 * @return the List of Companies
 	 */
-	public List<Company> getCompanies();
+	public List<Company> getAll();
 }

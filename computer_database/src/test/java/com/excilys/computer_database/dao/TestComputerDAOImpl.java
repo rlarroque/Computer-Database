@@ -7,7 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.junit.After;
@@ -70,7 +70,7 @@ public class TestComputerDAOImpl {
 
 	@Test
 	public void testGetComputers() throws SQLException {
-		List<Computer> computers = computerDAO.getComputers();
+		List<Computer> computers = computerDAO.getAll();
 		assertEquals(0, computers.size());
 
 		try {
@@ -85,30 +85,30 @@ public class TestComputerDAOImpl {
 			logger.error("Cannot create computer");
 		}
 
-		computers = computerDAO.getComputers();
+		computers = computerDAO.getAll();
 		assertEquals(1, computers.size());
 	}
 	
 	@Test
 	public void testGetComputersPage() throws SQLException {
-		List<Computer> computers = computerDAO.getComputers();
+		List<Computer> computers = computerDAO.getAll();
 		assertEquals(0, computers.size());
 		
 		for(int i = 0; i<50; i++){
-			computerDAO.createComputer(new Computer("Dummy computer " + i));
+			computerDAO.create(new Computer("Dummy computer " + i));
 		}
 
-		computers = computerDAO.getComputers();
+		computers = computerDAO.getAll();
 		assertEquals(50, computers.size());
 		assertEquals("Dummy computer 0", computers.get(0).getName());
 		assertEquals("Dummy computer 9", computers.get(9).getName());
 		
-		computers = computerDAO.getComputersPage(10, 1);
+		computers = computerDAO.getPage(10, 1);
 		assertEquals(10, computers.size());
 		assertEquals("Dummy computer 0", computers.get(0).getName());
 		assertEquals("Dummy computer 9", computers.get(9).getName());
 		
-		computers = computerDAO.getComputersPage(10, 2);
+		computers = computerDAO.getPage(10, 2);
 		assertEquals(10, computers.size());
 		assertEquals("Dummy computer 10", computers.get(0).getName());
 		assertEquals("Dummy computer 19", computers.get(9).getName());
@@ -128,7 +128,7 @@ public class TestComputerDAOImpl {
 			logger.error("Cannot create computer");
 		}
 
-		Computer computer = computerDAO.getComputer(1);
+		Computer computer = computerDAO.get(1);
 		assertEquals("Dummy computer", computer.getName());
 		assertEquals("Dummy Company", computer.getCompany().getName());
 	}
@@ -138,13 +138,13 @@ public class TestComputerDAOImpl {
 
 		Company company = new Company(1, "Dummy Company");
 		Computer computer = new Computer("Dummy computer");
-		computer.setIntroduced(LocalDateTime.of(2000, 1, 1, 0, 0));
-		computer.setDiscontinued(LocalDateTime.of(2001, 1, 1, 0, 0));
+		computer.setIntroduced(LocalDate.of(2000, 1, 1));
+		computer.setDiscontinued(LocalDate.of(2001, 1, 1));
 		computer.setCompany(company);
 
-		computerDAO.createComputer(computer);
+		computerDAO.create(computer);
 
-		assertEquals("Dummy computer", computerDAO.getComputer(1).getName());
+		assertEquals("Dummy computer", computerDAO.get(1).getName());
 	}
 
 	@Test
@@ -164,13 +164,13 @@ public class TestComputerDAOImpl {
 		Company company = new Company(1, "Dummy Company");
 		Computer computer = new Computer("Not so dummy computer");
 		computer.setId(1);
-		computer.setIntroduced(LocalDateTime.of(2000, 1, 1, 0, 0));
-		computer.setDiscontinued(LocalDateTime.of(2001, 1, 1, 0, 0));
+		computer.setIntroduced(LocalDate.of(2000, 1, 1));
+		computer.setDiscontinued(LocalDate.of(2001, 1, 1));
 		computer.setCompany(company);
 
-		computerDAO.updateComputer(computer);
+		computerDAO.update(computer);
 
-		assertEquals("Not so dummy computer", computerDAO.getComputer(1).getName());
+		assertEquals("Not so dummy computer", computerDAO.get(1).getName());
 	}
 
 	@Test
@@ -187,7 +187,7 @@ public class TestComputerDAOImpl {
 			logger.error("Cannot create computer");
 		}
 
-		computerDAO.deleteComputer(1);
-		assertEquals(0, computerDAO.getComputers().size());
+		computerDAO.delete(1);
+		assertEquals(0, computerDAO.getAll().size());
 	}
 }

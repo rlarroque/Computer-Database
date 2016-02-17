@@ -14,13 +14,13 @@ import org.slf4j.LoggerFactory;
 import com.excilys.computer_database.dao.CompanyDAO;
 import com.excilys.computer_database.db.ConnectionFactory;
 import com.excilys.computer_database.db.DbUtils;
-import com.excilys.computer_database.mapping.CompanyMapper;
 import com.excilys.computer_database.model.Company;
+import com.excilys.computer_database.model.mapper.CompanyMapper;
 
 
 /**
  * Implementation of CompanyDAO that is used to manipulate the db.
- * @author excilys
+ * @author rlarroque
  */
 public class CompanyDAOImpl implements CompanyDAO {
 	
@@ -70,7 +70,7 @@ public class CompanyDAOImpl implements CompanyDAO {
 	}
 
 	@Override
-	public List<Company> getCompanies() {
+	public List<Company> getAll() {
 		
 		initConnection();
 		
@@ -80,7 +80,7 @@ public class CompanyDAOImpl implements CompanyDAO {
 			resSet = statement.executeQuery(GET_COMPANIES_QUERY);
 	
 			while(resSet.next()){
-				companies.add(CompanyMapper.resultSetToCompany(resSet));
+				companies.add(CompanyMapper.toCompany(resSet));
 			}
 			
 		} catch (SQLException e) {

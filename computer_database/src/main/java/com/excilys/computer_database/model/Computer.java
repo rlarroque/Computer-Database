@@ -1,20 +1,20 @@
 package com.excilys.computer_database.model;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 /**
  * This class describe a computer with all its parameters. id, name, introduced
  * date, discontinued date, and company id. This is a simple POJO.
  * 
- * @author excilys
+ * @author rlarroque
  *
  */
 public class Computer {
 
 	private int id;
 	private String name;
-	private LocalDateTime introduced;
-	private LocalDateTime discontinued;
+	private LocalDate introduced;
+	private LocalDate discontinued;
 	private Company company;
 
 	public int getId() {
@@ -33,19 +33,19 @@ public class Computer {
 		this.name = name;
 	}
 
-	public LocalDateTime getIntroduced() {
+	public LocalDate getIntroduced() {
 		return introduced;
 	}
 
-	public void setIntroduced(LocalDateTime introduced) {
+	public void setIntroduced(LocalDate introduced) {
 		this.introduced = introduced;
 	}
 
-	public LocalDateTime getDiscontinued() {
+	public LocalDate getDiscontinued() {
 		return discontinued;
 	}
 
-	public void setDiscontinued(LocalDateTime discontinued) {
+	public void setDiscontinued(LocalDate discontinued) {
 		this.discontinued = discontinued;
 	}
 
@@ -57,7 +57,7 @@ public class Computer {
 		this.company = company;
 	}
 
-	public Computer(String name, LocalDateTime introduced, LocalDateTime discontinued, Company company) {
+	public Computer(String name, LocalDate introduced, LocalDate discontinued, Company company) {
 		this.name = name;
 		this.introduced = introduced;
 		this.discontinued = discontinued;

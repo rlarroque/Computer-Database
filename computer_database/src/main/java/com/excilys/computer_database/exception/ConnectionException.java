@@ -2,7 +2,7 @@ package com.excilys.computer_database.exception;
 
 /**
  * An exception that is thrown on critical errors about the database connection and closing.
- * @author excilys
+ * @author rlarroque
  *
  */
 public class ConnectionException extends RuntimeException {

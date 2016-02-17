@@ -14,7 +14,7 @@ import com.excilys.computer_database.exception.ConnectionException;
  * caller will get a new instance of the database connection and wont return any
  * static variable which is safe enough here.
  * 
- * @author excilys
+ * @author rlarroque
  *
  */
 public class ConnectionFactory {

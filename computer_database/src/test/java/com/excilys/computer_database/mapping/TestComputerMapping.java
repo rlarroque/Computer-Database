@@ -10,7 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import org.junit.After;
 import org.junit.Before;
@@ -22,6 +22,7 @@ import com.excilys.computer_database.db.DbUtils;
 import com.excilys.computer_database.dto.ComputerDTO;
 import com.excilys.computer_database.model.Company;
 import com.excilys.computer_database.model.Computer;
+import com.excilys.computer_database.model.mapper.ComputerMapper;
 
 public class TestComputerMapping {
 
@@ -96,11 +97,11 @@ public class TestComputerMapping {
 			ps.setString(1, "Dummy computer");
 			resSet = ps.executeQuery();
 
-			LocalDateTime intro = LocalDateTime.of(2000, 1, 1, 0, 0);
-			LocalDateTime disc = LocalDateTime.of(2001, 1, 1, 0, 0);
+			LocalDate intro = LocalDate.of(2000, 1, 1);
+			LocalDate disc = LocalDate.of(2001, 1, 1);
 
 			if (resSet.next()) {
-				Computer computer = ComputerMapper.resultSetToComputer(resSet);
+				Computer computer = ComputerMapper.toComputer(resSet);
 
 				assertEquals("Dummy computer", computer.getName());
 				assertEquals(intro, computer.getIntroduced());
@@ -120,17 +121,15 @@ public class TestComputerMapping {
 
 		Company company = new Company(1, "Dummy Company");
 		Computer computer = new Computer("Dummy Computer");
-		computer.setIntroduced(LocalDateTime.of(2000, 1, 1, 0, 0, 0));
-		computer.setDiscontinued(LocalDateTime.of(2001, 1, 1, 0, 0, 0));
+		computer.setIntroduced(LocalDate.of(2000, 1, 1));
+		computer.setDiscontinued(LocalDate.of(2001, 1, 1));
 		computer.setCompany(company);
 
-		ComputerDTO dto = ComputerMapper.computerToDTO(computer);
+		ComputerDTO dto = ComputerMapper.toDTO(computer);
 
 		assertEquals(dto.getName(), computer.getName());
-		assertEquals(dto.getIntroducedDate(), computer.getIntroduced().toLocalDate().toString());
-		assertEquals(dto.getIntroducedTime(), computer.getIntroduced().toLocalTime().toString());
-		assertEquals(dto.getDiscontinuedDate(), computer.getDiscontinued().toLocalDate().toString());
-		assertEquals(dto.getDiscontinuedTime(), computer.getDiscontinued().toLocalTime().toString());
+		assertEquals(dto.getIntroducedDate(), computer.getIntroduced().toString());
+		assertEquals(dto.getDiscontinuedDate(), computer.getDiscontinued().toString());
 		assertEquals(dto.getCompanyName(), computer.getCompany().getName());
 	}
 
@@ -138,17 +137,12 @@ public class TestComputerMapping {
 	public void testComputerToDTOWithNull() {
 
 		Computer computer = new Computer("Dummy Computer");
-		computer.setIntroduced(null);
-		computer.setDiscontinued(null);
-		computer.setCompany(null);
 
-		ComputerDTO dto = ComputerMapper.computerToDTO(computer);
+		ComputerDTO dto = ComputerMapper.toDTO(computer);
 
 		assertEquals(dto.getName(), computer.getName());
 		assertEquals(dto.getIntroducedDate(), "");
-		assertEquals(dto.getIntroducedTime(), "");
 		assertEquals(dto.getDiscontinuedDate(), "");
-		assertEquals(dto.getDiscontinuedTime(), "");
 		assertEquals(dto.getCompanyName(), "");
 	}
 
@@ -157,19 +151,15 @@ public class TestComputerMapping {
 		ComputerDTO dto = new ComputerDTO();
 		dto.setName("Dummy Computer");
 		dto.setIntroducedDate("2000-01-01");
-		dto.setIntroducedTime("00:00");
 		dto.setDiscontinuedDate("2001-01-01");
-		dto.setDiscontinuedTime("00:00");
 		dto.setCompanyId(1);
 		dto.setCompanyName("Dummy Company");
 
-		Computer computer = ComputerMapper.dtoToComputer(dto);
+		Computer computer = ComputerMapper.toComputer(dto);
 
 		assertEquals(computer.getName(), dto.getName());
-		assertEquals(computer.getIntroduced().toLocalDate().toString(), dto.getIntroducedDate());
-		assertEquals(computer.getIntroduced().toLocalTime().toString(), dto.getIntroducedTime());
-		assertEquals(computer.getDiscontinued().toLocalDate().toString(), dto.getDiscontinuedDate());
-		assertEquals(computer.getDiscontinued().toLocalTime().toString(), dto.getDiscontinuedTime());
+		assertEquals(computer.getIntroduced().toString(), dto.getIntroducedDate());
+		assertEquals(computer.getDiscontinued().toString(), dto.getDiscontinuedDate());
 		assertEquals(computer.getCompany().getName(), dto.getCompanyName());
 	}
 
@@ -178,13 +168,11 @@ public class TestComputerMapping {
 		ComputerDTO dto = new ComputerDTO();
 		dto.setName("Dummy Computer");
 		dto.setIntroducedDate("");
-		dto.setIntroducedTime("");
 		dto.setDiscontinuedDate("");
-		dto.setDiscontinuedTime("");
 		dto.setCompanyId(0);
 		dto.setCompanyName("");
 
-		Computer computer = ComputerMapper.dtoToComputer(dto);
+		Computer computer = ComputerMapper.toComputer(dto);
 
 		assertEquals(computer.getName(), dto.getName());
 		assertEquals(computer.getIntroduced(), null);
@@ -197,16 +185,14 @@ public class TestComputerMapping {
 		ComputerDTO dto = new ComputerDTO();
 		dto.setName("Dummy Computer");
 		dto.setIntroducedDate("2000-01-01");
-		dto.setIntroducedTime("");
 		dto.setDiscontinuedDate("2001-01-01");
-		dto.setDiscontinuedTime("");
 		dto.setCompanyId(0);
 
-		Computer computer = ComputerMapper.dtoToComputer(dto);
+		Computer computer = ComputerMapper.toComputer(dto);
 
 		assertEquals(computer.getName(), dto.getName());
-		assertEquals(computer.getIntroduced(), LocalDateTime.of(2000, 1, 1, 0, 0, 0));
-		assertEquals(computer.getDiscontinued(), LocalDateTime.of(2001, 1, 1, 0, 0, 0));
+		assertEquals(computer.getIntroduced(), LocalDate.of(2000, 1, 1));
+		assertEquals(computer.getDiscontinued(), LocalDate.of(2001, 1, 1));
 		assertEquals(computer.getCompany(), null);
 	}
 }

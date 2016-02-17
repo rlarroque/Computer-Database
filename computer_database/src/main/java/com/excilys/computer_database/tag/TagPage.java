@@ -13,7 +13,7 @@ import javax.servlet.jsp.tagext.SimpleTagSupport;
  * page, the number of page links to display and the offset (number of items to
  * display)
  * 
- * @author excilys
+ * @author rlarroque
  *
  */
 public class TagPage extends SimpleTagSupport {

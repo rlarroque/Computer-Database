@@ -2,7 +2,7 @@ package com.excilys.computer_database.service;
 
 import static org.junit.Assert.assertEquals;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import org.junit.AfterClass;
@@ -30,11 +30,11 @@ public class TestComputerService {
 
 	@BeforeClass
 	public static void executeBeforeTests() {
-		Mockito.when(compDAO.getComputers()).thenReturn(new ArrayList<Computer>());
-		Mockito.when(compDAO.getComputersPage(Matchers.anyInt(), Matchers.anyInt())).thenReturn(new ArrayList<Computer>());
-		Mockito.when(compDAO.getComputer(Matchers.anyInt())).thenReturn(new Computer("Dummy Computer"));
-		Mockito.when(compDAO.getComputer(Matchers.anyString())).thenReturn(new Computer("Dummy Computer"));
-		Mockito.when(compDAO.createComputer(Matchers.any(Computer.class))).thenReturn(100);
+		Mockito.when(compDAO.getAll()).thenReturn(new ArrayList<Computer>());
+		Mockito.when(compDAO.getPage(Matchers.anyInt(), Matchers.anyInt())).thenReturn(new ArrayList<Computer>());
+		Mockito.when(compDAO.get(Matchers.anyInt())).thenReturn(new Computer("Dummy Computer"));
+		Mockito.when(compDAO.get(Matchers.anyString())).thenReturn(new Computer("Dummy Computer"));
+		Mockito.when(compDAO.create(Matchers.any(Computer.class))).thenReturn(100);
 
 		PowerMockito.mockStatic(ComputerDAOImpl.class);
 		PowerMockito.when(ComputerDAOImpl.getInstance()).thenReturn(compDAO);
@@ -49,100 +49,100 @@ public class TestComputerService {
 	
 	@Test
 	public void testGetComputerWithId() {
-		Computer computer = compService.getComputer(1);
+		Computer computer = compService.get(1);
 		assertEquals("Dummy Computer", computer.getName());
 	}
 	
 	@Test
 	public void testGetComputerWithName() {
-		Computer computer = compService.getComputer("Dummy Computer");
+		Computer computer = compService.get("Dummy Computer");
 		assertEquals("Dummy Computer", computer.getName());
 	}
 
 	@Test(expected = IntegrityException.class)
 	public void testGetComputerNullName() {
-		compService.getComputer(null);
+		compService.get(null);
 	}
 
 	@Test(expected = IntegrityException.class)
 	public void testGetComputerEmptyName() {
-		compService.getComputer("");
+		compService.get("");
 	}
 
 	@Test(expected = IntegrityException.class)
 	public void testGetComputerInvalidID() {
-		compService.getComputer(-1);
+		compService.get(-1);
 	}
 	
 	@Test
 	public void createComputer() {
 		
 		Computer computer = new Computer("Dummy Computer");
-		assertEquals(100, compService.createComputer(computer));
+		assertEquals(100, compService.create(computer));
 		
 		computer.setCompany(new Company(1, "Dummy Comypany"));	
-		computer.setIntroduced(LocalDateTime.of(2012, 1, 1, 0, 0, 0));
-		computer.setDiscontinued(LocalDateTime.now());
-		assertEquals(100, compService.createComputer(computer));
+		computer.setIntroduced(LocalDate.of(2012, 1, 1));
+		computer.setDiscontinued(LocalDate.now());
+		assertEquals(100, compService.create(computer));
 	}
 
 	@Test(expected = IntegrityException.class)
 	public void createComputerNull() {
-		compService.createComputer(null);
+		compService.create(null);
 	}
 
 	@Test(expected = IntegrityException.class)
 	public void createComputerInvalidName() {
-		compService.createComputer(new Computer(""));
+		compService.create(new Computer(""));
 	}
 
 	@Test(expected = IntegrityException.class)
 	public void createComputerNullName() {
-		compService.createComputer(new Computer(null));
+		compService.create(new Computer(null));
 	}
 
 	@Test(expected = IntegrityException.class)
 	public void createComputerInvalidDateType() {
 		Computer computer= new Computer();
 		computer.setCompany(new Company(1, "Dummy Comypany"));	
-		computer.setIntroduced(LocalDateTime.now());
-		computer.setDiscontinued(LocalDateTime.of(2012, 1, 1, 0, 0, 0));
+		computer.setIntroduced(LocalDate.now());
+		computer.setDiscontinued(LocalDate.of(2012, 1, 1));
 
-		compService.updateComputer(computer);
+		compService.update(computer);
 	}
 
 	@Test(expected = IntegrityException.class)
 	public void updateComputerNull() {
-		compService.updateComputer(null);
+		compService.update(null);
 	}
 
 	@Test(expected = IntegrityException.class)
 	public void updateComputerInvalidName() {
-		compService.updateComputer(new Computer(""));
+		compService.update(new Computer(""));
 	}
 
 	@Test(expected = IntegrityException.class)
 	public void updateComputerNullName() {
-		compService.updateComputer(new Computer(null));
+		compService.update(new Computer(null));
 	}
 
 	@Test(expected = IntegrityException.class)
 	public void updateComputerInvalidDateType() {
 		Computer computer= new Computer();
 		computer.setCompany(new Company(1, "Dummy Comypany"));	
-		computer.setIntroduced(LocalDateTime.now());
-		computer.setDiscontinued(LocalDateTime.of(2012, 1, 1, 0, 0, 0));
+		computer.setIntroduced(LocalDate.now());
+		computer.setDiscontinued(LocalDate.of(2012, 1, 1));
 
-		compService.updateComputer(computer);
+		compService.update(computer);
 	}
 	
 	@Test(expected = IntegrityException.class)
 	public void deleteComputerNull() {
-		compService.deleteComputer(0);
+		compService.delete(0);
 	}
 
 	@Test(expected = IntegrityException.class)
 	public void deleteComputerInvalid() {
-		compService.deleteComputer(-1);
+		compService.delete(-1);
 	}
 }

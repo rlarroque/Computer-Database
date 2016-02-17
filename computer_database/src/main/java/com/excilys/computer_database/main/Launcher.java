@@ -11,7 +11,7 @@ import com.excilys.computer_database.service.impl.ComputerServiceImpl;
 
 /**
  * Point of entry of the application for CLI launch.
- * @author excilys
+ * @author rlarroque
  *
  */
 public class Launcher {

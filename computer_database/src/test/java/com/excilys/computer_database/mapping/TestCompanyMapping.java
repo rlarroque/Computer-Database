@@ -18,7 +18,9 @@ import org.slf4j.LoggerFactory;
 
 import com.excilys.computer_database.db.DbUtils;
 import com.excilys.computer_database.dto.CompanyDTO;
+import com.excilys.computer_database.exception.IntegrityException;
 import com.excilys.computer_database.model.Company;
+import com.excilys.computer_database.model.mapper.CompanyMapper;
 
 public class TestCompanyMapping {
 
@@ -82,7 +84,7 @@ public class TestCompanyMapping {
 			resSet = statement.executeQuery(GET_COMPANIES_QUERY);
 
 			if (resSet.next()) {
-				assertEquals("Dummy Company", CompanyMapper.resultSetToCompany(resSet).getName());
+				assertEquals("Dummy Company", CompanyMapper.toCompany(resSet).getName());
 			} else {
 				fail("No ResultSet.");
 			}
@@ -95,45 +97,28 @@ public class TestCompanyMapping {
 	@Test
 	public void testCompanyToDTO() {
 		Company company = new Company(1, "Dummy Company");
-		CompanyDTO dto = CompanyMapper.companyToDTO(company);
+		CompanyDTO dto = CompanyMapper.toDTO(company);
 		assertEquals(dto.getName(), company.getName());
 	}
 
-	@Test
+	@SuppressWarnings("unused")
+	@Test(expected = IntegrityException.class)
 	public void testCompanyToDTOWithNull() {
-
-		Company company = new Company(1, "");
-		CompanyDTO dto = CompanyMapper.companyToDTO(company);
-		assertEquals("", dto.getName());
-
-		company = new Company(1, null);
-		dto = CompanyMapper.companyToDTO(company);
-		assertEquals("", dto.getName());
-
-		company = null;
-		dto = CompanyMapper.companyToDTO(company);
-		assertEquals(null, dto);
+		Company company = null;
+		CompanyDTO dto = CompanyMapper.toDTO(company);
 	}
 
 	@Test
 	public void testDtoToCompany() {
 		CompanyDTO dto = new CompanyDTO(1, "Dummy Company");
-		Company company = CompanyMapper.dtoToCompany(dto);
+		Company company = CompanyMapper.toCompany(dto);
 		assertEquals("Dummy Company", company.getName());
 	}
 
-	@Test
-	public void testDtoToCompanyWithNull() {
-		CompanyDTO dto = new CompanyDTO(1, "");
-		Company company = CompanyMapper.dtoToCompany(dto);
-		assertEquals(null, company);
-		
-		dto = new CompanyDTO();
-		company = CompanyMapper.dtoToCompany(dto);
-		assertEquals(null, company);
-		
-		dto = null;
-		company = CompanyMapper.dtoToCompany(dto);
-		assertEquals(null, company);
+	@SuppressWarnings("unused")
+	@Test(expected = IntegrityException.class)
+	public void testDtoToCompanyWithNull() {		
+		CompanyDTO dto = null;
+		Company company = CompanyMapper.toCompany(dto);
 	}
 }

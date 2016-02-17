@@ -1,4 +1,4 @@
-package servlet;
+package com.excilys.computer_database.servlet;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,12 +11,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.excilys.computer_database.dto.ComputerDTO;
-import com.excilys.computer_database.mapping.ComputerMapper;
+import com.excilys.computer_database.model.mapper.ComputerMapper;
 import com.excilys.computer_database.service.impl.ComputerServiceImpl;
 
 /**
  * 
- * @author excilys
+ * @author rlarroque
  *
  */
 @WebServlet(name = "DisplayComputers", urlPatterns = "/displayComputers")
@@ -29,16 +29,16 @@ public class DisplayComputers extends HttpServlet {
 		ComputerServiceImpl compService = ComputerServiceImpl.getInstance();
 
 		if (request.getParameter("offset") == null || request.getParameter("page") == null) {
-			listComputers = ComputerMapper.listComputerToListDTO(compService.getComputersPage(10, 1));
+			listComputers = ComputerMapper.toDTO(compService.getPage(10, 1));
 			request.setAttribute("offset", 10);
 		} else {
-			listComputers = ComputerMapper.listComputerToListDTO(compService.getComputersPage(
+			listComputers = ComputerMapper.toDTO(compService.getPage(
 															Integer.parseInt(request.getParameter("offset")),
 															Integer.parseInt(request.getParameter("page"))));
 			request.setAttribute("offset", request.getParameter("offset"));
 		}
 		
-		int computerNumber = compService.computerNumber();
+		int computerNumber = compService.count();
 		
 		request.setAttribute("currentPage", request.getParameter("page"));
 		

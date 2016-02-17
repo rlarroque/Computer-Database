@@ -5,6 +5,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,14 +16,13 @@ import org.slf4j.LoggerFactory;
 import com.excilys.computer_database.dao.ComputerDAO;
 import com.excilys.computer_database.db.ConnectionFactory;
 import com.excilys.computer_database.db.DbUtils;
-import com.excilys.computer_database.mapping.ComputerMapper;
 import com.excilys.computer_database.model.Computer;
+import com.excilys.computer_database.model.mapper.ComputerMapper;
 import com.mysql.jdbc.PreparedStatement;
 
 /**
  * Implementation of ComputerDAO that is used to manipulate the db.
- * 
- * @author excilys
+ * @author rlarroque
  */
 public class ComputerDAOImpl implements ComputerDAO {
 
@@ -78,7 +79,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 	}
 
 	@Override
-	public List<Computer> getComputers() {
+	public List<Computer> getAll() {
 
 		initConnection();
 
@@ -88,7 +89,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 			resSet = statement.executeQuery(GET_COMPUTER_QUERY);
 
 			while (resSet.next()) {
-				computers.add(ComputerMapper.resultSetToComputer(resSet));
+				computers.add(ComputerMapper.toComputer(resSet));
 			}
 
 		} catch (SQLException e) {
@@ -101,7 +102,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 	}
 
 	@Override
-	public List<Computer> getComputersPage(int number, int startIndex) {
+	public List<Computer> getPage(int number, int startIndex) {
 
 		initConnection();
 
@@ -115,7 +116,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 			resSet = ps.executeQuery();
 
 			while (resSet.next()) {
-				computers.add(ComputerMapper.resultSetToComputer(resSet));
+				computers.add(ComputerMapper.toComputer(resSet));
 			}
 
 		} catch (SQLException e) {
@@ -128,7 +129,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 	}
 
 	@Override
-	public Computer getComputer(int id) {
+	public Computer get(int id) {
 
 		initConnection();
 
@@ -140,7 +141,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 			resSet = ps.executeQuery();
 
 			if (resSet.next()) {
-				computer = ComputerMapper.resultSetToComputer(resSet);
+				computer = ComputerMapper.toComputer(resSet);
 			}
 
 		} catch (SQLException e) {
@@ -153,7 +154,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 	}
 
 	@Override
-	public Computer getComputer(String name) {
+	public Computer get(String name) {
 
 		initConnection();
 
@@ -165,7 +166,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 			resSet = ps.executeQuery();
 
 			if (resSet.next()) {
-				computer = ComputerMapper.resultSetToComputer(resSet);
+				computer = ComputerMapper.toComputer(resSet);
 			}
 
 		} catch (SQLException e) {
@@ -178,7 +179,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 	}
 
 	@Override
-	public int createComputer(Computer c) {
+	public int create(Computer c) {
 
 		initConnection();
 
@@ -192,13 +193,13 @@ public class ComputerDAOImpl implements ComputerDAO {
 			if (c.getIntroduced() == null) {
 				ps.setObject(2, null);
 			} else {
-				ps.setTimestamp(2, Timestamp.valueOf(c.getIntroduced()));
+				ps.setTimestamp(2, Timestamp.valueOf(LocalDateTime.of(c.getIntroduced(), LocalTime.of(0, 0))));
 			}
 
 			if (c.getDiscontinued() == null) {
 				ps.setObject(3, null);
 			} else {
-				ps.setTimestamp(3, Timestamp.valueOf(c.getDiscontinued()));
+				ps.setTimestamp(3, Timestamp.valueOf(LocalDateTime.of(c.getDiscontinued(), LocalTime.of(0, 0))));
 			}
 			
 			if(c.getCompany() == null){
@@ -225,15 +226,15 @@ public class ComputerDAOImpl implements ComputerDAO {
 	}
 
 	@Override
-	public void updateComputer(Computer c) {
+	public void update(Computer c) {
 
 		initConnection();
 
 		try {
 			PreparedStatement ps = (PreparedStatement) connection.prepareStatement(UPDATE_COMPUTER_QUERY);
 			ps.setString(1, c.getName());
-			ps.setTimestamp(2, Timestamp.valueOf(c.getIntroduced()));
-			ps.setTimestamp(3, Timestamp.valueOf(c.getDiscontinued()));
+			ps.setTimestamp(2, Timestamp.valueOf(LocalDateTime.of(c.getIntroduced(), LocalTime.of(0, 0))));
+			ps.setTimestamp(3, Timestamp.valueOf(LocalDateTime.of(c.getDiscontinued(), LocalTime.of(0, 0))));
 			ps.setInt(4, c.getCompany().getId());
 			ps.setInt(5, c.getId());
 			ps.executeUpdate();
@@ -246,7 +247,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 	}
 
 	@Override
-	public void deleteComputer(int id) {
+	public void delete(int id) {
 
 		initConnection();
 
@@ -263,7 +264,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 	}
 
 	@Override
-	public int computerNumber() {
+	public int count() {
 		
 		int computerNumber = 0;
 		

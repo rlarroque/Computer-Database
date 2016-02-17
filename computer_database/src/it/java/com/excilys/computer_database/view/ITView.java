@@ -13,7 +13,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
-public class TestView {
+public class ITView {
 	private static WebDriver driver;
 	private static String baseUrl;
 

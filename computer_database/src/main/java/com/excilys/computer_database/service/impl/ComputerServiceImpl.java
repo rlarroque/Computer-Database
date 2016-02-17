@@ -6,6 +6,7 @@ import com.excilys.computer_database.dao.ComputerDAO;
 import com.excilys.computer_database.dao.impl.ComputerDAOImpl;
 import com.excilys.computer_database.exception.IntegrityException;
 import com.excilys.computer_database.model.Computer;
+import com.excilys.computer_database.model.validator.ComputerValidator;
 import com.excilys.computer_database.service.ComputerService;
 
 /**
@@ -13,8 +14,7 @@ import com.excilys.computer_database.service.ComputerService;
  * singleton and contains a DAO that is also a singleton. The layer service is
  * calling the DAO methods and also contains some validation of the integrity of
  * the data passed.
- * 
- * @author excilys
+ * @author rlarroque
  *
  */
 public class ComputerServiceImpl implements ComputerService {
@@ -35,91 +35,60 @@ public class ComputerServiceImpl implements ComputerService {
 	}
 
 	@Override
-	public List<Computer> getComputers() {
-		return computerDAO.getComputers();
+	public List<Computer> getAll() {
+		return computerDAO.getAll();
 	}
 
 	@Override
-	public List<Computer> getComputersPage(int number, int startIndex) {
-		return computerDAO.getComputersPage(number, startIndex);
+	public List<Computer> getPage(int number, int startIndex) {
+		return computerDAO.getPage(number, startIndex);
 	}
 
 	@Override
-	public Computer getComputer(int id) throws IntegrityException {
+	public Computer get(int id) {
 
 		if (id < 1) {
 			throw new IntegrityException("Id cannot be negativ.");
 		}
 
-		return computerDAO.getComputer(id);
+		return computerDAO.get(id);
 	}
 
 	@Override
-	public Computer getComputer(String name) throws IntegrityException{
+	public Computer get(String name) {
 
 		if (name == null || name == "") {
 			throw new IntegrityException("A name is mandatory for a computer.");
 		}
 
-		return computerDAO.getComputer(name);
+		return computerDAO.get(name);
 	}
 
 	@Override
-	public int createComputer(Computer computer) throws IntegrityException {
-
-		if(computer == null){
-			throw new IntegrityException("A null computer was found.");
-		}
-
-		if (computer.getName() == null || computer.getName() == "") {
-			throw new IntegrityException("A name is mandatory for a computer.");
-		}
-
-		if (computer.getDiscontinued() != null && computer.getIntroduced() == null) {
-			throw new IntegrityException("Discontinued date cannot exist if there is no introducing date.");
-		}
-
-		if (computer.getDiscontinued() != null && computer.getIntroduced() != null
-				&& computer.getDiscontinued().isBefore(computer.getIntroduced())) {
-
-			throw new IntegrityException("Discontinued date cannot be earlier than introducing date.");
-		}
-
-		return computerDAO.createComputer(computer);
-	}
-
-	@Override
-	public void updateComputer(Computer computer) throws IntegrityException {
+	public int create(Computer computer) {
+		ComputerValidator.validate(computer);
 		
-		if(computer == null){
-			throw new IntegrityException("A null computer was found.");
-		}
-		
-		if (computer.getName() == null || computer.getName() == "") {
-			throw new IntegrityException("A name is mandatory for a computer.");
-		}
-
-		if (computer.getDiscontinued() != null && computer.getIntroduced() != null
-				&& computer.getDiscontinued().isBefore(computer.getIntroduced())) {
-
-			throw new IntegrityException("Discontinued date cannot be earlier than introducing date.");
-		}
-
-		computerDAO.updateComputer(computer);
+		return computerDAO.create(computer);
 	}
 
 	@Override
-	public void deleteComputer(int id) throws IntegrityException {
+	public void update(Computer computer) {
+		ComputerValidator.validate(computer);
+		computerDAO.update(computer);
+	}
+
+	@Override
+	public void delete(int id) {
 
 		if (id < 1) {
 			throw new IntegrityException("Id cannot be negativ.");
 		}
 
-		computerDAO.deleteComputer(id);
+		computerDAO.delete(id);
 	}
 
 	@Override
-	public int computerNumber() {
-		return computerDAO.computerNumber();
+	public int count() {
+		return computerDAO.count();
 	}
 }

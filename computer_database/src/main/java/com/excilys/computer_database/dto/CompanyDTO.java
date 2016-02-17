@@ -3,7 +3,7 @@ package com.excilys.computer_database.dto;
 /**
  * Data Transfer Object used to bring information from the server to the view.
  * Only primitive types are allowed here.
- * @author excilys
+ * @author rlarroque
  *
  */
 public class CompanyDTO {

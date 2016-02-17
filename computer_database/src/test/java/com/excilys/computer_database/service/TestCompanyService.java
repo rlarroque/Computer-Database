@@ -26,7 +26,7 @@ public class TestCompanyService {
 	
 	@BeforeClass
 	public static void executeBeforeTests() {
-        Mockito.when(compDAO.getCompanies()).thenReturn(new ArrayList<Company>());
+        Mockito.when(compDAO.getAll()).thenReturn(new ArrayList<Company>());
 		
 		PowerMockito.mockStatic(CompanyDAOImpl.class);
 		PowerMockito.when(CompanyDAOImpl.getInstance()).thenReturn(compDAO);
@@ -41,6 +41,6 @@ public class TestCompanyService {
 
 	@Test
 	public void testGetCompanies() {
-		assertEquals(0, compService.getCompanies().size());
+		assertEquals(0, compService.getAll().size());
 	}
 }
