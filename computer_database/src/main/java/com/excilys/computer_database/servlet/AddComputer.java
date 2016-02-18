@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.excilys.computer_database.dto.CompanyDTO;
 import com.excilys.computer_database.dto.ComputerDTO;
-import com.excilys.computer_database.model.mapper.CompanyMapper;
-import com.excilys.computer_database.model.mapper.ComputerMapper;
+import com.excilys.computer_database.persistence.model.mapper.CompanyMapper;
+import com.excilys.computer_database.persistence.model.mapper.ComputerMapper;
 import com.excilys.computer_database.service.impl.CompanyServiceImpl;
 import com.excilys.computer_database.service.impl.ComputerServiceImpl;
 
@@ -22,7 +22,7 @@ import com.excilys.computer_database.service.impl.ComputerServiceImpl;
  * @author rlarroque
  *
  */
-@WebServlet(name="AddComputer", urlPatterns="/addComputer")
+@WebServlet(name="AddComputer", urlPatterns="/add_computer")
 public class AddComputer extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

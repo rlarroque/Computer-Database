@@ -6,9 +6,9 @@ import java.util.Scanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.excilys.computer_database.dao.CompanyDAO;
-import com.excilys.computer_database.dao.ComputerDAO;
 import com.excilys.computer_database.exception.IntegrityException;
+import com.excilys.computer_database.persistence.dao.CompanyDAO;
+import com.excilys.computer_database.persistence.dao.ComputerDAO;
 
 /**
  * Main logic of the command line interface.

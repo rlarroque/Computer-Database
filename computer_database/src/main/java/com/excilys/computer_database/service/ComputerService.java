@@ -2,8 +2,8 @@ package com.excilys.computer_database.service;
 
 import java.util.List;
 
-import com.excilys.computer_database.model.Computer;
-import com.excilys.computer_database.model.Page;
+import com.excilys.computer_database.persistence.model.Computer;
+import com.excilys.computer_database.persistence.model.Page;
 
 /**
  * Interface of the computer service

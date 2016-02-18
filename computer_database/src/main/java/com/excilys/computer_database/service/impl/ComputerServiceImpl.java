@@ -2,12 +2,12 @@ package com.excilys.computer_database.service.impl;
 
 import java.util.List;
 
-import com.excilys.computer_database.dao.ComputerDAO;
 import com.excilys.computer_database.dao.impl.ComputerDAOImpl;
 import com.excilys.computer_database.exception.IntegrityException;
-import com.excilys.computer_database.model.Computer;
-import com.excilys.computer_database.model.Page;
-import com.excilys.computer_database.model.validator.ComputerValidator;
+import com.excilys.computer_database.persistence.dao.ComputerDAO;
+import com.excilys.computer_database.persistence.model.Computer;
+import com.excilys.computer_database.persistence.model.Page;
+import com.excilys.computer_database.persistence.model.validator.ComputerValidator;
 import com.excilys.computer_database.service.ComputerService;
 
 /**
@@ -43,7 +43,7 @@ public class ComputerServiceImpl implements ComputerService {
 
 	@Override
 	public void fillPage(Page page) {
-		page.setComputers(computerDAO.getPage(page.getOffset(), (page.getPageNumber() - 1) * page.getOffset() + 1));
+		page.setComputers(computerDAO.getPage((page.getPageNumber() - 1) * page.getOffset(), page.getOffset()));
 		page.setTotalComputer(computerDAO.count());
 	}
 

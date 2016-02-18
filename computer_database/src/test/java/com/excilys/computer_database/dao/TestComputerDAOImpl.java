@@ -17,10 +17,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.excilys.computer_database.dao.impl.ComputerDAOImpl;
-import com.excilys.computer_database.db.ConnectionFactory;
-import com.excilys.computer_database.db.DbUtils;
-import com.excilys.computer_database.model.Company;
-import com.excilys.computer_database.model.Computer;
+import com.excilys.computer_database.persistence.db.ConnectionFactory;
+import com.excilys.computer_database.persistence.db.utils.DbUtils;
+import com.excilys.computer_database.persistence.model.Company;
+import com.excilys.computer_database.persistence.model.Computer;
 
 public class TestComputerDAOImpl {
 
@@ -103,12 +103,12 @@ public class TestComputerDAOImpl {
 		assertEquals("Dummy computer 0", computers.get(0).getName());
 		assertEquals("Dummy computer 9", computers.get(9).getName());
 		
-		computers = computerDAO.getPage(10, 1);
+		computers = computerDAO.getPage(0, 10);
 		assertEquals(10, computers.size());
 		assertEquals("Dummy computer 0", computers.get(0).getName());
 		assertEquals("Dummy computer 9", computers.get(9).getName());
 		
-		computers = computerDAO.getPage(10, 2);
+		computers = computerDAO.getPage(10, 10);
 		assertEquals(10, computers.size());
 		assertEquals("Dummy computer 10", computers.get(0).getName());
 		assertEquals("Dummy computer 19", computers.get(9).getName());

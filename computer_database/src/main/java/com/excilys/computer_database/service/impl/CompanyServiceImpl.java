@@ -2,9 +2,9 @@ package com.excilys.computer_database.service.impl;
 
 import java.util.List;
 
-import com.excilys.computer_database.dao.CompanyDAO;
 import com.excilys.computer_database.dao.impl.CompanyDAOImpl;
-import com.excilys.computer_database.model.Company;
+import com.excilys.computer_database.persistence.dao.CompanyDAO;
+import com.excilys.computer_database.persistence.model.Company;
 import com.excilys.computer_database.service.CompanyService;
 
 /**

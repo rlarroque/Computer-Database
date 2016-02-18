@@ -29,7 +29,7 @@
 			<div class="row">
 				<div class="col-xs-8 col-xs-offset-2 box">
 					<h1>Add Computer</h1>
-					<form action="/computer_database/addComputer" method="POST"
+					<form action="/computer_database/add_computer" method="POST"
 						id="creation_form">
 						<fieldset>
 							<div class="form-group">

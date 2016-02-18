@@ -1,6 +1,7 @@
 package com.excilys.computer_database.dto.validator;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import com.excilys.computer_database.dto.ComputerDTO;
 import com.excilys.computer_database.exception.IntegrityException;
@@ -27,6 +28,12 @@ public interface ComputerDTOValidator {
 				&& LocalDate.parse(dto.getDiscontinuedDate()).isBefore(LocalDate.parse(dto.getIntroducedDate()))) {
 
 			throw new IntegrityException("Discontinued date cannot be earlier than introducing datefor computer " + dto.getName());
+		}
+	}
+	
+	public static void validate(List<ComputerDTO> list) throws IntegrityException {
+		for (ComputerDTO dto : list) {
+			validate(dto);
 		}
 	}
 }

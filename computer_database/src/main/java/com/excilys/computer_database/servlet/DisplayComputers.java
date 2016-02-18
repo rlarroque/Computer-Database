@@ -9,9 +9,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.excilys.computer_database.dto.PageDTO;
-import com.excilys.computer_database.model.Page;
-import com.excilys.computer_database.model.mapper.PageMapper;
+import com.excilys.computer_database.persistence.model.Page;
+import com.excilys.computer_database.persistence.model.mapper.PageMapper;
 import com.excilys.computer_database.service.impl.ComputerServiceImpl;
+import com.excilys.computer_database.servlet.utils.PageConstructor;
 
 /**
  * 
@@ -31,6 +32,7 @@ public class DisplayComputers extends HttpServlet {
 		compService.fillPage(page);
 		
 		PageDTO dto = PageMapper.toDTO(page);
+		PageConstructor.construct(dto);
 		
 		request.setAttribute("page", dto);
 		request.getRequestDispatcher("/WEB-INF/jsp/dashboard.jsp").forward(request, response); // Forward to JSP page

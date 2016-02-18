@@ -1,7 +1,9 @@
-package com.excilys.computer_database.model.validator;
+package com.excilys.computer_database.persistence.model.validator;
+
+import java.util.List;
 
 import com.excilys.computer_database.exception.IntegrityException;
-import com.excilys.computer_database.model.Company;
+import com.excilys.computer_database.persistence.model.Company;
 
 public interface CompanyValidator {
 
@@ -17,6 +19,12 @@ public interface CompanyValidator {
 		
 		if(company.getName() == null || "".equals(company.getName())){
 			throw new IntegrityException("The company's name is not valid.");
+		}
+	}
+	
+	public static void validate(List<Company> list) throws IntegrityException {
+		for (Company company: list) {
+			validate(company);
 		}
 	}
 }

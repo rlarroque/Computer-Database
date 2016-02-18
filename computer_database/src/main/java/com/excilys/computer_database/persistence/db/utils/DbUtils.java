@@ -1,6 +1,7 @@
-package com.excilys.computer_database.db;
+package com.excilys.computer_database.persistence.db.utils;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -11,6 +12,8 @@ import java.sql.Statement;
  *
  */
 public class DbUtils {
+	
+	
 	
 	/**
 	 * Close a passed connection.
@@ -49,6 +52,20 @@ public class DbUtils {
         if (resultSet != null) {
             try {
                 resultSet.close();
+            } catch (SQLException sqle) {
+    			throw sqle;
+            }
+        }
+    }
+    
+    /**
+     * Close a passed prepapredStatement.
+     * @param resultSet the resultSet to be closed
+     */
+    public static void close(PreparedStatement preparedStatement) throws SQLException{
+        if (preparedStatement != null) {
+            try {
+            	preparedStatement.close();
             } catch (SQLException sqle) {
     			throw sqle;
             }

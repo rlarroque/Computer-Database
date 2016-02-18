@@ -18,11 +18,11 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.excilys.computer_database.db.DbUtils;
 import com.excilys.computer_database.dto.ComputerDTO;
-import com.excilys.computer_database.model.Company;
-import com.excilys.computer_database.model.Computer;
-import com.excilys.computer_database.model.mapper.ComputerMapper;
+import com.excilys.computer_database.persistence.db.utils.DbUtils;
+import com.excilys.computer_database.persistence.model.Company;
+import com.excilys.computer_database.persistence.model.Computer;
+import com.excilys.computer_database.persistence.model.mapper.ComputerMapper;
 
 public class TestComputerMapping {
 

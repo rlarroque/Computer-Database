@@ -1,7 +1,7 @@
-package com.excilys.computer_database.model.validator;
+package com.excilys.computer_database.persistence.model.validator;
 
 import com.excilys.computer_database.exception.IntegrityException;
-import com.excilys.computer_database.model.Page;
+import com.excilys.computer_database.persistence.model.Page;
 
 public interface PageValidator {
 

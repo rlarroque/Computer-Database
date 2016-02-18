@@ -1,6 +1,7 @@
 package com.excilys.computer_database.dao.impl;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -13,12 +14,11 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.excilys.computer_database.dao.ComputerDAO;
-import com.excilys.computer_database.db.ConnectionFactory;
-import com.excilys.computer_database.db.DbUtils;
-import com.excilys.computer_database.model.Computer;
-import com.excilys.computer_database.model.mapper.ComputerMapper;
-import com.mysql.jdbc.PreparedStatement;
+import com.excilys.computer_database.persistence.dao.ComputerDAO;
+import com.excilys.computer_database.persistence.db.ConnectionFactory;
+import com.excilys.computer_database.persistence.db.utils.DbUtils;
+import com.excilys.computer_database.persistence.model.Computer;
+import com.excilys.computer_database.persistence.model.mapper.ComputerMapper;
 
 /**
  * Implementation of ComputerDAO that is used to manipulate the db.
@@ -41,6 +41,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 	private Logger logger = LoggerFactory.getLogger(getClass().getName());
 	private Connection connection;
 	private Statement statement;
+	private PreparedStatement preparedStatement;
 	private ResultSet resSet;
 
 	public static ComputerDAOImpl getInstance() {
@@ -72,6 +73,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 		try {
 			DbUtils.close(resSet);
 			DbUtils.close(statement);
+			DbUtils.close(preparedStatement);
 			DbUtils.close(connection);
 		} catch (SQLException e) {
 			logger.error("Cannot close the connection to the DB. " + e.getMessage());
@@ -109,11 +111,11 @@ public class ComputerDAOImpl implements ComputerDAO {
 		List<Computer> computers = new ArrayList<Computer>();
 
 		try {
-
-			PreparedStatement ps = (PreparedStatement) connection.prepareStatement(GET_COMPUTER_PAGE_QUERY);
-			ps.setInt(1, startIndex);
-			ps.setInt(2, startIndex * ( offset - 1));
-			resSet = ps.executeQuery();
+			
+			preparedStatement = connection.prepareStatement(GET_COMPUTER_PAGE_QUERY);
+			preparedStatement.setInt(1, offset);
+			preparedStatement.setInt(2, startIndex);
+			resSet = preparedStatement.executeQuery();
 
 			while (resSet.next()) {
 				computers.add(ComputerMapper.toComputer(resSet));
@@ -136,9 +138,9 @@ public class ComputerDAOImpl implements ComputerDAO {
 		Computer computer = null;
 
 		try {
-			PreparedStatement ps = (PreparedStatement) connection.prepareStatement(GET_COMPUTER_BY_ID_QUERY);
-			ps.setInt(1, id);
-			resSet = ps.executeQuery();
+			preparedStatement = connection.prepareStatement(GET_COMPUTER_BY_ID_QUERY);
+			preparedStatement.setInt(1, id);
+			resSet = preparedStatement.executeQuery();
 
 			if (resSet.next()) {
 				computer = ComputerMapper.toComputer(resSet);
@@ -161,9 +163,9 @@ public class ComputerDAOImpl implements ComputerDAO {
 		Computer computer = null;
 
 		try {
-			PreparedStatement ps = (PreparedStatement) connection.prepareStatement(GET_COMPUTER_BY_NAME_QUERY);
-			ps.setString(1, name);
-			resSet = ps.executeQuery();
+			preparedStatement = connection.prepareStatement(GET_COMPUTER_BY_NAME_QUERY);
+			preparedStatement.setString(1, name);
+			resSet = preparedStatement.executeQuery();
 
 			if (resSet.next()) {
 				computer = ComputerMapper.toComputer(resSet);
@@ -186,31 +188,30 @@ public class ComputerDAOImpl implements ComputerDAO {
 		int resultKey = 0;
 
 		try {
-			PreparedStatement ps = (PreparedStatement) connection.prepareStatement(CREATE_COMPUTER_QUERY,
-					Statement.RETURN_GENERATED_KEYS);
-			ps.setString(1, c.getName());
+			preparedStatement = connection.prepareStatement(CREATE_COMPUTER_QUERY, Statement.RETURN_GENERATED_KEYS);
+			preparedStatement.setString(1, c.getName());
 			
 			if (c.getIntroduced() == null) {
-				ps.setObject(2, null);
+				preparedStatement.setObject(2, null);
 			} else {
-				ps.setTimestamp(2, Timestamp.valueOf(LocalDateTime.of(c.getIntroduced(), LocalTime.of(0, 0))));
+				preparedStatement.setTimestamp(2, Timestamp.valueOf(LocalDateTime.of(c.getIntroduced(), LocalTime.of(0, 0))));
 			}
 
 			if (c.getDiscontinued() == null) {
-				ps.setObject(3, null);
+				preparedStatement.setObject(3, null);
 			} else {
-				ps.setTimestamp(3, Timestamp.valueOf(LocalDateTime.of(c.getDiscontinued(), LocalTime.of(0, 0))));
+				preparedStatement.setTimestamp(3, Timestamp.valueOf(LocalDateTime.of(c.getDiscontinued(), LocalTime.of(0, 0))));
 			}
 			
 			if(c.getCompany() == null){
-				ps.setObject(4, null);
+				preparedStatement.setObject(4, null);
 			} else{
-				ps.setInt(4, c.getCompany().getId());
+				preparedStatement.setInt(4, c.getCompany().getId());
 			}
 			
-			ps.executeUpdate();
+			preparedStatement.executeUpdate();
 
-			resSet = ps.getGeneratedKeys();
+			resSet = preparedStatement.getGeneratedKeys();
 
 			if (resSet.next()) {
 				resultKey = resSet.getInt(1);
@@ -231,13 +232,13 @@ public class ComputerDAOImpl implements ComputerDAO {
 		initConnection();
 
 		try {
-			PreparedStatement ps = (PreparedStatement) connection.prepareStatement(UPDATE_COMPUTER_QUERY);
-			ps.setString(1, c.getName());
-			ps.setTimestamp(2, Timestamp.valueOf(LocalDateTime.of(c.getIntroduced(), LocalTime.of(0, 0))));
-			ps.setTimestamp(3, Timestamp.valueOf(LocalDateTime.of(c.getDiscontinued(), LocalTime.of(0, 0))));
-			ps.setInt(4, c.getCompany().getId());
-			ps.setInt(5, c.getId());
-			ps.executeUpdate();
+			preparedStatement = connection.prepareStatement(UPDATE_COMPUTER_QUERY);
+			preparedStatement.setString(1, c.getName());
+			preparedStatement.setTimestamp(2, Timestamp.valueOf(LocalDateTime.of(c.getIntroduced(), LocalTime.of(0, 0))));
+			preparedStatement.setTimestamp(3, Timestamp.valueOf(LocalDateTime.of(c.getDiscontinued(), LocalTime.of(0, 0))));
+			preparedStatement.setInt(4, c.getCompany().getId());
+			preparedStatement.setInt(5, c.getId());
+			preparedStatement.executeUpdate();
 
 		} catch (SQLException e) {
 			logger.error("Cannot update computer. " + e.getMessage());
@@ -252,9 +253,9 @@ public class ComputerDAOImpl implements ComputerDAO {
 		initConnection();
 
 		try {
-			PreparedStatement ps = (PreparedStatement) connection.prepareStatement(DELETE_COMPUTER_QUERY);
-			ps.setInt(1, id);
-			ps.executeUpdate();
+			preparedStatement = connection.prepareStatement(DELETE_COMPUTER_QUERY);
+			preparedStatement.setInt(1, id);
+			preparedStatement.executeUpdate();
 
 		} catch (SQLException e) {
 			logger.error("Cannot delete computer. " + e.getMessage());

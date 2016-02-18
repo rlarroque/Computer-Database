@@ -1,7 +1,9 @@
-package com.excilys.computer_database.model.validator;
+package com.excilys.computer_database.persistence.model.validator;
+
+import java.util.List;
 
 import com.excilys.computer_database.exception.IntegrityException;
-import com.excilys.computer_database.model.Computer;
+import com.excilys.computer_database.persistence.model.Computer;
 
 public interface ComputerValidator {
 
@@ -23,6 +25,12 @@ public interface ComputerValidator {
 				&& computer.getDiscontinued().isBefore(computer.getIntroduced())) {
 
 			throw new IntegrityException("Discontinued date cannot be earlier than introducing date for computer " + computer.getName());
+		}
+	}
+	
+	public static void validate(List<Computer> list) throws IntegrityException {
+		for (Computer computer : list) {
+			validate(computer);
 		}
 	}
 }

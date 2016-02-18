@@ -1,4 +1,4 @@
-package com.excilys.computer_database.model.mapper;
+package com.excilys.computer_database.persistence.model.mapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,8 +8,8 @@ import java.util.List;
 import com.excilys.computer_database.dto.CompanyDTO;
 import com.excilys.computer_database.dto.validator.CompanyDTOValidator;
 import com.excilys.computer_database.exception.IntegrityException;
-import com.excilys.computer_database.model.Company;
-import com.excilys.computer_database.model.validator.CompanyValidator;
+import com.excilys.computer_database.persistence.model.Company;
+import com.excilys.computer_database.persistence.model.validator.CompanyValidator;
 
 /**
  * Mapper used to convert a resultSet or DTO into a Company object.

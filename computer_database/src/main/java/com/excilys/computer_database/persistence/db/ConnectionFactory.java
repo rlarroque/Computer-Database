@@ -1,19 +1,19 @@
-package com.excilys.computer_database.db;
+package com.excilys.computer_database.persistence.db;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
 import com.excilys.computer_database.exception.ConnectionException;
+import com.jolbox.bonecp.BoneCP;
+import com.jolbox.bonecp.BoneCPConfig;
 
 /**
  * Class used to manage connection instances to the database. Basically every
  * caller will get a new instance of the database connection and wont return any
  * static variable which is safe enough here.
- * 
  * @author rlarroque
  *
  */
@@ -22,45 +22,54 @@ public class ConnectionFactory {
 	// Static instance of the connectionFactory.
 	private static ConnectionFactory instance = new ConnectionFactory();
 
+	// Connection pool
+	private static BoneCP connectionPool;
+
 	// Database driver information
 	public static final String DRIVER_CLASS = "com.mysql.jdbc.Driver";
 
 	private ConnectionFactory() {
 		try {
 			Class.forName(DRIVER_CLASS);
-		} catch (ClassNotFoundException e) {
-			throw new ConnectionException("Cannot load the drive in ConnectionFactory");
-		}
-	}
 
-	/**
-	 * Create a new connection when called. Every caller will get its own
-	 * instance.
-	 * @return a new connection
-	 */
-	private Connection createConnection() {
-		Connection connection = null;
-		try {
-
-			// open and read the properties file
+			// open and read the properties file, then close it.
 			Properties prop = new Properties();
 			InputStream in = ConnectionFactory.class.getClassLoader().getResourceAsStream("database.properties");
 			prop.load(in);
 			in.close();
 
-			// get the properties
-			String connectionURL = prop.getProperty("datasource.url");
-			String username = prop.getProperty("datasource.username");
-			String password = prop.getProperty("datasource.password");
-
-			// open the database connection
-			connection = DriverManager.getConnection(connectionURL, username, password);
-
-		} catch (SQLException sqle) {
-			throw new ConnectionException("Connection to the database failed in ConnectionFactory due to sql issues");
+			BoneCPConfig boneConfig = new BoneCPConfig();
+			boneConfig.setJdbcUrl(prop.getProperty("datasource.url"));
+			boneConfig.setUsername(prop.getProperty("datasource.username"));
+			boneConfig.setPassword(prop.getProperty("datasource.password"));
+			boneConfig.setMaxConnectionsPerPartition(2);
+			
+			connectionPool = new BoneCP(boneConfig);
+			
+		} catch (ClassNotFoundException e) {
+			throw new ConnectionException("Cannot load the drive in ConnectionFactory");
 		} catch (IOException e) {
-			throw new ConnectionException("Connection to the database failed in ConnectionFactory due to preperty file reading");
+			throw new ConnectionException("Connection setup failed in ConnectionFactory due to preperty file reading");
+		} catch (SQLException e) {
+			throw new ConnectionException("Connection setup failed in ConnectionFactory due to coonection pool issues");
 		}
+	}
+
+	/**
+	 * Get a new conncetion in the pool. Every caller will get its own
+	 * instance.
+	 * @return a new connection
+	 */
+	private Connection createConnection() {
+		
+		Connection connection = null;
+		
+		try {
+			connection = connectionPool.getConnection();
+		} catch (SQLException e) {
+			throw new ConnectionException("Cannot get any connection");
+		}
+
 		return connection;
 	}
 

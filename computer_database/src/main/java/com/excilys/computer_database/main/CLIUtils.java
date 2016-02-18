@@ -4,11 +4,11 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Scanner;
 
-import com.excilys.computer_database.dao.CompanyDAO;
-import com.excilys.computer_database.dao.ComputerDAO;
 import com.excilys.computer_database.exception.IntegrityException;
-import com.excilys.computer_database.model.Company;
-import com.excilys.computer_database.model.Computer;
+import com.excilys.computer_database.persistence.dao.CompanyDAO;
+import com.excilys.computer_database.persistence.dao.ComputerDAO;
+import com.excilys.computer_database.persistence.model.Company;
+import com.excilys.computer_database.persistence.model.Computer;
 
 /**
  * Utility methods that can be used in the CLI to modify and read the db.

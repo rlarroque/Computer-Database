@@ -1,9 +1,9 @@
-package com.excilys.computer_database.model.mapper;
+package com.excilys.computer_database.persistence.model.mapper;
 
 import com.excilys.computer_database.dto.PageDTO;
 import com.excilys.computer_database.dto.validator.PageDTOValidator;
-import com.excilys.computer_database.model.Page;
-import com.excilys.computer_database.model.validator.PageValidator;
+import com.excilys.computer_database.persistence.model.Page;
+import com.excilys.computer_database.persistence.model.validator.PageValidator;
 
 /**
  * Mapper used to convert a page into DTO. 
@@ -16,9 +16,9 @@ public interface PageMapper {
 		
 		PageDTOValidator.validate(dto);
 		
-		Page page = new Page(dto.getPageNumber(), dto.getOffset());
+		Page page = new Page(dto.getCurrent_page(), dto.getOffset());
 		page.setComputers(ComputerMapper.toComputer(dto.getComputers()));
-		page.setTotalComputer(dto.getTotalComputer());
+		page.setTotalComputer(dto.getTotal_computer());
 		
 		return page;		
 	}
@@ -29,7 +29,7 @@ public interface PageMapper {
 		
 		PageDTO dto = new PageDTO(page.getPageNumber(), page.getOffset());
 		dto.setComputers(ComputerMapper.toDTO(page.getComputers()));
-		dto.setTotalComputer(page.getTotalComputer());
+		dto.setTotal_computer(page.getTotalComputer());
 		
 		return dto;
 	}

@@ -16,11 +16,11 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.excilys.computer_database.db.DbUtils;
 import com.excilys.computer_database.dto.CompanyDTO;
 import com.excilys.computer_database.exception.IntegrityException;
-import com.excilys.computer_database.model.Company;
-import com.excilys.computer_database.model.mapper.CompanyMapper;
+import com.excilys.computer_database.persistence.db.utils.DbUtils;
+import com.excilys.computer_database.persistence.model.Company;
+import com.excilys.computer_database.persistence.model.mapper.CompanyMapper;
 
 public class TestCompanyMapping {
 

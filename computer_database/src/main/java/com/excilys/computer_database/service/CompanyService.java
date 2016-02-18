@@ -2,7 +2,7 @@ package com.excilys.computer_database.service;
 
 import java.util.List;
 
-import com.excilys.computer_database.model.Company;
+import com.excilys.computer_database.persistence.model.Company;
 
 /**
  * Interface of the company service

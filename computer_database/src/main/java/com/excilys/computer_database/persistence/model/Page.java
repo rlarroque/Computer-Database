@@ -1,4 +1,4 @@
-package com.excilys.computer_database.model;
+package com.excilys.computer_database.persistence.model;
 
 import java.util.List;
 

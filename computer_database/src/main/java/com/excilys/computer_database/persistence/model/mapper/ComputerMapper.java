@@ -1,4 +1,4 @@
-package com.excilys.computer_database.model.mapper;
+package com.excilys.computer_database.persistence.model.mapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,11 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.excilys.computer_database.dto.ComputerDTO;
-import com.excilys.computer_database.dto.validator.ComputerDTOValidator;
 import com.excilys.computer_database.exception.IntegrityException;
-import com.excilys.computer_database.model.Company;
-import com.excilys.computer_database.model.Computer;
-import com.excilys.computer_database.model.validator.ComputerValidator;
+import com.excilys.computer_database.persistence.model.Company;
+import com.excilys.computer_database.persistence.model.Computer;
 
 /**
  * Mapper used to convert a resultSet or DTO into a Computer object.
@@ -60,11 +58,10 @@ public interface ComputerMapper {
 		
 		dto.setIntroducedDate(dto.getIntroducedDate().replace('/', '-'));
 		dto.setDiscontinuedDate(dto.getDiscontinuedDate().replace('/', '-'));
-		
-		ComputerDTOValidator.validate(dto);
 
 		Computer computer = new Computer();
 
+		computer.setId(dto.getId());
 		computer.setName(dto.getName());
 		
 		if("".equals(dto.getIntroducedDate())){
@@ -109,10 +106,10 @@ public interface ComputerMapper {
 	 * @return the dto mapped
 	 */
 	public static ComputerDTO toDTO(Computer computer) throws IntegrityException {
-		
-		ComputerValidator.validate(computer);
 
 		ComputerDTO dto = new ComputerDTO();
+		
+		dto.setId(computer.getId());
 
 		dto.setName(computer.getName());
 		if(computer.getIntroduced() == null){

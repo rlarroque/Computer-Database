@@ -1,6 +1,5 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@taglib prefix="page" uri="/WEB-INF/resources/taglib/page.tld"%>
-<%@page import="java.util.ArrayList"%>
+<%@taglib tagdir="/WEB-INF/tags" prefix="customLib"%>
 
 <c:url value="/../resources/css" var="css" />
 <c:url value="/../resources/js" var="js" />
@@ -30,7 +29,7 @@
 
 	<section id="main">
 		<div class="container">
-			<h1 id="homeTitle">${page.totalComputer} Computers found</h1>
+			<h1 id="homeTitle">${page.total_computer} Computers found</h1>
 			<div id="actions" class="form-horizontal">
 				<div class="pull-left">
 					<form id="searchForm" action="#" method="GET" class="form-inline">
@@ -43,14 +42,14 @@
 				</div>
 				<div class="pull-right">
 					<a class="btn btn-success" id="addComputer"
-						href="addComputer">Add Computer</a> <a
+						href="add_computer">Add Computer</a> <a
 						class="btn btn-default" id="editComputer" href="#"
 						onclick="$.fn.toggleEditMode();">Edit</a>
 				</div>
 			</div>
 		</div>
 
-		<form id="deleteForm" action="#" method="POST">
+		<form id="deleteForm" action="delete_computers" method="POST">
 			<input type="hidden" name="selection" value="">
 		</form>
 
@@ -62,7 +61,7 @@
 						<!-- Table header for Computer Name -->
 
 						<th class="editMode" style="width: 60px; height: 22px;"><input
-							type="checkbox" id="selectall" /> <span
+							type="checkbox" id="selectall" /> <span id="deleteContainer"
 							style="vertical-align: top;"> - <a href="#"
 								id="deleteSelected" onclick="$.fn.deleteSelected();"> <i
 									class="fa fa-trash-o fa-lg"></i>
@@ -83,7 +82,7 @@
 					<c:forEach items="${page.computers}" var="computer">
 						<tr>
 							<td class="editMode"><input type="checkbox" name="cb"
-								class="cb" value="0"></td>
+								class="cb" value="${computer.id}"></td>
 							<td><a href="editComputer.html" onclick="">${computer.name}</a></td>
 							<td>${computer.introducedDate}</td>
 							<td>${computer.discontinuedDate}</td>
@@ -98,7 +97,7 @@
 	<footer class="navbar-fixed-bottom">
 		<div class="container text-center">
 		
-			<page:page itemsNumber="${page.totalComputer}" currentPage="${page.pageNumber}" uri="${displayUri}" offset="${page.offset}"/>
+			<customLib:page page="${page}"></customLib:page>
 			
 		</div>
 	</footer>

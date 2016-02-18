@@ -1,8 +1,8 @@
-package com.excilys.computer_database.dao;
+package com.excilys.computer_database.persistence.dao;
 
 import java.util.List;
 
-import com.excilys.computer_database.model.Company;
+import com.excilys.computer_database.persistence.model.Company;
 
 /**
  * Interface of the computer DAO

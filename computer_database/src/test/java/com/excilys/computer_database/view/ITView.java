@@ -19,19 +19,9 @@ public class ITView {
 
 	@Before
 	public void executeBeforeEachTest() throws Exception {
-		
 		 driver = new FirefoxDriver(); 
 		 baseUrl = "http://localhost:8080/";
 		 driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
-		
-
-		/*RemoteControlConfiguration conf = new RemoteControlConfiguration();
-		conf.setPort(4444);
-		conf.setDebugURL("/wd/hub");
-		server = new SeleniumServer(conf);
-		server.start();
-
-		driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub/"), DesiredCapabilities.firefox());*/
 	}
 
 	@After

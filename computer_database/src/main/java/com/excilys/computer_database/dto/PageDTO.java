@@ -4,17 +4,45 @@ import java.util.List;
 
 public class PageDTO {
 	
-	private int pageNumber;
+	private int current_page;
 	private int offset;
-	private int totalComputer;
+	private int total_computer;	
+	private int start_page;
+	private int end_page;
+	private int total_page;
+
 	private List<ComputerDTO> computers;
 	
-	public int getPageNumber() {
-		return pageNumber;
+	public int getStart_page() {
+		return start_page;
+	}
+
+	public void setStart_page(int start_page) {
+		this.start_page = start_page;
+	}
+
+	public int getEnd_page() {
+		return end_page;
+	}
+
+	public void setEnd_page(int end_page) {
+		this.end_page = end_page;
+	}
+
+	public int getTotal_page() {
+		return total_page;
+	}
+
+	public void setTotal_page(int total_page) {
+		this.total_page = total_page;
 	}
 	
-	public void setPageNumber(int pageNumber) {
-		this.pageNumber = pageNumber;
+	public int getCurrent_page() {
+		return current_page;
+	}
+	
+	public void setCurrent_page(int current_page) {
+		this.current_page = current_page;
 	}
 	
 	public int getOffset() {
@@ -33,20 +61,29 @@ public class PageDTO {
 		this.computers = computers;
 	}
 	
-	public int getTotalComputer() {
-		return totalComputer;
+	public int getTotal_computer() {
+		return total_computer;
 	}
 
-	public void setTotalComputer(int totalComputer) {
-		this.totalComputer = totalComputer;
+	public void setTotal_computer(int total_computer) {
+		this.total_computer = total_computer;
 	}
 
 	public PageDTO(int pageNumber, int offset) {
-		this.pageNumber = pageNumber;
+		this.current_page = pageNumber;
 		this.offset = offset;
 	}
 	
 	public PageDTO() {
 		
 	}
+
+	@Override
+	public String toString() {
+		return "PageDTO [current_page=" + current_page + ", offset=" + offset + ", total_computer=" + total_computer
+				+ ", start_page=" + start_page + ", end_page=" + end_page + ", total_page=" + total_page
+				+ ", computers=" + computers + "]";
+	}
+	
+	
 }

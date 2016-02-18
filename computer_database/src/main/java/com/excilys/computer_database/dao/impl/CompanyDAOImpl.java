@@ -11,11 +11,11 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.excilys.computer_database.dao.CompanyDAO;
-import com.excilys.computer_database.db.ConnectionFactory;
-import com.excilys.computer_database.db.DbUtils;
-import com.excilys.computer_database.model.Company;
-import com.excilys.computer_database.model.mapper.CompanyMapper;
+import com.excilys.computer_database.persistence.dao.CompanyDAO;
+import com.excilys.computer_database.persistence.db.ConnectionFactory;
+import com.excilys.computer_database.persistence.db.utils.DbUtils;
+import com.excilys.computer_database.persistence.model.Company;
+import com.excilys.computer_database.persistence.model.mapper.CompanyMapper;
 
 
 /**

@@ -1,4 +1,4 @@
-package com.excilys.computer_database.model;
+package com.excilys.computer_database.persistence.model;
 
 /**
  * This class describe a company with all its parameters. id, and name. This is
