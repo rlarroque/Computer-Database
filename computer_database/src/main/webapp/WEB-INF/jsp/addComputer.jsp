@@ -29,27 +29,29 @@
 			<div class="row">
 				<div class="col-xs-8 col-xs-offset-2 box">
 					<h1>Add Computer</h1>
-					<form action="/computer_database/add_computer" method="POST"
-						id="creation_form">
+					<form action="add_computer" method="POST" id="computer_form">
 						<fieldset>
 							<div class="form-group">
-								<label for="computerName">Computer name</label> <input
-									type="text" class="form-control has-feedback" id="computerName"
-									name="computerName" placeholder="Computer name">
+								<label for="computerName">Computer name</label> 
+								<input type="text" class="form-control has-feedback" id="computerName"
+									   name="computerName" placeholder="Computer name">
 							</div>
+							
 							<div class="form-group">
-								<label for="introduced">Introduced date</label> <input
-									type="date" class="form-control has-feedback" id="introduced"
-									name="introduced" placeholder="Introduced date">
+								<label for="introduced">Introduced date</label> 
+								<input type="date" class="form-control has-feedback" id="introduced"
+									   name="introduced" placeholder="Introduced date">
 							</div>
+							
 							<div class="form-group">
-								<label for="discontinued">Discontinued date</label> <input
-									type="date" class="form-control has-feedback" id="discontinued"
-									name="discontinued" placeholder="Discontinued date">
+								<label for="discontinued">Discontinued date</label> 
+								<input type="date" class="form-control has-feedback" id="discontinued"
+									   name="discontinued" placeholder="Discontinued date">
 							</div>
+							
 							<div class="form-group">
-								<label for="companyId">Company</label> <select
-									class="form-control has-feedback" id="companyId" name="companyId">
+								<label for="companyId">Company</label> 
+								<select class="form-control has-feedback" id="companyId" name="companyId">
 									<option value="0">--</option>
 
 									<c:forEach items="${companies}" var="companies">
@@ -61,7 +63,7 @@
 						</fieldset>
 						<div class="actions pull-right">
 							<input type="submit" value="Add" class="btn btn-primary">
-							or <a href="dashboard.html" class="btn btn-default">Cancel</a>
+							or <a href="displayComputers?page=1&offset=10" class="btn btn-default">Cancel</a>
 						</div>
 					</form>
 				</div>
@@ -72,6 +74,6 @@
 	<script src="<c:url value="${js}/jquery.min.js" />"></script>
 	<script src="<c:url value="${js}/jquery.validate.js" />"></script>
 	<script src="<c:url value="${js}/jquery.validate.additional.js" />"></script>
-	<script src="<c:url value="${js}/addComputer.js" />"></script>
+	<script src="<c:url value="${js}/validator.js" />"></script>
 </body>
 </html>

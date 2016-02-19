@@ -1,4 +1,4 @@
-package com.excilys.computer_database.dao.impl;
+package com.excilys.computer_database.persistence.dao.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -59,6 +59,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 
 		try {
 			connection = ConnectionFactory.getConnection();
+			connection.setAutoCommit(false);
 			statement = connection.createStatement();
 		} catch (SQLException e) {
 			logger.error("Cannot connect to the DB. " + e.getMessage());
@@ -212,6 +213,8 @@ public class ComputerDAOImpl implements ComputerDAO {
 			preparedStatement.executeUpdate();
 
 			resSet = preparedStatement.getGeneratedKeys();
+			
+			connection.commit();
 
 			if (resSet.next()) {
 				resultKey = resSet.getInt(1);
@@ -239,6 +242,8 @@ public class ComputerDAOImpl implements ComputerDAO {
 			preparedStatement.setInt(4, c.getCompany().getId());
 			preparedStatement.setInt(5, c.getId());
 			preparedStatement.executeUpdate();
+			
+			connection.commit();
 
 		} catch (SQLException e) {
 			logger.error("Cannot update computer. " + e.getMessage());
@@ -256,8 +261,11 @@ public class ComputerDAOImpl implements ComputerDAO {
 			preparedStatement = connection.prepareStatement(DELETE_COMPUTER_QUERY);
 			preparedStatement.setInt(1, id);
 			preparedStatement.executeUpdate();
+			
+			connection.commit();
 
 		} catch (SQLException e) {
+			
 			logger.error("Cannot delete computer. " + e.getMessage());
 		} finally {
 			closeConnection();

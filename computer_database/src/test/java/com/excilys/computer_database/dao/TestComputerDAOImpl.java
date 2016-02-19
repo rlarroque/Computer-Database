@@ -16,7 +16,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.excilys.computer_database.dao.impl.ComputerDAOImpl;
+import com.excilys.computer_database.persistence.dao.impl.ComputerDAOImpl;
 import com.excilys.computer_database.persistence.db.ConnectionFactory;
 import com.excilys.computer_database.persistence.db.utils.DbUtils;
 import com.excilys.computer_database.persistence.model.Company;
@@ -164,13 +164,16 @@ public class TestComputerDAOImpl {
 		Company company = new Company(1, "Dummy Company");
 		Computer computer = new Computer("Not so dummy computer");
 		computer.setId(1);
-		computer.setIntroduced(LocalDate.of(2000, 1, 1));
-		computer.setDiscontinued(LocalDate.of(2001, 1, 1));
+		computer.setIntroduced(LocalDate.of(2005, 1, 1));
+		computer.setDiscontinued(LocalDate.of(2010, 6, 1));
 		computer.setCompany(company);
 
 		computerDAO.update(computer);
 
 		assertEquals("Not so dummy computer", computerDAO.get(1).getName());
+		assertEquals(LocalDate.of(2005, 1, 1), computerDAO.get(1).getIntroduced());
+		assertEquals(LocalDate.of(2010, 6, 1), computerDAO.get(1).getDiscontinued());
+		assertEquals(company, computerDAO.get(1).getCompany());
 	}
 
 	@Test

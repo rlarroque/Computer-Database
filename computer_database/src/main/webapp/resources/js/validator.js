@@ -24,7 +24,7 @@ $(function() {
 
 	}, "An introduced date in mandatory with a discontinued date.");
 
-	$("#creation_form").validate({
+	$("#computer_form").validate({
 		
 		rules : {
 			computerName : "required",

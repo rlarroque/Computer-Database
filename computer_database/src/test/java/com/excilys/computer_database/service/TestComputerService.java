@@ -15,8 +15,8 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import com.excilys.computer_database.dao.impl.ComputerDAOImpl;
 import com.excilys.computer_database.exception.IntegrityException;
+import com.excilys.computer_database.persistence.dao.impl.ComputerDAOImpl;
 import com.excilys.computer_database.persistence.model.Company;
 import com.excilys.computer_database.persistence.model.Computer;
 import com.excilys.computer_database.service.impl.ComputerServiceImpl;

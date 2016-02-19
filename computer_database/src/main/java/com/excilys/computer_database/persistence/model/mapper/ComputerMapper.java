@@ -56,9 +56,6 @@ public interface ComputerMapper {
 	 */
 	public static Computer toComputer(ComputerDTO dto) throws IntegrityException {
 		
-		dto.setIntroducedDate(dto.getIntroducedDate().replace('/', '-'));
-		dto.setDiscontinuedDate(dto.getDiscontinuedDate().replace('/', '-'));
-
 		Computer computer = new Computer();
 
 		computer.setId(dto.getId());
@@ -67,12 +64,14 @@ public interface ComputerMapper {
 		if("".equals(dto.getIntroducedDate())){
 			computer.setIntroduced(null);
 		} else {
+			dto.setIntroducedDate(dto.getIntroducedDate().replace('/', '-'));
 			computer.setIntroduced(LocalDate.parse(dto.getIntroducedDate(), DateTimeFormatter.ISO_LOCAL_DATE));						
 		}
 		
 		if("".equals(dto.getIntroducedDate())){
 			computer.setDiscontinued(null);
 		} else {
+			dto.setDiscontinuedDate(dto.getDiscontinuedDate().replace('/', '-'));
 			computer.setDiscontinued(LocalDate.parse(dto.getDiscontinuedDate(), DateTimeFormatter.ISO_LOCAL_DATE));			
 		}
 		

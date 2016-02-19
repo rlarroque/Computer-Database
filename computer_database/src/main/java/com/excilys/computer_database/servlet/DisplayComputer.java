@@ -20,7 +20,7 @@ import com.excilys.computer_database.servlet.utils.PageConstructor;
  *
  */
 @WebServlet(name = "DisplayComputers", urlPatterns = "/displayComputers")
-public class DisplayComputers extends HttpServlet {
+public class DisplayComputer extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -42,5 +42,7 @@ public class DisplayComputers extends HttpServlet {
 			throws ServletException, IOException {
 		doGet(request, response);
 	}
+	
+	
 
 }

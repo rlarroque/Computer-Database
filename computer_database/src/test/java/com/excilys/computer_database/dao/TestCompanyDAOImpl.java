@@ -14,7 +14,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.excilys.computer_database.dao.impl.CompanyDAOImpl;
+import com.excilys.computer_database.persistence.dao.impl.CompanyDAOImpl;
 import com.excilys.computer_database.persistence.db.ConnectionFactory;
 import com.excilys.computer_database.persistence.db.utils.DbUtils;
 import com.excilys.computer_database.persistence.model.Company;

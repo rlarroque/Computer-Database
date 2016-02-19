@@ -42,6 +42,7 @@ public class ConnectionFactory {
 			boneConfig.setJdbcUrl(prop.getProperty("datasource.url"));
 			boneConfig.setUsername(prop.getProperty("datasource.username"));
 			boneConfig.setPassword(prop.getProperty("datasource.password"));
+			boneConfig.setPartitionCount(1);
 			boneConfig.setMaxConnectionsPerPartition(2);
 			
 			connectionPool = new BoneCP(boneConfig);

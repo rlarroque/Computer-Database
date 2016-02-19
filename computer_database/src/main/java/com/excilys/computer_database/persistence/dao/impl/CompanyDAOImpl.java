@@ -1,4 +1,4 @@
-package com.excilys.computer_database.dao.impl;
+package com.excilys.computer_database.persistence.dao.impl;
 
 import java.sql.Connection;
 

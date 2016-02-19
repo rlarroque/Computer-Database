@@ -2,9 +2,9 @@ package com.excilys.computer_database.service.impl;
 
 import java.util.List;
 
-import com.excilys.computer_database.dao.impl.ComputerDAOImpl;
 import com.excilys.computer_database.exception.IntegrityException;
 import com.excilys.computer_database.persistence.dao.ComputerDAO;
+import com.excilys.computer_database.persistence.dao.impl.ComputerDAOImpl;
 import com.excilys.computer_database.persistence.model.Computer;
 import com.excilys.computer_database.persistence.model.Page;
 import com.excilys.computer_database.persistence.model.validator.ComputerValidator;
