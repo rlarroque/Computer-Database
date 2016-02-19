@@ -29,11 +29,11 @@ public class EditComputer extends HttpServlet{
 		
 		List<CompanyDTO> listCompanies = CompanyMapper.toDTO(compnayService.getAll());
 		
-		ComputerDTO computer = ComputerMapper.toDTO(computerService.get(Integer.parseInt(request.getParameter("computer"))));
+		ComputerDTO dto = ComputerMapper.toDTO(computerService.get(Integer.parseInt(request.getParameter("computer"))));
 		
-		ComputerDTOValidator.validate(computer);
+		ComputerDTOValidator.validate(dto);
 		
-		request.setAttribute("computer", computer);
+		request.setAttribute("computer", dto);
 		request.setAttribute("companies", listCompanies);
 		request.getRequestDispatcher("/WEB-INF/jsp/editComputer.jsp").forward(request, response); // Forward to JSP page
 	}
@@ -51,6 +51,7 @@ public class EditComputer extends HttpServlet{
 		dto.setIntroducedDate(introduced);
 		dto.setDiscontinuedDate(discontinued);
 		dto.setCompanyId(companyId);
+		ComputerDTOValidator.validate(dto);
 		
 		ComputerServiceImpl compService = ComputerServiceImpl.getInstance();
 		compService.update(ComputerMapper.toComputer(dto));

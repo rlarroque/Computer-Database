@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.excilys.computer_database.dto.CompanyDTO;
 import com.excilys.computer_database.dto.ComputerDTO;
+import com.excilys.computer_database.dto.validator.CompanyDTOValidator;
+import com.excilys.computer_database.dto.validator.ComputerDTOValidator;
 import com.excilys.computer_database.persistence.model.mapper.CompanyMapper;
 import com.excilys.computer_database.persistence.model.mapper.ComputerMapper;
 import com.excilys.computer_database.service.impl.CompanyServiceImpl;
@@ -32,6 +34,7 @@ public class AddComputer extends HttpServlet {
 		CompanyServiceImpl compService = CompanyServiceImpl.getInstance();
 		
 		listCompanies = CompanyMapper.toDTO(compService.getAll());
+		CompanyDTOValidator.validate(listCompanies);
 		
 		request.setAttribute("companies", listCompanies); // Store the list of computers in the request scope
 		request.getRequestDispatcher("/WEB-INF/jsp/addComputer.jsp").forward(request, response); // Forward to JSP page
@@ -47,6 +50,7 @@ public class AddComputer extends HttpServlet {
 		dto.setIntroducedDate(introduced);
 		dto.setDiscontinuedDate(discontinued);
 		dto.setCompanyId(companyId);
+		ComputerDTOValidator.validate(dto);
 		
 		ComputerServiceImpl compService = ComputerServiceImpl.getInstance();
 		compService.create(ComputerMapper.toComputer(dto));

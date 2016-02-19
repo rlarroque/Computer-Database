@@ -3,7 +3,6 @@
 
 <c:url value="/../resources/css" var="css" />
 <c:url value="/../resources/js" var="js" />
-<c:url value="/displayComputers?page=##1&offset=##2" var="displayUri"/>
 
 <!DOCTYPE html>
 <html>
@@ -22,8 +21,7 @@
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
-			<a class="navbar-brand" href="displayComputers?page=1&offset=10"> Application - Computer
-				Database </a>
+			<customLib:link m_class="navbar-brand" uri="display_computers" page="${page}" text="Application - Computer Database" override_order="id"/>
 		</div>
 	</header>
 
@@ -67,12 +65,13 @@
 									class="fa fa-trash-o fa-lg"></i>
 							</a>
 						</span></th>
-						<th>Computer name</th>
-						<th>Introduced date</th>
-						<!-- Table header for Discontinued Date -->
-						<th>Discontinued date</th>
-						<!-- Table header for Company -->
-						<th>Company</th>
+						<th><customLib:link m_class="" uri="display_computers" page="${page}" text="Computer name" override_order="name"/></th>
+						
+						<th><customLib:link m_class="" uri="display_computers" page="${page}" text="Introduced date" override_order="introduced"/></th>
+						
+						<th><customLib:link m_class="" uri="display_computers" page="${page}" text="Discontinued date" override_order="discontinued"/></th>
+						
+						<th><customLib:link m_class="" uri="display_computers" page="${page}" text="Company" override_order="company_id"/></th>
 
 					</tr>
 				</thead>

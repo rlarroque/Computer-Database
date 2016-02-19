@@ -1,4 +1,5 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib tagdir="/WEB-INF/tags" prefix="customLib"%>
 
 <c:url value="/../resources/css" var="css" />
 <c:url value="/../resources/js" var="js" />
@@ -19,8 +20,7 @@
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
-			<a class="navbar-brand" href="displayComputers?page=1&offset=10">
-				Application - Computer Database </a>
+			<customLib:link m_class="navbar-brand" uri="display_computers" page="${page}" text="Application - Computer Database"/>
 		</div>
 	</header>
 
@@ -63,7 +63,7 @@
 						</fieldset>
 						<div class="actions pull-right">
 							<input type="submit" value="Add" class="btn btn-primary">
-							or <a href="displayComputers?page=1&offset=10" class="btn btn-default">Cancel</a>
+							or <customLib:link m_class="btn btn-default" uri="display_computers" page="${page}" text="Cancel"/>
 						</div>
 					</form>
 				</div>

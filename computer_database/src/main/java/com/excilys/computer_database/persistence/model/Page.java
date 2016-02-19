@@ -7,6 +7,10 @@ public class Page {
 	private int pageNumber;
 	private int offset;
 	private int totalComputer;
+	private int startIndex;
+	private int totalPage;
+	private String order;
+	private String filter;
 	private List<Computer> computers;
 	
 	public int getPageNumber() {
@@ -29,6 +33,22 @@ public class Page {
 		return totalComputer;
 	}
 
+	public int getStartIndex() {
+		return startIndex;
+	}
+
+	public void setStartIndex(int startIndex) {
+		this.startIndex = startIndex;
+	}
+
+	public String getOrder() {
+		return order;
+	}
+
+	public void setOrder(String order) {
+		this.order = order;
+	}
+
 	public void setTotalComputer(int totalComputer) {
 		this.totalComputer = totalComputer;
 	}
@@ -40,13 +60,31 @@ public class Page {
 	public void setComputers(List<Computer> computers) {
 		this.computers = computers;
 	}
+	
+	public int getTotalPage() {
+		return totalPage;
+	}
 
-	public Page(int pageNumber, int offset) {
+	public void setTotalPage(int totalPage) {
+		this.totalPage = totalPage;
+	}
+
+	public String getFilter() {
+		return filter;
+	}
+
+	public void setFilter(String filter) {
+		this.filter = filter;
+	}
+	
+	public Page(int pageNumber, int offset, String order) {
 		this.pageNumber = pageNumber;
 		this.offset = offset;
+		this.order = order;
 	}
 	
 	public Page() {
 		
 	}
+
 }

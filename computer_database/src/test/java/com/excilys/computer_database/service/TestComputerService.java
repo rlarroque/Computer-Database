@@ -24,14 +24,13 @@ import com.excilys.computer_database.service.impl.ComputerServiceImpl;
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(ComputerDAOImpl.class)
 public class TestComputerService {
-
 	private static ComputerService compService;
 	private static ComputerDAOImpl compDAO = Mockito.mock(ComputerDAOImpl.class);
 
 	@BeforeClass
 	public static void executeBeforeTests() {
 		Mockito.when(compDAO.getAll()).thenReturn(new ArrayList<Computer>());
-		Mockito.when(compDAO.getPage(Matchers.anyInt(), Matchers.anyInt())).thenReturn(new ArrayList<Computer>());
+		Mockito.when(compDAO.getPage(Matchers.any()).thenReturn(new ArrayList<Computer>()));
 		Mockito.when(compDAO.get(Matchers.anyInt())).thenReturn(new Computer("Dummy Computer"));
 		Mockito.when(compDAO.get(Matchers.anyString())).thenReturn(new Computer("Dummy Computer"));
 		Mockito.when(compDAO.create(Matchers.any(Computer.class))).thenReturn(100);

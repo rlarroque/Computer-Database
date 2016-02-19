@@ -3,6 +3,7 @@ package com.excilys.computer_database.persistence.dao;
 import java.util.List;
 
 import com.excilys.computer_database.persistence.model.Computer;
+import com.excilys.computer_database.persistence.model.Page;
 
 /**
  * Interface of the computer DAO
@@ -20,11 +21,10 @@ public interface ComputerDAO {
 	/**
 	 * Get the list of all the computers between the limits passed.
 	 * This method is used for pagination needs..
-	 * @param startIndex position in the db of the first computer of the current page
-	 * @param offset number of computer per page
+	 * @param page contains all the page information needed to display the computers
 	 * @return the List of computers of the current page.
 	 */
-	List<Computer> getPage(int startIndex, int offset);
+	List<Computer> getPage(Page page);
 	
 	/**
 	 * Returns a computer according to the id passed.
@@ -67,4 +67,5 @@ public interface ComputerDAO {
 	 * @return the number of computers
 	 */
 	int count();
+
 }

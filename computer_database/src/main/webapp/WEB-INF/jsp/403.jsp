@@ -1,4 +1,5 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib tagdir="/WEB-INF/tags" prefix="customLib"%>
 <%@ page isErrorPage="true"%>
 
 <c:url value="/../resources/css" var="css" />
@@ -21,7 +22,7 @@
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
-			<a class="navbar-brand" href="displayComputers?page=1&offset=10"> Application - Computer Database </a>
+			<customLib:link m_class="navbar-brand" uri="display_computers" page="${page}" text="Application - Computer Database"/>
 		</div>
 	</header>
 

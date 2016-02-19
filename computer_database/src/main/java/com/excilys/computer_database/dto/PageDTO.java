@@ -10,6 +10,8 @@ public class PageDTO {
 	private int start_page;
 	private int end_page;
 	private int total_page;
+	private String order;
+	private String filter;
 
 	private List<ComputerDTO> computers;
 	
@@ -68,22 +70,31 @@ public class PageDTO {
 	public void setTotal_computer(int total_computer) {
 		this.total_computer = total_computer;
 	}
+	
+	public String getOrder() {
+		return order;
+	}
 
-	public PageDTO(int pageNumber, int offset) {
+	public void setOrder(String order) {
+		this.order = order;
+	}
+	
+	public String getFilter() {
+		return filter;
+	}
+
+	public void setFilter(String filter) {
+		this.filter = filter;
+	}
+
+	public PageDTO(int pageNumber, int offset, String order) {
 		this.current_page = pageNumber;
 		this.offset = offset;
+		this.order = order;
 	}
 	
 	public PageDTO() {
 		
 	}
-
-	@Override
-	public String toString() {
-		return "PageDTO [current_page=" + current_page + ", offset=" + offset + ", total_computer=" + total_computer
-				+ ", start_page=" + start_page + ", end_page=" + end_page + ", total_page=" + total_page
-				+ ", computers=" + computers + "]";
-	}
-	
 	
 }

@@ -18,6 +18,7 @@ import com.excilys.computer_database.persistence.dao.ComputerDAO;
 import com.excilys.computer_database.persistence.db.ConnectionFactory;
 import com.excilys.computer_database.persistence.db.utils.DbUtils;
 import com.excilys.computer_database.persistence.model.Computer;
+import com.excilys.computer_database.persistence.model.Page;
 import com.excilys.computer_database.persistence.model.mapper.ComputerMapper;
 
 /**
@@ -29,8 +30,8 @@ public class ComputerDAOImpl implements ComputerDAO {
 	private static ComputerDAOImpl instance;
 
 	// SQL Queries
-	private static final String GET_COMPUTER_PAGE_QUERY = "SELECT * FROM computer LEFT JOIN company ON computer.company_id = company.id LIMIT ? OFFSET ?";
 	private static final String GET_COMPUTER_QUERY = "SELECT * FROM computer LEFT JOIN company ON computer.company_id = company.id";
+	private static final String GET_COMPUTER_FILTER_QUERY = "SELECT * FROM computer WHERE computer.name = ? OR company.name = ? LEFT JOIN company ON computer.company_id = company.id";
 	private static final String GET_COMPUTER_BY_ID_QUERY = "SELECT * FROM computer LEFT JOIN company ON computer.company_id = company.id where computer.id=?";
 	private static final String GET_COMPUTER_BY_NAME_QUERY = "SELECT * FROM computer LEFT JOIN company ON computer.company_id = company.id where computer.name=?";
 	private static final String CREATE_COMPUTER_QUERY = "INSERT INTO computer (name, introduced, discontinued, company_id) values (?, ?, ?, ?)";
@@ -105,17 +106,31 @@ public class ComputerDAOImpl implements ComputerDAO {
 	}
 
 	@Override
-	public List<Computer> getPage(int startIndex, int offset) {
+	public List<Computer> getPage(Page page) {
 
 		initConnection();
 
-		List<Computer> computers = new ArrayList<Computer>();
+		List<Computer> computers = new ArrayList<>();
 
 		try {
+			String order;
 			
-			preparedStatement = connection.prepareStatement(GET_COMPUTER_PAGE_QUERY);
-			preparedStatement.setInt(1, offset);
-			preparedStatement.setInt(2, startIndex);
+			if(page.getOrder() == null){
+				order = "computer.id";
+			} else {
+				order = "computer." + page.getOrder();
+			}
+			
+			String query = GET_COMPUTER_QUERY.concat(" ORDER BY ")
+											 .concat(order)
+											 .concat(" ASC")
+											 .concat(" LIMIT ? OFFSET ?");
+			
+			preparedStatement = connection.prepareStatement(query);
+			
+			preparedStatement.setInt(1, page.getOffset());
+			preparedStatement.setInt(2, page.getStartIndex());
+			
 			resSet = preparedStatement.executeQuery();
 
 			while (resSet.next()) {
@@ -130,7 +145,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 
 		return computers;
 	}
-
+	
 	@Override
 	public Computer get(int id) {
 
