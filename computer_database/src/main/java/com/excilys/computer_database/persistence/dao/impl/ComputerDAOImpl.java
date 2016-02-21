@@ -5,9 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import com.excilys.computer_database.persistence.dao.ComputerDAO;
 import com.excilys.computer_database.persistence.dao.utils.DAOUtils;
+import com.excilys.computer_database.persistence.dao.utils.QueryBuilder;
 import com.excilys.computer_database.persistence.model.Computer;
 import com.excilys.computer_database.persistence.model.Page;
 import com.excilys.computer_database.persistence.model.mapper.ComputerMapper;
@@ -27,17 +25,6 @@ import com.excilys.computer_database.persistence.model.mapper.ComputerMapper;
 public class ComputerDAOImpl implements ComputerDAO {
 
 	private static ComputerDAOImpl instance;
-
-	// SQL Queries
-	private static final String GET_COMPUTER_QUERY = "SELECT * FROM computer LEFT JOIN company ON computer.company_id = company.id";
-	private static final String GET_COMPUTER_BY_ID_QUERY = "SELECT * FROM computer LEFT JOIN company ON computer.company_id = company.id WHERE computer.id=?";
-	private static final String GET_COMPUTER_BY_NAME_QUERY = "SELECT * FROM computer LEFT JOIN company ON computer.company_id = company.id WHERE computer.name=?";
-	private static final String GET_COMPUTER_BY_COMPANY_QUERY = "SELECT * FROM computer LEFT JOIN company ON computer.company_id = company.id where computer.company_id=?";
-	private static final String CREATE_COMPUTER_QUERY = "INSERT INTO computer (name, introduced, discontinued, company_id) values (?, ?, ?, ?)";
-	private static final String UPDATE_COMPUTER_QUERY = "UPDATE computer SET name = ?, introduced = ?, discontinued = ?, company_id = ? where id = ?";
-	private static final String DELETE_COMPUTER_QUERY = "DELETE FROM computer where id = ?";
-	private static final String COUNT_COMPUTER_QUERY = "SELECT COUNT(*) from computer LEFT JOIN company ON computer.company_id = company.id";
-
 	private static Logger LOGGER = LoggerFactory.getLogger(ComputerDAOImpl.class.getName());
 
 	public static ComputerDAOImpl getInstance() {
@@ -58,7 +45,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 		List<Computer> computers = new ArrayList<Computer>();
 
 		try {
-			preparedStatement = connection.prepareStatement(GET_COMPUTER_QUERY);
+			preparedStatement = connection.prepareStatement(QueryBuilder.getComputersQuery());
 			resSet = preparedStatement.executeQuery();
 
 			while (resSet.next()) {
@@ -84,28 +71,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 		List<Computer> computers = new ArrayList<>();
 
 		try {
-			String order;
-			
-			if(page.getOrder() == null){
-				order = "computer.id";
-			} else {
-				order = "computer." + page.getOrder();
-			}
-			
-			String query = GET_COMPUTER_QUERY.concat(" WHERE computer.name LIKE '%")
-											 .concat(page.getFilter())
-											 .concat("%' OR company.name LIKE '%")
-											 .concat(page.getFilter())
-											 .concat("%' ORDER BY ")
-											 .concat(order)
-											 .concat(" ASC")
-											 .concat(" LIMIT ? OFFSET ?");
-			
-			preparedStatement = connection.prepareStatement(query);
-			
-			preparedStatement.setInt(1, page.getOffset());
-			preparedStatement.setInt(2, page.getStartIndex());
-			
+			preparedStatement = connection.prepareStatement(QueryBuilder.getComputerPageQuery(page));
 			resSet = preparedStatement.executeQuery();
 
 			while (resSet.next()) {
@@ -129,8 +95,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 		List<Computer> computers = new ArrayList<>();
 
 		try {
-			preparedStatement = connection.prepareStatement(GET_COMPUTER_BY_COMPANY_QUERY);
-			preparedStatement.setInt(1, id);
+			preparedStatement = connection.prepareStatement(QueryBuilder.getComputersQuery(id));
 			resSet = preparedStatement.executeQuery();
 
 			while (resSet.next()) {
@@ -156,8 +121,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 		Computer computer = null;
 
 		try {
-			preparedStatement = connection.prepareStatement(GET_COMPUTER_BY_ID_QUERY);
-			preparedStatement.setInt(1, id);
+			preparedStatement = connection.prepareStatement(QueryBuilder.getComputerQuery(id));
 			resSet = preparedStatement.executeQuery();
 
 			if (resSet.next()) {
@@ -183,8 +147,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 		Computer computer = null;
 
 		try {
-			preparedStatement = connection.prepareStatement(GET_COMPUTER_BY_NAME_QUERY);
-			preparedStatement.setString(1, name);
+			preparedStatement = connection.prepareStatement(QueryBuilder.getComputerQuery(name));
 			resSet = preparedStatement.executeQuery();
 
 			if (resSet.next()) {
@@ -201,7 +164,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 	}
 
 	@Override
-	public int create(Computer c) {
+	public int create(Computer computer) {
 
 		Connection connection = DAOUtils.initConnection();
 		PreparedStatement preparedStatement = null;
@@ -210,29 +173,10 @@ public class ComputerDAOImpl implements ComputerDAO {
 		int resultKey = 0;
 
 		try {
-			preparedStatement = connection.prepareStatement(CREATE_COMPUTER_QUERY, Statement.RETURN_GENERATED_KEYS);
-			preparedStatement.setString(1, c.getName());
-			
-			if (c.getIntroduced() == null) {
-				preparedStatement.setObject(2, null);
-			} else {
-				preparedStatement.setTimestamp(2, Timestamp.valueOf(LocalDateTime.of(c.getIntroduced(), LocalTime.of(0, 0))));
-			}
-
-			if (c.getDiscontinued() == null) {
-				preparedStatement.setObject(3, null);
-			} else {
-				preparedStatement.setTimestamp(3, Timestamp.valueOf(LocalDateTime.of(c.getDiscontinued(), LocalTime.of(0, 0))));
-			}
-			
-			if(c.getCompany() == null){
-				preparedStatement.setObject(4, null);
-			} else{
-				preparedStatement.setInt(4, c.getCompany().getId());
-			}
+			preparedStatement = connection.prepareStatement(QueryBuilder.createQuery(), Statement.RETURN_GENERATED_KEYS);
+			QueryBuilder.buildCreateQuery(computer, preparedStatement);
 			
 			preparedStatement.executeUpdate();
-
 			resSet = preparedStatement.getGeneratedKeys();
 			
 			connection.commit();
@@ -251,19 +195,15 @@ public class ComputerDAOImpl implements ComputerDAO {
 	}
 
 	@Override
-	public void update(Computer c) {
+	public void update(Computer computer) {
 
 		Connection connection = DAOUtils.initConnection();
 		PreparedStatement preparedStatement = null;
 		ResultSet resSet = null;
 
 		try {
-			preparedStatement = connection.prepareStatement(UPDATE_COMPUTER_QUERY);
-			preparedStatement.setString(1, c.getName());
-			preparedStatement.setTimestamp(2, Timestamp.valueOf(LocalDateTime.of(c.getIntroduced(), LocalTime.of(0, 0))));
-			preparedStatement.setTimestamp(3, Timestamp.valueOf(LocalDateTime.of(c.getDiscontinued(), LocalTime.of(0, 0))));
-			preparedStatement.setInt(4, c.getCompany().getId());
-			preparedStatement.setInt(5, c.getId());
+			preparedStatement = connection.prepareStatement(QueryBuilder.updateQuery());
+			QueryBuilder.buildUpdateQuery(computer, preparedStatement);
 			preparedStatement.executeUpdate();
 			
 			connection.commit();
@@ -288,8 +228,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 		ResultSet resSet = null;
 
 		try {
-			preparedStatement = connection.prepareStatement(DELETE_COMPUTER_QUERY);
-			preparedStatement.setInt(1, id);
+			preparedStatement = connection.prepareStatement(QueryBuilder.deleteComputerQuery(id));
 			preparedStatement.executeUpdate();
 			
 			if(createConnection){
@@ -297,7 +236,6 @@ public class ComputerDAOImpl implements ComputerDAO {
 			}
 		} catch (SQLException e) {
 			LOGGER.error("Cannot delete computer. " + e.getMessage());
-			throw new SQLException();
 		} finally {
 			if(createConnection){
 				DAOUtils.closeConnection(connection, preparedStatement, resSet);				
@@ -326,14 +264,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 		ResultSet resSet = null;
 		
 		try{
-			String query = COUNT_COMPUTER_QUERY.concat(" WHERE computer.name LIKE '%")
-											   .concat(page.getFilter())
-											   .concat("%' OR company.name LIKE '%")
-										       .concat(page.getFilter())
-											   .concat("%'");
-
-			preparedStatement = connection.prepareStatement(query);
-						
+			preparedStatement = connection.prepareStatement(QueryBuilder.countComputerQuery(page));
 			resSet = preparedStatement.executeQuery();
 			
 			if(resSet.next()){

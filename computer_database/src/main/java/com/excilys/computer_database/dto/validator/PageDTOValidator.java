@@ -35,7 +35,7 @@ public interface PageDTOValidator {
 			throw new IntegrityException("The end page is not valid");
 		}
 		
-		if(dto.getEnd_page() < dto.getStart_page()){
+		if((dto.getEnd_page() < dto.getStart_page()) && dto.getTotal_computer() != 0){
 			throw new IntegrityException("End page cannot be before start page");
 		}
 	}

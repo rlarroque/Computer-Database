@@ -22,7 +22,7 @@ public class Search extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ComputerServiceImpl compService = ComputerServiceImpl.getInstance();
 		
-		Page page = new Page(1, 10, "id");
+		Page page = new Page(1, 10, "id");	
 		page.setFilter(request.getParameter("search"));
 		
 		compService.fillPage(page);

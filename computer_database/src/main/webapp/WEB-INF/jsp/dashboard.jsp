@@ -67,13 +67,13 @@
 									class="fa fa-trash-o fa-lg"></i>
 							</a>
 						</span></th>
-						<th><customLib:link m_class="" uri="display_computers" page="${page}" text="Computer name" override_order="name"/></th>
+						<th><customLib:link m_class="" uri="display_computers" current_page="${page}" text="Computer name" override_order="name"/></th>
 						
-						<th><customLib:link m_class="" uri="display_computers" page="${page}" text="Introduced date" override_order="introduced"/></th>
+						<th><customLib:link m_class="" uri="display_computers" current_page="${page}" text="Introduced date" override_order="introduced"/></th>
 						
-						<th><customLib:link m_class="" uri="display_computers" page="${page}" text="Discontinued date" override_order="discontinued"/></th>
+						<th><customLib:link m_class="" uri="display_computers" current_page="${page}" text="Discontinued date" override_order="discontinued"/></th>
 						
-						<th><customLib:link m_class="" uri="display_computers" page="${page}" text="Company" override_order="company_id"/></th>
+						<th><customLib:link m_class="" uri="display_computers" current_page="${page}" text="Company" override_order="company_id"/></th>
 
 					</tr>
 				</thead>

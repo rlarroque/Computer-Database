@@ -74,7 +74,7 @@
                         <div class="actions pull-right">
                             <input type="submit" value="Edit" class="btn btn-primary">
                             or
-                            <customLib:link m_class="btn btn-default" uri="display_computers" page="${page}" text="Cancel"/>
+                            <customLib:link m_class="btn btn-default" uri="display_computers" current_page="${page}" text="Cancel"/>
                         </div>
                     </form>
                 </div>
