@@ -39,7 +39,7 @@ public class TestCompanyDAOImpl {
 			statement = connection.createStatement();
 			statement.execute("SET FOREIGN_KEY_CHECKS=0");
 			statement.executeUpdate("TRUNCATE company");
-			statement.execute("SET FOREIGN_KEY_CHECKS=0");
+			statement.execute("SET FOREIGN_KEY_CHECKS=1");
 		} catch (SQLException e) {
 			logger.error("Cannot truncate table");
 		}

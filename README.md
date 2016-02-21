@@ -1,8 +1,8 @@
-### Training: computer-database
+## Training: computer-database
 
 The goal of this project is to build a database of computers with the possibility of editing, creating or removing existing computers.
 
-## Technologies used
+### Technologies used
 
 Because it is part of a full 2-months training as a full stack engineer, this project contains multiples technologies such as:
 

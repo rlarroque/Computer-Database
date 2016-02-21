@@ -120,7 +120,7 @@ $.validator.addMethod("bankorgiroaccountNL", function(value, element) {
  * - Next 2 characters - location code (letters and digits)
  *   a. shall not start with '0' or '1'
  *   b. second character must be a letter ('O' is not allowed) or one of the following digits ('0' for test (therefore not allowed), '1' for passive participant and '2' for active participant)
- * - Last 3 characters - branch code, optional (shall not start with 'X' except in case of 'XXX' for primary office) (letters and digits)
+ * - Last 3 characters - branch code, optional (shall not start with 'X' except in case of 'X X X' for primary office) (letters and digits)
  */
 $.validator.addMethod("bic", function(value, element) {
     return this.optional( element ) || /^([A-Z]{6}[A-Z2-9][A-NP-Z1-2])(X{3}|[A-WY-Z0-9][A-Z0-9]{2})?$/.test( value );
@@ -914,7 +914,6 @@ $.validator.addMethod("stateUS", function(value, element, options) {
 },
 "Please specify a valid state");
 
-// TODO check if value starts with <, otherwise don't try stripping anything
 $.validator.addMethod("strippedminlength", function(value, element, param) {
 	return $(value).text().length >= param;
 }, $.validator.format("Please enter at least {0} characters"));

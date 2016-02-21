@@ -15,8 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.excilys.computer_database.persistence.dao.ComputerDAO;
-import com.excilys.computer_database.persistence.db.ConnectionFactory;
-import com.excilys.computer_database.persistence.db.utils.DbUtils;
+import com.excilys.computer_database.persistence.dao.utils.DAOUtils;
 import com.excilys.computer_database.persistence.model.Computer;
 import com.excilys.computer_database.persistence.model.Page;
 import com.excilys.computer_database.persistence.model.mapper.ComputerMapper;
@@ -31,19 +30,15 @@ public class ComputerDAOImpl implements ComputerDAO {
 
 	// SQL Queries
 	private static final String GET_COMPUTER_QUERY = "SELECT * FROM computer LEFT JOIN company ON computer.company_id = company.id";
-	private static final String GET_COMPUTER_FILTER_QUERY = "SELECT * FROM computer WHERE computer.name = ? OR company.name = ? LEFT JOIN company ON computer.company_id = company.id";
-	private static final String GET_COMPUTER_BY_ID_QUERY = "SELECT * FROM computer LEFT JOIN company ON computer.company_id = company.id where computer.id=?";
-	private static final String GET_COMPUTER_BY_NAME_QUERY = "SELECT * FROM computer LEFT JOIN company ON computer.company_id = company.id where computer.name=?";
+	private static final String GET_COMPUTER_BY_ID_QUERY = "SELECT * FROM computer LEFT JOIN company ON computer.company_id = company.id WHERE computer.id=?";
+	private static final String GET_COMPUTER_BY_NAME_QUERY = "SELECT * FROM computer LEFT JOIN company ON computer.company_id = company.id WHERE computer.name=?";
+	private static final String GET_COMPUTER_BY_COMPANY_QUERY = "SELECT * FROM computer LEFT JOIN company ON computer.company_id = company.id where computer.company_id=?";
 	private static final String CREATE_COMPUTER_QUERY = "INSERT INTO computer (name, introduced, discontinued, company_id) values (?, ?, ?, ?)";
 	private static final String UPDATE_COMPUTER_QUERY = "UPDATE computer SET name = ?, introduced = ?, discontinued = ?, company_id = ? where id = ?";
 	private static final String DELETE_COMPUTER_QUERY = "DELETE FROM computer where id = ?";
-	private static final String COUNT_COMPUTER_QUERY = "SELECT COUNT(*) from computer";
+	private static final String COUNT_COMPUTER_QUERY = "SELECT COUNT(*) from computer LEFT JOIN company ON computer.company_id = company.id";
 
-	private Logger logger = LoggerFactory.getLogger(getClass().getName());
-	private Connection connection;
-	private Statement statement;
-	private PreparedStatement preparedStatement;
-	private ResultSet resSet;
+	private static Logger LOGGER = LoggerFactory.getLogger(ComputerDAOImpl.class.getName());
 
 	public static ComputerDAOImpl getInstance() {
 		if (instance == null) {
@@ -53,53 +48,27 @@ public class ComputerDAOImpl implements ComputerDAO {
 		return instance;
 	}
 
-	/**
-	 * Initial the connection and the statement. To be called at the beginning of each queries.
-	 */
-	private void initConnection() {
-
-		try {
-			connection = ConnectionFactory.getConnection();
-			connection.setAutoCommit(false);
-			statement = connection.createStatement();
-		} catch (SQLException e) {
-			logger.error("Cannot connect to the DB. " + e.getMessage());
-		}
-	}
-
-	/**
-	 * Close the resultSet, statement and connection. To be called at the end of each queries.
-	 */
-	private void closeConnection() {
-
-		try {
-			DbUtils.close(resSet);
-			DbUtils.close(statement);
-			DbUtils.close(preparedStatement);
-			DbUtils.close(connection);
-		} catch (SQLException e) {
-			logger.error("Cannot close the connection to the DB. " + e.getMessage());
-		}
-	}
-
 	@Override
 	public List<Computer> getAll() {
 
-		initConnection();
+		Connection connection = DAOUtils.initConnection();
+		PreparedStatement preparedStatement = null;
+		ResultSet resSet = null;
 
 		List<Computer> computers = new ArrayList<Computer>();
 
 		try {
-			resSet = statement.executeQuery(GET_COMPUTER_QUERY);
+			preparedStatement = connection.prepareStatement(GET_COMPUTER_QUERY);
+			resSet = preparedStatement.executeQuery();
 
 			while (resSet.next()) {
 				computers.add(ComputerMapper.toComputer(resSet));
 			}
 
 		} catch (SQLException e) {
-			logger.error("Cannot get computers. " + e.getMessage());
+			LOGGER.error("Cannot get computers. " + e.getMessage());
 		} finally {
-			closeConnection();
+			DAOUtils.closeConnection(connection, preparedStatement, resSet);
 		}
 
 		return computers;
@@ -108,7 +77,9 @@ public class ComputerDAOImpl implements ComputerDAO {
 	@Override
 	public List<Computer> getPage(Page page) {
 
-		initConnection();
+		Connection connection = DAOUtils.initConnection();
+		PreparedStatement preparedStatement = null;
+		ResultSet resSet = null;
 
 		List<Computer> computers = new ArrayList<>();
 
@@ -121,7 +92,11 @@ public class ComputerDAOImpl implements ComputerDAO {
 				order = "computer." + page.getOrder();
 			}
 			
-			String query = GET_COMPUTER_QUERY.concat(" ORDER BY ")
+			String query = GET_COMPUTER_QUERY.concat(" WHERE computer.name LIKE '%")
+											 .concat(page.getFilter())
+											 .concat("%' OR company.name LIKE '%")
+											 .concat(page.getFilter())
+											 .concat("%' ORDER BY ")
 											 .concat(order)
 											 .concat(" ASC")
 											 .concat(" LIMIT ? OFFSET ?");
@@ -138,9 +113,34 @@ public class ComputerDAOImpl implements ComputerDAO {
 			}
 
 		} catch (SQLException e) {
-			logger.error("Cannot get computers. " + e.getMessage());
+			LOGGER.error("Cannot get computers. " + e.getMessage());
 		} finally {
-			closeConnection();
+			DAOUtils.closeConnection(connection, preparedStatement, resSet);
+		}
+
+		return computers;
+	}
+	
+	private List<Computer> getByComapny(int id, Connection connection) {
+
+		PreparedStatement preparedStatement = null;
+		ResultSet resSet = null;
+
+		List<Computer> computers = new ArrayList<>();
+
+		try {
+			preparedStatement = connection.prepareStatement(GET_COMPUTER_BY_COMPANY_QUERY);
+			preparedStatement.setInt(1, id);
+			resSet = preparedStatement.executeQuery();
+
+			while (resSet.next()) {
+				computers.add(ComputerMapper.toComputer(resSet));
+			}
+
+		} catch (SQLException e) {
+			LOGGER.error("Cannot get computer by id. " + e.getMessage());
+		} finally {
+			DAOUtils.closeConnection(null, preparedStatement, resSet);
 		}
 
 		return computers;
@@ -149,7 +149,9 @@ public class ComputerDAOImpl implements ComputerDAO {
 	@Override
 	public Computer get(int id) {
 
-		initConnection();
+		Connection connection = DAOUtils.initConnection();
+		PreparedStatement preparedStatement = null;
+		ResultSet resSet = null;
 
 		Computer computer = null;
 
@@ -163,9 +165,9 @@ public class ComputerDAOImpl implements ComputerDAO {
 			}
 
 		} catch (SQLException e) {
-			logger.error("Cannot get computer by id. " + e.getMessage());
+			LOGGER.error("Cannot get computer by id. " + e.getMessage());
 		} finally {
-			closeConnection();
+			DAOUtils.closeConnection(connection, preparedStatement, resSet);
 		}
 
 		return computer;
@@ -174,7 +176,9 @@ public class ComputerDAOImpl implements ComputerDAO {
 	@Override
 	public Computer get(String name) {
 
-		initConnection();
+		Connection connection = DAOUtils.initConnection();
+		PreparedStatement preparedStatement = null;
+		ResultSet resSet = null;
 
 		Computer computer = null;
 
@@ -188,9 +192,9 @@ public class ComputerDAOImpl implements ComputerDAO {
 			}
 
 		} catch (SQLException e) {
-			logger.error("Cannot get computer by name. " + e.getMessage());
+			LOGGER.error("Cannot get computer by name. " + e.getMessage());
 		} finally {
-			closeConnection();
+			DAOUtils.closeConnection(connection, preparedStatement, resSet);
 		}
 
 		return computer;
@@ -199,7 +203,9 @@ public class ComputerDAOImpl implements ComputerDAO {
 	@Override
 	public int create(Computer c) {
 
-		initConnection();
+		Connection connection = DAOUtils.initConnection();
+		PreparedStatement preparedStatement = null;
+		ResultSet resSet = null;
 
 		int resultKey = 0;
 
@@ -236,9 +242,9 @@ public class ComputerDAOImpl implements ComputerDAO {
 			}
 
 		} catch (SQLException e) {
-			logger.error("Cannot create computer. " + e.getMessage());
+			LOGGER.error("Cannot create computer. " + e.getMessage());
 		} finally {
-			closeConnection();
+			DAOUtils.closeConnection(connection, preparedStatement, resSet);
 		}
 
 		return resultKey;
@@ -247,7 +253,9 @@ public class ComputerDAOImpl implements ComputerDAO {
 	@Override
 	public void update(Computer c) {
 
-		initConnection();
+		Connection connection = DAOUtils.initConnection();
+		PreparedStatement preparedStatement = null;
+		ResultSet resSet = null;
 
 		try {
 			preparedStatement = connection.prepareStatement(UPDATE_COMPUTER_QUERY);
@@ -261,50 +269,81 @@ public class ComputerDAOImpl implements ComputerDAO {
 			connection.commit();
 
 		} catch (SQLException e) {
-			logger.error("Cannot update computer. " + e.getMessage());
+			LOGGER.error("Cannot update computer. " + e.getMessage());
 		} finally {
-			closeConnection();
+			DAOUtils.closeConnection(connection, preparedStatement, resSet);
 		}
 	}
 
 	@Override
-	public void delete(int id) {
+	public void delete(int id, Connection connection) throws SQLException {
+		
+		boolean createConnection = (connection == null);
 
-		initConnection();
+		if(createConnection){
+			connection = DAOUtils.initConnection();			
+		}
+		
+		PreparedStatement preparedStatement = null;
+		ResultSet resSet = null;
 
 		try {
 			preparedStatement = connection.prepareStatement(DELETE_COMPUTER_QUERY);
 			preparedStatement.setInt(1, id);
 			preparedStatement.executeUpdate();
 			
-			connection.commit();
-
+			if(createConnection){
+				connection.commit();	
+			}
 		} catch (SQLException e) {
-			
-			logger.error("Cannot delete computer. " + e.getMessage());
+			LOGGER.error("Cannot delete computer. " + e.getMessage());
+			throw new SQLException();
 		} finally {
-			closeConnection();
+			if(createConnection){
+				DAOUtils.closeConnection(connection, preparedStatement, resSet);				
+			} else{
+				DAOUtils.closeConnection(null, preparedStatement, resSet);
+			}
+		}
+	}
+	
+	@Override
+	public void deleteByCompany(int id, Connection connection) throws SQLException {
+		List<Computer> computers = getByComapny(id, connection);
+		
+		for (Computer computer : computers) {
+			delete(computer.getId(), connection);
 		}
 	}
 
 	@Override
-	public int count() {
+	public int count(Page page) {
 		
 		int computerNumber = 0;
 		
-		initConnection();
+		Connection connection = DAOUtils.initConnection();
+		PreparedStatement preparedStatement = null;
+		ResultSet resSet = null;
 		
 		try{
-			resSet = statement.executeQuery(COUNT_COMPUTER_QUERY);
+			String query = COUNT_COMPUTER_QUERY.concat(" WHERE computer.name LIKE '%")
+											   .concat(page.getFilter())
+											   .concat("%' OR company.name LIKE '%")
+										       .concat(page.getFilter())
+											   .concat("%'");
+
+			preparedStatement = connection.prepareStatement(query);
+						
+			resSet = preparedStatement.executeQuery();
 			
 			if(resSet.next()){
 				computerNumber = resSet.getInt(1);
 			}
 		} catch(SQLException e){
 		
-			logger.error("Cannot count computers. " + e.getMessage());
+			LOGGER.error("Cannot count computers. " + e.getMessage());
 		} finally {
-			closeConnection();
+			DAOUtils.closeConnection(connection, preparedStatement, resSet);
 		}
 		
 		return computerNumber;

@@ -22,5 +22,13 @@ public interface PageValidator {
 		if (!(page.getOffset() == 10 || page.getOffset() == 50 || page.getOffset() == 100)) {
 			throw new IntegrityException("Offset information is not valid");
 		}
+		
+		if(page.getStartIndex() < 0) {
+			throw new IntegrityException("Start index is not valid");
+		}
+		
+		if(page.getTotalPage() < 0) {
+			throw new IntegrityException("Total page number is not valid");
+		}
 	}
 }

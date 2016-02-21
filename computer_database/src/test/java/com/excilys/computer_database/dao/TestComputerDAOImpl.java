@@ -21,6 +21,7 @@ import com.excilys.computer_database.persistence.db.ConnectionFactory;
 import com.excilys.computer_database.persistence.db.utils.DbUtils;
 import com.excilys.computer_database.persistence.model.Company;
 import com.excilys.computer_database.persistence.model.Computer;
+import com.excilys.computer_database.persistence.model.Page;
 
 public class TestComputerDAOImpl {
 
@@ -44,7 +45,7 @@ public class TestComputerDAOImpl {
 			statement.execute("SET FOREIGN_KEY_CHECKS=0");
 			statement.executeUpdate("TRUNCATE computer");
 			statement.executeUpdate("TRUNCATE company");
-			statement.execute("SET FOREIGN_KEY_CHECKS=0");
+			statement.execute("SET FOREIGN_KEY_CHECKS=1");
 
 			PreparedStatement ps = connection.prepareStatement(CREATE_COMPANY_QUERY);
 			ps.setString(1, "Dummy Company");
@@ -94,6 +95,9 @@ public class TestComputerDAOImpl {
 		List<Computer> computers = computerDAO.getAll();
 		assertEquals(0, computers.size());
 		
+		Page page = new Page(1, 10, "id");
+		page.setFilter("");
+		
 		for(int i = 0; i<50; i++){
 			computerDAO.create(new Computer("Dummy computer " + i));
 		}
@@ -103,12 +107,13 @@ public class TestComputerDAOImpl {
 		assertEquals("Dummy computer 0", computers.get(0).getName());
 		assertEquals("Dummy computer 9", computers.get(9).getName());
 		
-		computers = computerDAO.getPage(0, 10, null);
+		computers = computerDAO.getPage(page);
 		assertEquals(10, computers.size());
 		assertEquals("Dummy computer 0", computers.get(0).getName());
 		assertEquals("Dummy computer 9", computers.get(9).getName());
 		
-		computers = computerDAO.getPage(10, 10, null);
+		page.setStartIndex(10);
+		computers = computerDAO.getPage(page);
 		assertEquals(10, computers.size());
 		assertEquals("Dummy computer 10", computers.get(0).getName());
 		assertEquals("Dummy computer 19", computers.get(9).getName());
@@ -190,7 +195,10 @@ public class TestComputerDAOImpl {
 			logger.error("Cannot create computer");
 		}
 
-		computerDAO.delete(1);
+		try {
+			computerDAO.delete(1, null);
+		} catch (SQLException e) {
+		}
 		assertEquals(0, computerDAO.getAll().size());
 	}
 }

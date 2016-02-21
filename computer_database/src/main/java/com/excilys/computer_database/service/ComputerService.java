@@ -1,5 +1,7 @@
 package com.excilys.computer_database.service;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 
 import com.excilys.computer_database.persistence.model.Computer;
@@ -59,13 +61,22 @@ public interface ComputerService {
 	/**
 	 * Delete a computer according to the id passed.
 	 * @param id id of the computer you want to delete.
+	 * @throws SQLException 
 	 */
-	void delete(int id);
+	void delete(int id) throws SQLException;
+	
+	/**
+	 * Delete all computers sharing a company that has this id
+	 * @param id id of the company 
+	 * @throws SQLException 
+	 */
+	void deleteByCompany(int id, Connection connection) throws SQLException;
 	
 	/**
 	 * Retrieve the number if computers available on the db.
+	 * @param page page information
 	 * @return the number of computers
 	 */
-	int count();
+	int count(Page page);
 
 }

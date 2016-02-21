@@ -55,7 +55,7 @@ public class AddComputer extends HttpServlet {
 		ComputerServiceImpl compService = ComputerServiceImpl.getInstance();
 		compService.create(ComputerMapper.toComputer(dto));
 		
-		response.sendRedirect("displayComputers?page=1&offset=10"); // redirect to JSP page
+		response.sendRedirect("display_computers?page=1&offset=10"); // redirect to JSP page
 	}
 
 }

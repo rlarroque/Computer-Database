@@ -2,6 +2,7 @@ package com.excilys.computer_database.service;
 
 import static org.junit.Assert.assertEquals;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -19,6 +20,7 @@ import com.excilys.computer_database.exception.IntegrityException;
 import com.excilys.computer_database.persistence.dao.impl.ComputerDAOImpl;
 import com.excilys.computer_database.persistence.model.Company;
 import com.excilys.computer_database.persistence.model.Computer;
+import com.excilys.computer_database.persistence.model.Page;
 import com.excilys.computer_database.service.impl.ComputerServiceImpl;
 
 @RunWith(PowerMockRunner.class)
@@ -30,7 +32,7 @@ public class TestComputerService {
 	@BeforeClass
 	public static void executeBeforeTests() {
 		Mockito.when(compDAO.getAll()).thenReturn(new ArrayList<Computer>());
-		Mockito.when(compDAO.getPage(Matchers.any()).thenReturn(new ArrayList<Computer>()));
+		Mockito.when(compDAO.getPage(Matchers.any(Page.class))).thenReturn(new ArrayList<Computer>());
 		Mockito.when(compDAO.get(Matchers.anyInt())).thenReturn(new Computer("Dummy Computer"));
 		Mockito.when(compDAO.get(Matchers.anyString())).thenReturn(new Computer("Dummy Computer"));
 		Mockito.when(compDAO.create(Matchers.any(Computer.class))).thenReturn(100);
@@ -137,11 +139,17 @@ public class TestComputerService {
 	
 	@Test(expected = IntegrityException.class)
 	public void deleteComputerNull() {
-		compService.delete(0);
+		try {
+			compService.delete(0);
+		} catch (SQLException e) {
+		}
 	}
 
 	@Test(expected = IntegrityException.class)
 	public void deleteComputerInvalid() {
-		compService.delete(-1);
+		try {
+			compService.delete(-1);
+		} catch (SQLException e) {
+		}
 	}
 }

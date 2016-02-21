@@ -1,6 +1,7 @@
 package com.excilys.computer_database.servlet;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -28,7 +29,13 @@ public class DeleteComputers extends HttpServlet{
 		List<String> ids = Arrays.asList(request.getParameter("selection").split("\\s*,\\s*"));
 		
 		for (String id : ids) {
-			compService.delete(Integer.parseInt(id));
+			try {
+				compService.delete(Integer.parseInt(id));
+			} catch (NumberFormatException e) {
+				
+			} catch (SQLException e) {
+				
+			}
 		}
 		
 		response.sendRedirect("displayComputers?page=1&offset=10");

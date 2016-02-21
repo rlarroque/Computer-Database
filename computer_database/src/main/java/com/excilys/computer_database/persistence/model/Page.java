@@ -86,5 +86,12 @@ public class Page {
 	public Page() {
 		
 	}
+	
+	@Override
+	public String toString() {
+		return "Page [pageNumber=" + pageNumber + ", offset=" + offset + ", totalComputer=" + totalComputer
+				+ ", startIndex=" + startIndex + ", totalPage=" + totalPage + ", order=" + order + ", filter=" + filter
+				+ ", computers=" + computers + "]";
+	}
 
 }

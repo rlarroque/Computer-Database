@@ -20,7 +20,9 @@
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
-			<customLib:link m_class="navbar-brand" uri="display_computers" page="${page}" text="Application - Computer Database"/>
+			<customLib:link m_class="navbar-brand" 
+							uri="display_computers" 
+							text="Application - Computer Database"/>
 		</div>
 	</header>
 

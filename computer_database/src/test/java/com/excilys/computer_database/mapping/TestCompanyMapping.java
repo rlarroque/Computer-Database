@@ -55,7 +55,7 @@ public class TestCompanyMapping {
 			statement = connection.createStatement();
 			statement.execute("SET FOREIGN_KEY_CHECKS=0");
 			statement.executeUpdate("TRUNCATE company");
-			statement.execute("SET FOREIGN_KEY_CHECKS=0");
+			statement.execute("SET FOREIGN_KEY_CHECKS=1");
 
 			PreparedStatement ps = connection.prepareStatement(CREATE_COMPANY_QUERY);
 			ps.setString(1, "Dummy Company");

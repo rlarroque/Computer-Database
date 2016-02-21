@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.excilys.computer_database.persistence.model.Computer;
 import com.excilys.computer_database.persistence.model.Page;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 /**
  * Interface of the computer DAO
@@ -59,13 +61,26 @@ public interface ComputerDAO {
 	/**
 	 * Delete a computer according to the id passed.
 	 * @param id id of the computer you want to delete.
+	 * @param connecion a connection to use to delete the computer (passed when a company is
+	 * deleted so all the related computers are delete within the same connection and a rollback 
+	 * is possible)
+	 * @throws SQLException 
 	 */
-	void delete(int id);
+	void delete(int id, Connection connection) throws SQLException;
+	
+	/**
+	 * Delete all computers sharing a company that has this id
+	 * @param id id of the company 
+	 * @param connection to use
+	 * @throws SQLException 
+	 */
+	void deleteByCompany(int id, Connection connection) throws SQLException;
 	
 	/**
 	 * Retrieve the number if computers available on the db.
+	 * @param page page information
 	 * @return the number of computers
 	 */
-	int count();
+	int count(Page page);
 
 }

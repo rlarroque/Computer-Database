@@ -1,11 +1,15 @@
 package com.excilys.computer_database.service.impl;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 
 import com.excilys.computer_database.persistence.dao.CompanyDAO;
 import com.excilys.computer_database.persistence.dao.impl.CompanyDAOImpl;
+import com.excilys.computer_database.persistence.dao.utils.DAOUtils;
 import com.excilys.computer_database.persistence.model.Company;
 import com.excilys.computer_database.service.CompanyService;
+import com.excilys.computer_database.service.ComputerService;
 
 /**
  * This class is the implementation of the ComputerService interface. It is a
@@ -36,5 +40,21 @@ public class CompanyServiceImpl implements CompanyService {
 	@Override
 	public List<Company> getAll() {
 		return (companyDAO.getAll());
+	}
+
+	@Override
+	public void delete(int id) throws SQLException{
+		Connection connection = DAOUtils.initConnection();
+		ComputerService compService = ComputerServiceImpl.getInstance();
+		
+		try{
+			companyDAO.delete(id, connection);
+			compService.deleteByCompany(id, connection);
+			
+			connection.commit();
+		} catch(SQLException e){
+			connection.rollback();
+			throw new SQLException();
+		}
 	}
 }

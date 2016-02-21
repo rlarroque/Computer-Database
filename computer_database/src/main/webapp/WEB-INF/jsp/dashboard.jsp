@@ -21,7 +21,9 @@
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
-			<customLib:link m_class="navbar-brand" uri="display_computers" page="${page}" text="Application - Computer Database" override_order="id"/>
+			<customLib:link m_class="navbar-brand" 
+							uri="display_computers" 
+							text="Application - Computer Database"/>
 		</div>
 	</header>
 
@@ -30,7 +32,7 @@
 			<h1 id="homeTitle">${page.total_computer} Computers found</h1>
 			<div id="actions" class="form-horizontal">
 				<div class="pull-left">
-					<form id="searchForm" action="#" method="GET" class="form-inline">
+					<form id="searchForm" action="search" method="GET" class="form-inline">
 
 						<input type="search" id="searchbox" name="search"
 							class="form-control" placeholder="Search name" /> <input

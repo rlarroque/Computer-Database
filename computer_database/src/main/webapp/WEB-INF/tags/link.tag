@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%@ attribute name="uri" required="true" description="URI of the page to go" %>
-<%@ attribute name="page" type="com.excilys.computer_database.dto.PageDTO" required="true" description="Contains the information to build page links" %>
+<%@ attribute name="page" type="com.excilys.computer_database.dto.PageDTO" description="Contains the information to build page links" %>
 <%@ attribute name="text" required="true" description="Text to display on the link" %>
 <%@ attribute name="m_class" required="true" description="Class to apply on the link" %>
 <%@ attribute name="override_page" description="Page number to use" %>
@@ -10,7 +10,7 @@
 <%@ attribute name="override_filter" description="Filter to use" %>
 <%@ attribute name="span" description="If there is a span in the link" %>
 
-<c:set var="default_url" value="?page=1&offset=10&order=id"/>
+<c:set var="default_url" value="?page=1&offset=10&order=id&filter="/>
 
 <a href="${uri}
 	<c:choose>

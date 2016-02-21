@@ -1,14 +1,15 @@
 package com.excilys.computer_database.main;
 
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Scanner;
 
 import com.excilys.computer_database.exception.IntegrityException;
-import com.excilys.computer_database.persistence.dao.CompanyDAO;
-import com.excilys.computer_database.persistence.dao.ComputerDAO;
 import com.excilys.computer_database.persistence.model.Company;
 import com.excilys.computer_database.persistence.model.Computer;
+import com.excilys.computer_database.service.CompanyService;
+import com.excilys.computer_database.service.ComputerService;
 
 /**
  * Utility methods that can be used in the CLI to modify and read the db.
@@ -37,9 +38,10 @@ public class CLIUtils {
 		System.out.println("		|  2 list -computer.                         |");
 		System.out.println("		|  3 create.                                 |");
 		System.out.println("		|  4 update.                                 |");
-		System.out.println("		|  5 delete.                                 |");
-		System.out.println("		|  6 details.                                |");
-		System.out.println("		|  7 exit.\n                                 |");
+		System.out.println("		|  5 delete computer.                        |");
+		System.out.println("		|  6 delete company.                         |");
+		System.out.println("		|  7 details.                                |");
+		System.out.println("		|  8 exit.\n                                 |");
 		System.out.println("		|                                            |");
 		System.out.println("		|############################################|");
 	}
@@ -49,7 +51,7 @@ public class CLIUtils {
 	 * 
 	 * @param computerService
 	 */
-	protected void listComputer(ComputerDAO computerService) {
+	protected void listComputer(ComputerService computerService) {
 		List<Computer> computers = computerService.getAll();
 
 		for (Computer computer : computers) {
@@ -62,7 +64,7 @@ public class CLIUtils {
 	 * 
 	 * @param companyService
 	 */
-	protected void listCompany(CompanyDAO companyService) {
+	protected void listCompany(CompanyService companyService) {
 		List<Company> companies = companyService.getAll();
 
 		for (Company company : companies) {
@@ -75,7 +77,7 @@ public class CLIUtils {
 	 * 
 	 * @param computerService
 	 */
-	protected void createComputer(ComputerDAO computerService) throws IntegrityException {
+	protected void createComputer(ComputerService computerService) throws IntegrityException {
 
 		try {
 			sc.nextLine();
@@ -156,8 +158,9 @@ public class CLIUtils {
 	 * Delete a computer according to the id entered.
 	 * 
 	 * @param computerService
+	 * @throws SQLException 
 	 */
-	protected void deleteComputer(ComputerDAO computerService) throws IntegrityException {
+	protected void deleteComputer(ComputerService computerService) throws IntegrityException, SQLException {
 
 		try {
 			System.out.println("Enter the id of the computer to delete:");
@@ -169,13 +172,32 @@ public class CLIUtils {
 			throw ie;
 		}
 	}
+	
+	/**
+	 * Delete a company according to the id entered.
+	 * 
+	 * @param companyService
+	 * @throws SQLException 
+	 */
+	protected void deleteCompany(CompanyService companyService) throws IntegrityException, SQLException {
+
+		try {
+			System.out.println("Enter the id of the company to delete:");
+			int id = sc.nextInt();
+
+			companyService.delete(id);
+
+		} catch (IntegrityException ie) {
+			throw ie;
+		}
+	}
 
 	/**
 	 * update a computer according to the informations entered by the user.
 	 * 
 	 * @param computerService
 	 */
-	protected void updateComputer(ComputerDAO computerService) throws IntegrityException {
+	protected void updateComputer(ComputerService computerService) throws IntegrityException {
 
 		try {
 			Boolean before = true;
@@ -261,7 +283,7 @@ public class CLIUtils {
 	 * 
 	 * @param computerService
 	 */
-	protected void detailsComputer(ComputerDAO computerService) throws IntegrityException {
+	protected void detailsComputer(ComputerService computerService) throws IntegrityException {
 
 		try {
 			System.out.println("Enter the id of the computer to retrieve:");

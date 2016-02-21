@@ -15,26 +15,17 @@ import com.excilys.computer_database.persistence.model.mapper.PageMapper;
 import com.excilys.computer_database.service.impl.ComputerServiceImpl;
 import com.excilys.computer_database.servlet.utils.PageConstructor;
 
-/**
- * 
- * @author rlarroque
- *
- */
-@WebServlet(name = "DisplayComputers", urlPatterns = "/display_computers")
-public class DisplayComputer extends HttpServlet {
+@WebServlet(name = "Search", urlPatterns = "/search")
+public class Search extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ComputerServiceImpl compService = ComputerServiceImpl.getInstance();
 		
-		Page page = new Page(Integer.parseInt(request.getParameter("page")),
-							 Integer.parseInt(request.getParameter("offset")),
-							 request.getParameter("order"));
-		page.setFilter(request.getParameter("filter"));
+		Page page = new Page(1, 10, "id");
+		page.setFilter(request.getParameter("search"));
 		
 		compService.fillPage(page);
-		
-		System.out.println(page);
 		
 		PageDTO dto = PageMapper.toDTO(page);
 		PageConstructor.construct(dto);
@@ -49,7 +40,4 @@ public class DisplayComputer extends HttpServlet {
 			throws ServletException, IOException {
 		doGet(request, response);
 	}
-	
-	
-
 }

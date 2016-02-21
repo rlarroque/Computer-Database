@@ -1,5 +1,7 @@
 package com.excilys.computer_database.service.impl;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 
 import com.excilys.computer_database.exception.IntegrityException;
@@ -43,15 +45,15 @@ public class ComputerServiceImpl implements ComputerService {
 
 	@Override
 	public void fillPage(Page page) {
-		page.setTotalComputer(computerDAO.count());
+		page.setStartIndex((page.getPageNumber() - 1) * page.getOffset());
+		page.setComputers(computerDAO.getPage(page));
+		
+		page.setTotalComputer(count(page));
 		page.setTotalPage(page.getTotalComputer() / page.getOffset());			
 		
 		if(page.getTotalComputer() % page.getOffset() != 0){
 			page.setTotalPage(page.getPageNumber() + 1);
 		}
-		
-		page.setStartIndex((page.getPageNumber() - 1) * page.getOffset());
-		page.setComputers(computerDAO.getPage(page));
 	}
 
 	@Override
@@ -88,17 +90,26 @@ public class ComputerServiceImpl implements ComputerService {
 	}
 
 	@Override
-	public void delete(int id) {
+	public void delete(int id) throws SQLException {
 
 		if (id < 1) {
 			throw new IntegrityException("Id cannot be negativ.");
 		}
 
-		computerDAO.delete(id);
+		computerDAO.delete(id, null);
 	}
 
 	@Override
-	public int count() {
-		return computerDAO.count();
+	public int count(Page page) {
+		return computerDAO.count(page);
+	}
+
+	@Override
+	public void deleteByCompany(int id, Connection connection) throws SQLException {
+		if (id < 1) {
+			throw new IntegrityException("Id cannot be negativ.");
+		}
+		
+		computerDAO.deleteByCompany(id, connection);
 	}
 }
