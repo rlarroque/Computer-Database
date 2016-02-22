@@ -5,8 +5,17 @@ import java.util.List;
 import com.excilys.computer_database.exception.IntegrityException;
 import com.excilys.computer_database.persistence.model.Computer;
 
+/**
+ * Interface with static methods used to validate the integrity of a computer
+ * @author rlarroque
+ */
 public interface ComputerValidator {
 
+	/**
+	 * Validate the integrity of a computer
+	 * @param dto computer to validate
+	 * @throws IntegrityException thrown if the integrity is not respected
+	 */
 	public static void validate(Computer computer) throws IntegrityException{
 		
 		if(computer == null){
@@ -28,6 +37,11 @@ public interface ComputerValidator {
 		}
 	}
 	
+	/**
+	 * Validate the integrity of a list of computers
+	 * @param list list to validate
+	 * @throws IntegrityException thrown if the integrity is not respected
+	 */
 	public static void validate(List<Computer> list) throws IntegrityException {
 		for (Computer computer : list) {
 			validate(computer);

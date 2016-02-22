@@ -6,7 +6,11 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.excilys.computer_database.exception.ConnectionException;
+import com.excilys.computer_database.persistence.dao.impl.ComputerDAOImpl;
 import com.jolbox.bonecp.BoneCP;
 import com.jolbox.bonecp.BoneCPConfig;
 
@@ -18,6 +22,8 @@ import com.jolbox.bonecp.BoneCPConfig;
  *
  */
 public class ConnectionFactory {
+	
+	private static Logger LOGGER = LoggerFactory.getLogger(ConnectionFactory.class.getName());
 
 	// Static instance of the connectionFactory.
 	private static ConnectionFactory instance = new ConnectionFactory();
@@ -42,16 +48,19 @@ public class ConnectionFactory {
 			boneConfig.setJdbcUrl(prop.getProperty("datasource.url"));
 			boneConfig.setUsername(prop.getProperty("datasource.username"));
 			boneConfig.setPassword(prop.getProperty("datasource.password"));
-			boneConfig.setPartitionCount(1);
+			boneConfig.setPartitionCount(3);
 			boneConfig.setMaxConnectionsPerPartition(2);
 			
 			connectionPool = new BoneCP(boneConfig);
 			
 		} catch (ClassNotFoundException e) {
+			LOGGER.error("Cannot load the drive in ConnectionFactory!!! " + e.getMessage());
 			throw new ConnectionException("Cannot load the drive in ConnectionFactory");
 		} catch (IOException e) {
+			LOGGER.error("Connection setup failed in ConnectionFactory due to preperty file reading!!! " + e.getMessage());
 			throw new ConnectionException("Connection setup failed in ConnectionFactory due to preperty file reading");
 		} catch (SQLException e) {
+			LOGGER.error("Connection setup failed in ConnectionFactory due to coonection pool issues!!! " + e.getMessage());
 			throw new ConnectionException("Connection setup failed in ConnectionFactory due to coonection pool issues");
 		}
 	}
@@ -68,6 +77,7 @@ public class ConnectionFactory {
 		try {
 			connection = connectionPool.getConnection();
 		} catch (SQLException e) {
+			LOGGER.error("Cannot get any connection!!! " + e.getMessage());
 			throw new ConnectionException("Cannot get any connection");
 		}
 

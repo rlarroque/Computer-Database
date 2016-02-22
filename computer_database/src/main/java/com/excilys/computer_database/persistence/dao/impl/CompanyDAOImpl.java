@@ -55,7 +55,7 @@ public class CompanyDAOImpl implements CompanyDAO {
 			}
 			
 		} catch (SQLException e) {
-			LOGGER.error("Cannot get companies. " + e.getMessage());
+			LOGGER.error("Cannot get all companies!!! " + e.getMessage());
 		} finally {
 			DAOUtils.closeConnection(connection, preparedStatement, resSet);
 		}

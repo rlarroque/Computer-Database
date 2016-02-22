@@ -1,4 +1,4 @@
-package com.excilys.computer_database.main;
+package com.excilys.computer_database.cli;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;

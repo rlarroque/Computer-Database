@@ -5,8 +5,17 @@ import java.util.List;
 import com.excilys.computer_database.exception.IntegrityException;
 import com.excilys.computer_database.persistence.model.Company;
 
+/**
+ * Interface with static methods used to validate the integrity of a company
+ * @author rlarroque
+ */
 public interface CompanyValidator {
 
+	/**
+	 * Validate the integrity of a company
+	 * @param dto company to validate
+	 * @throws IntegrityException thrown if the integrity is not respected
+	 */
 	public static void validate(Company company) throws IntegrityException{
 		
 		if(company == null){
@@ -22,6 +31,11 @@ public interface CompanyValidator {
 		}
 	}
 	
+	/**
+	 * Validate the integrity of a list of companys
+	 * @param list list to validate
+	 * @throws IntegrityException thrown if the integrity is not respected
+	 */
 	public static void validate(List<Company> list) throws IntegrityException {
 		for (Company company: list) {
 			validate(company);

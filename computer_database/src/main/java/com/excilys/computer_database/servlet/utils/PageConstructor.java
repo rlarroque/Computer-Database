@@ -2,10 +2,19 @@ package com.excilys.computer_database.servlet.utils;
 
 import com.excilys.computer_database.dto.PageDTO;
 
+/**
+ * Classe used to construct pageDTO base on its curent information. For example the number of computer 
+ * and the offset are needed to determine the total number of page.
+ * @author rlarroque
+ */
 public class PageConstructor {
 
 	private static final int MAX_PAGES_DISPLAYED = 5;
 
+	/**
+	 * Construct the page
+	 * @param page page to construct
+	 */
 	public static void construct(PageDTO page) {
 
 		page.setTotal_page((page.getTotal_computer() / page.getOffset()));

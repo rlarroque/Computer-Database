@@ -3,8 +3,17 @@ package com.excilys.computer_database.dto.validator;
 import com.excilys.computer_database.dto.PageDTO;
 import com.excilys.computer_database.exception.IntegrityException;
 
+/**
+ * Interface with static methods used to validate the integrity of a PageDTO
+ * @author rlarroque
+ */
 public interface PageDTOValidator {
 
+	/**
+	 * Validate the integrity of a pageDTO
+	 * @param dto pageDTO to validate
+	 * @throws IntegrityException thrown if the integrity is not respected
+	 */
 	public static void validate(PageDTO dto) throws IntegrityException {
 		
 		if (dto == null) {

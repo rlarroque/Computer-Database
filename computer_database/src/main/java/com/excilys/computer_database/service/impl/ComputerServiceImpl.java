@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.excilys.computer_database.exception.IntegrityException;
 import com.excilys.computer_database.persistence.dao.ComputerDAO;
 import com.excilys.computer_database.persistence.dao.impl.ComputerDAOImpl;
@@ -23,6 +26,7 @@ import com.excilys.computer_database.service.ComputerService;
  */
 public class ComputerServiceImpl implements ComputerService {
 
+	private static Logger LOGGER = LoggerFactory.getLogger(ComputerServiceImpl.class.getName());
 	private static ComputerServiceImpl instance;
 	private static ComputerDAO computerDAO;
 
@@ -90,13 +94,17 @@ public class ComputerServiceImpl implements ComputerService {
 	}
 
 	@Override
-	public void delete(int id) throws SQLException {
+	public void delete(int id) {
 
 		if (id < 1) {
 			throw new IntegrityException("Id cannot be negativ.");
 		}
 
-		computerDAO.delete(id, null);
+		try {
+			computerDAO.delete(id, null);
+		} catch (SQLException e) {
+			LOGGER.error("Cannot delete computer with id: " + id);
+		}
 	}
 
 	@Override
@@ -105,11 +113,15 @@ public class ComputerServiceImpl implements ComputerService {
 	}
 
 	@Override
-	public void deleteByCompany(int id, Connection connection) throws SQLException {
+	public void deleteByCompany(int id, Connection connection) {
 		if (id < 1) {
 			throw new IntegrityException("Id cannot be negativ.");
 		}
 		
-		computerDAO.deleteByCompany(id, connection);
+		try {
+			computerDAO.deleteByCompany(id, connection);
+		} catch (SQLException e) {
+			LOGGER.error("Cannot delete computers with the company id: " + id);
+		}
 	}
 }

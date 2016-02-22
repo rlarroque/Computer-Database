@@ -12,6 +12,11 @@ import com.excilys.computer_database.persistence.model.validator.PageValidator;
  */
 public interface PageMapper {
 	
+	/**
+	 * Map a dto into a page
+	 * @param dto dto to map
+	 * @return the mapped page
+	 */
 	public static Page toPage(PageDTO dto) {
 		
 		PageDTOValidator.validate(dto);
@@ -27,6 +32,11 @@ public interface PageMapper {
 		return page;		
 	}
 	
+	/**
+	 * Map a page into a DTO
+	 * @param page page to map
+	 * @return the mapped dto
+	 */
 	public static PageDTO toDTO(Page page) {
 		
 		PageValidator.validate(page);

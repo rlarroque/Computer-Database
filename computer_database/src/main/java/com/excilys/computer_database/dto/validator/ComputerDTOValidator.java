@@ -6,8 +6,17 @@ import java.util.List;
 import com.excilys.computer_database.dto.ComputerDTO;
 import com.excilys.computer_database.exception.IntegrityException;
 
+/**
+ * Interface with static methods used to validate the integrity of a computerDTO
+ * @author rlarroque
+ */
 public interface ComputerDTOValidator {
 
+	/**
+	 * Validate the integrity of a computerDTO
+	 * @param dto computerDTO to validate
+	 * @throws IntegrityException thrown if the integrity is not respected
+	 */
 	public static void validate(ComputerDTO dto) throws IntegrityException {
 
 		if (dto == null) {
@@ -31,6 +40,11 @@ public interface ComputerDTOValidator {
 		}
 	}
 	
+	/**
+	 * Validate the integrity of a list of computerDTOs
+	 * @param list list to validate
+	 * @throws IntegrityException thrown if the integrity is not respected
+	 */
 	public static void validate(List<ComputerDTO> list) throws IntegrityException {
 		for (ComputerDTO dto : list) {
 			validate(dto);

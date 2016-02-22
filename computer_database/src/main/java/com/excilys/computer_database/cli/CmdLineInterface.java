@@ -1,4 +1,4 @@
-package com.excilys.computer_database.main;
+package com.excilys.computer_database.cli;
 
 import java.io.IOException;
 import java.sql.SQLException;

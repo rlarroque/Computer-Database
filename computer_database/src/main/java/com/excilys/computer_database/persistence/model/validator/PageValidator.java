@@ -3,8 +3,17 @@ package com.excilys.computer_database.persistence.model.validator;
 import com.excilys.computer_database.exception.IntegrityException;
 import com.excilys.computer_database.persistence.model.Page;
 
+/**
+ * Interface with static methods used to validate the integrity of a Page
+ * @author rlarroque
+ */
 public interface PageValidator {
 
+	/**
+	 * Validate the integrity of a page
+	 * @param page page to validate
+	 * @throws IntegrityException thrown if the integrity is not respected
+	 */
 	public static void validate(Page page) throws IntegrityException {
 		
 		if (page == null) {

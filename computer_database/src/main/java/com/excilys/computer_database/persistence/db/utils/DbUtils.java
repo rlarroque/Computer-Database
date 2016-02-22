@@ -13,8 +13,6 @@ import java.sql.Statement;
  */
 public class DbUtils {
 	
-	
-	
 	/**
 	 * Close a passed connection.
 	 * @param connection the connection to be closed

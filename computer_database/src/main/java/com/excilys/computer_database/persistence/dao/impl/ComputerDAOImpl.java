@@ -53,7 +53,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 			}
 
 		} catch (SQLException e) {
-			LOGGER.error("Cannot get computers. " + e.getMessage());
+			LOGGER.error("Cannot get all computers!!! " + e.getMessage());
 		} finally {
 			DAOUtils.closeConnection(connection, preparedStatement, resSet);
 		}
@@ -79,7 +79,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 			}
 
 		} catch (SQLException e) {
-			LOGGER.error("Cannot get computers. " + e.getMessage());
+			LOGGER.error("Cannot get the page of computers!!! " + e.getMessage());
 		} finally {
 			DAOUtils.closeConnection(connection, preparedStatement, resSet);
 		}
@@ -103,7 +103,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 			}
 
 		} catch (SQLException e) {
-			LOGGER.error("Cannot get computer by id. " + e.getMessage());
+			LOGGER.error("Cannot get all the computers with the company id: " + id + "!!! " + e.getMessage());
 		} finally {
 			DAOUtils.closeConnection(null, preparedStatement, resSet);
 		}
@@ -129,7 +129,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 			}
 
 		} catch (SQLException e) {
-			LOGGER.error("Cannot get computer by id. " + e.getMessage());
+			LOGGER.error("Cannot get the computer with the id " + id + "!!! " + e.getMessage());
 		} finally {
 			DAOUtils.closeConnection(connection, preparedStatement, resSet);
 		}
@@ -155,7 +155,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 			}
 
 		} catch (SQLException e) {
-			LOGGER.error("Cannot get computer by name. " + e.getMessage());
+			LOGGER.error("Cannot get the computer with the name " + name + "!!! " + e.getMessage());
 		} finally {
 			DAOUtils.closeConnection(connection, preparedStatement, resSet);
 		}
@@ -186,7 +186,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 			}
 
 		} catch (SQLException e) {
-			LOGGER.error("Cannot create computer. " + e.getMessage());
+			LOGGER.error("Cannot create computer!!! " + e.getMessage());
 		} finally {
 			DAOUtils.closeConnection(connection, preparedStatement, resSet);
 		}
@@ -209,7 +209,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 			connection.commit();
 
 		} catch (SQLException e) {
-			LOGGER.error("Cannot update computer. " + e.getMessage());
+			LOGGER.error("Cannot update computer!!! " + e.getMessage());
 		} finally {
 			DAOUtils.closeConnection(connection, preparedStatement, resSet);
 		}
@@ -235,7 +235,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 				connection.commit();	
 			}
 		} catch (SQLException e) {
-			LOGGER.error("Cannot delete computer. " + e.getMessage());
+			LOGGER.error("Cannot delete computer wit id: " + id + "!!! " + e.getMessage());
 		} finally {
 			if(createConnection){
 				DAOUtils.closeConnection(connection, preparedStatement, resSet);				
@@ -272,7 +272,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 			}
 		} catch(SQLException e){
 		
-			LOGGER.error("Cannot count computers. " + e.getMessage());
+			LOGGER.error("Cannot count computers!!! " + e.getMessage());
 		} finally {
 			DAOUtils.closeConnection(connection, preparedStatement, resSet);
 		}

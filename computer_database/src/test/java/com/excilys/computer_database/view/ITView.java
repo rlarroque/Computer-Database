@@ -20,7 +20,7 @@ public class ITView {
 	@Before
 	public void executeBeforeEachTest() throws Exception {
 		 driver = new FirefoxDriver(); 
-		 baseUrl = "http://localhost:8080/";
+		 baseUrl = "http://localhost:8181/";
 		 driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
 	}
 
@@ -31,7 +31,7 @@ public class ITView {
 
 	@Test
 	public void testLinkClick() throws Exception {
-		driver.get(baseUrl + "/computer_database/displayComputers?page=1&offset=10");
+		driver.get(baseUrl + "/computer_database/display_computers?page=1&offset=10&order=&filter=");
 		driver.findElement(By.linkText("2")).click();
 		driver.findElement(By.linkText("3")).click();
 		driver.findElement(By.linkText("1")).click();
@@ -45,7 +45,7 @@ public class ITView {
 
 	@Test
 	public void testNextPreviousClick() throws Exception {
-		driver.get(baseUrl + "/computer_database/displayComputers?page=1&offset=10");
+		driver.get(baseUrl + "/computer_database/display_computers?page=1&offset=10&order=&filter=");
 		driver.findElement(By.linkText("»")).click();
 		driver.findElement(By.linkText("»")).click();
 		assert (isElementPresent(By.linkText(("Macintosh IIfx"))));
@@ -56,7 +56,7 @@ public class ITView {
 
 	@Test
 	public void testOffsetClick() throws Exception {
-		driver.get(baseUrl + "/computer_database/displayComputers?page=1&offset=10");
+		driver.get(baseUrl + "/computer_database/display_computers?page=1&offset=10&order=&filter=");
 		assert (isElementPresent(By.linkText(("MacBook Pro 15.4 inch"))));
 		driver.findElement(By.linkText("50")).click();
 		assert (isElementPresent(By.linkText(("Commodore PET"))));
@@ -68,7 +68,7 @@ public class ITView {
 
 	@Test
 	public void testAddComputer() throws Exception {
-		driver.get(baseUrl + "/computer_database/displayComputers?page=1&offset=10");
+		driver.get(baseUrl + "/computer_database/display_computers?page=1&offset=10&order=&filter=");
 		driver.findElement(By.id("addComputer")).click();
 		driver.findElement(By.id("computerName")).clear();
 		driver.findElement(By.id("computerName")).sendKeys("Test");

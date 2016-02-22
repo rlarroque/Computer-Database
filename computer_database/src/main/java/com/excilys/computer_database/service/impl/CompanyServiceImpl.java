@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.excilys.computer_database.persistence.dao.CompanyDAO;
 import com.excilys.computer_database.persistence.dao.impl.CompanyDAOImpl;
 import com.excilys.computer_database.persistence.dao.utils.DAOUtils;
@@ -21,6 +24,7 @@ import com.excilys.computer_database.service.ComputerService;
  */
 public class CompanyServiceImpl implements CompanyService {
 
+	private static Logger LOGGER = LoggerFactory.getLogger(CompanyServiceImpl.class.getName());
 	private static CompanyServiceImpl instance;
 
 	private CompanyDAO companyDAO;
@@ -43,7 +47,7 @@ public class CompanyServiceImpl implements CompanyService {
 	}
 
 	@Override
-	public void delete(int id) throws SQLException{
+	public void delete(int id) {
 		Connection connection = DAOUtils.initConnection();
 		ComputerService compService = ComputerServiceImpl.getInstance();
 		
@@ -53,8 +57,14 @@ public class CompanyServiceImpl implements CompanyService {
 			
 			connection.commit();
 		} catch(SQLException e){
-			connection.rollback();
-			throw new SQLException();
+			
+			try {
+				connection.rollback();
+			} catch (SQLException e1) {
+				LOGGER.error("Cannot rollback current changes!!!");
+			} finally {
+				LOGGER.error("Delete company with id: " + id + " failed!!!");
+			}
 		}
 	}
 }
