@@ -67,13 +67,36 @@
 									class="fa fa-trash-o fa-lg"></i>
 							</a>
 						</span></th>
-						<th><customLib:link m_class="" uri="display_computers" current_page="${page}" text="Computer name" override_order="name"/></th>
+						<th> <div class="parent">
+								<customLib:link m_class="child fa fa-sort-asc" uri="display_computers" current_page="${page}" text="" override_order="name" override_order_type="ASC"/>
+							 	<customLib:link m_class="child fa fa-sort-desc" uri="display_computers" current_page="${page}" text="" override_order="name" override_order_type="DESC"/>
+						 	</div>
+						 	<div class="child_link" >Computer name</div>
+						 </th>
 						
-						<th><customLib:link m_class="" uri="display_computers" current_page="${page}" text="Introduced date" override_order="introduced"/></th>
+						<th>
+							<div class="parent">
+								<customLib:link m_class="child fa fa-sort-asc" uri="display_computers" current_page="${page}" text="" override_order="introduced" override_order_type="ASC"/>
+							 	<customLib:link m_class="child fa fa-sort-desc" uri="display_computers" current_page="${page}" text="" override_order="introduced" override_order_type="DESC"/>
+						 	</div>
+						 	<div class="child_link" >Introduced date</div>
+					 	</th>
 						
-						<th><customLib:link m_class="" uri="display_computers" current_page="${page}" text="Discontinued date" override_order="discontinued"/></th>
+						<th>
+						<div class="parent">
+								<customLib:link m_class="child fa fa-sort-asc" uri="display_computers" current_page="${page}" text="" override_order="discontinued" override_order_type="ASC"/>
+							 	<customLib:link m_class="child fa fa-sort-desc" uri="display_computers" current_page="${page}" text="" override_order="discontinued" override_order_type="DESC"/>
+						 	</div>
+						 	<div class="child_link" >Discontinued date</div>
+						</th>
 						
-						<th><customLib:link m_class="" uri="display_computers" current_page="${page}" text="Company" override_order="company_id"/></th>
+						<th>
+							<div class="parent">
+								<customLib:link m_class="child fa fa-sort-asc" uri="display_computers" current_page="${page}" text="" override_order="company_id" override_order_type="ASC"/>
+							 	<customLib:link m_class="child fa fa-sort-desc" uri="display_computers" current_page="${page}" text="" override_order="company_id" override_order_type="DESC"/>
+						 	</div>
+						 	<div class="child_link" >Company</div>
+						</th>
 
 					</tr>
 				</thead>

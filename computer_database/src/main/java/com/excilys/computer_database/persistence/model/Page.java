@@ -2,6 +2,8 @@ package com.excilys.computer_database.persistence.model;
 
 import java.util.List;
 
+import com.excilys.computer_database.persistence.model.utils.Order;
+
 public class Page {
 	
 	private int pageNumber;
@@ -9,7 +11,7 @@ public class Page {
 	private int totalComputer;
 	private int startIndex;
 	private int totalPage;
-	private String order;
+	private Order order;
 	private String filter;
 	private List<Computer> computers;
 	
@@ -41,14 +43,6 @@ public class Page {
 		this.startIndex = startIndex;
 	}
 
-	public String getOrder() {
-		return order;
-	}
-
-	public void setOrder(String order) {
-		this.order = order;
-	}
-
 	public void setTotalComputer(int totalComputer) {
 		this.totalComputer = totalComputer;
 	}
@@ -76,22 +70,28 @@ public class Page {
 	public void setFilter(String filter) {
 		this.filter = filter;
 	}
+
+	public Order getOrder() {
+		return order;
+	}
+
+	public void setOrder(Order order) {
+		this.order = order;
+	}
 	
-	public Page(int pageNumber, int offset, String order) {
+	public Page(int pageNumber, int offset, String filter) {
 		this.pageNumber = pageNumber;
 		this.offset = offset;
-		this.order = order;
+		this.filter = filter;
+	}
+
+	public Page(int pageNumber, int offset) {
+		this.pageNumber = pageNumber;
+		this.offset = offset;
 	}
 	
 	public Page() {
 		
 	}
 	
-	@Override
-	public String toString() {
-		return "Page [pageNumber=" + pageNumber + ", offset=" + offset + ", totalComputer=" + totalComputer
-				+ ", startIndex=" + startIndex + ", totalPage=" + totalPage + ", order=" + order + ", filter=" + filter
-				+ ", computers=" + computers + "]";
-	}
-
 }

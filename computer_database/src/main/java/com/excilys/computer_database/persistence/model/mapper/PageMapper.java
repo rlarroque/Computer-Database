@@ -21,7 +21,7 @@ public interface PageMapper {
 		
 		PageDTOValidator.validate(dto);
 		
-		Page page = new Page(dto.getCurrent_page(), dto.getOffset(), dto.getOrder());
+		Page page = new Page(dto.getCurrent_page(), dto.getOffset());
 		page.setComputers(ComputerMapper.toComputer(dto.getComputers()));
 		page.setTotalComputer(dto.getTotal_computer());
 		page.setStartIndex((dto.getTotal_page() - 1) * dto.getOffset());
@@ -41,10 +41,11 @@ public interface PageMapper {
 		
 		PageValidator.validate(page);
 		
-		PageDTO dto = new PageDTO(page.getPageNumber(), page.getOffset(), page.getOrder());
+		PageDTO dto = new PageDTO(page.getPageNumber(), page.getOffset());
 		dto.setComputers(ComputerMapper.toDTO(page.getComputers()));
 		dto.setTotal_computer(page.getTotalComputer());
 		dto.setFilter(page.getFilter());
+		dto.setOrder(page.getOrder().getCol().toString());
 		
 		return dto;
 	}

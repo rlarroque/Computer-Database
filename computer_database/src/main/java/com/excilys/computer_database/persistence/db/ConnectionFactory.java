@@ -10,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.excilys.computer_database.exception.ConnectionException;
-import com.excilys.computer_database.persistence.dao.impl.ComputerDAOImpl;
 import com.jolbox.bonecp.BoneCP;
 import com.jolbox.bonecp.BoneCPConfig;
 

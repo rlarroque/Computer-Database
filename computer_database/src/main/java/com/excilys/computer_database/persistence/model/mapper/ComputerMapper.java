@@ -91,11 +91,13 @@ public interface ComputerMapper {
 	 */
 	public static List<Computer> toComputer(List<ComputerDTO> dtoList) {
 		List<Computer> computerList = new ArrayList<>();
-
-		for (ComputerDTO dto : dtoList) {
-			computerList.add(toComputer(dto));
+		
+		if(dtoList != null){
+			for (ComputerDTO dto : dtoList) {
+				computerList.add(toComputer(dto));
+			}
 		}
-
+		
 		return computerList;
 	}
 

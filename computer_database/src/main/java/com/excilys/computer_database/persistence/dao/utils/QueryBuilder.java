@@ -59,10 +59,10 @@ public class QueryBuilder {
 		}
 		
 		
-		if(page.getOrder() != null && !"".equals(page.getOrder())){
+		if(page.getOrder() != null){
 			query = query.concat(" ORDER BY computer.")
-						 .concat(page.getOrder())
-						 .concat(" ASC");
+						 .concat(page.getOrder().getCol().toString())
+						 .concat(" " + page.getOrder().getType().toString());
 		}
 		
 		query = query.concat(" LIMIT " + page.getOffset() + " OFFSET " + page.getStartIndex());

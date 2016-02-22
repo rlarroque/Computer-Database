@@ -36,3 +36,21 @@ input[type='checkbox'] {
    pointer-events: none;
    cursor: default;
 }
+
+.parent {
+	position: absolute;
+}
+
+.child {
+    position: absolute;
+    top: 50%;
+}
+
+.child_link{
+	margin-left:15px;
+	top: 50%;
+}
+
+.fa-sort-desc{
+	margin-top: 7px;
+}​

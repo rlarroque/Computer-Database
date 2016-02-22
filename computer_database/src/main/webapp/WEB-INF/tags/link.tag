@@ -8,6 +8,7 @@
 <%@ attribute name="override_offset" description="Offset to use" %>
 <%@ attribute name="override_order" description="Order to use" %>
 <%@ attribute name="override_filter" description="Filter to use" %>
+<%@ attribute name="override_order_type" description="order type to use" %>
 <%@ attribute name="span" description="If there is a span in the link" %>
 
 <c:set var="default_url" value="?page=1&offset=10&order=&filter="/>
@@ -44,6 +45,10 @@
 					${page.order}
 				</c:otherwise>
 			</c:choose>
+			
+			<c:if test="${not empty override_order_type}">
+				&order_type=${override_order_type}				
+			</c:if>
 			
 			&filter=
 			<c:choose>

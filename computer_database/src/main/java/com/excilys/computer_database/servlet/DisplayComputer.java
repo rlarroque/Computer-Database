@@ -12,6 +12,9 @@ import com.excilys.computer_database.dto.PageDTO;
 import com.excilys.computer_database.dto.validator.PageDTOValidator;
 import com.excilys.computer_database.persistence.model.Page;
 import com.excilys.computer_database.persistence.model.mapper.PageMapper;
+import com.excilys.computer_database.persistence.model.utils.Order;
+import com.excilys.computer_database.persistence.model.utils.OrderColumn;
+import com.excilys.computer_database.persistence.model.utils.OrderType;
 import com.excilys.computer_database.service.impl.ComputerServiceImpl;
 import com.excilys.computer_database.servlet.utils.PageConstructor;
 
@@ -27,14 +30,24 @@ public class DisplayComputer extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ComputerServiceImpl compService = ComputerServiceImpl.getInstance();
 		
-		Page page = new Page(Integer.parseInt(request.getParameter("page")),
-							 Integer.parseInt(request.getParameter("offset")),
-							 request.getParameter("order"));
-		page.setFilter(request.getParameter("filter"));
+		Page page = new Page(Integer.parseInt(request.getParameter("page")), 
+				 		  	 Integer.parseInt(request.getParameter("offset")),
+				 		  	 request.getParameter("filter"));
 		
+		if(request.getParameter("order") != null && !"".equals(request.getParameter("order"))){
+			
+			if(request.getParameter("order_type") != null && !"".equals(request.getParameter("order_type"))){
+				page.setOrder(new Order(OrderType.valueOf(request.getParameter("order_type")), 
+											OrderColumn.fromString(request.getParameter("order"))));
+			} else{
+				page.setOrder(new Order(OrderType.ASC, 
+											OrderColumn.fromString(request.getParameter("order"))));
+			}
+		} else{
+			page.setOrder(new Order(OrderType.ASC, OrderColumn.ID));
+		}
+			
 		compService.fillPage(page);
-		
-		System.out.println(page);
 		
 		PageDTO dto = PageMapper.toDTO(page);
 		PageConstructor.construct(dto);
@@ -49,7 +62,4 @@ public class DisplayComputer extends HttpServlet {
 			throws ServletException, IOException {
 		doGet(request, response);
 	}
-	
-	
-
 }

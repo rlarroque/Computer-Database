@@ -87,10 +87,9 @@ public class PageDTO {
 		this.filter = filter;
 	}
 
-	public PageDTO(int pageNumber, int offset, String order) {
+	public PageDTO(int pageNumber, int offset) {
 		this.current_page = pageNumber;
 		this.offset = offset;
-		this.order = order;
 	}
 	
 	public PageDTO() {
