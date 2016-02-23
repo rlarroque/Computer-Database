@@ -24,259 +24,241 @@ import com.excilys.computer_database.persistence.model.mapper.ComputerMapper;
  */
 public class ComputerDAOImpl implements ComputerDAO {
 
-	private static ComputerDAOImpl instance;
-	private static Logger LOGGER = LoggerFactory.getLogger(ComputerDAOImpl.class.getName());
+    private static ComputerDAOImpl instance;
+    private static final Logger LOGGER = LoggerFactory.getLogger(ComputerDAOImpl.class.getName());
 
-	public static ComputerDAOImpl getInstance() {
-		if (instance == null) {
-			instance = new ComputerDAOImpl();
-		}
+    /**
+     * Return a singleton of computer DAO.
+     * @return the instance
+     */
+    public static ComputerDAOImpl getInstance() {
+        if (instance == null) {
+            instance = new ComputerDAOImpl();
+        }
 
-		return instance;
-	}
+        return instance;
+    }
 
-	@Override
-	public List<Computer> getAll() {
+    @Override
+    public List<Computer> getAll() {
 
-		Connection connection = DAOUtils.initConnection();
-		PreparedStatement preparedStatement = null;
-		ResultSet resSet = null;
+        Connection connection = DAOUtils.initConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet resSet = null;
 
-		List<Computer> computers = new ArrayList<Computer>();
+        List<Computer> computers = new ArrayList<Computer>();
 
-		try {
-			preparedStatement = connection.prepareStatement(QueryBuilder.getComputersQuery());
-			resSet = preparedStatement.executeQuery();
+        try {
+            preparedStatement = connection.prepareStatement(QueryBuilder.getComputersQuery());
+            resSet = preparedStatement.executeQuery();
 
-			while (resSet.next()) {
-				computers.add(ComputerMapper.toComputer(resSet));
-			}
+            while (resSet.next()) {
+                computers.add(ComputerMapper.toComputer(resSet));
+            }
 
-		} catch (SQLException e) {
-			LOGGER.error("Cannot get all computers!!! " + e.getMessage());
-		} finally {
-			DAOUtils.closeConnection(connection, preparedStatement, resSet);
-		}
+        } catch (SQLException e) {
+            LOGGER.error("Cannot get all computers!!! " + e.getMessage());
+        } finally {
+            DAOUtils.closeConnection(connection, preparedStatement, resSet);
+        }
 
-		return computers;
-	}
+        return computers;
+    }
 
-	@Override
-	public List<Computer> getPage(Page page) {
+    @Override
+    public List<Computer> getPage(Page page) {
 
-		Connection connection = DAOUtils.initConnection();
-		PreparedStatement preparedStatement = null;
-		ResultSet resSet = null;
+        Connection connection = DAOUtils.initConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet resSet = null;
 
-		List<Computer> computers = new ArrayList<>();
+        List<Computer> computers = new ArrayList<>();
 
-		try {
-			preparedStatement = connection.prepareStatement(QueryBuilder.getComputerPageQuery(page));
-			resSet = preparedStatement.executeQuery();
+        try {
+            preparedStatement = connection
+                    .prepareStatement(QueryBuilder.getComputerPageQuery(page));
+            resSet = preparedStatement.executeQuery();
 
-			while (resSet.next()) {
-				computers.add(ComputerMapper.toComputer(resSet));
-			}
+            while (resSet.next()) {
+                computers.add(ComputerMapper.toComputer(resSet));
+            }
 
-		} catch (SQLException e) {
-			LOGGER.error("Cannot get the page of computers!!! " + e.getMessage());
-		} finally {
-			DAOUtils.closeConnection(connection, preparedStatement, resSet);
-		}
+        } catch (SQLException e) {
+            LOGGER.error("Cannot get the page of computers!!! " + e.getMessage());
+        } finally {
+            DAOUtils.closeConnection(connection, preparedStatement, resSet);
+        }
 
-		return computers;
-	}
-	
-	private List<Computer> getByComapny(int id, Connection connection) {
+        return computers;
+    }
 
-		PreparedStatement preparedStatement = null;
-		ResultSet resSet = null;
+    @Override
+    public Computer get(int id) {
 
-		List<Computer> computers = new ArrayList<>();
+        Connection connection = DAOUtils.initConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet resSet = null;
 
-		try {
-			preparedStatement = connection.prepareStatement(QueryBuilder.getComputersQuery(id));
-			resSet = preparedStatement.executeQuery();
+        Computer computer = null;
 
-			while (resSet.next()) {
-				computers.add(ComputerMapper.toComputer(resSet));
-			}
+        try {
+            preparedStatement = connection.prepareStatement(QueryBuilder.getComputerQuery(id));
+            resSet = preparedStatement.executeQuery();
 
-		} catch (SQLException e) {
-			LOGGER.error("Cannot get all the computers with the company id: " + id + "!!! " + e.getMessage());
-		} finally {
-			DAOUtils.closeConnection(null, preparedStatement, resSet);
-		}
+            if (resSet.next()) {
+                computer = ComputerMapper.toComputer(resSet);
+            }
 
-		return computers;
-	}
-	
-	@Override
-	public Computer get(int id) {
+        } catch (SQLException e) {
+            LOGGER.error("Cannot get the computer with the id " + id + "!!! " + e.getMessage());
+        } finally {
+            DAOUtils.closeConnection(connection, preparedStatement, resSet);
+        }
 
-		Connection connection = DAOUtils.initConnection();
-		PreparedStatement preparedStatement = null;
-		ResultSet resSet = null;
+        return computer;
+    }
 
-		Computer computer = null;
+    @Override
+    public Computer get(String name) {
 
-		try {
-			preparedStatement = connection.prepareStatement(QueryBuilder.getComputerQuery(id));
-			resSet = preparedStatement.executeQuery();
+        Connection connection = DAOUtils.initConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet resSet = null;
 
-			if (resSet.next()) {
-				computer = ComputerMapper.toComputer(resSet);
-			}
+        Computer computer = null;
 
-		} catch (SQLException e) {
-			LOGGER.error("Cannot get the computer with the id " + id + "!!! " + e.getMessage());
-		} finally {
-			DAOUtils.closeConnection(connection, preparedStatement, resSet);
-		}
+        try {
+            preparedStatement = connection.prepareStatement(QueryBuilder.getComputerQuery(name));
+            resSet = preparedStatement.executeQuery();
 
-		return computer;
-	}
+            if (resSet.next()) {
+                computer = ComputerMapper.toComputer(resSet);
+            }
 
-	@Override
-	public Computer get(String name) {
+        } catch (SQLException e) {
+            LOGGER.error("Cannot get the computer with the name " + name + "!!! " + e.getMessage());
+        } finally {
+            DAOUtils.closeConnection(connection, preparedStatement, resSet);
+        }
 
-		Connection connection = DAOUtils.initConnection();
-		PreparedStatement preparedStatement = null;
-		ResultSet resSet = null;
+        return computer;
+    }
 
-		Computer computer = null;
+    @Override
+    public int create(Computer computer) {
 
-		try {
-			preparedStatement = connection.prepareStatement(QueryBuilder.getComputerQuery(name));
-			resSet = preparedStatement.executeQuery();
+        Connection connection = DAOUtils.initConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet resSet = null;
 
-			if (resSet.next()) {
-				computer = ComputerMapper.toComputer(resSet);
-			}
+        int resultKey = 0;
 
-		} catch (SQLException e) {
-			LOGGER.error("Cannot get the computer with the name " + name + "!!! " + e.getMessage());
-		} finally {
-			DAOUtils.closeConnection(connection, preparedStatement, resSet);
-		}
+        try {
+            preparedStatement = connection.prepareStatement(QueryBuilder.createQuery(),
+                    Statement.RETURN_GENERATED_KEYS);
+            QueryBuilder.buildCreateQuery(computer, preparedStatement);
 
-		return computer;
-	}
+            preparedStatement.executeUpdate();
+            resSet = preparedStatement.getGeneratedKeys();
 
-	@Override
-	public int create(Computer computer) {
+            connection.commit();
 
-		Connection connection = DAOUtils.initConnection();
-		PreparedStatement preparedStatement = null;
-		ResultSet resSet = null;
+            if (resSet.next()) {
+                resultKey = resSet.getInt(1);
+            }
 
-		int resultKey = 0;
+        } catch (SQLException e) {
+            LOGGER.error("Cannot create computer!!! " + e.getMessage());
+        } finally {
+            DAOUtils.closeConnection(connection, preparedStatement, resSet);
+        }
 
-		try {
-			preparedStatement = connection.prepareStatement(QueryBuilder.createQuery(), Statement.RETURN_GENERATED_KEYS);
-			QueryBuilder.buildCreateQuery(computer, preparedStatement);
-			
-			preparedStatement.executeUpdate();
-			resSet = preparedStatement.getGeneratedKeys();
-			
-			connection.commit();
+        return resultKey;
+    }
 
-			if (resSet.next()) {
-				resultKey = resSet.getInt(1);
-			}
+    @Override
+    public void update(Computer computer) {
 
-		} catch (SQLException e) {
-			LOGGER.error("Cannot create computer!!! " + e.getMessage());
-		} finally {
-			DAOUtils.closeConnection(connection, preparedStatement, resSet);
-		}
+        Connection connection = DAOUtils.initConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet resSet = null;
 
-		return resultKey;
-	}
+        try {
+            preparedStatement = connection.prepareStatement(QueryBuilder.updateQuery());
+            QueryBuilder.buildUpdateQuery(computer, preparedStatement);
+            preparedStatement.executeUpdate();
 
-	@Override
-	public void update(Computer computer) {
+            connection.commit();
 
-		Connection connection = DAOUtils.initConnection();
-		PreparedStatement preparedStatement = null;
-		ResultSet resSet = null;
+        } catch (SQLException e) {
+            LOGGER.error("Cannot update computer!!! " + e.getMessage());
+        } finally {
+            DAOUtils.closeConnection(connection, preparedStatement, resSet);
+        }
+    }
 
-		try {
-			preparedStatement = connection.prepareStatement(QueryBuilder.updateQuery());
-			QueryBuilder.buildUpdateQuery(computer, preparedStatement);
-			preparedStatement.executeUpdate();
-			
-			connection.commit();
+    @Override
+    public void delete(int id) throws SQLException {
 
-		} catch (SQLException e) {
-			LOGGER.error("Cannot update computer!!! " + e.getMessage());
-		} finally {
-			DAOUtils.closeConnection(connection, preparedStatement, resSet);
-		}
-	}
+        Connection connection = DAOUtils.initConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet resSet = null;
 
-	@Override
-	public void delete(int id, Connection connection) throws SQLException {
-		
-		boolean createConnection = (connection == null);
+        try {
+            preparedStatement = connection.prepareStatement(QueryBuilder.deleteComputerQuery(id));
+            preparedStatement.executeUpdate();
 
-		if(createConnection){
-			connection = DAOUtils.initConnection();			
-		}
-		
-		PreparedStatement preparedStatement = null;
-		ResultSet resSet = null;
+            connection.commit();
+        } catch (SQLException e) {
+            LOGGER.error("Cannot delete computer with id: " + id + "!!! " + e.getMessage());
+        } finally {
+            DAOUtils.closeConnection(connection, preparedStatement, resSet);
+        }
+    }
 
-		try {
-			preparedStatement = connection.prepareStatement(QueryBuilder.deleteComputerQuery(id));
-			preparedStatement.executeUpdate();
-			
-			if(createConnection){
-				connection.commit();	
-			}
-		} catch (SQLException e) {
-			LOGGER.error("Cannot delete computer wit id: " + id + "!!! " + e.getMessage());
-		} finally {
-			if(createConnection){
-				DAOUtils.closeConnection(connection, preparedStatement, resSet);				
-			} else{
-				DAOUtils.closeConnection(null, preparedStatement, resSet);
-			}
-		}
-	}
-	
-	@Override
-	public void deleteByCompany(int id, Connection connection) throws SQLException {
-		List<Computer> computers = getByComapny(id, connection);
-		
-		for (Computer computer : computers) {
-			delete(computer.getId(), connection);
-		}
-	}
+    @Override
+    public void deleteByCompany(int id) throws SQLException {
+        Connection connection = DAOUtils.initConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet resSet = null;
 
-	@Override
-	public int count(Page page) {
-		
-		int computerNumber = 0;
-		
-		Connection connection = DAOUtils.initConnection();
-		PreparedStatement preparedStatement = null;
-		ResultSet resSet = null;
-		
-		try{
-			preparedStatement = connection.prepareStatement(QueryBuilder.countComputerQuery(page));
-			resSet = preparedStatement.executeQuery();
-			
-			if(resSet.next()){
-				computerNumber = resSet.getInt(1);
-			}
-		} catch(SQLException e){
-		
-			LOGGER.error("Cannot count computers!!! " + e.getMessage());
-		} finally {
-			DAOUtils.closeConnection(connection, preparedStatement, resSet);
-		}
-		
-		return computerNumber;
-	}
+        try {
+            preparedStatement = connection
+                    .prepareStatement(QueryBuilder.deleteComputerByCompanyQuery(id));
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            LOGGER.error(
+                    "Cannot delete computers with company id: " + id + "!!! " + e.getMessage());
+        } finally {
+            // The connection will be closed at the end of the transaction
+            DAOUtils.closeConnection(null, preparedStatement, resSet);
+        }
+    }
+
+    @Override
+    public int count(Page page) {
+
+        int computerNumber = 0;
+
+        Connection connection = DAOUtils.initConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet resSet = null;
+
+        try {
+            preparedStatement = connection.prepareStatement(QueryBuilder.countComputerQuery(page));
+            resSet = preparedStatement.executeQuery();
+
+            if (resSet.next()) {
+                computerNumber = resSet.getInt(1);
+            }
+        } catch (SQLException e) {
+
+            LOGGER.error("Cannot count computers!!! " + e.getMessage());
+        } finally {
+            DAOUtils.closeConnection(connection, preparedStatement, resSet);
+        }
+
+        return computerNumber;
+    }
 }

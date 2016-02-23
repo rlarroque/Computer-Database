@@ -25,180 +25,214 @@ import com.excilys.computer_database.persistence.model.Page;
 
 public class TestComputerDAOImpl {
 
-	// Test queries
-	private static final String CREATE_COMPANY_QUERY = "INSERT INTO company (name) values (?)";
-	private static final String CREATE_COMPUTER_QUERY = "INSERT INTO computer (name, introduced, discontinued, company_id) values (?, ?, ?, ?)";
+    // Test queries
+    private static final String CREATE_COMPANY_QUERY = "INSERT INTO company (name) values (?)";
+    private static final String CREATE_COMPUTER_QUERY = "INSERT INTO computer (name, introduced, discontinued, company_id) values (?, ?, ?, ?)";
 
-	private ComputerDAOImpl computerDAO;
-	private Connection connection;
-	private Statement statement;
-	private Logger logger = LoggerFactory.getLogger(getClass().getName());
+    private ComputerDAOImpl computerDAO;
+    private Connection connection;
+    private Statement statement;
+    private Logger logger = LoggerFactory.getLogger(getClass().getName());
 
-	@Before
-	public void executeBeforeEachTests() {
-		computerDAO = ComputerDAOImpl.getInstance();
+    /**
+     * Before all tests remove all companies and create a single one.
+     */
+    @Before
+    public void executeBeforeEachTests() {
+        computerDAO = ComputerDAOImpl.getInstance();
 
-		try {
-			connection = ConnectionFactory.getConnection();
-			statement = connection.createStatement();
+        try {
+            connection = ConnectionFactory.getConnection();
+            statement = connection.createStatement();
 
-			statement.execute("SET FOREIGN_KEY_CHECKS=0");
-			statement.executeUpdate("TRUNCATE computer");
-			statement.executeUpdate("TRUNCATE company");
-			statement.execute("SET FOREIGN_KEY_CHECKS=1");
+            statement.execute("SET FOREIGN_KEY_CHECKS=0");
+            statement.executeUpdate("TRUNCATE computer");
+            statement.executeUpdate("TRUNCATE company");
+            statement.execute("SET FOREIGN_KEY_CHECKS=1");
 
-			PreparedStatement ps = connection.prepareStatement(CREATE_COMPANY_QUERY);
-			ps.setString(1, "Dummy Company");
-			ps.executeUpdate();
-			ps.close();
-		} catch (SQLException e) {
-			logger.error("Cannot truncate table");
-		} finally {
+            PreparedStatement ps = connection.prepareStatement(CREATE_COMPANY_QUERY);
+            ps.setString(1, "Dummy Company");
+            ps.executeUpdate();
+            ps.close();
+        } catch (SQLException e) {
+            logger.error("Cannot truncate table");
+        }
+    }
 
-		}
-	}
+    /**
+     * Close connection and statement.
+     */
+    @After
+    public void executeAfterEachTests() {
+        computerDAO = null;
 
-	@After
-	public void executeAfterEachTests() {
-		computerDAO = null;
+        try {
+            DbUtils.close(statement);
+            DbUtils.close(connection);
+        } catch (SQLException e) {
+        }
+    }
 
-		try {
-			DbUtils.close(statement);
-			DbUtils.close(connection);
-		} catch (SQLException e) {
-		}
-	}
+    /**
+     * Test.
+     * @throws SQLException exception
+     */
+    @Test
+    public void testGetComputers() throws SQLException {
+        Connection mconnection = null;
 
-	@Test
-	public void testGetComputers() throws SQLException {
-		List<Computer> computers = computerDAO.getAll();
-		assertEquals(0, computers.size());
+        List<Computer> computers = computerDAO.getAll();
+        assertEquals(0, computers.size());
 
-		try {
-			PreparedStatement ps = connection.prepareStatement(CREATE_COMPUTER_QUERY);
-			ps.setString(1, "Dummy computer");
-			ps.setTimestamp(2, Timestamp.valueOf("2000-01-01 00:00:00"));
-			ps.setTimestamp(3, Timestamp.valueOf("2001-01-01 00:00:00"));
-			ps.setInt(4, 1);
-			ps.executeUpdate();
-			ps.close();
-		} catch (SQLException e) {
-			logger.error("Cannot create computer");
-		}
+        try {
+            mconnection = ConnectionFactory.getConnection();
+            PreparedStatement ps = mconnection.prepareStatement(CREATE_COMPUTER_QUERY);
+            ps.setString(1, "Dummy computer");
+            ps.setTimestamp(2, Timestamp.valueOf("2000-01-01 00:00:00"));
+            ps.setTimestamp(3, Timestamp.valueOf("2001-01-01 00:00:00"));
+            ps.setInt(4, 1);
+            ps.executeUpdate();
+            ps.close();
+        } catch (SQLException e) {
+            logger.error("Cannot create computer");
+        } finally {
 
-		computers = computerDAO.getAll();
-		assertEquals(1, computers.size());
-	}
-	
-	@Test
-	public void testGetComputersPage() throws SQLException {
-		List<Computer> computers = computerDAO.getAll();
-		assertEquals(0, computers.size());
-		
-		Page page = new Page(1, 10, "id");
-		page.setFilter("");
-		
-		for(int i = 0; i<50; i++){
-			computerDAO.create(new Computer("Dummy computer " + i));
-		}
+            try {
+                computers = computerDAO.getAll();
+                assertEquals(1, computers.size());
 
-		computers = computerDAO.getAll();
-		assertEquals(50, computers.size());
-		assertEquals("Dummy computer 0", computers.get(0).getName());
-		assertEquals("Dummy computer 9", computers.get(9).getName());
-		
-		computers = computerDAO.getPage(page);
-		assertEquals(10, computers.size());
-		assertEquals("Dummy computer 0", computers.get(0).getName());
-		assertEquals("Dummy computer 9", computers.get(9).getName());
-		
-		page.setStartIndex(10);
-		computers = computerDAO.getPage(page);
-		assertEquals(10, computers.size());
-		assertEquals("Dummy computer 10", computers.get(0).getName());
-		assertEquals("Dummy computer 19", computers.get(9).getName());
-	}
+                mconnection.close();
+            } catch (SQLException e) {
+                logger.debug("Cannot close connection!");
+            }
+        }
+    }
 
-	@Test
-	public void testGetComputerById() {
-		try {
-			PreparedStatement ps = connection.prepareStatement(CREATE_COMPUTER_QUERY);
-			ps.setString(1, "Dummy computer");
-			ps.setTimestamp(2, Timestamp.valueOf("2000-01-01 00:00:00"));
-			ps.setTimestamp(3, Timestamp.valueOf("2001-01-01 00:00:00"));
-			ps.setInt(4, 1);
-			ps.executeUpdate();
-			ps.close();
-		} catch (SQLException e) {
-			logger.error("Cannot create computer");
-		}
+    /**
+     * Test.
+     * @throws SQLException exception
+     */
+    @Test
+    public void testGetComputersPage() throws SQLException {
+        List<Computer> computers = computerDAO.getAll();
+        assertEquals(0, computers.size());
 
-		Computer computer = computerDAO.get(1);
-		assertEquals("Dummy computer", computer.getName());
-		assertEquals("Dummy Company", computer.getCompany().getName());
-	}
+        Page page = new Page(1, 10, "id");
+        page.setFilter("");
 
-	@Test
-	public void testCreateComputer() {
+        for (int i = 0; i < 50; i++) {
+            computerDAO.create(new Computer("Dummy computer " + i));
+        }
 
-		Company company = new Company(1, "Dummy Company");
-		Computer computer = new Computer("Dummy computer");
-		computer.setIntroduced(LocalDate.of(2000, 1, 1));
-		computer.setDiscontinued(LocalDate.of(2001, 1, 1));
-		computer.setCompany(company);
+        computers = computerDAO.getAll();
+        assertEquals(50, computers.size());
+        assertEquals("Dummy computer 0", computers.get(0).getName());
+        assertEquals("Dummy computer 9", computers.get(9).getName());
 
-		computerDAO.create(computer);
+        computers = computerDAO.getPage(page);
+        assertEquals(10, computers.size());
+        assertEquals("Dummy computer 0", computers.get(0).getName());
+        assertEquals("Dummy computer 9", computers.get(9).getName());
 
-		assertEquals("Dummy computer", computerDAO.get(1).getName());
-	}
+        page.setStartIndex(10);
+        computers = computerDAO.getPage(page);
+        assertEquals(10, computers.size());
+        assertEquals("Dummy computer 10", computers.get(0).getName());
+        assertEquals("Dummy computer 19", computers.get(9).getName());
+    }
 
-	@Test
-	public void testUpdateComputer() {
-		try {
-			PreparedStatement ps = connection.prepareStatement(CREATE_COMPUTER_QUERY);
-			ps.setString(1, "Dummy computer");
-			ps.setTimestamp(2, Timestamp.valueOf("2000-01-01 00:00:00"));
-			ps.setTimestamp(3, Timestamp.valueOf("2001-01-01 00:00:00"));
-			ps.setInt(4, 1);
-			ps.executeUpdate();
-			ps.close();
-		} catch (SQLException e) {
-			logger.error("Cannot create computer");
-		}
+    /**
+     * Test.
+     */
+    @Test
+    public void testGetComputerById() {
+        try {
+            PreparedStatement ps = connection.prepareStatement(CREATE_COMPUTER_QUERY);
+            ps.setString(1, "Dummy computer");
+            ps.setTimestamp(2, Timestamp.valueOf("2000-01-01 00:00:00"));
+            ps.setTimestamp(3, Timestamp.valueOf("2001-01-01 00:00:00"));
+            ps.setInt(4, 1);
+            ps.executeUpdate();
+            ps.close();
+        } catch (SQLException e) {
+            logger.error("Cannot create computer");
+        }
 
-		Company company = new Company(1, "Dummy Company");
-		Computer computer = new Computer("Not so dummy computer");
-		computer.setId(1);
-		computer.setIntroduced(LocalDate.of(2005, 1, 1));
-		computer.setDiscontinued(LocalDate.of(2010, 6, 1));
-		computer.setCompany(company);
+        Computer computer = computerDAO.get(1);
+        assertEquals("Dummy computer", computer.getName());
+        assertEquals("Dummy Company", computer.getCompany().getName());
+    }
 
-		computerDAO.update(computer);
+    /**
+     * Test.
+     */
+    @Test
+    public void testCreateComputer() {
 
-		assertEquals("Not so dummy computer", computerDAO.get(1).getName());
-		assertEquals(LocalDate.of(2005, 1, 1), computerDAO.get(1).getIntroduced());
-		assertEquals(LocalDate.of(2010, 6, 1), computerDAO.get(1).getDiscontinued());
-		assertEquals(company, computerDAO.get(1).getCompany());
-	}
+        Company company = new Company(1, "Dummy Company");
+        Computer computer = new Computer("Dummy computer");
+        computer.setIntroduced(LocalDate.of(2000, 1, 1));
+        computer.setDiscontinued(LocalDate.of(2001, 1, 1));
+        computer.setCompany(company);
 
-	@Test
-	public void testDeleteComputer() {
-		try {
-			PreparedStatement ps = connection.prepareStatement(CREATE_COMPUTER_QUERY);
-			ps.setString(1, "Dummy computer");
-			ps.setTimestamp(2, Timestamp.valueOf("2000-01-01 00:00:00"));
-			ps.setTimestamp(3, Timestamp.valueOf("2001-01-01 00:00:00"));
-			ps.setInt(4, 1);
-			ps.executeUpdate();
-			ps.close();
-		} catch (SQLException e) {
-			logger.error("Cannot create computer");
-		}
+        computerDAO.create(computer);
 
-		try {
-			computerDAO.delete(1, null);
-		} catch (SQLException e) {
-		}
-		assertEquals(0, computerDAO.getAll().size());
-	}
+        assertEquals("Dummy computer", computerDAO.get(1).getName());
+    }
+
+    /**
+     * Test.
+     */
+    @Test
+    public void testUpdateComputer() {
+        try {
+            PreparedStatement ps = connection.prepareStatement(CREATE_COMPUTER_QUERY);
+            ps.setString(1, "Dummy computer");
+            ps.setTimestamp(2, Timestamp.valueOf("2000-01-01 00:00:00"));
+            ps.setTimestamp(3, Timestamp.valueOf("2001-01-01 00:00:00"));
+            ps.setInt(4, 1);
+            ps.executeUpdate();
+            ps.close();
+        } catch (SQLException e) {
+            logger.error("Cannot create computer");
+        }
+
+        Company company = new Company(1, "Dummy Company");
+        Computer computer = new Computer("Not so dummy computer");
+        computer.setId(1);
+        computer.setIntroduced(LocalDate.of(2005, 1, 1));
+        computer.setDiscontinued(LocalDate.of(2010, 6, 1));
+        computer.setCompany(company);
+
+        computerDAO.update(computer);
+
+        assertEquals("Not so dummy computer", computerDAO.get(1).getName());
+        assertEquals(LocalDate.of(2005, 1, 1), computerDAO.get(1).getIntroduced());
+        assertEquals(LocalDate.of(2010, 6, 1), computerDAO.get(1).getDiscontinued());
+        assertEquals(company, computerDAO.get(1).getCompany());
+    }
+
+    /**
+     * Test.
+     */
+    @Test
+    public void testDeleteComputer() {
+        try {
+            PreparedStatement ps = connection.prepareStatement(CREATE_COMPUTER_QUERY);
+            ps.setString(1, "Dummy computer");
+            ps.setTimestamp(2, Timestamp.valueOf("2000-01-01 00:00:00"));
+            ps.setTimestamp(3, Timestamp.valueOf("2001-01-01 00:00:00"));
+            ps.setInt(4, 1);
+            ps.executeUpdate();
+            ps.close();
+        } catch (SQLException e) {
+            logger.error("Cannot create computer");
+        }
+
+        try {
+            computerDAO.delete(1);
+        } catch (SQLException e) {
+        }
+        assertEquals(0, computerDAO.getAll().size());
+    }
 }

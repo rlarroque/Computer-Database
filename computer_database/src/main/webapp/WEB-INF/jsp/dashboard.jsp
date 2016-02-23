@@ -29,7 +29,7 @@
 
 	<section id="main">
 		<div class="container">
-			<h1 id="homeTitle">${page.total_computer} Computers found</h1>
+			<h1 id="homeTitle">${page.totalComputer} Computers found</h1>
 			<div id="actions" class="form-horizontal">
 				<div class="pull-left">
 					<form id="searchForm" action="search" method="GET" class="form-inline">
@@ -54,7 +54,7 @@
 		</form>
 
 		<div class="container" style="margin-top: 10px;">
-			<table class="table table-striped table-bordered">
+			<table class="table table-striped table-bordered" id="table_computers">
 				<thead>
 					<tr>
 						<!-- Variable declarations for passing labels as parameters -->

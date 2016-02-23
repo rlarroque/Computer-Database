@@ -12,26 +12,32 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.excilys.computer_database.service.impl.ComputerServiceImpl;
 
-@WebServlet(name="DeleteComputers", urlPatterns="/delete_computers")
-public class DeleteComputers extends HttpServlet{
-	private static final long serialVersionUID = 1L;
-	
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) {
-	}
-	
+/**
+ * Servlet in charge of deleting computers.
+ * @author rlarroque
+ */
+@WebServlet(name = "DeleteComputers", urlPatterns = "/delete_computers")
+public class DeleteComputers extends HttpServlet {
+    private static final long serialVersionUID = 1L;
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		ComputerServiceImpl compService = ComputerServiceImpl.getInstance();
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) {
+    }
 
-		//Store the multiple ids retrieved in a list.
-		List<String> ids = Arrays.asList(request.getParameter("selection").split("\\s*,\\s*"));
-		
-		for (String id : ids) {
-			compService.delete(Integer.parseInt(id));
-		}
-		
-		response.sendRedirect("displayComputers?page=1&offset=10");
-	}
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        ComputerServiceImpl compService = ComputerServiceImpl.getInstance();
+
+        // Store the multiple ids retrieved in a list.
+        List<String> ids = Arrays.asList(request.getParameter("selection").split("\\s*,\\s*"));
+
+        for (String id : ids) {
+            compService.delete(Integer.parseInt(id));
+        }
+
+        response.sendRedirect("display_computers?page=1&offset=10");
+    }
 
 }

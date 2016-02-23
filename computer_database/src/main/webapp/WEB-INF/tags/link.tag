@@ -22,7 +22,7 @@
 					${override_page}
 				</c:when>
 				<c:otherwise>
-					${page.current_page}
+					${page.currentPage}
 				</c:otherwise>
 			</c:choose>
 			

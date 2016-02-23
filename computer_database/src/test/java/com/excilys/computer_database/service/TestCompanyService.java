@@ -21,26 +21,35 @@ import com.excilys.computer_database.service.impl.CompanyServiceImpl;
 @PrepareForTest(CompanyDAOImpl.class)
 public class TestCompanyService {
 
-	private static CompanyDAOImpl compDAO = Mockito.mock(CompanyDAOImpl.class);
-	private static CompanyService compService;
-	
-	@BeforeClass
-	public static void executeBeforeTests() {
-        Mockito.when(compDAO.getAll()).thenReturn(new ArrayList<Company>());
-		
-		PowerMockito.mockStatic(CompanyDAOImpl.class);
-		PowerMockito.when(CompanyDAOImpl.getInstance()).thenReturn(compDAO);
-		
-		compService = CompanyServiceImpl.getInstance();
-	}
-	
-	@AfterClass
-	public static void executeAfterTests(){
-		compService = null;
-	}
+    private static CompanyDAOImpl compDAO = Mockito.mock(CompanyDAOImpl.class);
+    private static CompanyService compService;
 
-	@Test
-	public void testGetCompanies() {
-		assertEquals(0, compService.getAll().size());
-	}
+    /**
+     * Before everuthing, mock the company DAO.
+     */
+    @BeforeClass
+    public static void executeBeforeTests() {
+        Mockito.when(compDAO.getAll()).thenReturn(new ArrayList<Company>());
+
+        PowerMockito.mockStatic(CompanyDAOImpl.class);
+        PowerMockito.when(CompanyDAOImpl.getInstance()).thenReturn(compDAO);
+
+        compService = CompanyServiceImpl.getInstance();
+    }
+
+    /**
+     * Make the DAO null.
+     */
+    @AfterClass
+    public static void executeAfterTests() {
+        compService = null;
+    }
+
+    /**
+     * Test.
+     */
+    @Test
+    public void testGetCompanies() {
+        assertEquals(0, compService.getAll().size());
+    }
 }

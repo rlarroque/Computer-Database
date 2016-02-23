@@ -7,21 +7,37 @@ package com.excilys.computer_database.exception;
  */
 public class ConnectionException extends RuntimeException {
 
-	private static final long serialVersionUID = 42L;
+    private static final long serialVersionUID = 42L;
 
-	public ConnectionException(){
-		super();
-	}
-	
-	public ConnectionException(String message){
-		super(message);
-	}
-	
-	public ConnectionException(Throwable cause){
-		super(cause);
-	}
-	
-	public ConnectionException(String message, Throwable cause){
-		super(message, cause);
-	}
+    /**
+     * Default constructor.
+     */
+    public ConnectionException() {
+        super();
+    }
+
+    /**
+     * Constructor with message.
+     * @param message message
+     */
+    public ConnectionException(String message) {
+        super(message);
+    }
+
+    /**
+     * Constructor with cause.
+     * @param cause cause
+     */
+    public ConnectionException(Throwable cause) {
+        super(cause);
+    }
+
+    /**
+     * Constructor with message and cause.
+     * @param message message
+     * @param cause causes
+     */
+    public ConnectionException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }

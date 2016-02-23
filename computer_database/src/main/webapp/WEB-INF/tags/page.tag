@@ -7,7 +7,7 @@
 	
 	<li>
 		<c:choose>
-			<c:when test="${page.current_page < '2'}"> <c:set var="class_to_add" value="not-active"/> </c:when>
+			<c:when test="${page.currentPage < '2'}"> <c:set var="class_to_add" value="not-active"/> </c:when>
 			<c:otherwise> <c:set var="class_to_add" value=""/>  </c:otherwise>
 		</c:choose>	
 		<customLib:link m_class="${class_to_add}" uri="display_computers" current_page="${page}" text="&laquo;" override_page="1" span="true"/>
@@ -15,32 +15,32 @@
 
 	<li>
 		<c:choose>
-			<c:when test="${page.current_page == '1'}"> <c:set var="class_to_add" value="not-active"/> </c:when>
+			<c:when test="${page.currentPage == '1'}"> <c:set var="class_to_add" value="not-active"/> </c:when>
 			<c:otherwise> <c:set var="class_to_add" value=""/>  </c:otherwise>
 		</c:choose>	
-		<customLib:link m_class="${class_to_add}" uri="display_computers" current_page="${page}" text="&lsaquo;" override_page="${page.current_page - 1}" span="true"/>
+		<customLib:link m_class="${class_to_add}" uri="display_computers" current_page="${page}" text="&lsaquo;" override_page="${page.currentPage - 1}" span="true"/>
 	</li>
 	
-	<c:forEach begin="${page.start_page}" end="${page.end_page}" var="val">
-		<li <c:if test="${page.current_page == val}"> class="active" </c:if> >
+	<c:forEach begin="${page.startPage}" end="${page.endPage}" var="val">
+		<li <c:if test="${page.currentPage == val}"> class="active" </c:if> >
 			<customLib:link m_class="" uri="display_computers" current_page="${page}" text="${val}" override_page="${val}" span="true"/>
 		</li>
 	</c:forEach>
 	
 	<li>
 		<c:choose>
-			<c:when test="${page.current_page == page.total_page}"> <c:set var="class_to_add" value="not-active"/> </c:when>
+			<c:when test="${page.currentPage == page.totalPage}"> <c:set var="class_to_add" value="not-active"/> </c:when>
 			<c:otherwise> <c:set var="class_to_add" value=""/>  </c:otherwise>
 		</c:choose>	
-		<customLib:link m_class="${class_to_add}" uri="display_computers" current_page="${page}" text="&rsaquo;" override_page="${page.current_page + 1}" span="true"/>
+		<customLib:link m_class="${class_to_add}" uri="display_computers" current_page="${page}" text="&rsaquo;" override_page="${page.currentPage + 1}" span="true"/>
 	</li>
 
 	<li>
 		<c:choose>
-			<c:when test="${page.current_page == page.total_page}"> <c:set var="class_to_add" value="not-active"/> </c:when>
+			<c:when test="${page.currentPage == page.totalPage}"> <c:set var="class_to_add" value="not-active"/> </c:when>
 			<c:otherwise> <c:set var="class_to_add" value=""/>  </c:otherwise>
 		</c:choose>	
-		<customLib:link m_class="${class_to_add}" uri="display_computers" current_page="${page}" text="&raquo;" override_page="${page.total_page}" span="true"/>
+		<customLib:link m_class="${class_to_add}" uri="display_computers" current_page="${page}" text="&raquo;" override_page="${page.totalPage}" span="true"/>
 	</li>
 	
 </ul>

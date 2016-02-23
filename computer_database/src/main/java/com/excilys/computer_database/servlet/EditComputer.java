@@ -19,44 +19,52 @@ import com.excilys.computer_database.service.ComputerService;
 import com.excilys.computer_database.service.impl.CompanyServiceImpl;
 import com.excilys.computer_database.service.impl.ComputerServiceImpl;
 
-@WebServlet(name="EditComputer", urlPatterns="/edit_computer")
-public class EditComputer extends HttpServlet{
-	private static final long serialVersionUID = 1L;
-	
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		CompanyService compnayService = CompanyServiceImpl.getInstance();
-		ComputerService computerService = ComputerServiceImpl.getInstance();
-		
-		List<CompanyDTO> listCompanies = CompanyMapper.toDTO(compnayService.getAll());
-		
-		ComputerDTO dto = ComputerMapper.toDTO(computerService.get(Integer.parseInt(request.getParameter("computer"))));
-		
-		ComputerDTOValidator.validate(dto);
-		
-		request.setAttribute("computer", dto);
-		request.setAttribute("companies", listCompanies);
-		request.getRequestDispatcher("/WEB-INF/jsp/editComputer.jsp").forward(request, response); // Forward to JSP page
-	}
-	
+/**
+ * Servlet in charge of editing the computers.
+ * @author rlarroque
+ */
+@WebServlet(name = "EditComputer", urlPatterns = "/edit_computer")
+public class EditComputer extends HttpServlet {
+    private static final long serialVersionUID = 1L;
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String name = request.getParameter("computerName");
-		String introduced = request.getParameter("introduced");
-		String discontinued = request.getParameter("discontinued");
-		int id = Integer.parseInt(request.getParameter("computerId"));
-		int companyId = Integer.parseInt(request.getParameter("companyId"));
-		
-		ComputerDTO dto = new ComputerDTO(name);
-		dto.setId(id);
-		dto.setIntroducedDate(introduced);
-		dto.setDiscontinuedDate(discontinued);
-		dto.setCompanyId(companyId);
-		ComputerDTOValidator.validate(dto);
-		
-		ComputerServiceImpl compService = ComputerServiceImpl.getInstance();
-		compService.update(ComputerMapper.toComputer(dto));
-		
-		response.sendRedirect("display_computers?page=1&offset=10"); // redirect to JSP page
-	}
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        CompanyService compnayService = CompanyServiceImpl.getInstance();
+        ComputerService computerService = ComputerServiceImpl.getInstance();
+
+        List<CompanyDTO> listCompanies = CompanyMapper.toDTO(compnayService.getAll());
+
+        ComputerDTO dto = ComputerMapper
+                .toDTO(computerService.get(Integer.parseInt(request.getParameter("computer"))));
+
+        ComputerDTOValidator.validate(dto);
+
+        request.setAttribute("computer", dto);
+        request.setAttribute("companies", listCompanies);
+        request.getRequestDispatcher("/WEB-INF/jsp/editComputer.jsp").forward(request, response); // Forward to JSP page
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String name = request.getParameter("computerName");
+        String introduced = request.getParameter("introduced");
+        String discontinued = request.getParameter("discontinued");
+        int id = Integer.parseInt(request.getParameter("computerId"));
+        int companyId = Integer.parseInt(request.getParameter("companyId"));
+
+        ComputerDTO dto = new ComputerDTO(name);
+        dto.setId(id);
+        dto.setIntroducedDate(introduced);
+        dto.setDiscontinuedDate(discontinued);
+        dto.setCompanyId(companyId);
+        ComputerDTOValidator.validate(dto);
+
+        ComputerServiceImpl compService = ComputerServiceImpl.getInstance();
+        compService.update(ComputerMapper.toComputer(dto));
+
+        response.sendRedirect("display_computers?page=1&offset=10"); // redirect to JSP page
+    }
 
 }

@@ -18,96 +18,101 @@ import com.excilys.computer_database.service.ComputerService;
  */
 public class CmdLineInterface {
 
-	private Logger logger = LoggerFactory.getLogger(getClass().getName());
-	private ComputerService computerService;
-	private CompanyService companyService;
-	private CLIUtils utils;
+    private Logger logger = LoggerFactory.getLogger(getClass().getName());
+    private ComputerService computerService;
+    private CompanyService companyService;
+    private CLIUtils utils;
 
-	private static final Scanner sc;
+    private static final Scanner SC;
 
-	static {
-		sc = new Scanner(System.in);
-	}
+    static {
+        SC = new Scanner(System.in);
+    }
 
-	public CmdLineInterface(ComputerService computerService, CompanyService companyService) {
-		this.computerService = computerService;
-		this.companyService = companyService;
-		utils = new CLIUtils(sc);
-	}
+    /**
+     * Constructor.
+     * @param computerService computer service
+     * @param companyService company service
+     */
+    public CmdLineInterface(ComputerService computerService, CompanyService companyService) {
+        this.computerService = computerService;
+        this.companyService = companyService;
+        utils = new CLIUtils(SC);
+    }
 
-	/**
-	 * Will start an execution of the cmdLine program. The user will be able to
-	 * pick a command such as displaying a list of computer or creating new
-	 * ones. The program wont exit unless the user picks the exit command.
-	 * @throws SQLException 
-	 */
-	public void startCmdLineInterface() throws SQLException {
+    /**
+     * Will start an execution of the cmdLine program. The user will be able to pick a command such
+     * as displaying a list of computer or creating new ones. The program wont exit unless the user
+     * picks the exit command.
+     * @throws SQLException in case of SQL issue
+     */
+    public void startCmdLineInterface() {
 
-		boolean doContinue = true;
+        boolean doContinue = true;
 
-		try {
-			// loop while 'exit' has not been chosen.
-			while (doContinue) {
-				utils.displayWelcomeMsg();
+        try {
+            // loop while 'exit' has not been chosen.
+            while (doContinue) {
+                utils.displayWelcomeMsg();
 
-				String cmd = sc.next();
+                String cmd = SC.next();
 
-				switch (cmd) {
-				case "list -company":
-				case "1":
-					utils.listCompany(companyService);
-					break;
+                switch (cmd) {
+                case "list -company":
+                case "1":
+                    utils.listCompany(companyService);
+                    break;
 
-				case "list -computer":
-				case "2":
-					utils.listComputer(computerService);
-					break;
+                case "list -computer":
+                case "2":
+                    utils.listComputer(computerService);
+                    break;
 
-				case "create":
-				case "3":
-					utils.createComputer(computerService);
-					break;
+                case "create":
+                case "3":
+                    utils.createComputer(computerService);
+                    break;
 
-				case "update":
-				case "4":
-					utils.updateComputer(computerService);
-					break;
+                case "update":
+                case "4":
+                    utils.updateComputer(computerService);
+                    break;
 
-				case "delete -computer":
-				case "5":
-					utils.deleteComputer(computerService);
-					break;
-					
-				case "delete -company":
-				case "6":
-					utils.deleteCompany(companyService);
-					break;
+                case "delete -computer":
+                case "5":
+                    utils.deleteComputer(computerService);
+                    break;
 
-				case "details":
-				case "7":
-					utils.detailsComputer(computerService);
-					break;
+                case "delete -company":
+                case "6":
+                    utils.deleteCompany(companyService);
+                    break;
 
-				case "exit":
-				case "8":
-					doContinue = false;
-					System.out.println("Operation terminated.");
-					break;
+                case "details":
+                case "7":
+                    utils.detailsComputer(computerService);
+                    break;
 
-				default:
-					break;
-				}
+                case "exit":
+                case "8":
+                    doContinue = false;
+                    System.out.println("Operation terminated.");
+                    break;
 
-				System.out.println("\nPress 'enter' to continue.");
-				System.in.read();
-			}
-			
-		} catch (IntegrityException ie) {
-			logger.warn("An integrity exception happend: " + ie.getMessage());
-		} catch (IOException ioe) {
-			logger.warn(ioe.getMessage());
-		} finally {
-			sc.close();			
-		}
-	}
+                default:
+                    break;
+                }
+
+                System.out.println("\nPress 'enter' to continue.");
+                System.in.read();
+            }
+
+        } catch (IntegrityException ie) {
+            logger.warn("An integrity exception happend: " + ie.getMessage());
+        } catch (IOException ioe) {
+            logger.warn(ioe.getMessage());
+        } finally {
+            SC.close();
+        }
+    }
 }

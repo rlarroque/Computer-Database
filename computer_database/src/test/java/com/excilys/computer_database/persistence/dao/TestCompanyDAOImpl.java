@@ -21,56 +21,75 @@ import com.excilys.computer_database.persistence.model.Company;
 
 public class TestCompanyDAOImpl {
 
-	// Test queries
-	private static final String CREATE_COMPANY_QUERY = "INSERT INTO company (name) values (?)";
+    // Test queries
+    private static final String CREATE_COMPANY_QUERY = "INSERT INTO company (name) values (?)";
 
-	private CompanyDAOImpl companyDAO;
-	private Connection connection;
-	private Statement statement;
-	private Logger logger = LoggerFactory.getLogger(getClass().getName());
+    private CompanyDAOImpl companyDAO;
+    private Connection connection;
+    private Statement statement;
+    private Logger logger = LoggerFactory.getLogger(getClass().getName());
 
+    /**
+     * Before all tests remove all companies.
+     */
+    @Before
+    public void executeBeforeEachTests() {
+        companyDAO = CompanyDAOImpl.getInstance();
 
-	@Before
-	public void executeBeforeEachTests() {
-		companyDAO = CompanyDAOImpl.getInstance();
+        try {
+            connection = ConnectionFactory.getConnection();
+            statement = connection.createStatement();
+            statement.execute("SET FOREIGN_KEY_CHECKS=0");
+            statement.executeUpdate("TRUNCATE company");
+            statement.execute("SET FOREIGN_KEY_CHECKS=1");
+        } catch (SQLException e) {
+            logger.error("Cannot truncate table");
+        }
+    }
 
-		try {
-			connection = ConnectionFactory.getConnection();
-			statement = connection.createStatement();
-			statement.execute("SET FOREIGN_KEY_CHECKS=0");
-			statement.executeUpdate("TRUNCATE company");
-			statement.execute("SET FOREIGN_KEY_CHECKS=1");
-		} catch (SQLException e) {
-			logger.error("Cannot truncate table");
-		}
-	}
+    /**
+     * After all tests close the connection and statement.
+     */
+    @After
+    public void executeAfterEachTests() {
+        companyDAO = null;
 
-	@After
-	public void executeAfterEachTests() {
-		companyDAO = null;
+        try {
+            DbUtils.close(statement);
+            DbUtils.close(connection);
+        } catch (SQLException e) {
+        }
+    }
 
-		try {
-			DbUtils.close(statement);
-			DbUtils.close(connection);
-		} catch (SQLException e) {
-		}
-	}
+    /**
+     * Test.
+     */
+    @Test
+    public void testGetCompanies() {
+        Connection mconnection = null;
 
-	@Test
-	public void testGetCompanies() {
-		List<Company> companies = companyDAO.getAll();
-		assertEquals(0, companies.size());
+        List<Company> companies = companyDAO.getAll();
+        assertEquals(0, companies.size());
 
-		try {
-			PreparedStatement ps = connection.prepareStatement(CREATE_COMPANY_QUERY);
-			ps.setString(1, "Dummy Company");
-			ps.executeUpdate();
-			ps.close();
-		} catch (SQLException e) {
-			logger.error("Cannot connect to the test database");
-		}
+        try {
+            mconnection = ConnectionFactory.getConnection();
+            PreparedStatement ps = mconnection.prepareStatement(CREATE_COMPANY_QUERY);
+            ps.setString(1, "Dummy Company");
+            ps.executeUpdate();
+            ps.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            logger.error("Cannot connect to the test database");
+        } finally {
 
-		companies = companyDAO.getAll();
-		assertEquals(1, companies.size());
-	}
+            try {
+                companies = companyDAO.getAll();
+                assertEquals(1, companies.size());
+
+                mconnection.close();
+            } catch (SQLException e) {
+                logger.debug("Cannot close connection!");
+            }
+        }
+    }
 }

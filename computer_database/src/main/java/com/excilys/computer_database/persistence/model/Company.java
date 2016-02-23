@@ -1,89 +1,99 @@
 package com.excilys.computer_database.persistence.model;
 
 /**
- * This class describe a company with all its parameters. id, and name. This is
- * a simple POJO.
- * 
+ * This class describe a company with all its parameters. id, and name. This is a simple POJO.
  * @author rlarroque
  *
  */
 public class Company {
 
-	private Integer id;
-	private String name;
+    private Integer id;
+    private String name;
 
-	public Integer getId() {
-		return id;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public Company(Integer id, String name) {
-		this.id = id;
-		this.name = name;
-	}
-	
-	public Company(String name) {
-		this.name = name;
-	}
+    /**
+     * Instantiates a new company.
+     * @param id the id
+     * @param name the name
+     */
+    public Company(Integer id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 
-	public Company() {
-	}
+    /**
+     * Instantiates a new company.
+     * @param name the name
+     */
+    public Company(String name) {
+        this.name = name;
+    }
 
-	@Override
-	public String toString() {
+    /**
+     * Instantiates a new company.
+     */
+    public Company() {
+    }
 
-		return "Company [id=" + id + ", name=" + name + "]";
-	}
+    @Override
+    public String toString() {
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + id;
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		return result;
-	}
+        return "Company [id=" + id + ", name=" + name + "]";
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + id;
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        return result;
+    }
 
-		if (obj == null) {
-			return false;
-		}
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
 
-		if (getClass() != obj.getClass()) {
-			return false;
-		}
+        if (obj == null) {
+            return false;
+        }
 
-		Company other = (Company) obj;
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
 
-		if (id != other.id) {
-			return false;
-		}
+        Company other = (Company) obj;
 
-		if (name == null) {
+        if (id != other.id) {
+            return false;
+        }
 
-			if (other.name != null) {
-				return false;
-			}
-		} else if (!name.equals(other.name)) {
-			return false;
-		}
+        if (name == null) {
 
-		return true;
-	}
+            if (other.name != null) {
+                return false;
+            }
+        } else if (!name.equals(other.name)) {
+            return false;
+        }
+
+        return true;
+    }
 }

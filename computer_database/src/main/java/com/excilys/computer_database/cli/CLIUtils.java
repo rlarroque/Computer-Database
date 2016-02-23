@@ -1,7 +1,6 @@
 package com.excilys.computer_database.cli;
 
-import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
 
@@ -13,287 +12,254 @@ import com.excilys.computer_database.service.ComputerService;
 
 /**
  * Utility methods that can be used in the CLI to modify and read the db.
- * 
  * @author rlarroque
  *
  */
 public class CLIUtils {
 
-	private Scanner sc;
+    private Scanner sc;
 
-	public CLIUtils(Scanner sc) {
-		this.sc = sc;
-	}
+    /**
+     * Constructor.
+     * @param sc scanner to type inputs
+     */
+    public CLIUtils(Scanner sc) {
+        this.sc = sc;
+    }
 
-	/**
-	 * Display the help menu.
-	 */
-	protected void displayWelcomeMsg() {
-		System.out.println("		|############################################|");
-		System.out.println("		| Welcome to the fabulous Computer-Database! |");
-		System.out.println("		| Here are the available commands:           |");
-		System.out.println("		|############################################|");
-		System.out.println("		|                                            |");
-		System.out.println("		|  1 list -company.                          |");
-		System.out.println("		|  2 list -computer.                         |");
-		System.out.println("		|  3 create.                                 |");
-		System.out.println("		|  4 update.                                 |");
-		System.out.println("		|  5 delete computer.                        |");
-		System.out.println("		|  6 delete company.                         |");
-		System.out.println("		|  7 details.                                |");
-		System.out.println("		|  8 exit.\n                                 |");
-		System.out.println("		|                                            |");
-		System.out.println("		|############################################|");
-	}
+    /**
+     * Display the help menu.
+     */
+    protected void displayWelcomeMsg() {
+        System.out.println("        |############################################|");
+        System.out.println("        | Welcome to the fabulous Computer-Database! |");
+        System.out.println("        | Here are the available commands:           |");
+        System.out.println("        |############################################|");
+        System.out.println("        |                                            |");
+        System.out.println("        |  1 list -company.                          |");
+        System.out.println("        |  2 list -computer.                         |");
+        System.out.println("        |  3 create.                                 |");
+        System.out.println("        |  4 update.                                 |");
+        System.out.println("        |  5 delete computer.                        |");
+        System.out.println("        |  6 delete company.                         |");
+        System.out.println("        |  7 details.                                |");
+        System.out.println("        |  8 exit.\n                                 |");
+        System.out.println("        |                                            |");
+        System.out.println("        |############################################|");
+    }
 
-	/**
-	 * Print the list of computers.
-	 * 
-	 * @param computerService
-	 */
-	protected void listComputer(ComputerService computerService) {
-		List<Computer> computers = computerService.getAll();
+    /**
+     * Print the list of computers.
+     * @param computerService service to pass
+     */
+    protected void listComputer(ComputerService computerService) {
+        List<Computer> computers = computerService.getAll();
 
-		for (Computer computer : computers) {
-			System.out.println(computer);
-		}
-	}
+        for (Computer computer : computers) {
+            System.out.println(computer);
+        }
+    }
 
-	/**
-	 * Print the list of companies.
-	 * 
-	 * @param companyService
-	 */
-	protected void listCompany(CompanyService companyService) {
-		List<Company> companies = companyService.getAll();
+    /**
+     * Print the list of companies.
+     * @param companyService service to pass
+     */
+    protected void listCompany(CompanyService companyService) {
+        List<Company> companies = companyService.getAll();
 
-		for (Company company : companies) {
-			System.out.println(company);
-		}
-	}
+        for (Company company : companies) {
+            System.out.println(company);
+        }
+    }
 
-	/**
-	 * Create a new computer according to the informations asked.
-	 * 
-	 * @param computerService
-	 */
-	protected void createComputer(ComputerService computerService) throws IntegrityException {
+    /**
+     * Create a new computer according to the informations asked.
+     * @param computerService service to pass
+     * @exception IntegrityException thrown if integrity is not correct
+     */
+    protected void createComputer(ComputerService computerService) throws IntegrityException {
 
-		try {
-			sc.nextLine();
+        try {
 
-			Boolean before = true;
-			String buffer = null;
-			Timestamp discontinuedDate = null;
-			Timestamp IntroducedDate = null;
+            Boolean before = true;
+            Computer computer = new Computer();
 
-			System.out.println("Enter the name of the computer:");
-			buffer = sc.nextLine();
-			Computer computer = new Computer(buffer);
+            computer.setName(askString("Enter the name of the computer"));
 
-			System.out
-					.println("Introduction date of the computer, format YYYY-MM-DD (press 'enter' for current date):");
-			buffer = sc.nextLine();
+            try {
+                computer.setIntroduced(LocalDate.parse(
+                        askString("New introducing date of the computer, format YYYY-MM-DD")));
+            } catch (IllegalArgumentException iae) {
+                System.out.println("Not a good format for a date.");
+            }
 
-			if ("".equals(buffer)) {
-				IntroducedDate = new Timestamp(new java.util.Date().getTime());
-			} else {
+            do {
+                try {
+                    computer.setDiscontinued(LocalDate.parse(askString(
+                            "New discontinuing date of the computer, format YYYY-MM-DD")));
+                } catch (IllegalArgumentException iae) {
+                    System.out.println("Not a good format for a date.");
+                }
 
-				try {
-					IntroducedDate = Timestamp.valueOf(buffer.concat(" 00:00:00"));
-				} catch (IllegalArgumentException iae) {
-					System.out.println("Not a good format for a date. Current date has been chosen.");
-					IntroducedDate = new Timestamp(new java.util.Date().getTime());
-				}
-			}
+                if (computer.getDiscontinued().isBefore(computer.getIntroduced())) {
+                    System.out.println(
+                            "This date is invalid because earlier than the introduction date");
+                } else {
+                    before = false;
+                }
 
-			//computer.setIntroduced(IntroducedDate.toLocalDateTime());
+            } while (before);
 
-			do {
+            Company company = new Company();
+            company.setId(askInt("Enter the new company tag of the computer:"));
+            computer.setCompany(company);
 
-				System.out.println(
-						"Discontinuing date of the computer, format YYYY-MM-DD (press 'enter' for current date):");
-				buffer = sc.nextLine();
+            computerService.create(computer);
 
-				if ("".equals(buffer)) {
-					discontinuedDate = new Timestamp(new java.util.Date().getTime());
-				} else {
+        } catch (IntegrityException ie) {
+            throw ie;
+        }
+    }
 
-					try {
-						discontinuedDate = Timestamp.valueOf(buffer.concat(" 00:00:00"));
-					} catch (IllegalArgumentException iae) {
-						System.out.println("Not a good format for a date. Current date has been chosen.");
-						discontinuedDate = new Timestamp(new java.util.Date().getTime());
-					}
-				}
+    /**
+     * Delete a computer according to the id entered.
+     * @param computerService service to pass
+     * @exception IntegrityException thrown if integrity is not correct
+     */
+    protected void deleteComputer(ComputerService computerService) throws IntegrityException {
 
-				if (discontinuedDate.before(IntroducedDate)) {
-					System.out.println("This date is invalid because earlier than the introduction date");
-				} else {
-					before = false;
-				}
+        try {
+            computerService.delete(askInt("Enter the id of the computer to delete:"));
+        } catch (IntegrityException ie) {
+            throw ie;
+        }
+    }
 
-			} while (before);
+    /**
+     * Delete a company according to the id entered.
+     * @param companyService service to pass
+     * @exception IntegrityException thrown if integrity is not correct
+     */
+    protected void deleteCompany(CompanyService companyService) throws IntegrityException {
 
-			//computer.setDiscontinued(discontinuedDate.toLocalDateTime());
+        try {
+            companyService.delete(askInt("Enter the id of the company to delete:"));
+        } catch (IntegrityException ie) {
+            throw ie;
+        }
+    }
 
-			System.out.println("Enter the company tag of the computer:");
-			int company_id = sc.nextInt();
+    /**
+     * update a computer according to the informations entered by the user.
+     * @param computerService service to pass
+     * @exception IntegrityException thrown if integrity is not correct
+     */
+    protected void updateComputer(ComputerService computerService) throws IntegrityException {
 
-			Company company = new Company();
-			company.setId(company_id);
+        try {
+            Boolean before = true;
 
-			computer.setCompany(company);
+            Computer computer = computerService.get(askInt("Enter the id of the computer:"));
 
-			computerService.create(computer);
+            System.out.println("Computer retrieved: " + computer);
 
-			sc.nextLine();
+            computer.setName(askString(
+                    "Enter the new name of the computer (press 'enter' to keep the old name):"));
 
-		} catch (IntegrityException ie) {
-			throw ie;
-		}
-	}
+            try {
+                computer.setIntroduced(LocalDate.parse(askString(
+                        "New introducing date of the computer, format YYYY-MM-DD (press 'enter' to keep the old date):")));
+            } catch (IllegalArgumentException iae) {
+                System.out.println("Not a good format for a date. Date hasn't been modified.");
+            }
 
-	/**
-	 * Delete a computer according to the id entered.
-	 * 
-	 * @param computerService
-	 * @throws SQLException 
-	 */
-	protected void deleteComputer(ComputerService computerService) throws IntegrityException, SQLException {
+            do {
 
-		try {
-			System.out.println("Enter the id of the computer to delete:");
-			int id = sc.nextInt();
+                try {
+                    computer.setDiscontinued(LocalDate.parse(askString(
+                            "New discontinuing date of the computer, format YYYY-MM-DD (press 'enter' to keep the old date):")));
+                } catch (IllegalArgumentException iae) {
+                    System.out.println("Not a good format for a date. Date hasn't been modified.");
+                }
 
-			computerService.delete(id);
+                if (computer.getDiscontinued().isBefore(computer.getIntroduced())) {
+                    System.out.println(
+                            "This date is invalid because earlier than the introduction date");
+                } else {
+                    before = false;
+                }
 
-		} catch (IntegrityException ie) {
-			throw ie;
-		}
-	}
-	
-	/**
-	 * Delete a company according to the id entered.
-	 * 
-	 * @param companyService
-	 * @throws SQLException 
-	 */
-	protected void deleteCompany(CompanyService companyService) throws IntegrityException, SQLException {
+            } while (before);
 
-		try {
-			System.out.println("Enter the id of the company to delete:");
-			int id = sc.nextInt();
+            Company company = new Company();
+            company.setId(askInt(
+                    "Enter the new company tag of the computer (press 'enter' to keep the old one):"));
+            computer.setCompany(company);
 
-			companyService.delete(id);
+            computerService.update(computer);
 
-		} catch (IntegrityException ie) {
-			throw ie;
-		}
-	}
+        } catch (IntegrityException ie) {
+            throw ie;
+        }
+    }
 
-	/**
-	 * update a computer according to the informations entered by the user.
-	 * 
-	 * @param computerService
-	 */
-	protected void updateComputer(ComputerService computerService) throws IntegrityException {
+    /**
+     * Print the details of the computer according to the id entered.
+     * @param computerService service to pass
+     * @exception IntegrityException thrown if integrity is not correct
+     */
+    protected void detailsComputer(ComputerService computerService) throws IntegrityException {
 
-		try {
-			Boolean before = true;
-			String buffer = null;
-			Timestamp discontinuedDate = null;
-			Timestamp IntroducedDate = null;
+        try {
+            Computer computer = computerService
+                    .get(askInt("Enter the id of the computer to retrieve:"));
+            System.out.println(computer);
 
-			System.out.println("Enter the id of the computer:");
-			int bufferInt = sc.nextInt();
-			sc.nextLine();
+        } catch (IntegrityException ie) {
+            throw ie;
+        }
+    }
 
-			Computer computer = computerService.get(bufferInt);
+    /**
+     * Print a message then get client input.
+     * @param msg message to print
+     * @return client input
+     */
+    protected String askString(String msg) {
 
-			System.out.print("Computer retrieved: ");
-			System.out.println(computer);
+        System.out.println(msg);
+        String buffer = null;
 
-			System.out.println("Enter the new name of the computer (press 'enter' to keep the old name):");
-			buffer = sc.nextLine();
+        while ("".equals(buffer) || buffer == null) {
+            buffer = sc.nextLine();
+        }
 
-			if (!"".equals(buffer)) {
-				computer.setName(buffer);
-			}
+        return buffer;
+    }
 
-			System.out.println(
-					"New introducing date of the computer, format YYYY-MM-DD (press 'enter' to keep the old date):");
-			buffer = sc.nextLine();
+    /**
+     * Print a message then get client input.
+     * @param msg message to print
+     * @return client input
+     */
+    protected String askStringUnprotected(String msg) {
 
-			if (!"".equals(buffer)) {
+        System.out.println(msg);
+        String buffer = sc.nextLine();
 
-				try {
-					IntroducedDate = Timestamp.valueOf(buffer.concat(" 00:00:00"));
-					//computer.setIntroduced(IntroducedDate.toLocalDateTime());
-				} catch (IllegalArgumentException iae) {
-					System.out.println("Not a good format for a date. Date hasn't been modified.");
-				}
-			}
+        return buffer;
+    }
 
-			do {
+    /**
+     * Print a message then get client input.
+     * @param msg message to print
+     * @return client input
+     */
+    protected int askInt(String msg) {
 
-				System.out.println(
-						"New discontinuing date of the computer, format YYYY-MM-DD (press 'enter' to keep the old date):");
-				buffer = sc.nextLine();
+        System.out.println(msg);
+        int buffer = sc.nextInt();
 
-				if (!"".equals(buffer)) {
-
-					try {
-						discontinuedDate = Timestamp.valueOf(buffer.concat(" 00:00:00"));
-						//computer.setDiscontinued(discontinuedDate.toLocalDateTime());
-					} catch (IllegalArgumentException iae) {
-						System.out.println("Not a good format for a date. Date hasn't been modified.");
-					}
-				}
-
-				if (discontinuedDate.before(IntroducedDate)) {
-					System.out.println("This date is invalid because earlier than the introduction date");
-				} else {
-					before = false;
-				}
-
-			} while (before);
-
-			System.out.println("Enter the new company tag of the computer (press 'enter' to keep the old one):");
-			buffer = sc.nextLine();
-
-			if (!"".equals(buffer)) {
-
-				try {
-					// computer.setCompany_id(Integer.parseInt(buffer));
-				} catch (NumberFormatException nfe) {
-					System.out.println("NumberFormatException: " + nfe.getMessage());
-				}
-			}
-
-			computerService.update(computer);
-
-		} catch (IntegrityException ie) {
-			throw ie;
-		}
-	}
-
-	/**
-	 * Print the details of the computer according to the id entered.
-	 * 
-	 * @param computerService
-	 */
-	protected void detailsComputer(ComputerService computerService) throws IntegrityException {
-
-		try {
-			System.out.println("Enter the id of the computer to retrieve:");
-			int id = sc.nextInt();
-
-			Computer computer = computerService.get(id);
-			System.out.println(computer);
-
-		} catch (IntegrityException ie) {
-			throw ie;
-		}
-	}
+        return buffer;
+    }
 }
