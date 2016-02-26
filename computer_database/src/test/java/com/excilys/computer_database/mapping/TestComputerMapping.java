@@ -3,6 +3,8 @@ package com.excilys.computer_database.mapping;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -11,14 +13,17 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.util.Properties;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.excilys.computer_database.dto.ComputerDTO;
+import com.excilys.computer_database.persistence.db.ConnectionFactory;
 import com.excilys.computer_database.persistence.db.utils.DbUtils;
 import com.excilys.computer_database.persistence.model.Company;
 import com.excilys.computer_database.persistence.model.Computer;
@@ -32,9 +37,9 @@ public class TestComputerMapping {
     private static final String CREATE_COMPUTER_QUERY = "INSERT INTO computer (name, introduced, discontinued, company_id) values (?, ?, ?, ?)";
 
     // Test Database Information
-    public static final String TEST_URL = "jdbc:mysql://localhost/test_database?zeroDateTimeBehavior=convertToNull";
-    public static final String TEST_USER = "root";
-    public static final String TEST_PASSWORD = "qwerty1234";
+    public static String test_url;
+    public static String test_user;
+    public static String test_password;
 
     private Connection connection;
     private Statement statement;
@@ -47,11 +52,28 @@ public class TestComputerMapping {
     private Connection getConnection() {
         Connection connection = null;
         try {
-            connection = DriverManager.getConnection(TEST_URL, TEST_USER, TEST_PASSWORD);
+            connection = DriverManager.getConnection(test_url, test_user, test_password);
         } catch (SQLException e) {
             logger.error("Cannot connect to the test database");
         }
         return connection;
+    }
+    
+    /**
+     * 
+     * @throws IOException
+     */
+    @BeforeClass
+    public static void executeBeforeAllTests() throws IOException{
+        Properties prop = new Properties();
+        InputStream in = ConnectionFactory.class.getClassLoader()
+                .getResourceAsStream("database.properties");
+        prop.load(in);
+        in.close();
+        
+        test_url = prop.getProperty("datasource.url");
+        test_user = prop.getProperty("datasource.username");
+        test_password = prop.getProperty("datasource.password");
     }
 
     /**
@@ -59,7 +81,7 @@ public class TestComputerMapping {
      * Then add a computer.
      */
     @Before
-    public void executeBeforeAllTests() {
+    public void executeBeforeEachTests() {
 
         try {
             connection = getConnection();
