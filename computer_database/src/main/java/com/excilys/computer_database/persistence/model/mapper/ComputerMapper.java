@@ -43,7 +43,7 @@ public interface ComputerMapper {
         }
 
         Company company = new Company();
-        company.setId(rs.getInt("company.id"));
+        company.setId(rs.getLong("company.id"));
         company.setName(rs.getString("company.name"));
         computer.setCompany(company);
 

@@ -87,23 +87,20 @@ public class CLIUtils {
             computer.setName(askString("Enter the name of the computer"));
 
             try {
-                computer.setIntroduced(LocalDate.parse(
-                        askString("New introducing date of the computer, format YYYY-MM-DD")));
+                computer.setIntroduced(LocalDate.parse(askString("New introducing date of the computer, format YYYY-MM-DD")));
             } catch (IllegalArgumentException iae) {
                 System.out.println("Not a good format for a date.");
             }
 
             do {
                 try {
-                    computer.setDiscontinued(LocalDate.parse(askString(
-                            "New discontinuing date of the computer, format YYYY-MM-DD")));
+                    computer.setDiscontinued(LocalDate.parse(askString("New discontinuing date of the computer, format YYYY-MM-DD")));
                 } catch (IllegalArgumentException iae) {
                     System.out.println("Not a good format for a date.");
                 }
 
                 if (computer.getDiscontinued().isBefore(computer.getIntroduced())) {
-                    System.out.println(
-                            "This date is invalid because earlier than the introduction date");
+                    System.out.println("This date is invalid because earlier than the introduction date");
                 } else {
                     before = false;
                 }
@@ -111,7 +108,7 @@ public class CLIUtils {
             } while (before);
 
             Company company = new Company();
-            company.setId(askInt("Enter the new company tag of the computer:"));
+            company.setId((long) askInt("Enter the new company tag of the computer:"));
             computer.setCompany(company);
 
             computerService.create(computer);
@@ -192,8 +189,8 @@ public class CLIUtils {
             } while (before);
 
             Company company = new Company();
-            company.setId(askInt(
-                    "Enter the new company tag of the computer (press 'enter' to keep the old one):"));
+            company.setId((long) (askInt(
+                    "Enter the new company tag of the computer (press 'enter' to keep the old one):")));
             computer.setCompany(company);
 
             computerService.update(computer);
@@ -211,8 +208,7 @@ public class CLIUtils {
     protected void detailsComputer(ComputerService computerService) throws IntegrityException {
 
         try {
-            Computer computer = computerService
-                    .get(askInt("Enter the id of the computer to retrieve:"));
+            Computer computer = computerService.get(askInt("Enter the id of the computer to retrieve:"));
             System.out.println(computer);
 
         } catch (IntegrityException ie) {

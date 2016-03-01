@@ -29,7 +29,7 @@ public class TestComputerService {
     private static ComputerDAOImpl compDAO = Mockito.mock(ComputerDAOImpl.class);
 
     /**
-     * Before everuthing, mock the company DAO.
+     * Before everything, mock the company DAO.
      */
     @BeforeClass
     public static void executeBeforeTests() {
@@ -38,7 +38,7 @@ public class TestComputerService {
                 .thenReturn(new ArrayList<Computer>());
         Mockito.when(compDAO.get(Matchers.anyInt())).thenReturn(new Computer("Dummy Computer"));
         Mockito.when(compDAO.get(Matchers.anyString())).thenReturn(new Computer("Dummy Computer"));
-        Mockito.when(compDAO.create(Matchers.any(Computer.class))).thenReturn(100);
+        Mockito.when(compDAO.create(Matchers.any(Computer.class))).thenReturn(100l);
 
         PowerMockito.mockStatic(ComputerDAOImpl.class);
         PowerMockito.when(ComputerDAOImpl.getInstance()).thenReturn(compDAO);
@@ -105,7 +105,7 @@ public class TestComputerService {
         Computer computer = new Computer("Dummy Computer");
         assertEquals(100, compService.create(computer));
 
-        computer.setCompany(new Company(1, "Dummy Comypany"));
+        computer.setCompany(new Company(1l, "Dummy Comypany"));
         computer.setIntroduced(LocalDate.of(2012, 1, 1));
         computer.setDiscontinued(LocalDate.now());
         assertEquals(100, compService.create(computer));
@@ -141,7 +141,7 @@ public class TestComputerService {
     @Test(expected = IntegrityException.class)
     public void createComputerInvalidDateType() {
         Computer computer = new Computer();
-        computer.setCompany(new Company(1, "Dummy Comypany"));
+        computer.setCompany(new Company(1l, "Dummy Comypany"));
         computer.setIntroduced(LocalDate.now());
         computer.setDiscontinued(LocalDate.of(2012, 1, 1));
 
@@ -178,7 +178,7 @@ public class TestComputerService {
     @Test(expected = IntegrityException.class)
     public void updateComputerInvalidDateType() {
         Computer computer = new Computer();
-        computer.setCompany(new Company(1, "Dummy Comypany"));
+        computer.setCompany(new Company(1l, "Dummy Comypany"));
         computer.setIntroduced(LocalDate.now());
         computer.setDiscontinued(LocalDate.of(2012, 1, 1));
 

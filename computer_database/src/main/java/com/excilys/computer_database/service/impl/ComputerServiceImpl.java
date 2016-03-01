@@ -24,7 +24,7 @@ public class ComputerServiceImpl implements ComputerService {
 
     private static final Logger LOGGER = LoggerFactory
             .getLogger(ComputerServiceImpl.class.getName());
-    private static ComputerServiceImpl instance;
+    private static ComputerServiceImpl instance = new ComputerServiceImpl();
     private static ComputerDAO computerDAO;
 
     /**
@@ -32,10 +32,6 @@ public class ComputerServiceImpl implements ComputerService {
      * @return single instance of ComputerServiceImpl
      */
     public static ComputerServiceImpl getInstance() {
-        if (instance == null) {
-            instance = new ComputerServiceImpl();
-        }
-
         return instance;
     }
 
@@ -85,7 +81,7 @@ public class ComputerServiceImpl implements ComputerService {
     }
 
     @Override
-    public int create(Computer computer) {
+    public long create(Computer computer) {
         ComputerValidator.validate(computer);
 
         return computerDAO.create(computer);

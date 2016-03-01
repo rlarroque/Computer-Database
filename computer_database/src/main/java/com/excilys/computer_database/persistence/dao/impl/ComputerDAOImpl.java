@@ -24,7 +24,7 @@ import com.excilys.computer_database.persistence.model.mapper.ComputerMapper;
  */
 public class ComputerDAOImpl implements ComputerDAO {
 
-    private static ComputerDAOImpl instance;
+    private static ComputerDAOImpl instance = new ComputerDAOImpl();
     private static final Logger LOGGER = LoggerFactory.getLogger(ComputerDAOImpl.class.getName());
 
     /**
@@ -32,10 +32,6 @@ public class ComputerDAOImpl implements ComputerDAO {
      * @return the instance
      */
     public static ComputerDAOImpl getInstance() {
-        if (instance == null) {
-            instance = new ComputerDAOImpl();
-        }
-
         return instance;
     }
 
@@ -150,13 +146,13 @@ public class ComputerDAOImpl implements ComputerDAO {
     }
 
     @Override
-    public int create(Computer computer) {
+    public long create(Computer computer) {
 
         Connection connection = DAOUtils.initConnection();
         PreparedStatement preparedStatement = null;
         ResultSet resSet = null;
 
-        int resultKey = 0;
+        long resultKey = 0;
 
         try {
             preparedStatement = connection.prepareStatement(QueryBuilder.createQuery(), Statement.RETURN_GENERATED_KEYS);

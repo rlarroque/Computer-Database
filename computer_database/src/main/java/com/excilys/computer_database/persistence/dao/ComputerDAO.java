@@ -45,7 +45,7 @@ public interface ComputerDAO {
      * @param c a computer previously created
      * @return the id of the created computer
      */
-    int create(Computer c);
+    long create(Computer c);
 
     /**
      * Method used to update an existing computer. A computer has to passed as an argument so all its parameters can be modified in the db.

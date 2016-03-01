@@ -13,7 +13,7 @@ public class ComputerDTO {
     public String introducedDate;
     public String discontinuedDate;
     public String companyName;
-    public int companyId;
+    public long companyId;
 
     public long getId() {
         return id;
@@ -55,11 +55,11 @@ public class ComputerDTO {
         this.companyName = companyName;
     }
 
-    public int getCompanyId() {
+    public long getCompanyId() {
         return companyId;
     }
 
-    public void setCompanyId(int companyId) {
+    public void setCompanyId(long companyId) {
         this.companyId = companyId;
     }
 

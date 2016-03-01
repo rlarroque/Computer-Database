@@ -55,7 +55,7 @@ public class ConnectionFactory {
     public static final String DRIVER_CLASS = "com.mysql.jdbc.Driver";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ConnectionFactory.class.getName());
-    private static ConnectionFactory instance;
+    private static ConnectionFactory instance = new ConnectionFactory();
     private TransactionManager transactionMngr;
     private static BoneCP connectionPool;
 
@@ -64,10 +64,6 @@ public class ConnectionFactory {
      * @return the instance
      */
     public static ConnectionFactory getInstance() {
-        if (instance == null) {
-            instance = new ConnectionFactory();
-        }
-
         return instance;
     }
 

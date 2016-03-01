@@ -169,7 +169,7 @@ public class TestComputerDAOImpl {
     @Test
     public void testCreateComputer() {
 
-        Company company = new Company(1, "Dummy Company");
+        Company company = new Company(1l, "Dummy Company");
         Computer computer = new Computer("Dummy computer");
         computer.setIntroduced(LocalDate.of(2000, 1, 1));
         computer.setDiscontinued(LocalDate.of(2001, 1, 1));
@@ -197,7 +197,7 @@ public class TestComputerDAOImpl {
             logger.error("Cannot create computer");
         }
 
-        Company company = new Company(1, "Dummy Company");
+        Company company = new Company(1l, "Dummy Company");
         Computer computer = new Computer("Not so dummy computer");
         computer.setId(1);
         computer.setIntroduced(LocalDate.of(2005, 1, 1));

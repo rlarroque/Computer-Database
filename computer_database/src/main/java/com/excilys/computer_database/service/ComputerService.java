@@ -44,7 +44,7 @@ public interface ComputerService {
      * @param computer a computer previously created
      * @return the id of the created computer
      */
-    int create(Computer computer);
+    long create(Computer computer);
 
     /**
      * Method used to update an existing computer. A computer has to passed as an argument so all its parameters can be modified in the db.

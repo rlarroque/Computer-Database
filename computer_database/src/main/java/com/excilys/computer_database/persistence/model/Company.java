@@ -7,14 +7,14 @@ package com.excilys.computer_database.persistence.model;
  */
 public class Company {
 
-    private Integer id;
+    private Long id;
     private String name;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -31,7 +31,7 @@ public class Company {
      * @param id the id
      * @param name the name
      */
-    public Company(Integer id, String name) {
+    public Company(Long id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -60,7 +60,7 @@ public class Company {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + id;
+        result = prime * result + (int) (id ^ (id >>> 32));
         result = prime * result + ((name == null) ? 0 : name.hashCode());
         return result;
     }
@@ -96,4 +96,5 @@ public class Company {
 
         return true;
     }
+
 }

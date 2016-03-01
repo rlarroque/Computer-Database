@@ -9,14 +9,14 @@ package com.excilys.computer_database.dto;
 public class CompanyDTO {
 
     public String name;
-    public int id;
+    public long id;
 
     /**
      * Constructor.
      * @param id id of the dto
      * @param name name of the dto
      */
-    public CompanyDTO(int id, String name) {
+    public CompanyDTO(long id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -35,11 +35,11 @@ public class CompanyDTO {
         this.name = name;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

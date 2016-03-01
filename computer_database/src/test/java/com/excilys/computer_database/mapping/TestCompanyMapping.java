@@ -130,7 +130,7 @@ public class TestCompanyMapping {
      */
     @Test
     public void testCompanyToDTO() {
-        Company company = new Company(1, "Dummy Company");
+        Company company = new Company(1l, "Dummy Company");
         CompanyDTO dto = CompanyMapper.toDTO(company);
         assertEquals(dto.getName(), company.getName());
     }

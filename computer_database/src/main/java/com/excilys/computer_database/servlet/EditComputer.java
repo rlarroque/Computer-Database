@@ -51,8 +51,8 @@ public class EditComputer extends HttpServlet {
         String name = request.getParameter("computerName");
         String introduced = request.getParameter("introduced");
         String discontinued = request.getParameter("discontinued");
-        int id = Integer.parseInt(request.getParameter("computerId"));
-        int companyId = Integer.parseInt(request.getParameter("companyId"));
+        Long id = Long.parseLong(request.getParameter("computerId"));
+        Long companyId = Long.parseLong(request.getParameter("companyId"));
 
         ComputerDTO dto = new ComputerDTO(name);
         dto.setId(id);

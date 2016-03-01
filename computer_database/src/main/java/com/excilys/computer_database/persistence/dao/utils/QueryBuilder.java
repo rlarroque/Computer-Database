@@ -124,7 +124,7 @@ public class QueryBuilder {
         if (computer.getCompany() == null) {
             preparedStatement.setObject(4, null);
         } else {
-            preparedStatement.setInt(4, computer.getCompany().getId());
+            preparedStatement.setLong(4, computer.getCompany().getId());
         }
     }
 
@@ -149,7 +149,7 @@ public class QueryBuilder {
                 Timestamp.valueOf(LocalDateTime.of(computer.getIntroduced(), LocalTime.of(0, 0))));
         preparedStatement.setTimestamp(3, Timestamp
                 .valueOf(LocalDateTime.of(computer.getDiscontinued(), LocalTime.of(0, 0))));
-        preparedStatement.setInt(4, computer.getCompany().getId());
+        preparedStatement.setLong(4, computer.getCompany().getId());
         preparedStatement.setLong(5, computer.getId());
     }
 

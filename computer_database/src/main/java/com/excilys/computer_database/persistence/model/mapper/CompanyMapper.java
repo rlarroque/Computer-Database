@@ -26,7 +26,7 @@ public interface CompanyMapper {
      * @throws IntegrityException thrown if the integrity is not respected
      */
     static Company toCompany(ResultSet rs) throws SQLException, IntegrityException {
-        Company company = new Company(rs.getInt("id"), rs.getString("name"));
+        Company company = new Company(rs.getLong("id"), rs.getString("name"));
         CompanyValidator.validate(company);
 
         return company;

@@ -159,7 +159,7 @@ public class TestComputerMapping {
     @Test
     public void testComputerToDTO() {
 
-        Company company = new Company(1, "Dummy Company");
+        Company company = new Company(1l, "Dummy Company");
         Computer computer = new Computer("Dummy Computer");
         computer.setIntroduced(LocalDate.of(2000, 1, 1));
         computer.setDiscontinued(LocalDate.of(2001, 1, 1));

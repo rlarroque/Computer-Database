@@ -22,7 +22,7 @@ import com.excilys.computer_database.persistence.model.mapper.CompanyMapper;
  */
 public class CompanyDAOImpl implements CompanyDAO {
 
-    private static CompanyDAOImpl instance;
+    private static CompanyDAOImpl instance = new CompanyDAOImpl();;
 
     // Query that will be used.
     private static final String GET_COMPANIES_QUERY = "SELECT * FROM company;";
@@ -34,10 +34,6 @@ public class CompanyDAOImpl implements CompanyDAO {
      * @return the instance
      */
     public static CompanyDAOImpl getInstance() {
-        if (instance == null) {
-            instance = new CompanyDAOImpl();
-        }
-
         return instance;
     }
 
