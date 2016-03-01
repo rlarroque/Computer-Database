@@ -9,17 +9,17 @@ import java.time.LocalDate;
  */
 public class Computer {
 
-    private int id;
+    private long id;
     private String name;
     private LocalDate introduced;
     private LocalDate discontinued;
     private Company company;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -96,15 +96,12 @@ public class Computer {
         int result = 1;
         result = prime * result + ((company == null) ? 0 : company.hashCode());
         result = prime * result + ((discontinued == null) ? 0 : discontinued.hashCode());
-        result = prime * result + id;
+        result = prime * result + (int) (id ^ (id >>> 32));
         result = prime * result + ((introduced == null) ? 0 : introduced.hashCode());
         result = prime * result + ((name == null) ? 0 : name.hashCode());
         return result;
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

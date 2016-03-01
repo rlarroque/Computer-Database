@@ -23,5 +23,5 @@ public interface CompanyDAO {
      * @param id id of the company to delete
      * @throws SQLException thrown in case of SQL issues
      */
-    void delete(int id) throws SQLException;
+    void delete(long id) throws SQLException;
 }

@@ -68,14 +68,16 @@ public class CompanyDAOImpl implements CompanyDAO {
     }
 
     @Override
-    public void delete(int id) throws SQLException {
+    public void delete(long id) throws SQLException {
         Connection connection = ConnectionFactory.getConnectionNoCommit();
         PreparedStatement preparedStatement = null;
 
         preparedStatement = connection.prepareStatement(DELETE_COMPANY_QUERY);
         preparedStatement.execute("SET FOREIGN_KEY_CHECKS=0");
-        preparedStatement.setInt(1, id);
+        preparedStatement.setLong(1, id);
         preparedStatement.executeUpdate();
         preparedStatement.execute("SET FOREIGN_KEY_CHECKS=1");
+
+        LOGGER.info("Company with id " + id + " deleted.");
     }
 }

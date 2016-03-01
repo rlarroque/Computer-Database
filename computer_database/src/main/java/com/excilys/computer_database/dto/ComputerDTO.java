@@ -8,18 +8,18 @@ package com.excilys.computer_database.dto;
  */
 public class ComputerDTO {
 
-    public int id;
+    public long id;
     public String name;
     public String introducedDate;
     public String discontinuedDate;
     public String companyName;
     public int companyId;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

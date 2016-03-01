@@ -61,7 +61,7 @@ public class ConnectionFactory {
 
     /**
      * Get the singleton instance of the connection factory.
-     * @return the isntance
+     * @return the instance
      */
     public static ConnectionFactory getInstance() {
         if (instance == null) {
@@ -80,8 +80,7 @@ public class ConnectionFactory {
 
             // open and read the properties file, then close it.
             Properties prop = new Properties();
-            InputStream in = ConnectionFactory.class.getClassLoader()
-                    .getResourceAsStream("database.properties");
+            InputStream in = ConnectionFactory.class.getClassLoader().getResourceAsStream("database.properties");
             prop.load(in);
             in.close();
 
@@ -96,21 +95,16 @@ public class ConnectionFactory {
 
             transactionMngr = new TransactionManager();
 
+            LOGGER.info("Connected to the database");
         } catch (ClassNotFoundException e) {
             LOGGER.error("Cannot load the drive in ConnectionFactory!!! " + e.getMessage());
             throw new ConnectionException("Cannot load the drive in ConnectionFactory");
         } catch (IOException e) {
-            LOGGER.error(
-                    "Connection setup failed in ConnectionFactory due to preperty file reading!!! "
-                            + e.getMessage());
-            throw new ConnectionException(
-                    "Connection setup failed in ConnectionFactory due to preperty file reading");
+            LOGGER.error("Connection setup failed in ConnectionFactory due to preperty file reading!!! " + e.getMessage());
+            throw new ConnectionException("Connection setup failed in ConnectionFactory due to preperty file reading");
         } catch (SQLException e) {
-            LOGGER.error(
-                    "Connection setup failed in ConnectionFactory due to coonection pool issues!!! "
-                            + e.getMessage());
-            throw new ConnectionException(
-                    "Connection setup failed in ConnectionFactory due to coonection pool issues");
+            LOGGER.error("Connection setup failed in ConnectionFactory due to coonection pool issues!!! " + e.getMessage());
+            throw new ConnectionException("Connection setup failed in ConnectionFactory due to coonection pool issues");
         }
     }
 

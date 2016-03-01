@@ -20,7 +20,7 @@
 		<location>/WEB-INF/jsp/403.jsp</location>
 	</error-page>
 
-	<error-page>
+	<!--   <error-page>
 		<error-code>500</error-code>
 		<location>/WEB-INF/jsp/500.jsp</location>
 	</error-page>
@@ -33,7 +33,7 @@
 	<error-page>
 		<exception-type>com.excilys.computer_database.exception.IntegrityException</exception-type>
 		<location>/WEB-INF/jsp/500.jsp</location>
-	</error-page>
+	</error-page> -->
 
 	<jsp-config>
 	</jsp-config>

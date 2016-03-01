@@ -36,7 +36,7 @@ public class QueryBuilder {
      * @param id id of the company
      * @return the query
      */
-    public static String getComputersQuery(int id) {
+    public static String getComputersQuery(long id) {
         String query = GET_COMPUTER_QUERY.concat(" WHERE computer.company_id=" + id);
 
         return query;
@@ -82,7 +82,7 @@ public class QueryBuilder {
      * @param id id of the computer to retrieve
      * @return the query
      */
-    public static String getComputerQuery(int id) {
+    public static String getComputerQuery(long id) {
         String query = GET_COMPUTER_QUERY.concat(" WHERE computer.id=" + id);
 
         return query;
@@ -99,7 +99,7 @@ public class QueryBuilder {
     /**
      * Build the query to create a computer.
      * @param computer computer to create
-     * @param preparedStatement preparedstatement to modify
+     * @param preparedStatement prepared statement to modify
      * @throws SQLException thrown in case of SQL issues
      */
     public static void buildCreateQuery(Computer computer, PreparedStatement preparedStatement)
@@ -139,7 +139,7 @@ public class QueryBuilder {
     /**
      * Build the query to update a computer.
      * @param computer computer to update
-     * @param preparedStatement preparedstatement to modify
+     * @param preparedStatement prepared statement to modify
      * @throws SQLException thrown in case of SQL issues
      */
     public static void buildUpdateQuery(Computer computer, PreparedStatement preparedStatement)
@@ -150,7 +150,7 @@ public class QueryBuilder {
         preparedStatement.setTimestamp(3, Timestamp
                 .valueOf(LocalDateTime.of(computer.getDiscontinued(), LocalTime.of(0, 0))));
         preparedStatement.setInt(4, computer.getCompany().getId());
-        preparedStatement.setInt(5, computer.getId());
+        preparedStatement.setLong(5, computer.getId());
     }
 
     /**
@@ -158,7 +158,7 @@ public class QueryBuilder {
      * @param id id of the computer to delete
      * @return the query
      */
-    public static String deleteComputerQuery(Integer id) {
+    public static String deleteComputerQuery(Long id) {
         String query = DELETE_COMPUTER_QUERY.concat(id.toString());
 
         return query;
@@ -169,7 +169,7 @@ public class QueryBuilder {
      * @param id id of the company to delete
      * @return the query
      */
-    public static String deleteComputerByCompanyQuery(Integer id) {
+    public static String deleteComputerByCompanyQuery(Long id) {
         String query = DELETE_COMPUTER_COMPANY_QUERY.concat(id.toString());
 
         return query;

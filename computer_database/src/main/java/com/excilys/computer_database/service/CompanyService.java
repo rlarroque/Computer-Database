@@ -21,5 +21,5 @@ public interface CompanyService {
      * Delete a company based on the id passed. The computers with this company will also be deleted.
      * @param id id of the company to delete
      */
-    void delete(int id);
+    void delete(long id);
 }

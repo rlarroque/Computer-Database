@@ -75,13 +75,14 @@ public class ComputerDAOImpl implements ComputerDAO {
         List<Computer> computers = new ArrayList<>();
 
         try {
-            preparedStatement = connection
-                    .prepareStatement(QueryBuilder.getComputerPageQuery(page));
+            preparedStatement = connection.prepareStatement(QueryBuilder.getComputerPageQuery(page));
             resSet = preparedStatement.executeQuery();
 
             while (resSet.next()) {
                 computers.add(ComputerMapper.toComputer(resSet));
             }
+
+            LOGGER.info("Page of computers retrieved.");
 
         } catch (SQLException e) {
             LOGGER.error("Cannot get the page of computers!!! " + e.getMessage());
@@ -93,7 +94,7 @@ public class ComputerDAOImpl implements ComputerDAO {
     }
 
     @Override
-    public Computer get(int id) {
+    public Computer get(long id) {
 
         Connection connection = DAOUtils.initConnection();
         PreparedStatement preparedStatement = null;
@@ -108,6 +109,8 @@ public class ComputerDAOImpl implements ComputerDAO {
             if (resSet.next()) {
                 computer = ComputerMapper.toComputer(resSet);
             }
+
+            LOGGER.info("Computer with id " + id + " retrieved.");
 
         } catch (SQLException e) {
             LOGGER.error("Cannot get the computer with the id " + id + "!!! " + e.getMessage());
@@ -135,6 +138,8 @@ public class ComputerDAOImpl implements ComputerDAO {
                 computer = ComputerMapper.toComputer(resSet);
             }
 
+            LOGGER.info("Computer with name " + name + " retrieved.");
+
         } catch (SQLException e) {
             LOGGER.error("Cannot get the computer with the name " + name + "!!! " + e.getMessage());
         } finally {
@@ -154,8 +159,7 @@ public class ComputerDAOImpl implements ComputerDAO {
         int resultKey = 0;
 
         try {
-            preparedStatement = connection.prepareStatement(QueryBuilder.createQuery(),
-                    Statement.RETURN_GENERATED_KEYS);
+            preparedStatement = connection.prepareStatement(QueryBuilder.createQuery(), Statement.RETURN_GENERATED_KEYS);
             QueryBuilder.buildCreateQuery(computer, preparedStatement);
 
             preparedStatement.executeUpdate();
@@ -166,6 +170,8 @@ public class ComputerDAOImpl implements ComputerDAO {
             if (resSet.next()) {
                 resultKey = resSet.getInt(1);
             }
+
+            LOGGER.info("Computer with id " + computer.getId() + " created.");
 
         } catch (SQLException e) {
             LOGGER.error("Cannot create computer!!! " + e.getMessage());
@@ -190,6 +196,8 @@ public class ComputerDAOImpl implements ComputerDAO {
 
             connection.commit();
 
+            LOGGER.info("Computer with id " + computer.getId() + " updated.");
+
         } catch (SQLException e) {
             LOGGER.error("Cannot update computer!!! " + e.getMessage());
         } finally {
@@ -198,7 +206,7 @@ public class ComputerDAOImpl implements ComputerDAO {
     }
 
     @Override
-    public void delete(int id) throws SQLException {
+    public void delete(long id) throws SQLException {
 
         Connection connection = DAOUtils.initConnection();
         PreparedStatement preparedStatement = null;
@@ -209,6 +217,9 @@ public class ComputerDAOImpl implements ComputerDAO {
             preparedStatement.executeUpdate();
 
             connection.commit();
+
+            LOGGER.info("Computer with id " + id + " deleted.");
+
         } catch (SQLException e) {
             LOGGER.error("Cannot delete computer with id: " + id + "!!! " + e.getMessage());
         } finally {
@@ -217,19 +228,17 @@ public class ComputerDAOImpl implements ComputerDAO {
     }
 
     @Override
-    public void deleteByCompany(int id) throws SQLException {
+    public void deleteByCompany(long id) throws SQLException {
         Connection connection = DAOUtils.initConnection();
         PreparedStatement preparedStatement = null;
         ResultSet resSet = null;
 
         try {
-            preparedStatement = connection
-                    .prepareStatement(QueryBuilder.deleteComputerByCompanyQuery(id));
+            preparedStatement = connection.prepareStatement(QueryBuilder.deleteComputerByCompanyQuery(id));
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
-            LOGGER.error(
-                    "Cannot delete computers with company id: " + id + "!!! " + e.getMessage());
+            LOGGER.error("Cannot delete computers with company id: " + id + "!!! " + e.getMessage());
         } finally {
             // The connection will be closed at the end of the transaction
             DAOUtils.closeConnection(null, preparedStatement, resSet);
@@ -252,6 +261,7 @@ public class ComputerDAOImpl implements ComputerDAO {
             if (resSet.next()) {
                 computerNumber = resSet.getInt(1);
             }
+
         } catch (SQLException e) {
 
             LOGGER.error("Cannot count computers!!! " + e.getMessage());

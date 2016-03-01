@@ -65,7 +65,7 @@ public class ComputerServiceImpl implements ComputerService {
     }
 
     @Override
-    public Computer get(int id) {
+    public Computer get(long id) {
 
         if (id < 1) {
             throw new IntegrityException("Id cannot be negativ.");
@@ -98,7 +98,7 @@ public class ComputerServiceImpl implements ComputerService {
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(long id) {
 
         if (id < 1) {
             throw new IntegrityException("Id cannot be negativ.");
@@ -117,7 +117,7 @@ public class ComputerServiceImpl implements ComputerService {
     }
 
     @Override
-    public void deleteByCompany(int id) throws SQLException {
+    public void deleteByCompany(long id) throws SQLException {
         if (id < 1) {
             throw new IntegrityException("Id cannot be negativ.");
         }

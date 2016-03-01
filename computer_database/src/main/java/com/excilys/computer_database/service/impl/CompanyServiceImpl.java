@@ -23,19 +23,15 @@ import com.excilys.computer_database.service.ComputerService;
 public class CompanyServiceImpl implements CompanyService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CompanyServiceImpl.class.getName());
-    private static CompanyServiceImpl instance;
+    private static CompanyServiceImpl instance = new CompanyServiceImpl();
 
     private CompanyDAO companyDAO;
 
     /**
-     * Get the singleton instance of comapny service.
-     * @return the isntance
+     * Get the singleton instance of company service.
+     * @return the instance
      */
     public static CompanyServiceImpl getInstance() {
-        if (instance == null) {
-            instance = new CompanyServiceImpl();
-        }
-
         return instance;
     }
 
@@ -52,7 +48,7 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(long id) {
         Connection connection = ConnectionFactory.getConnection();
         ComputerService compService = ComputerServiceImpl.getInstance();
 
@@ -65,6 +61,7 @@ public class CompanyServiceImpl implements CompanyService {
 
             try {
                 connection.rollback();
+                LOGGER.info("Company cannot be deleted because of internal SQL error, transaction rollbacked.");
             } catch (SQLException e1) {
                 LOGGER.error("Cannot rollback current changes!!!");
             } finally {

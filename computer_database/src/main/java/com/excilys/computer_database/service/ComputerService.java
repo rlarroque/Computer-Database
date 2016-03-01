@@ -30,7 +30,7 @@ public interface ComputerService {
      * @param id the id of the computer
      * @return the retrieved computer itself
      */
-    Computer get(int id);
+    Computer get(long id);
 
     /**
      * Returns a computer according to the name passed.
@@ -56,14 +56,14 @@ public interface ComputerService {
      * Delete a computer according to the id passed.
      * @param id id of the computer you want to delete.
      */
-    void delete(int id);
+    void delete(long id);
 
     /**
      * Delete all computers sharing a company that has this id.
      * @param id id of the company
      * @throws SQLException thrown in case of SQL issues
      */
-    void deleteByCompany(int id) throws SQLException;
+    void deleteByCompany(long id) throws SQLException;
 
     /**
      * Retrieve the number if computers available on the db.
