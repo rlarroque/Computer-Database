@@ -33,7 +33,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 
     @Autowired
     private DataSource dataSource;
-    
+
     @Override
     public List<Computer> getAll() {
 
@@ -191,6 +191,7 @@ public class ComputerDAOImpl implements ComputerDAO {
             connection = dataSource.getConnection();
             preparedStatement = connection.prepareStatement(QueryBuilder.updateQuery());
             QueryBuilder.buildUpdateQuery(computer, preparedStatement);
+
             preparedStatement.executeUpdate();
 
             LOGGER.info("Computer with id " + computer.getId() + " updated.");
@@ -229,7 +230,8 @@ public class ComputerDAOImpl implements ComputerDAO {
         PreparedStatement preparedStatement = null;
         ResultSet resSet = null;
 
-        try {
+        throw new SQLException();
+        /*try {
             preparedStatement = connection.prepareStatement(QueryBuilder.deleteComputerByCompanyQuery(id));
             preparedStatement.executeUpdate();
 
@@ -238,7 +240,7 @@ public class ComputerDAOImpl implements ComputerDAO {
         } finally {
             // The connection will be closed at the end of the transaction
             DAOUtils.closeConnection(null, preparedStatement, resSet);
-        }
+        }*/
     }
 
     @Override

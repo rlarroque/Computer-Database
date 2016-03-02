@@ -55,7 +55,6 @@ public class DbUtils {
         }
     }
 
-
     /**
      * Close a passed prepared statement.
      * @param preparedStatement prepared statement to close
@@ -70,5 +69,4 @@ public class DbUtils {
             }
         }
     }
-
 }

@@ -1,6 +1,5 @@
 package com.excilys.computer_database.service.impl;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -43,25 +42,12 @@ public class CompanyServiceImpl implements CompanyService {
     @Transactional(readOnly = false)
     public void delete(long id) {
 
-        Connection connection = null;
-        
-        try {
-            connection = ConnectionFactory.getConnectionNoCommit();
-            
+        try {            
             companyDAO.delete(id);
             computerDao.deleteByCompany(id);
 
-            connection.commit();
         } catch (SQLException e) {
-
-            try {
-                connection.rollback();
-                LOGGER.info("Company cannot be deleted because of internal SQL error, transaction rollbacked.");
-            } catch (SQLException e1) {
-                LOGGER.error("Cannot rollback current changes!!!");
-            } finally {
-                LOGGER.error("Delete company with id: " + id + " failed!!!");
-            }
+            LOGGER.error("Delete company with id: " + id + " failed!!! rollbacking...");
         } finally {
             ConnectionFactory.closeConnection();
         }
