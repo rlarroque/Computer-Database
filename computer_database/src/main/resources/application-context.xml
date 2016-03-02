@@ -1,0 +1,20 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+	<context:annotation-config />
+	<context:property-placeholder location="classpath:database.properties"/>
+	<context:component-scan base-package="com.excilys.computer_database.persistence.dao.impl" />
+	<context:component-scan base-package="com.excilys.computer_database.service.impl" />
+	
+	<!-- dataSource configuration -->
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+	   <property name="driverClassName" value="${datasource.driverClass}" />
+	   <property name="url" value="${datasource.url}" />
+	   <property name="username" value="${datasource.username}"/>
+	   <property name="password" value="${datasource.password}"/>
+	</bean>
+</beans>
