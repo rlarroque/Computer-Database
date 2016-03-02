@@ -8,8 +8,12 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.excilys.computer_database.persistence.dao.ComputerDAO;
 import com.excilys.computer_database.persistence.dao.utils.DAOUtils;
@@ -22,29 +26,25 @@ import com.excilys.computer_database.persistence.model.mapper.ComputerMapper;
  * Implementation of ComputerDAO that is used to manipulate the db.
  * @author rlarroque
  */
+@Repository
 public class ComputerDAOImpl implements ComputerDAO {
 
-    private static ComputerDAOImpl instance = new ComputerDAOImpl();
     private static final Logger LOGGER = LoggerFactory.getLogger(ComputerDAOImpl.class.getName());
 
-    /**
-     * Return a singleton of computer DAO.
-     * @return the instance
-     */
-    public static ComputerDAOImpl getInstance() {
-        return instance;
-    }
-
+    @Autowired
+    private DataSource dataSource;
+    
     @Override
     public List<Computer> getAll() {
 
-        Connection connection = DAOUtils.initConnection();
+        Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resSet = null;
 
         List<Computer> computers = new ArrayList<Computer>();
 
         try {
+            connection = dataSource.getConnection();
             preparedStatement = connection.prepareStatement(QueryBuilder.getComputersQuery());
             resSet = preparedStatement.executeQuery();
 
@@ -64,13 +64,14 @@ public class ComputerDAOImpl implements ComputerDAO {
     @Override
     public List<Computer> getPage(Page page) {
 
-        Connection connection = DAOUtils.initConnection();
+        Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resSet = null;
 
         List<Computer> computers = new ArrayList<>();
 
         try {
+            connection = dataSource.getConnection();
             preparedStatement = connection.prepareStatement(QueryBuilder.getComputerPageQuery(page));
             resSet = preparedStatement.executeQuery();
 
@@ -92,13 +93,14 @@ public class ComputerDAOImpl implements ComputerDAO {
     @Override
     public Computer get(long id) {
 
-        Connection connection = DAOUtils.initConnection();
+        Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resSet = null;
 
         Computer computer = null;
 
         try {
+            connection = dataSource.getConnection();
             preparedStatement = connection.prepareStatement(QueryBuilder.getComputerQuery(id));
             resSet = preparedStatement.executeQuery();
 
@@ -120,13 +122,14 @@ public class ComputerDAOImpl implements ComputerDAO {
     @Override
     public Computer get(String name) {
 
-        Connection connection = DAOUtils.initConnection();
+        Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resSet = null;
 
         Computer computer = null;
 
         try {
+            connection = dataSource.getConnection();
             preparedStatement = connection.prepareStatement(QueryBuilder.getComputerQuery(name));
             resSet = preparedStatement.executeQuery();
 
@@ -148,20 +151,19 @@ public class ComputerDAOImpl implements ComputerDAO {
     @Override
     public long create(Computer computer) {
 
-        Connection connection = DAOUtils.initConnection();
+        Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resSet = null;
 
         long resultKey = 0;
 
         try {
+            connection = dataSource.getConnection();
             preparedStatement = connection.prepareStatement(QueryBuilder.createQuery(), Statement.RETURN_GENERATED_KEYS);
             QueryBuilder.buildCreateQuery(computer, preparedStatement);
 
             preparedStatement.executeUpdate();
             resSet = preparedStatement.getGeneratedKeys();
-
-            connection.commit();
 
             if (resSet.next()) {
                 resultKey = resSet.getInt(1);
@@ -181,16 +183,15 @@ public class ComputerDAOImpl implements ComputerDAO {
     @Override
     public void update(Computer computer) {
 
-        Connection connection = DAOUtils.initConnection();
+        Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resSet = null;
 
         try {
+            connection = dataSource.getConnection();
             preparedStatement = connection.prepareStatement(QueryBuilder.updateQuery());
             QueryBuilder.buildUpdateQuery(computer, preparedStatement);
             preparedStatement.executeUpdate();
-
-            connection.commit();
 
             LOGGER.info("Computer with id " + computer.getId() + " updated.");
 
@@ -204,15 +205,14 @@ public class ComputerDAOImpl implements ComputerDAO {
     @Override
     public void delete(long id) throws SQLException {
 
-        Connection connection = DAOUtils.initConnection();
+        Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resSet = null;
 
         try {
+            connection = dataSource.getConnection();
             preparedStatement = connection.prepareStatement(QueryBuilder.deleteComputerQuery(id));
             preparedStatement.executeUpdate();
-
-            connection.commit();
 
             LOGGER.info("Computer with id " + id + " deleted.");
 
@@ -246,11 +246,12 @@ public class ComputerDAOImpl implements ComputerDAO {
 
         int computerNumber = 0;
 
-        Connection connection = DAOUtils.initConnection();
+        Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resSet = null;
 
         try {
+            connection = dataSource.getConnection();
             preparedStatement = connection.prepareStatement(QueryBuilder.countComputerQuery(page));
             resSet = preparedStatement.executeQuery();
 

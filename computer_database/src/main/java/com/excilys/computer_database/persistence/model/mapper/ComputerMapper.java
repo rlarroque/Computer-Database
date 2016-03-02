@@ -7,6 +7,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.excilys.computer_database.dto.ComputerDTO;
 import com.excilys.computer_database.exception.IntegrityException;
 import com.excilys.computer_database.persistence.model.Company;
@@ -71,7 +73,7 @@ public interface ComputerMapper {
                     LocalDate.parse(dto.getIntroducedDate(), DateTimeFormatter.ISO_LOCAL_DATE));
         }
 
-        if ("".equals(dto.getIntroducedDate())) {
+        if ("".equals(dto.getDiscontinuedDate())) {
             computer.setDiscontinued(null);
         } else {
             dto.setDiscontinuedDate(dto.getDiscontinuedDate().replace('/', '-'));
@@ -144,6 +146,23 @@ public interface ComputerMapper {
             }
         }
 
+        return dto;
+    }
+    
+    /**
+     * Used to map a request into a dto.
+     * @param request request received
+     * @return the mapped dto
+     */
+    static ComputerDTO toDTO(HttpServletRequest request){
+        
+        ComputerDTO dto = new ComputerDTO();
+        
+        dto.setName(request.getParameter("computerName"));
+        dto.setIntroducedDate(request.getParameter("introduced"));
+        dto.setDiscontinuedDate(request.getParameter("discontinued"));
+        dto.setCompanyId(Long.parseLong(request.getParameter("companyId")));
+        
         return dto;
     }
 

@@ -25,16 +25,7 @@ public class DAOUtils {
      * @return the connection
      */
     public static Connection initConnection() {
-        Connection connection = null;
-
-        try {
-            connection = ConnectionFactory.getConnection();
-            connection.setAutoCommit(false);
-        } catch (SQLException e) {
-            LOGGER.error("Cannot deactivate AutoCommit");
-        }
-
-        return connection;
+        return ConnectionFactory.getConnection();                
     }
 
     /**
@@ -43,8 +34,7 @@ public class DAOUtils {
      * @param preparedStatement prepared statement to close
      * @param resSet result set to close
      */
-    public static void closeConnection(Connection connection, PreparedStatement preparedStatement,
-            ResultSet resSet) {
+    public static void closeConnection(Connection connection, PreparedStatement preparedStatement, ResultSet resSet) {
 
         try {
             DbUtils.close(resSet);

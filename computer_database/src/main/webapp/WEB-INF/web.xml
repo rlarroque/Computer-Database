@@ -6,6 +6,17 @@
 
 	<display-name>Archetype Created Web Application</display-name>
 
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:./application-context.xml</param-value>
+	</context-param>
+
+	<listener>
+		<listener-class>
+			org.springframework.web.context.ContextLoaderListener
+		</listener-class>
+	</listener>
+
 	<welcome-file-list>
 		<welcome-file>/WEB-INFjsp/dashboard.jsp</welcome-file>
 	</welcome-file-list>
@@ -20,7 +31,7 @@
 		<location>/WEB-INF/jsp/403.jsp</location>
 	</error-page>
 
-	<!--   <error-page>
+	<error-page>
 		<error-code>500</error-code>
 		<location>/WEB-INF/jsp/500.jsp</location>
 	</error-page>
@@ -33,7 +44,7 @@
 	<error-page>
 		<exception-type>com.excilys.computer_database.exception.IntegrityException</exception-type>
 		<location>/WEB-INF/jsp/500.jsp</location>
-	</error-page> -->
+	</error-page>
 
 	<jsp-config>
 	</jsp-config>

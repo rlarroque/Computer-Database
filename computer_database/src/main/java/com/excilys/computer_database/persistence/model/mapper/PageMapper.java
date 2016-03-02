@@ -1,8 +1,13 @@
 package com.excilys.computer_database.persistence.model.mapper;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.excilys.computer_database.dto.PageDTO;
 import com.excilys.computer_database.dto.validator.PageDTOValidator;
 import com.excilys.computer_database.persistence.model.Page;
+import com.excilys.computer_database.persistence.model.utils.Order;
+import com.excilys.computer_database.persistence.model.utils.OrderColumn;
+import com.excilys.computer_database.persistence.model.utils.OrderType;
 import com.excilys.computer_database.persistence.model.validator.PageValidator;
 
 /**
@@ -30,6 +35,34 @@ public interface PageMapper {
 
         return page;
     }
+    
+    /**
+     * Used to map a servlet request into a page 
+     * @param request request received
+     * @return the mapped page
+     */
+    static Page toPage(HttpServletRequest request) {
+       
+        Page page = new Page();
+        
+        page.setPageNumber(Integer.parseInt(request.getParameter("page")));
+        page.setOffset(Integer.parseInt(request.getParameter("offset")));
+        page.setFilter(request.getParameter("filter"));
+
+        if (request.getParameter("order") != null && !"".equals(request.getParameter("order"))) {
+
+            if (request.getParameter("order_type") != null && !"".equals(request.getParameter("order_type"))) {
+                page.setOrder(
+                        new Order(OrderType.valueOf(request.getParameter("order_type")), OrderColumn.fromString(request.getParameter("order"))));
+            } else {
+                page.setOrder(new Order(OrderType.ASC, OrderColumn.fromString(request.getParameter("order"))));
+            }
+        } else {
+            page.setOrder(new Order(OrderType.ASC, OrderColumn.ID));
+        }
+        
+        return page;
+    }
 
     /**
      * Map a page into a DTO.
@@ -50,4 +83,5 @@ public interface PageMapper {
 
         return dto;
     }
+    
 }

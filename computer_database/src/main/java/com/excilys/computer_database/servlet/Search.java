@@ -2,11 +2,15 @@ package com.excilys.computer_database.servlet;
 
 import java.io.IOException;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import com.excilys.computer_database.dto.PageDTO;
 import com.excilys.computer_database.dto.validator.PageDTOValidator;
@@ -22,16 +26,24 @@ import com.excilys.computer_database.servlet.utils.PageConstructor;
 @WebServlet(name = "Search", urlPatterns = "/search")
 public class Search extends HttpServlet {
     private static final long serialVersionUID = 1L;
+    
+    @Autowired
+    ComputerServiceImpl computerservice;
+    
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init();
+        SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this, config.getServletContext());
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ComputerServiceImpl compService = ComputerServiceImpl.getInstance();
 
         Page page = new Page(1, 10, "id");
         page.setFilter(request.getParameter("search"));
 
-        compService.fillPage(page);
+        computerservice.fillPage(page);
 
         PageDTO dto = PageMapper.toDTO(page);
         PageConstructor.construct(dto);

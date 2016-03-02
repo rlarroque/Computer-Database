@@ -8,6 +8,9 @@ import java.util.Properties;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.excilys.computer_database.exception.ConnectionException;
 import com.jolbox.bonecp.BoneCP;
@@ -19,8 +22,11 @@ import com.jolbox.bonecp.BoneCPConfig;
  * @author rlarroque
  *
  */
+@Configuration
 public class ConnectionFactory {
 
+    @Configuration
+    @EnableTransactionManagement
     private static class TransactionManager extends ThreadLocal<Connection> {
 
         @Override
@@ -36,6 +42,13 @@ public class ConnectionFactory {
             }
 
             return connection;
+        }
+        
+        @Override
+        @Bean(name = "transactionMngr")
+        public Connection get() {
+            // TODO Auto-generated method stub
+            return super.get();
         }
 
         @Override
@@ -88,10 +101,10 @@ public class ConnectionFactory {
             boneConfig.setMaxConnectionsPerPartition(2);
 
             connectionPool = new BoneCP(boneConfig);
-
             transactionMngr = new TransactionManager();
 
             LOGGER.info("Connected to the database");
+            
         } catch (ClassNotFoundException e) {
             LOGGER.error("Cannot load the drive in ConnectionFactory!!! " + e.getMessage());
             throw new ConnectionException("Cannot load the drive in ConnectionFactory");

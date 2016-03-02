@@ -4,7 +4,7 @@
 	<groupId>com.excilys</groupId>
 	<artifactId>computer_database</artifactId>
 	<packaging>war</packaging>
-	<version>0.4.0-SNAPSHOT</version>
+	<version>0.5.0-SNAPSHOT</version>
 	<name>computer_database Maven Webapp</name>
 	<url>http://maven.apache.org</url>
 

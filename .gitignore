@@ -12,6 +12,11 @@ local.properties
 .loadpath
 .recommenders/*
 computer_database/WebContent/*
+computer_database/.tern-project
+computer_database/.checkstyle
+
+# Server
+Servers/*
 
 # Eclipse Core
 .project

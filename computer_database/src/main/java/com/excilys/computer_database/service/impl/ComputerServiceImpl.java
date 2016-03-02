@@ -5,10 +5,11 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.excilys.computer_database.exception.IntegrityException;
 import com.excilys.computer_database.persistence.dao.ComputerDAO;
-import com.excilys.computer_database.persistence.dao.impl.ComputerDAOImpl;
 import com.excilys.computer_database.persistence.model.Computer;
 import com.excilys.computer_database.persistence.model.Page;
 import com.excilys.computer_database.persistence.model.validator.ComputerValidator;
@@ -20,26 +21,19 @@ import com.excilys.computer_database.service.ComputerService;
  * @author rlarroque
  *
  */
+@Service
 public class ComputerServiceImpl implements ComputerService {
 
-    private static final Logger LOGGER = LoggerFactory
-            .getLogger(ComputerServiceImpl.class.getName());
-    private static ComputerServiceImpl instance = new ComputerServiceImpl();
-    private static ComputerDAO computerDAO;
+    private static final Logger LOGGER = LoggerFactory.getLogger(ComputerServiceImpl.class.getName());
 
-    /**
-     * Gets the single instance of ComputerServiceImpl.
-     * @return single instance of ComputerServiceImpl
-     */
-    public static ComputerServiceImpl getInstance() {
-        return instance;
-    }
+    @Autowired
+    private ComputerDAO computerDAO;
 
     /**
      * Constructor.
      */
     private ComputerServiceImpl() {
-        computerDAO = ComputerDAOImpl.getInstance();
+
     }
 
     @Override
