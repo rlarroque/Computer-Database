@@ -1,6 +1,6 @@
-package com.excilys.computer_database.servlet.utils;
+package com.excilys.computer_database.webapp.servlet.utils;
 
-import com.excilys.computer_database.dto.PageDTO;
+import com.excilys.computer_database.webapp.dto.PageDTO;
 
 /**
  * Classe used to construct pageDTO base on its curent information. For example the number of computer and the offset are needed to determine the

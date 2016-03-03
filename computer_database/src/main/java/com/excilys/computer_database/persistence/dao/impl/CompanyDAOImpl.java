@@ -16,6 +16,7 @@ import org.springframework.stereotype.Repository;
 
 import com.excilys.computer_database.persistence.dao.CompanyDAO;
 import com.excilys.computer_database.persistence.dao.utils.DAOUtils;
+import com.excilys.computer_database.persistence.dao.utils.QueryBuilder;
 import com.excilys.computer_database.persistence.db.ConnectionFactory;
 import com.excilys.computer_database.persistence.model.Company;
 import com.excilys.computer_database.persistence.model.mapper.CompanyMapper;
@@ -27,23 +28,13 @@ import com.excilys.computer_database.persistence.model.mapper.CompanyMapper;
 @Repository
 public class CompanyDAOImpl implements CompanyDAO {
 
-    private static CompanyDAOImpl instance = new CompanyDAOImpl();
-
+    // Query that will be used.
+    private static final String DELETE_COMPANY_QUERY = "DELETE FROM company where id = ?";
+    private static final Logger LOGGER = LoggerFactory.getLogger(CompanyDAOImpl.class.getName());
+    
     @Autowired
     DataSource dataSource;
 
-    // Query that will be used.
-    private static final String GET_COMPANIES_QUERY = "SELECT * FROM company;";
-    private static final String DELETE_COMPANY_QUERY = "DELETE FROM company where id = ?";
-    private static final Logger LOGGER = LoggerFactory.getLogger(CompanyDAOImpl.class.getName());
-
-    /**
-     * Return a singleton of company DAO.
-     * @return the instance
-     */
-    public static CompanyDAOImpl getInstance() {
-        return instance;
-    }
 
     @Override
     public List<Company> getAll() {
@@ -56,7 +47,7 @@ public class CompanyDAOImpl implements CompanyDAO {
 
         try {
             connection = dataSource.getConnection();
-            preparedStatement = connection.prepareStatement(GET_COMPANIES_QUERY);
+            preparedStatement = connection.prepareStatement(QueryBuilder.getCompanyQuery());
             resSet = preparedStatement.executeQuery();
 
             while (resSet.next()) {
@@ -64,12 +55,71 @@ public class CompanyDAOImpl implements CompanyDAO {
             }
 
         } catch (SQLException e) {
-            LOGGER.error("Cannot get all companies!!! " + e.getMessage());
+            LOGGER.error("Cannot get all companies!!! ", e);
         } finally {
             DAOUtils.closeConnection(connection, preparedStatement, resSet);
         }
 
         return companies;
+    }
+    
+    // TODO test it 
+    @Override
+    public Company get(long id) {
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resSet = null;
+
+        Company company = null;
+
+        try {
+            connection = dataSource.getConnection();
+            preparedStatement = connection.prepareStatement(QueryBuilder.getCompanyQuery(id));
+            resSet = preparedStatement.executeQuery();
+
+            if (resSet.next()) {
+                company = CompanyMapper.toCompany(resSet);
+            }
+
+            LOGGER.info("Company with id " + id + " retrieved.");
+
+        } catch (SQLException e) {
+            LOGGER.error("Cannot get the company with the id " + id + "!!! ", e);
+        } finally {
+            DAOUtils.closeConnection(connection, preparedStatement, resSet);
+        }
+
+        return company;
+    }
+
+    @Override
+    public Company get(String name) {
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resSet = null;
+
+        Company company = null;
+
+        try {
+            connection = dataSource.getConnection();
+            preparedStatement = connection.prepareStatement(QueryBuilder.getCompanyQuery(name));
+            resSet = preparedStatement.executeQuery();
+
+            if (resSet.next()) {
+                company = CompanyMapper.toCompany(resSet);
+            }
+
+            LOGGER.info("Computer with name " + name + " retrieved.");
+
+        } catch (SQLException e) {
+            LOGGER.error("Cannot get the computer with the name " + name + "!!! ", e);
+        } finally {
+            DAOUtils.closeConnection(connection, preparedStatement, resSet);
+        }
+
+        return company;
     }
 
     @Override

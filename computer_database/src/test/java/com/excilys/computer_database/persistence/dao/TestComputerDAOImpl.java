@@ -1,6 +1,7 @@
 package com.excilys.computer_database.persistence.dao;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,39 +11,53 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.MockitoAnnotations;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.excilys.computer_database.persistence.dao.impl.ComputerDAOImpl;
-import com.excilys.computer_database.persistence.db.ConnectionFactory;
 import com.excilys.computer_database.persistence.db.utils.DbUtils;
 import com.excilys.computer_database.persistence.model.Company;
 import com.excilys.computer_database.persistence.model.Computer;
 import com.excilys.computer_database.persistence.model.Page;
 
+@ContextConfiguration(locations = { "classpath:/test-context.xml" })
+@RunWith(SpringJUnit4ClassRunner.class)
 public class TestComputerDAOImpl {
 
     // Test queries
     private static final String CREATE_COMPANY_QUERY = "INSERT INTO company (name) values (?)";
     private static final String CREATE_COMPUTER_QUERY = "INSERT INTO computer (name, introduced, discontinued, company_id) values (?, ?, ?, ?)";
 
-    private ComputerDAOImpl computerDAO;
+    private static final Logger LOGGER = LoggerFactory.getLogger(TestComputerDAOImpl.class);
+
     private Connection connection;
     private Statement statement;
-    private Logger logger = LoggerFactory.getLogger(getClass().getName());
+
+    @Autowired
+    private DataSource dataSource;
+
+    @Autowired
+    private ComputerDAO computerDAO;
 
     /**
      * Before all tests remove all companies and create a single one.
      */
     @Before
     public void executeBeforeEachTests() {
-        computerDAO = ComputerDAOImpl.getInstance();
+
+        MockitoAnnotations.initMocks(this);
 
         try {
-            connection = ConnectionFactory.getConnection();
+            connection = dataSource.getConnection();
             statement = connection.createStatement();
 
             statement.execute("SET FOREIGN_KEY_CHECKS=0");
@@ -55,7 +70,7 @@ public class TestComputerDAOImpl {
             ps.executeUpdate();
             ps.close();
         } catch (SQLException e) {
-            logger.error("Cannot truncate table");
+            LOGGER.error("Cannot truncate table", e);
         }
     }
 
@@ -64,12 +79,12 @@ public class TestComputerDAOImpl {
      */
     @After
     public void executeAfterEachTests() {
-        computerDAO = null;
 
         try {
             DbUtils.close(statement);
             DbUtils.close(connection);
         } catch (SQLException e) {
+            LOGGER.error("Cannot close connection", e);
         }
     }
 
@@ -78,34 +93,23 @@ public class TestComputerDAOImpl {
      * @throws SQLException exception
      */
     @Test
-    public void testGetComputers() throws SQLException {
-        Connection mconnection = null;
+    public void testGetComputersNone() {
 
         List<Computer> computers = computerDAO.getAll();
         assertEquals(0, computers.size());
+    }
+    
+    /**
+     * Test.
+     * @throws SQLException exception
+     */
+    @Test
+    public void testGetComputers() {
 
-        try {
-            mconnection = ConnectionFactory.getConnection();
-            PreparedStatement ps = mconnection.prepareStatement(CREATE_COMPUTER_QUERY);
-            ps.setString(1, "Dummy computer");
-            ps.setTimestamp(2, Timestamp.valueOf("2000-01-01 00:00:00"));
-            ps.setTimestamp(3, Timestamp.valueOf("2001-01-01 00:00:00"));
-            ps.setInt(4, 1);
-            ps.executeUpdate();
-            ps.close();
-        } catch (SQLException e) {
-            logger.error("Cannot create computer");
-        } finally {
+        addDummyComputer();
 
-            try {
-                computers = computerDAO.getAll();
-                assertEquals(1, computers.size());
-
-                mconnection.close();
-            } catch (SQLException e) {
-                logger.debug("Cannot close connection!");
-            }
-        }
+        List<Computer> computers = computerDAO.getAll();
+        assertEquals(1, computers.size());
     }
 
     /**
@@ -113,7 +117,7 @@ public class TestComputerDAOImpl {
      * @throws SQLException exception
      */
     @Test
-    public void testGetComputersPage() throws SQLException {
+    public void testGetComputersPage() {
         List<Computer> computers = computerDAO.getAll();
         assertEquals(0, computers.size());
 
@@ -146,21 +150,37 @@ public class TestComputerDAOImpl {
      */
     @Test
     public void testGetComputerById() {
-        try {
-            PreparedStatement ps = connection.prepareStatement(CREATE_COMPUTER_QUERY);
-            ps.setString(1, "Dummy computer");
-            ps.setTimestamp(2, Timestamp.valueOf("2000-01-01 00:00:00"));
-            ps.setTimestamp(3, Timestamp.valueOf("2001-01-01 00:00:00"));
-            ps.setInt(4, 1);
-            ps.executeUpdate();
-            ps.close();
-        } catch (SQLException e) {
-            logger.error("Cannot create computer");
-        }
+
+        addDummyComputer();
 
         Computer computer = computerDAO.get(1);
         assertEquals("Dummy computer", computer.getName());
         assertEquals("Dummy Company", computer.getCompany().getName());
+    }
+    
+    /**
+     * Test.
+     */
+    @Test
+    public void testGetComputerByName() {
+
+        addDummyComputer();
+
+        Computer computer = computerDAO.get("Dummy computer");
+        assertEquals("Dummy computer", computer.getName());
+        assertEquals("Dummy Company", computer.getCompany().getName());
+    }
+    
+    /**
+     * Test.
+     */
+    @Test
+    public void testGetComputerByNameWrong() {
+
+        addDummyComputer();
+
+        Computer computer = computerDAO.get("Not the right dummy computer");
+        assertEquals(null, computer);
     }
 
     /**
@@ -185,17 +205,8 @@ public class TestComputerDAOImpl {
      */
     @Test
     public void testUpdateComputer() {
-        try {
-            PreparedStatement ps = connection.prepareStatement(CREATE_COMPUTER_QUERY);
-            ps.setString(1, "Dummy computer");
-            ps.setTimestamp(2, Timestamp.valueOf("2000-01-01 00:00:00"));
-            ps.setTimestamp(3, Timestamp.valueOf("2001-01-01 00:00:00"));
-            ps.setInt(4, 1);
-            ps.executeUpdate();
-            ps.close();
-        } catch (SQLException e) {
-            logger.error("Cannot create computer");
-        }
+
+        addDummyComputer();
 
         Company company = new Company(1l, "Dummy Company");
         Computer computer = new Computer("Not so dummy computer");
@@ -217,6 +228,23 @@ public class TestComputerDAOImpl {
      */
     @Test
     public void testDeleteComputer() {
+
+        addDummyComputer();
+
+        try {
+            computerDAO.delete(1);
+        } catch (SQLException e) {
+            LOGGER.error("Delete computer failed", e);
+            fail("SQl exception thrown");
+        }
+        assertEquals(0, computerDAO.getAll().size());
+    }
+
+    /**
+     * Method used to add a dummy computer into the test database.
+     */
+    public void addDummyComputer() {
+
         try {
             PreparedStatement ps = connection.prepareStatement(CREATE_COMPUTER_QUERY);
             ps.setString(1, "Dummy computer");
@@ -226,13 +254,7 @@ public class TestComputerDAOImpl {
             ps.executeUpdate();
             ps.close();
         } catch (SQLException e) {
-            logger.error("Cannot create computer");
+            LOGGER.error("Cannot create dummy computer", e);
         }
-
-        try {
-            computerDAO.delete(1);
-        } catch (SQLException e) {
-        }
-        assertEquals(0, computerDAO.getAll().size());
     }
 }

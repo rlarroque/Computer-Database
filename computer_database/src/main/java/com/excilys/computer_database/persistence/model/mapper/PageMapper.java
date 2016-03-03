@@ -2,13 +2,13 @@ package com.excilys.computer_database.persistence.model.mapper;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.excilys.computer_database.dto.PageDTO;
-import com.excilys.computer_database.dto.validator.PageDTOValidator;
 import com.excilys.computer_database.persistence.model.Page;
 import com.excilys.computer_database.persistence.model.utils.Order;
 import com.excilys.computer_database.persistence.model.utils.OrderColumn;
 import com.excilys.computer_database.persistence.model.utils.OrderType;
 import com.excilys.computer_database.persistence.model.validator.PageValidator;
+import com.excilys.computer_database.webapp.dto.PageDTO;
+import com.excilys.computer_database.webapp.dto.validator.PageDTOValidator;
 
 /**
  * Mapper used to convert a page into DTO.

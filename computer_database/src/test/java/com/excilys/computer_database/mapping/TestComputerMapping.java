@@ -3,91 +3,60 @@ package com.excilys.computer_database.mapping;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.util.Properties;
+
+import javax.sql.DataSource;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.excilys.computer_database.dto.ComputerDTO;
-import com.excilys.computer_database.persistence.db.ConnectionFactory;
 import com.excilys.computer_database.persistence.db.utils.DbUtils;
 import com.excilys.computer_database.persistence.model.Company;
 import com.excilys.computer_database.persistence.model.Computer;
 import com.excilys.computer_database.persistence.model.mapper.ComputerMapper;
+import com.excilys.computer_database.webapp.dto.ComputerDTO;
 
+@ContextConfiguration(locations = {"classpath:/test-context.xml"})
+@RunWith(SpringJUnit4ClassRunner.class)
 public class TestComputerMapping {
 
     // Test queries
     private static final String CREATE_COMPANY_QUERY = "INSERT INTO company (name) values (?)";
     private static final String GET_COMPUTER_BY_NAME_QUERY = "SELECT * FROM computer LEFT JOIN company ON computer.company_id = company.id where computer.name=?";
     private static final String CREATE_COMPUTER_QUERY = "INSERT INTO computer (name, introduced, discontinued, company_id) values (?, ?, ?, ?)";
-
-    // Test Database Information
-    public static String test_url;
-    public static String test_user;
-    public static String test_password;
+    private static final Logger LOGGER = LoggerFactory.getLogger(TestComputerMapping.class);
 
     private Connection connection;
     private Statement statement;
-    private Logger logger = LoggerFactory.getLogger(getClass().getName());
+
+    @Autowired
+    private DataSource dataSource;
 
     /**
-     * Get the connection.
-     * @return the connection
-     */
-    private Connection getConnection() {
-        Connection connection = null;
-        try {
-            connection = DriverManager.getConnection(test_url, test_user, test_password);
-        } catch (SQLException e) {
-            logger.error("Cannot connect to the test database");
-        }
-        return connection;
-    }
-    
-    /**
-     * 
-     * @throws IOException
-     */
-    @BeforeClass
-    public static void executeBeforeAllTests() throws IOException{
-        Properties prop = new Properties();
-        InputStream in = ConnectionFactory.class.getClassLoader()
-                .getResourceAsStream("database.properties");
-        prop.load(in);
-        in.close();
-        
-        test_url = prop.getProperty("datasource.url");
-        test_user = prop.getProperty("datasource.username");
-        test_password = prop.getProperty("datasource.password");
-    }
-
-    /**
-     * Before all tests remove all companies and add a single one.
-     * Then add a computer.
+     * Before all tests remove all companies and add a single one. Then add a computer.
      */
     @Before
     public void executeBeforeEachTests() {
 
         try {
-            connection = getConnection();
+            connection = dataSource.getConnection();
             statement = connection.createStatement();
             statement.execute("SET FOREIGN_KEY_CHECKS=0");
             statement.executeUpdate("TRUNCATE company");
+            statement.executeUpdate("TRUNCATE computer");
             statement.execute("SET FOREIGN_KEY_CHECKS=1");
 
             PreparedStatement ps = connection.prepareStatement(CREATE_COMPANY_QUERY);
@@ -103,7 +72,7 @@ public class TestComputerMapping {
 
             ps.close();
         } catch (SQLException e) {
-            logger.error("Cannot truncate table");
+            LOGGER.error("Cannot truncate table", e);
         }
     }
 
@@ -117,6 +86,7 @@ public class TestComputerMapping {
             DbUtils.close(statement);
             DbUtils.close(connection);
         } catch (SQLException e) {
+            LOGGER.error("Cannot close connection", e);
         }
     }
 
@@ -129,8 +99,7 @@ public class TestComputerMapping {
         ResultSet resSet;
 
         try {
-            PreparedStatement ps = (PreparedStatement) connection
-                    .prepareStatement(GET_COMPUTER_BY_NAME_QUERY);
+            PreparedStatement ps = (PreparedStatement) connection.prepareStatement(GET_COMPUTER_BY_NAME_QUERY);
             ps.setString(1, "Dummy computer");
             resSet = ps.executeQuery();
 
@@ -167,42 +136,6 @@ public class TestComputerMapping {
 
         ComputerDTO dto = ComputerMapper.toDTO(computer);
 
-        assertEquals(dto.getName(), computer.getName());
-        assertEquals(dto.getIntroducedDate(), computer.getIntroduced().toString());
-        assertEquals(dto.getDiscontinuedDate(), computer.getDiscontinued().toString());
-        assertEquals(dto.getCompanyName(), computer.getCompany().getName());
-    }
-
-    /**
-     * Test.
-     */
-    @Test
-    public void testComputerToDTOWithNull() {
-
-        Computer computer = new Computer("Dummy Computer");
-
-        ComputerDTO dto = ComputerMapper.toDTO(computer);
-
-        assertEquals(dto.getName(), computer.getName());
-        assertEquals(dto.getIntroducedDate(), "");
-        assertEquals(dto.getDiscontinuedDate(), "");
-        assertEquals(dto.getCompanyName(), "");
-    }
-
-    /**
-     * Test.
-     */
-    @Test
-    public void testDtoToComputer() {
-        ComputerDTO dto = new ComputerDTO();
-        dto.setName("Dummy Computer");
-        dto.setIntroducedDate("2000-01-01");
-        dto.setDiscontinuedDate("2001-01-01");
-        dto.setCompanyId(1);
-        dto.setCompanyName("Dummy Company");
-
-        Computer computer = ComputerMapper.toComputer(dto);
-
         assertEquals(computer.getName(), dto.getName());
         assertEquals(computer.getIntroduced().toString(), dto.getIntroducedDate());
         assertEquals(computer.getDiscontinued().toString(), dto.getDiscontinuedDate());
@@ -213,38 +146,65 @@ public class TestComputerMapping {
      * Test.
      */
     @Test
-    public void testDtoToComputerWithNullDate() {
-        ComputerDTO dto = new ComputerDTO();
-        dto.setName("Dummy Computer");
-        dto.setIntroducedDate("");
-        dto.setDiscontinuedDate("");
-        dto.setCompanyId(0);
-        dto.setCompanyName("");
+    public void testComputerToDTOWithNull() {
 
-        Computer computer = ComputerMapper.toComputer(dto);
+        Computer computer = new Computer("Dummy Computer");
+        ComputerDTO dto = ComputerMapper.toDTO(computer);
 
         assertEquals(computer.getName(), dto.getName());
-        assertEquals(computer.getIntroduced(), null);
-        assertEquals(computer.getDiscontinued(), null);
-        assertEquals(computer.getCompany(), null);
+        assertEquals("", dto.getIntroducedDate());
+        assertEquals("", dto.getDiscontinuedDate());
+        assertEquals("", dto.getCompanyName());
     }
 
     /**
      * Test.
      */
     @Test
-    public void testDtoToComputerWithNullTime() {
-        ComputerDTO dto = new ComputerDTO();
-        dto.setName("Dummy Computer");
-        dto.setIntroducedDate("2000-01-01");
-        dto.setDiscontinuedDate("2001-01-01");
+    public void testDtoToComputer() {
+
+        ComputerDTO dto = createDummyDTO();
+        Computer computer = ComputerMapper.toComputer(dto);
+
+        assertEquals(dto.getName(), computer.getName());
+        assertEquals(dto.getIntroducedDate(), computer.getIntroduced().toString());
+        assertEquals(dto.getDiscontinuedDate(), computer.getDiscontinued().toString());
+        assertEquals(dto.getCompanyName(), computer.getCompany().getName());
+    }
+
+    /**
+     * Test.
+     */
+    @Test
+    public void testDtoToComputerWithNullDate() {
+        ComputerDTO dto = createDummyDTO();
+        dto.setIntroducedDate("");
+        dto.setDiscontinuedDate("");
+        dto.setCompanyName("");
         dto.setCompanyId(0);
 
         Computer computer = ComputerMapper.toComputer(dto);
 
-        assertEquals(computer.getName(), dto.getName());
-        assertEquals(computer.getIntroduced(), LocalDate.of(2000, 1, 1));
-        assertEquals(computer.getDiscontinued(), LocalDate.of(2001, 1, 1));
-        assertEquals(computer.getCompany(), null);
+        assertEquals(dto.getName(), computer.getName());
+        assertEquals(null, computer.getIntroduced());
+        assertEquals(null, computer.getDiscontinued());
+        assertEquals(null, computer.getCompany());
+        assertEquals(null, computer.getCompany());
+    }
+
+    /**
+     * Creation of dummy computerDTO
+     * @return the dummy DTO
+     */
+    public ComputerDTO createDummyDTO() {
+
+        ComputerDTO dto = new ComputerDTO();
+        dto.setName("Dummy Computer");
+        dto.setIntroducedDate("2000-01-01");
+        dto.setDiscontinuedDate("2001-01-01");
+        dto.setCompanyId(1);
+        dto.setCompanyName("Dummy Company");
+
+        return dto;
     }
 }

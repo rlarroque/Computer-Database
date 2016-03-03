@@ -4,7 +4,7 @@
 	<groupId>com.excilys</groupId>
 	<artifactId>computer_database</artifactId>
 	<packaging>war</packaging>
-	<version>0.5.0-SNAPSHOT</version>
+	<version>0.5.0</version>
 	<name>computer_database Maven Webapp</name>
 	<url>http://maven.apache.org</url>
 
@@ -173,13 +173,20 @@
 			<version>${spring.version}</version>
 		</dependency>
 
+		<!-- For testing purpose and spring usage in unit tests -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
 
-
+		<!-- For Mockito bean injection -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		
 	</dependencies>
 
 	<build>

@@ -1,10 +1,9 @@
 package com.excilys.computer_database.cli;
 
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.excilys.computer_database.service.impl.CompanyServiceImpl;
-import com.excilys.computer_database.service.impl.ComputerServiceImpl;
+import com.excilys.computer_database.service.CompanyService;
+import com.excilys.computer_database.service.ComputerService;
 
 /**
  * Point of entry of the application for CLI launch.
@@ -18,13 +17,16 @@ public class Launcher {
      * @param args args
      */
     public static void main(String[] args) {
-        @SuppressWarnings("resource")
-        ApplicationContext context = new ClassPathXmlApplicationContext("classpath:application-context.xml");
         
-        ComputerServiceImpl computerService = (ComputerServiceImpl) context.getBean(ComputerServiceImpl.class);
-        CompanyServiceImpl companyService = (CompanyServiceImpl) context.getBean(CompanyServiceImpl.class);
+        CmdLineInterface cli = null;
+       
+        try (ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("classpath:application-context.xml")) {
+            ComputerService computerService = context.getBean(ComputerService.class);
+            CompanyService companyService = context.getBean(CompanyService.class);            
+            
+            cli = new CmdLineInterface(computerService, companyService);
+        }
         
-        CmdLineInterface cli = new CmdLineInterface(computerService, companyService);
         cli.startCmdLineInterface();
     }
 }

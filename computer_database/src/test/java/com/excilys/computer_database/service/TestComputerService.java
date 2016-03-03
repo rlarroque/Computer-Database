@@ -5,53 +5,44 @@ import static org.junit.Assert.assertEquals;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Matchers;
 import org.mockito.Mockito;
-import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.excilys.computer_database.exception.IntegrityException;
+import com.excilys.computer_database.persistence.dao.ComputerDAO;
 import com.excilys.computer_database.persistence.dao.impl.ComputerDAOImpl;
 import com.excilys.computer_database.persistence.model.Company;
 import com.excilys.computer_database.persistence.model.Computer;
 import com.excilys.computer_database.persistence.model.Page;
-import com.excilys.computer_database.service.impl.ComputerServiceImpl;
 
-@RunWith(PowerMockRunner.class)
+@ContextConfiguration(locations = {"classpath:/mock-context.xml"})
+@RunWith(SpringJUnit4ClassRunner.class)
 @PrepareForTest(ComputerDAOImpl.class)
 public class TestComputerService {
-    private static ComputerService compService;
-    private static ComputerDAOImpl compDAO = Mockito.mock(ComputerDAOImpl.class);
+
+    @Autowired
+    private ComputerService computerService;
+    
+    @Autowired
+    private ComputerDAO mockComputerDao;
 
     /**
-     * Before everything, mock the company DAO.
+     * Before each test.
      */
-    @BeforeClass
-    public static void executeBeforeTests() {
-        Mockito.when(compDAO.getAll()).thenReturn(new ArrayList<Computer>());
-        Mockito.when(compDAO.getPage(Matchers.any(Page.class)))
-                .thenReturn(new ArrayList<Computer>());
-        Mockito.when(compDAO.get(Matchers.anyInt())).thenReturn(new Computer("Dummy Computer"));
-        Mockito.when(compDAO.get(Matchers.anyString())).thenReturn(new Computer("Dummy Computer"));
-        Mockito.when(compDAO.create(Matchers.any(Computer.class))).thenReturn(100l);
-
-        PowerMockito.mockStatic(ComputerDAOImpl.class);
-        PowerMockito.when(ComputerDAOImpl.getInstance()).thenReturn(compDAO);
-
-        compService = ComputerServiceImpl.getInstance();
-    }
-
-    /**
-     * Make the DAO null.
-     */
-    @AfterClass
-    public static void executeAfterTests() {
-        compService = null;
+    @Before
+    public void executeBeforeEachTests() {
+        Mockito.when(mockComputerDao.getAll()).thenReturn(new ArrayList<Computer>());
+        Mockito.when(mockComputerDao.getPage(Matchers.any(Page.class))).thenReturn(new ArrayList<Computer>());
+        Mockito.when(mockComputerDao.get(Matchers.anyInt())).thenReturn(new Computer("Dummy Computer"));
+        Mockito.when(mockComputerDao.get(Matchers.anyString())).thenReturn(new Computer("Dummy Computer"));
+        Mockito.when(mockComputerDao.create(Matchers.any(Computer.class))).thenReturn(100l);
     }
 
     /**
@@ -59,7 +50,7 @@ public class TestComputerService {
      */
     @Test
     public void testGetComputerWithId() {
-        Computer computer = compService.get(1);
+        Computer computer = computerService.get(1);
         assertEquals("Dummy Computer", computer.getName());
     }
 
@@ -68,7 +59,7 @@ public class TestComputerService {
      */
     @Test
     public void testGetComputerWithName() {
-        Computer computer = compService.get("Dummy Computer");
+        Computer computer = computerService.get("Dummy Computer");
         assertEquals("Dummy Computer", computer.getName());
     }
 
@@ -77,7 +68,7 @@ public class TestComputerService {
      */
     @Test(expected = IntegrityException.class)
     public void testGetComputerNullName() {
-        compService.get(null);
+        computerService.get(null);
     }
 
     /**
@@ -85,7 +76,7 @@ public class TestComputerService {
      */
     @Test(expected = IntegrityException.class)
     public void testGetComputerEmptyName() {
-        compService.get("");
+        computerService.get("");
     }
 
     /**
@@ -93,7 +84,7 @@ public class TestComputerService {
      */
     @Test(expected = IntegrityException.class)
     public void testGetComputerInvalidID() {
-        compService.get(-1);
+        computerService.get(-1);
     }
 
     /**
@@ -103,12 +94,12 @@ public class TestComputerService {
     public void createComputer() {
 
         Computer computer = new Computer("Dummy Computer");
-        assertEquals(100, compService.create(computer));
+        assertEquals(100, computerService.create(computer));
 
         computer.setCompany(new Company(1l, "Dummy Comypany"));
         computer.setIntroduced(LocalDate.of(2012, 1, 1));
         computer.setDiscontinued(LocalDate.now());
-        assertEquals(100, compService.create(computer));
+        assertEquals(100, computerService.create(computer));
     }
 
     /**
@@ -116,7 +107,7 @@ public class TestComputerService {
      */
     @Test(expected = IntegrityException.class)
     public void createComputerNull() {
-        compService.create(null);
+        computerService.create(null);
     }
 
     /**
@@ -124,7 +115,7 @@ public class TestComputerService {
      */
     @Test(expected = IntegrityException.class)
     public void createComputerInvalidName() {
-        compService.create(new Computer(""));
+        computerService.create(new Computer(""));
     }
 
     /**
@@ -132,7 +123,7 @@ public class TestComputerService {
      */
     @Test(expected = IntegrityException.class)
     public void createComputerNullName() {
-        compService.create(new Computer(null));
+        computerService.create(new Computer(null));
     }
 
     /**
@@ -145,7 +136,7 @@ public class TestComputerService {
         computer.setIntroduced(LocalDate.now());
         computer.setDiscontinued(LocalDate.of(2012, 1, 1));
 
-        compService.update(computer);
+        computerService.update(computer);
     }
 
     /**
@@ -153,7 +144,7 @@ public class TestComputerService {
      */
     @Test(expected = IntegrityException.class)
     public void updateComputerNull() {
-        compService.update(null);
+        computerService.update(null);
     }
 
     /**
@@ -161,7 +152,7 @@ public class TestComputerService {
      */
     @Test(expected = IntegrityException.class)
     public void updateComputerInvalidName() {
-        compService.update(new Computer(""));
+        computerService.update(new Computer(""));
     }
 
     /**
@@ -169,7 +160,7 @@ public class TestComputerService {
      */
     @Test(expected = IntegrityException.class)
     public void updateComputerNullName() {
-        compService.update(new Computer(null));
+        computerService.update(new Computer(null));
     }
 
     /**
@@ -182,7 +173,7 @@ public class TestComputerService {
         computer.setIntroduced(LocalDate.now());
         computer.setDiscontinued(LocalDate.of(2012, 1, 1));
 
-        compService.update(computer);
+        computerService.update(computer);
     }
 
     /**
@@ -190,7 +181,7 @@ public class TestComputerService {
      */
     @Test(expected = IntegrityException.class)
     public void deleteComputerNull() {
-        compService.delete(0);
+        computerService.delete(0);
     }
 
     /**
@@ -198,6 +189,6 @@ public class TestComputerService {
      */
     @Test(expected = IntegrityException.class)
     public void deleteComputerInvalid() {
-        compService.delete(-1);
+        computerService.delete(-1);
     }
 }

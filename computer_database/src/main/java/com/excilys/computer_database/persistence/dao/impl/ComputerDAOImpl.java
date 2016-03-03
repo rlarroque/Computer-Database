@@ -53,7 +53,7 @@ public class ComputerDAOImpl implements ComputerDAO {
             }
 
         } catch (SQLException e) {
-            LOGGER.error("Cannot get all computers!!! " + e.getMessage());
+            LOGGER.error("Cannot get all computers!!!", e);
         } finally {
             DAOUtils.closeConnection(connection, preparedStatement, resSet);
         }
@@ -82,7 +82,7 @@ public class ComputerDAOImpl implements ComputerDAO {
             LOGGER.info("Page of computers retrieved.");
 
         } catch (SQLException e) {
-            LOGGER.error("Cannot get the page of computers!!! " + e.getMessage());
+            LOGGER.error("Cannot get the page of computers!!!", e);
         } finally {
             DAOUtils.closeConnection(connection, preparedStatement, resSet);
         }
@@ -111,7 +111,7 @@ public class ComputerDAOImpl implements ComputerDAO {
             LOGGER.info("Computer with id " + id + " retrieved.");
 
         } catch (SQLException e) {
-            LOGGER.error("Cannot get the computer with the id " + id + "!!! " + e.getMessage());
+            LOGGER.error("Cannot get the computer with the id " + id + "!!! ", e);
         } finally {
             DAOUtils.closeConnection(connection, preparedStatement, resSet);
         }
@@ -140,7 +140,7 @@ public class ComputerDAOImpl implements ComputerDAO {
             LOGGER.info("Computer with name " + name + " retrieved.");
 
         } catch (SQLException e) {
-            LOGGER.error("Cannot get the computer with the name " + name + "!!! " + e.getMessage());
+            LOGGER.error("Cannot get the computer with the name " + name + "!!!", e);
         } finally {
             DAOUtils.closeConnection(connection, preparedStatement, resSet);
         }
@@ -172,7 +172,7 @@ public class ComputerDAOImpl implements ComputerDAO {
             LOGGER.info("Computer with id " + computer.getId() + " created.");
 
         } catch (SQLException e) {
-            LOGGER.error("Cannot create computer!!! " + e.getMessage());
+            LOGGER.error("Cannot create computer!!!", e);
         } finally {
             DAOUtils.closeConnection(connection, preparedStatement, resSet);
         }
@@ -197,7 +197,7 @@ public class ComputerDAOImpl implements ComputerDAO {
             LOGGER.info("Computer with id " + computer.getId() + " updated.");
 
         } catch (SQLException e) {
-            LOGGER.error("Cannot update computer!!! " + e.getMessage());
+            LOGGER.error("Cannot update computer!!!", e);
         } finally {
             DAOUtils.closeConnection(connection, preparedStatement, resSet);
         }
@@ -218,7 +218,7 @@ public class ComputerDAOImpl implements ComputerDAO {
             LOGGER.info("Computer with id " + id + " deleted.");
 
         } catch (SQLException e) {
-            LOGGER.error("Cannot delete computer with id: " + id + "!!! " + e.getMessage());
+            LOGGER.error("Cannot delete computer with id: " + id + "!!!", e);
         } finally {
             DAOUtils.closeConnection(connection, preparedStatement, resSet);
         }
@@ -230,17 +230,16 @@ public class ComputerDAOImpl implements ComputerDAO {
         PreparedStatement preparedStatement = null;
         ResultSet resSet = null;
 
-        throw new SQLException();
-        /*try {
+        try {
             preparedStatement = connection.prepareStatement(QueryBuilder.deleteComputerByCompanyQuery(id));
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
-            LOGGER.error("Cannot delete computers with company id: " + id + "!!! " + e.getMessage());
+            LOGGER.error("Cannot delete computers with company id: " + id + "!!!", e);
         } finally {
             // The connection will be closed at the end of the transaction
             DAOUtils.closeConnection(null, preparedStatement, resSet);
-        }*/
+        }
     }
 
     @Override
@@ -263,7 +262,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 
         } catch (SQLException e) {
 
-            LOGGER.error("Cannot count computers!!! " + e.getMessage());
+            LOGGER.error("Cannot count computers!!!", e);
         } finally {
             DAOUtils.closeConnection(connection, preparedStatement, resSet);
         }

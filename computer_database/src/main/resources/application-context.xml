@@ -6,11 +6,15 @@
 	http://www.springframework.org/schema/context
 	http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 	<context:property-placeholder location="classpath:database.properties"/>
-	<context:component-scan base-package="com.excilys.computer_database.persistence.dao.impl" />
-	<context:component-scan base-package="com.excilys.computer_database.service.impl" />
-	<context:component-scan base-package="com.excilys.computer_database.persistence.model" />
+	<context:component-scan base-package="com.excilys.computer_database.persistence.dao" />
+	<context:component-scan base-package="com.excilys.computer_database.service" />
 	
-	<!-- dataSource configuration -->
+	<!-- Transaction manager configuration -->
+	<bean id="transactionManagerMySql" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<!-- DataSource configuration -->
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 	   <property name="driverClassName" value="com.mysql.jdbc.Driver" />
 	   <property name="url" value="${datasource.url}" />

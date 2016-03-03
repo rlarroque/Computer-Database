@@ -1,9 +1,9 @@
-package com.excilys.computer_database.dto.validator;
+package com.excilys.computer_database.webapp.dto.validator;
 
 import java.util.List;
 
-import com.excilys.computer_database.dto.CompanyDTO;
 import com.excilys.computer_database.exception.IntegrityException;
+import com.excilys.computer_database.webapp.dto.CompanyDTO;
 
 /**
  * Interface with static methods used to validate the integrity of a companyDTO.
@@ -24,6 +24,10 @@ public interface CompanyDTOValidator {
 
         if (dto.getId() < 1) {
             throw new IntegrityException("The company's id is not valid.");
+        }
+        
+        if (dto.getName() == null || "".equals(dto.getName())) {
+            throw new IntegrityException("The company's name is not valid.");
         }
     }
 

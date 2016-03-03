@@ -9,10 +9,10 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.excilys.computer_database.dto.ComputerDTO;
 import com.excilys.computer_database.exception.IntegrityException;
 import com.excilys.computer_database.persistence.model.Company;
 import com.excilys.computer_database.persistence.model.Computer;
+import com.excilys.computer_database.webapp.dto.ComputerDTO;
 
 /**
  * Mapper used to convert a resultSet or DTO into a Computer object.

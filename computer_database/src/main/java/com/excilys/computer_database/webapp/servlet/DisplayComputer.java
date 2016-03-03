@@ -1,4 +1,4 @@
-package com.excilys.computer_database.servlet;
+package com.excilys.computer_database.webapp.servlet;
 
 import java.io.IOException;
 
@@ -12,12 +12,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
-import com.excilys.computer_database.dto.PageDTO;
-import com.excilys.computer_database.dto.validator.PageDTOValidator;
 import com.excilys.computer_database.persistence.model.Page;
 import com.excilys.computer_database.persistence.model.mapper.PageMapper;
-import com.excilys.computer_database.service.impl.ComputerServiceImpl;
-import com.excilys.computer_database.servlet.utils.PageConstructor;
+import com.excilys.computer_database.service.ComputerService;
+import com.excilys.computer_database.webapp.dto.PageDTO;
+import com.excilys.computer_database.webapp.dto.validator.PageDTOValidator;
+import com.excilys.computer_database.webapp.servlet.utils.PageConstructor;
 
 /**
  * Servlet in charge of displaying computers with pagination.
@@ -29,11 +29,11 @@ public class DisplayComputer extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     @Autowired
-    ComputerServiceImpl computerservice;
+    ComputerService computerservice;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
-        super.init();
+        super.init(config);
         SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this, config.getServletContext());
     }
 

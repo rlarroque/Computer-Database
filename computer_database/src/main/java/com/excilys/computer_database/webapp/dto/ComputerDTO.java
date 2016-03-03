@@ -1,4 +1,4 @@
-package com.excilys.computer_database.dto;
+package com.excilys.computer_database.webapp.dto;
 
 /**
  * Data Transfer Object used to bring information from the server to the view. Only primitive types

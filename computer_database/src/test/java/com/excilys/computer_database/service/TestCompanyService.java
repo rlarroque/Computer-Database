@@ -4,45 +4,38 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Matchers;
 import org.mockito.Mockito;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.excilys.computer_database.exception.IntegrityException;
 import com.excilys.computer_database.persistence.dao.impl.CompanyDAOImpl;
 import com.excilys.computer_database.persistence.model.Company;
 import com.excilys.computer_database.service.impl.CompanyServiceImpl;
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest(CompanyDAOImpl.class)
+@ContextConfiguration("classpath:/mock-context.xml")
+@RunWith(SpringJUnit4ClassRunner.class)
 public class TestCompanyService {
 
-    private static CompanyDAOImpl compDAO = Mockito.mock(CompanyDAOImpl.class);
-    private static CompanyService compService;
+    @Autowired
+    private CompanyServiceImpl companyService;
+    
+    @Autowired
+    private CompanyDAOImpl mockCompanyDao;
 
     /**
-     * Before everuthing, mock the company DAO.
+     * Before.
      */
-    @BeforeClass
-    public static void executeBeforeTests() {
-        Mockito.when(compDAO.getAll()).thenReturn(new ArrayList<Company>());
-
-        PowerMockito.mockStatic(CompanyDAOImpl.class);
-        PowerMockito.when(CompanyDAOImpl.getInstance()).thenReturn(compDAO);
-
-        compService = CompanyServiceImpl.getInstance();
-    }
-
-    /**
-     * Make the DAO null.
-     */
-    @AfterClass
-    public static void executeAfterTests() {
-        compService = null;
+    @Before
+    public void executeBeforeTests() {
+        Mockito.when(mockCompanyDao.getAll()).thenReturn(new ArrayList<Company>());        
+        Mockito.when(mockCompanyDao.get(Matchers.anyInt())).thenReturn(new Company("Dummy Company"));
+        Mockito.when(mockCompanyDao.get(Matchers.anyString())).thenReturn(new Company("Dummy Company"));
     }
 
     /**
@@ -50,6 +43,48 @@ public class TestCompanyService {
      */
     @Test
     public void testGetCompanies() {
-        assertEquals(0, compService.getAll().size());
+        assertEquals(0, companyService.getAll().size());
+    }
+    
+    /**
+     * Test.
+     */
+    @Test
+    public void testGetCompanyWithId() {
+        Company company = companyService.get(1);
+        assertEquals("Dummy Company", company.getName());
+    }
+
+    /**
+     * Test.
+     */
+    @Test
+    public void testGetCompanyWithName() {
+        Company company = companyService.get("Dummy Company");
+        assertEquals("Dummy Company", company.getName());
+    }
+
+    /**
+     * Test.
+     */
+    @Test(expected = IntegrityException.class)
+    public void testGetCompanyNullName() {
+        companyService.get(null);
+    }
+
+    /**
+     * Test.
+     */
+    @Test(expected = IntegrityException.class)
+    public void testGetCompanyEmptyName() {
+        companyService.get("");
+    }
+
+    /**
+     * Test.
+     */
+    @Test(expected = IntegrityException.class)
+    public void testGetCompanyInvalidID() {
+        companyService.get(-1);
     }
 }

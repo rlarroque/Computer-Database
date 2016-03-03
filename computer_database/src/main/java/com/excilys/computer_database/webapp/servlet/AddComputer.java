@@ -1,4 +1,4 @@
-package com.excilys.computer_database.servlet;
+package com.excilys.computer_database.webapp.servlet;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,14 +14,14 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
-import com.excilys.computer_database.dto.CompanyDTO;
-import com.excilys.computer_database.dto.ComputerDTO;
-import com.excilys.computer_database.dto.validator.CompanyDTOValidator;
-import com.excilys.computer_database.dto.validator.ComputerDTOValidator;
 import com.excilys.computer_database.persistence.model.mapper.CompanyMapper;
 import com.excilys.computer_database.persistence.model.mapper.ComputerMapper;
 import com.excilys.computer_database.service.impl.CompanyServiceImpl;
 import com.excilys.computer_database.service.impl.ComputerServiceImpl;
+import com.excilys.computer_database.webapp.dto.CompanyDTO;
+import com.excilys.computer_database.webapp.dto.ComputerDTO;
+import com.excilys.computer_database.webapp.dto.validator.CompanyDTOValidator;
+import com.excilys.computer_database.webapp.dto.validator.ComputerDTOValidator;
 
 /**
  * Servlet in charge of adding computers.

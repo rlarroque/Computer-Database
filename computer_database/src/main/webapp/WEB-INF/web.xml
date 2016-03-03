@@ -8,7 +8,7 @@
 
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath:./application-context.xml</param-value>
+		<param-value>classpath:application-context.xml</param-value>
 	</context-param>
 
 	<listener>
@@ -45,8 +45,5 @@
 		<exception-type>com.excilys.computer_database.exception.IntegrityException</exception-type>
 		<location>/WEB-INF/jsp/500.jsp</location>
 	</error-page>
-
-	<jsp-config>
-	</jsp-config>
 
 </web-app>

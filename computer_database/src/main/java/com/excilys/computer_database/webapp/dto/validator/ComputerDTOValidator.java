@@ -1,10 +1,10 @@
-package com.excilys.computer_database.dto.validator;
+package com.excilys.computer_database.webapp.dto.validator;
 
 import java.time.LocalDate;
 import java.util.List;
 
-import com.excilys.computer_database.dto.ComputerDTO;
 import com.excilys.computer_database.exception.IntegrityException;
+import com.excilys.computer_database.webapp.dto.ComputerDTO;
 
 /**
  * Interface with static methods used to validate the integrity of a computerDTO.

@@ -5,11 +5,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.excilys.computer_database.dto.CompanyDTO;
-import com.excilys.computer_database.dto.validator.CompanyDTOValidator;
 import com.excilys.computer_database.exception.IntegrityException;
 import com.excilys.computer_database.persistence.model.Company;
 import com.excilys.computer_database.persistence.model.validator.CompanyValidator;
+import com.excilys.computer_database.webapp.dto.CompanyDTO;
+import com.excilys.computer_database.webapp.dto.validator.CompanyDTOValidator;
 
 /**
  * Mapper used to convert a resultSet or DTO into a Company object.

@@ -1,4 +1,4 @@
-package com.excilys.computer_database.servlet;
+package com.excilys.computer_database.webapp.servlet;
 
 import java.io.IOException;
 import java.util.Arrays;

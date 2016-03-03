@@ -1,6 +1,6 @@
 package com.excilys.computer_database.view;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.util.concurrent.TimeUnit;
 
@@ -9,9 +9,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.Select;
 
 public class ITView {
     private static WebDriver driver;
@@ -44,8 +46,7 @@ public class ITView {
      */
     @Test
     public void testLinkClick() throws Exception {
-        driver.get(
-                baseUrl + "/computer_database/display_computers?page=1&offset=10&order=&filter=");
+        driver.get(baseUrl + "/computer_database/display_computers?page=1&offset=10&order=&filter=");
         driver.findElement(By.linkText("2")).click();
         driver.findElement(By.linkText("3")).click();
         driver.findElement(By.linkText("1")).click();
@@ -62,8 +63,7 @@ public class ITView {
      */
     @Test
     public void testNextPreviousClick() throws Exception {
-        driver.get(
-                baseUrl + "/computer_database/display_computers?page=1&offset=10&order=&filter=");
+        driver.get(baseUrl + "/computer_database/display_computers?page=1&offset=10&order=&filter=");
         driver.findElement(By.linkText("›")).click();
         driver.findElement(By.linkText("›")).click();
         assert (isElementPresent(By.linkText(("Macintosh IIfx"))));
@@ -79,23 +79,18 @@ public class ITView {
      */
     @Test
     public void testOffsetClick() throws Exception {
-        driver.get(
-                baseUrl + "/computer_database/display_computers?page=1&offset=10&order=&filter=");
+        driver.get(baseUrl + "/computer_database/display_computers?page=1&offset=10&order=&filter=");
         assert (isElementPresent(By.linkText(("MacBook Pro 15.4 inch"))));
-        assertEquals(10,
-                driver.findElements(By.xpath("//table[@id='table_computers']/tbody/tr")).size());
+        assertEquals(10, driver.findElements(By.xpath("//table[@id='table_computers']/tbody/tr")).size());
         driver.findElement(By.linkText("50")).click();
         assert (isElementPresent(By.linkText(("Commodore PET"))));
-        assertEquals(50,
-                driver.findElements(By.xpath("//table[@id='table_computers']/tbody/tr")).size());
+        assertEquals(50, driver.findElements(By.xpath("//table[@id='table_computers']/tbody/tr")).size());
         driver.findElement(By.linkText("100")).click();
         assert (isElementPresent(By.linkText(("Tinkertoy Tic-Tac-Toe Computer"))));
-        assertEquals(100,
-                driver.findElements(By.xpath("//table[@id='table_computers']/tbody/tr")).size());
+        assertEquals(100, driver.findElements(By.xpath("//table[@id='table_computers']/tbody/tr")).size());
         driver.findElement(By.linkText("10")).click();
         assert (!isElementPresent(By.linkText(("Apple II Plus"))));
-        assertEquals(10,
-                driver.findElements(By.xpath("//table[@id='table_computers']/tbody/tr")).size());
+        assertEquals(10, driver.findElements(By.xpath("//table[@id='table_computers']/tbody/tr")).size());
     }
 
     /**
@@ -103,17 +98,76 @@ public class ITView {
      * @throws Exception if element not found
      */
     @Test
-    public void testAddComputer() throws Exception {
-        driver.get(
-                baseUrl + "/computer_database/display_computers?page=1&offset=10&order=&filter=");
+    public void testAddEditDeleteComputer() throws Exception {
+
+        // Computer creation
+        driver.get(baseUrl + "/computer_database/display_computers?page=1&offset=10&order=&filter=");
         driver.findElement(By.id("addComputer")).click();
         driver.findElement(By.id("computerName")).clear();
-        driver.findElement(By.id("computerName")).sendKeys("Test");
+        driver.findElement(By.id("computerName")).sendKeys("Test IT");
+        new Select(driver.findElement(By.id("companyId"))).selectByVisibleText("Apple Inc.");
         driver.findElement(By.cssSelector("input.btn.btn-primary")).click();
         assertEquals("Computer Successfully created", closeAlertAndGetItsText());
+
+        driver.findElement(By.id("searchbox")).clear();
+        driver.findElement(By.id("searchbox")).sendKeys("Test IT");
         driver.findElement(By.id("searchsubmit")).click();
-        driver.findElement(By.linkText("»")).click();
-        assert (isElementPresent(By.linkText(("Test"))));
+        assert (isElementPresent(By.linkText(("Test IT"))));
+        
+        // Computer editing
+        driver.findElement(By.id("searchbox")).clear();
+        driver.findElement(By.id("searchbox")).sendKeys("Test IT");
+        driver.findElement(By.id("searchsubmit")).click();
+        driver.findElement(By.linkText("Test IT")).click();
+        driver.findElement(By.id("computerName")).clear();
+        driver.findElement(By.id("computerName")).sendKeys("Test IT Modified");
+        new Select(driver.findElement(By.id("companyId"))).selectByVisibleText("Thinking Machines");
+        driver.findElement(By.cssSelector("input.btn.btn-primary")).click();
+        assertEquals("Computer Successfully created", closeAlertAndGetItsText());
+        
+        // Computer deletion 
+        driver.findElement(By.id("editComputer")).click();
+        driver.findElement(By.id("searchbox")).clear();
+        driver.findElement(By.id("searchbox")).sendKeys("Test IT");
+        driver.findElement(By.id("searchsubmit")).click();
+        driver.findElement(By.id("editComputer")).click();
+        driver.findElement(By.name("cb")).click();
+        driver.findElement(By.xpath("//a[@id='deleteSelected']/i")).click();
+        assertTrue(closeAlertAndGetItsText().matches("^Are you sure you want to delete the selected computers[\\s\\S]$"));
+        driver.findElement(By.id("searchbox")).clear();
+        driver.findElement(By.id("searchbox")).sendKeys("Test IT");
+        driver.findElement(By.id("searchsubmit")).click();
+        assertEquals(0, driver.findElements(By.xpath("//table[@id='table_computers']/tbody/tr")).size());
+        assertEquals("0 Computers found", driver.findElements(By.id("homeTitle")).get(0).getText());
+    }
+    
+    /**
+     * Test.
+     * @throws Exception
+     */
+    @Test
+    public void testAddNotValidating() throws Exception {
+      driver.get(baseUrl + "/computer_database/display_computers?page=1&offset=10&order=&filter=");
+      driver.findElement(By.id("addComputer")).click();
+      driver.findElement(By.cssSelector("input.btn.btn-primary")).click();
+      assertEquals(false, isAlertPresent());
+      
+      driver.findElement(By.id("computerName")).clear();
+      driver.findElement(By.id("computerName")).sendKeys("Test wrong");
+      driver.findElement(By.id("introduced")).clear();
+      driver.findElement(By.id("introduced")).sendKeys("45a");
+      driver.findElement(By.cssSelector("input.btn.btn-primary")).click();
+      assertEquals(false, isAlertPresent());
+      
+      driver.findElement(By.id("introduced")).clear();
+      driver.findElement(By.id("introduced")).sendKeys("2015-02-02");
+      driver.findElement(By.id("discontinued")).clear();
+      driver.findElement(By.id("discontinued")).sendKeys("2014-03-05");
+      driver.findElement(By.cssSelector("input.btn.btn-primary")).click();
+      assertEquals(false, isAlertPresent());
+
+      driver.findElement(By.id("computerName")).clear();
+      assertEquals(false, isAlertPresent());
     }
 
     /**
@@ -122,8 +176,7 @@ public class ITView {
      */
     @Test
     public void testFilter() throws Exception {
-        driver.get(
-                baseUrl + "/computer_database/display_computers?page=1&offset=10&order=id&filter=");
+        driver.get(baseUrl + "/computer_database/display_computers?page=1&offset=10&order=id&filter=");
         driver.findElement(By.id("searchbox")).clear();
         driver.findElement(By.id("searchbox")).sendKeys("apple");
         driver.findElement(By.id("searchsubmit")).click();
@@ -136,21 +189,30 @@ public class ITView {
      */
     @Test
     public void testOrder() throws Exception {
-        driver.get(
-                baseUrl + "/computer_database/display_computers?page=1&offset=10&order=&filter=");
-        driver.findElement(By.xpath("//section[@id='main']/div[2]/table/thead/tr/th[2]/div/a[2]"))
-                .click();
+        driver.get(baseUrl + "/computer_database/display_computers?page=1&offset=10&order=&filter=");
+        driver.findElement(By.xpath("//section[@id='main']/div[2]/table/thead/tr/th[2]/div/a[2]")).click();
         assert (isElementPresent(By.linkText(("ZX Spectrum +3"))));
-        driver.findElement(By.xpath("//section[@id='main']/div[2]/table/thead/tr/th[2]/div/a[2]"))
-                .click();
+        driver.findElement(By.xpath("//section[@id='main']/div[2]/table/thead/tr/th[2]/div/a[2]")).click();
         assert (isElementPresent(By.linkText(("ZX Spectrum +3"))));
-        driver.findElement(By.xpath("//section[@id='main']/div[2]/table/thead/tr/th[2]/div/a"))
-                .click();
+        driver.findElement(By.xpath("//section[@id='main']/div[2]/table/thead/tr/th[2]/div/a")).click();
         assert (isElementPresent(By.linkText(("Acer Extensa 5220"))));
         driver.findElement(By.linkText("Application - Computer Database")).click();
         assert (isElementPresent(By.linkText(("MacBook Pro 15.4 inch"))));
     }
-
+    
+    /**
+     * Make sure that an alert is present or not.
+     * @return true if present, else false
+     */
+    private boolean isAlertPresent() {
+        try {
+          driver.switchTo().alert();
+          return true;
+        } catch (NoAlertPresentException e) {
+          return false;
+        }
+      }
+    
     /**
      * Check the presence of an element.
      * @param by by

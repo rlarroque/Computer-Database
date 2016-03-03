@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.excilys.computer_database.exception.IntegrityException;
 import com.excilys.computer_database.persistence.dao.CompanyDAO;
 import com.excilys.computer_database.persistence.dao.ComputerDAO;
 import com.excilys.computer_database.persistence.db.ConnectionFactory;
@@ -39,7 +40,7 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    @Transactional(readOnly = false)
+    @Transactional(readOnly = false, transactionManager="transactionManagerMySql")
     public void delete(long id) {
 
         try {            
@@ -51,5 +52,25 @@ public class CompanyServiceImpl implements CompanyService {
         } finally {
             ConnectionFactory.closeConnection();
         }
+    }
+    
+    @Override
+    public Company get(long id) {
+
+        if (id < 1) {
+            throw new IntegrityException("Id cannot be negativ.");
+        }
+
+        return companyDAO.get(id);
+    }
+
+    @Override
+    public Company get(String name) {
+
+        if (name == null || name == "") {
+            throw new IntegrityException("A name is mandatory for a company.");
+        }
+
+        return companyDAO.get(name);
     }
 }
