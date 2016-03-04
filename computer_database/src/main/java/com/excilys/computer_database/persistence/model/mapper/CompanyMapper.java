@@ -49,7 +49,7 @@ public interface CompanyMapper {
      * @param dtoList list to map
      * @return the list of company mapped
      */
-    static List<Company> toCompany(List<CompanyDTO> dtoList) {
+    static List<Company> toCompany(List<CompanyDTO> dtoList) throws SQLException {
         List<Company> companyList = new ArrayList<>();
 
         for (CompanyDTO dto : dtoList) {
@@ -58,7 +58,7 @@ public interface CompanyMapper {
 
         return companyList;
     }
-
+    
     /**
      * Used to map a Company into a CompanyDTO.
      * @param company to map

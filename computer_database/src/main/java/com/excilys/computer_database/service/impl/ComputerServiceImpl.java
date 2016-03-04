@@ -3,8 +3,6 @@ package com.excilys.computer_database.service.impl;
 import java.sql.SQLException;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,8 +21,6 @@ import com.excilys.computer_database.service.ComputerService;
  */
 @Service
 public class ComputerServiceImpl implements ComputerService {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(ComputerServiceImpl.class.getName());
 
     @Autowired
     private ComputerDAO computerDAO;
@@ -93,12 +89,8 @@ public class ComputerServiceImpl implements ComputerService {
         if (id < 1) {
             throw new IntegrityException("Id cannot be negativ.");
         }
-
-        try {
-            computerDAO.delete(id);
-        } catch (SQLException e) {
-            LOGGER.error("Cannot delete computer with id: " + id);
-        }
+        
+        computerDAO.delete(id);
     }
 
     @Override

@@ -22,12 +22,12 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.excilys.computer_database.exception.IntegrityException;
-import com.excilys.computer_database.persistence.db.utils.DbUtils;
+import com.excilys.computer_database.persistence.dao.utils.DAOUtils;
 import com.excilys.computer_database.persistence.model.Company;
 import com.excilys.computer_database.persistence.model.mapper.CompanyMapper;
 import com.excilys.computer_database.webapp.dto.CompanyDTO;
 
-@ContextConfiguration(locations = {"classpath:/test-context.xml"})
+@ContextConfiguration(locations = { "classpath:/test-context.xml" })
 @RunWith(SpringJUnit4ClassRunner.class)
 public class TestCompanyMapping {
 
@@ -38,10 +38,10 @@ public class TestCompanyMapping {
 
     private Connection connection;
     private Statement statement;
-    
+
     @Autowired
     private DataSource dataSource;
-    
+
     /**
      * Before all tests remove all companies and add a single one.
      */
@@ -71,9 +71,10 @@ public class TestCompanyMapping {
     public void executeAfterEachTests() {
 
         try {
-            DbUtils.close(statement);
-            DbUtils.close(connection);
+            DAOUtils.close(statement);
+            DAOUtils.close(connection);
         } catch (SQLException e) {
+            LOGGER.error("Cannot close connection!!!", e);
         }
     }
 
@@ -103,10 +104,10 @@ public class TestCompanyMapping {
      */
     @Test
     public void testCompanyToDTO() {
-        
+
         Company company = new Company(1l, "Dummy Company");
         CompanyDTO dto = CompanyMapper.toDTO(company);
-        
+
         assertEquals(dto.getName(), company.getName());
     }
 
@@ -115,9 +116,9 @@ public class TestCompanyMapping {
      */
     @Test(expected = IntegrityException.class)
     public void testCompanyToDTOWithNull() {
-        
+
         Company company = null;
-        
+
         @SuppressWarnings("unused")
         CompanyDTO dto = CompanyMapper.toDTO(company);
     }
@@ -127,10 +128,10 @@ public class TestCompanyMapping {
      */
     @Test
     public void testDtoToCompany() {
-        
+
         CompanyDTO dto = new CompanyDTO(1, "Dummy Company");
         Company company = CompanyMapper.toCompany(dto);
-        
+
         assertEquals("Dummy Company", company.getName());
     }
 
@@ -139,9 +140,9 @@ public class TestCompanyMapping {
      */
     @Test(expected = IntegrityException.class)
     public void testDtoToCompanyWithNull() {
-        
+
         CompanyDTO dto = null;
-        
+
         @SuppressWarnings("unused")
         Company company = CompanyMapper.toCompany(dto);
     }

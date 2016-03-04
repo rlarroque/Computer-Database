@@ -1,26 +1,20 @@
 package com.excilys.computer_database.persistence.dao.impl;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.sql.DataSource;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import com.excilys.computer_database.persistence.dao.ComputerDAO;
-import com.excilys.computer_database.persistence.dao.utils.DAOUtils;
 import com.excilys.computer_database.persistence.dao.utils.QueryBuilder;
 import com.excilys.computer_database.persistence.model.Computer;
 import com.excilys.computer_database.persistence.model.Page;
-import com.excilys.computer_database.persistence.model.mapper.ComputerMapper;
+import com.excilys.computer_database.persistence.model.mapper.ComputerRowMapper;
 
 /**
  * Implementation of ComputerDAO that is used to manipulate the db.
@@ -29,243 +23,90 @@ import com.excilys.computer_database.persistence.model.mapper.ComputerMapper;
 @Repository
 public class ComputerDAOImpl implements ComputerDAO {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ComputerDAOImpl.class.getName());
-
     @Autowired
     private DataSource dataSource;
 
     @Override
     public List<Computer> getAll() {
 
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resSet = null;
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 
-        List<Computer> computers = new ArrayList<Computer>();
-
-        try {
-            connection = dataSource.getConnection();
-            preparedStatement = connection.prepareStatement(QueryBuilder.getComputersQuery());
-            resSet = preparedStatement.executeQuery();
-
-            while (resSet.next()) {
-                computers.add(ComputerMapper.toComputer(resSet));
-            }
-
-        } catch (SQLException e) {
-            LOGGER.error("Cannot get all computers!!!", e);
-        } finally {
-            DAOUtils.closeConnection(connection, preparedStatement, resSet);
-        }
+        List<Computer> computers = jdbcTemplate.query(QueryBuilder.getComputersQuery(), new ComputerRowMapper());
 
         return computers;
     }
 
     @Override
     public List<Computer> getPage(Page page) {
+        
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resSet = null;
-
-        List<Computer> computers = new ArrayList<>();
-
-        try {
-            connection = dataSource.getConnection();
-            preparedStatement = connection.prepareStatement(QueryBuilder.getComputerPageQuery(page));
-            resSet = preparedStatement.executeQuery();
-
-            while (resSet.next()) {
-                computers.add(ComputerMapper.toComputer(resSet));
-            }
-
-            LOGGER.info("Page of computers retrieved.");
-
-        } catch (SQLException e) {
-            LOGGER.error("Cannot get the page of computers!!!", e);
-        } finally {
-            DAOUtils.closeConnection(connection, preparedStatement, resSet);
-        }
+        List<Computer> computers = jdbcTemplate.query(QueryBuilder.getComputerPageQuery(page), new ComputerRowMapper());
 
         return computers;
     }
 
     @Override
     public Computer get(long id) {
+        
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resSet = null;
-
-        Computer computer = null;
-
-        try {
-            connection = dataSource.getConnection();
-            preparedStatement = connection.prepareStatement(QueryBuilder.getComputerQuery(id));
-            resSet = preparedStatement.executeQuery();
-
-            if (resSet.next()) {
-                computer = ComputerMapper.toComputer(resSet);
-            }
-
-            LOGGER.info("Computer with id " + id + " retrieved.");
-
-        } catch (SQLException e) {
-            LOGGER.error("Cannot get the computer with the id " + id + "!!! ", e);
-        } finally {
-            DAOUtils.closeConnection(connection, preparedStatement, resSet);
-        }
+        Computer computer = jdbcTemplate.queryForObject(QueryBuilder.getComputerQuery(id),
+                                                        new Long[] { id },
+                                                        new ComputerRowMapper());
 
         return computer;
     }
 
     @Override
     public Computer get(String name) {
+        
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resSet = null;
-
-        Computer computer = null;
-
-        try {
-            connection = dataSource.getConnection();
-            preparedStatement = connection.prepareStatement(QueryBuilder.getComputerQuery(name));
-            resSet = preparedStatement.executeQuery();
-
-            if (resSet.next()) {
-                computer = ComputerMapper.toComputer(resSet);
-            }
-
-            LOGGER.info("Computer with name " + name + " retrieved.");
-
-        } catch (SQLException e) {
-            LOGGER.error("Cannot get the computer with the name " + name + "!!!", e);
-        } finally {
-            DAOUtils.closeConnection(connection, preparedStatement, resSet);
-        }
+        Computer computer = jdbcTemplate.queryForObject(QueryBuilder.getComputerQuery(name),
+                                                        new String[] { name },
+                                                        new ComputerRowMapper());
 
         return computer;
     }
 
     @Override
     public long create(Computer computer) {
+        
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+        KeyHolder keyHolder = new GeneratedKeyHolder();
 
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resSet = null;
-
-        long resultKey = 0;
-
-        try {
-            connection = dataSource.getConnection();
-            preparedStatement = connection.prepareStatement(QueryBuilder.createQuery(), Statement.RETURN_GENERATED_KEYS);
-            QueryBuilder.buildCreateQuery(computer, preparedStatement);
-
-            preparedStatement.executeUpdate();
-            resSet = preparedStatement.getGeneratedKeys();
-
-            if (resSet.next()) {
-                resultKey = resSet.getInt(1);
-            }
-
-            LOGGER.info("Computer with id " + computer.getId() + " created.");
-
-        } catch (SQLException e) {
-            LOGGER.error("Cannot create computer!!!", e);
-        } finally {
-            DAOUtils.closeConnection(connection, preparedStatement, resSet);
-        }
-
-        return resultKey;
+        jdbcTemplate.update(QueryBuilder.createQuery(computer), keyHolder);
+        
+        return (long) keyHolder.getKey();
     }
 
     @Override
     public void update(Computer computer) {
-
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resSet = null;
-
-        try {
-            connection = dataSource.getConnection();
-            preparedStatement = connection.prepareStatement(QueryBuilder.updateQuery());
-            QueryBuilder.buildUpdateQuery(computer, preparedStatement);
-
-            preparedStatement.executeUpdate();
-
-            LOGGER.info("Computer with id " + computer.getId() + " updated.");
-
-        } catch (SQLException e) {
-            LOGGER.error("Cannot update computer!!!", e);
-        } finally {
-            DAOUtils.closeConnection(connection, preparedStatement, resSet);
-        }
+        
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);        
+        jdbcTemplate.update(QueryBuilder.updateQuery(computer));
     }
 
     @Override
-    public void delete(long id) throws SQLException {
-
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resSet = null;
-
-        try {
-            connection = dataSource.getConnection();
-            preparedStatement = connection.prepareStatement(QueryBuilder.deleteComputerQuery(id));
-            preparedStatement.executeUpdate();
-
-            LOGGER.info("Computer with id " + id + " deleted.");
-
-        } catch (SQLException e) {
-            LOGGER.error("Cannot delete computer with id: " + id + "!!!", e);
-        } finally {
-            DAOUtils.closeConnection(connection, preparedStatement, resSet);
-        }
+    public void delete(long id) {
+        
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+        jdbcTemplate.update(QueryBuilder.deleteComputerQuery(id));
     }
 
     @Override
-    public void deleteByCompany(long id) throws SQLException {
-        Connection connection = DAOUtils.initConnection();
-        PreparedStatement preparedStatement = null;
-        ResultSet resSet = null;
-
-        try {
-            preparedStatement = connection.prepareStatement(QueryBuilder.deleteComputerByCompanyQuery(id));
-            preparedStatement.executeUpdate();
-
-        } catch (SQLException e) {
-            LOGGER.error("Cannot delete computers with company id: " + id + "!!!", e);
-        } finally {
-            // The connection will be closed at the end of the transaction
-            DAOUtils.closeConnection(null, preparedStatement, resSet);
-        }
+    public void deleteByCompany(long id) {
+        
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+        jdbcTemplate.update(QueryBuilder.deleteComputerByCompanyQuery(id));
     }
 
     @Override
     public int count(Page page) {
-
-        int computerNumber = 0;
-
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resSet = null;
-
-        try {
-            connection = dataSource.getConnection();
-            preparedStatement = connection.prepareStatement(QueryBuilder.countComputerQuery(page));
-            resSet = preparedStatement.executeQuery();
-
-            if (resSet.next()) {
-                computerNumber = resSet.getInt(1);
-            }
-
-        } catch (SQLException e) {
-
-            LOGGER.error("Cannot count computers!!!", e);
-        } finally {
-            DAOUtils.closeConnection(connection, preparedStatement, resSet);
-        }
+        
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+        int computerNumber = jdbcTemplate.queryForObject(QueryBuilder.countComputerQuery(page), Integer.class);
 
         return computerNumber;
     }

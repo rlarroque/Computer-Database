@@ -17,11 +17,12 @@ import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.excilys.computer_database.persistence.dao.impl.CompanyDAOImpl;
-import com.excilys.computer_database.persistence.db.utils.DbUtils;
+import com.excilys.computer_database.persistence.dao.utils.DAOUtils;
 import com.excilys.computer_database.persistence.model.Company;
 
 @ContextConfiguration(locations = { "classpath:/test-context.xml" })
@@ -66,8 +67,9 @@ public class TestCompanyDAOImpl {
     public void executeAfterEachTests() {
 
         try {
-            DbUtils.close(statement);
-            DbUtils.close(connection);
+            DAOUtils.closeConnection(connection, null, null);
+            DAOUtils.close(statement);
+            DAOUtils.close(connection);
         } catch (SQLException e) {
             LOGGER.error("Cannot close connection");
         }
@@ -90,9 +92,10 @@ public class TestCompanyDAOImpl {
     public void testGetCompanies() {
 
         addDummyCompany();
+        addDummyCompany();
 
         List<Company> companies = companyDAO.getAll();
-        assertEquals(1, companies.size());
+        assertEquals(2, companies.size());
     }
     
     /**
@@ -122,13 +125,12 @@ public class TestCompanyDAOImpl {
     /**
      * Test.
      */
-    @Test
+    @SuppressWarnings("unused")
+    @Test(expected = EmptyResultDataAccessException.class)
     public void testGetComputerByNameWrong() {
-
+        
         addDummyCompany();
-
         Company company = companyDAO.get("Not the right dummy company");
-        assertEquals(null, company);
     }
 
     /**

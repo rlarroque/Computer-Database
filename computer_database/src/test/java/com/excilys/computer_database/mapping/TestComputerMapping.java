@@ -23,7 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.excilys.computer_database.persistence.db.utils.DbUtils;
+import com.excilys.computer_database.persistence.dao.utils.DAOUtils;
 import com.excilys.computer_database.persistence.model.Company;
 import com.excilys.computer_database.persistence.model.Computer;
 import com.excilys.computer_database.persistence.model.mapper.ComputerMapper;
@@ -83,8 +83,8 @@ public class TestComputerMapping {
     public void executerApresChaqueTest() {
 
         try {
-            DbUtils.close(statement);
-            DbUtils.close(connection);
+            DAOUtils.close(statement);
+            DAOUtils.close(connection);
         } catch (SQLException e) {
             LOGGER.error("Cannot close connection", e);
         }

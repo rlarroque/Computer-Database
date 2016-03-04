@@ -41,7 +41,7 @@ public interface ComputerDAO {
     Computer get(String name);
 
     /**
-     * Method used to create a new computer. A computer has to passed as an argument so all its parameters can be added to the db.
+     * Method used to create a new computer. A computer has to passed as an ²argument so all its parameters can be added to the db.
      * @param c a computer previously created
      * @return the id of the created computer
      */
@@ -58,14 +58,14 @@ public interface ComputerDAO {
      * @param id id of the computer you want to delete.
      * @throws SQLException thrown in case of SQL issues
      */
-    void delete(long id) throws SQLException;
+    void delete(long id);
 
     /**
      * Delete all computers sharing a company that has this id.
      * @param id id of the company
      * @throws SQLException thrown for roll back purpose
      */
-    void deleteByCompany(long id) throws SQLException;
+    void deleteByCompany(long id);
 
     /**
      * Retrieve the number if computers available on the db.

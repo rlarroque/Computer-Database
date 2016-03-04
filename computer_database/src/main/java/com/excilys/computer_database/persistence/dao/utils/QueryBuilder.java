@@ -1,10 +1,13 @@
 package com.excilys.computer_database.persistence.dao.utils;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+
+import org.springframework.jdbc.core.PreparedStatementCreator;
 
 import com.excilys.computer_database.persistence.model.Computer;
 import com.excilys.computer_database.persistence.model.Page;
@@ -23,6 +26,7 @@ public class QueryBuilder {
     private static final String DELETE_COMPUTER_COMPANY_QUERY = "DELETE FROM computer where company_id = ";
     private static final String COUNT_COMPUTER_QUERY = "SELECT COUNT(*) from computer LEFT JOIN company ON computer.company_id = company.id";
     private static final String GET_COMPANY_QUERY = "SELECT * FROM company";
+    private static final String DELETE_COMPANY_QUERY = "DELETE FROM company where id = ";
 
     /**
      * Get the query to retrieve all computers.
@@ -53,17 +57,13 @@ public class QueryBuilder {
         String query = GET_COMPUTER_QUERY;
 
         if (page.getFilter() != null && !"".equals(page.getFilter())) {
-            query = query.concat(" WHERE computer.name LIKE '%")
-                         .concat(page.getFilter())
-                         .concat("%' OR company.name LIKE '%")
-                         .concat(page.getFilter())
-                         .concat("%'");
+            query = query.concat(" WHERE computer.name LIKE '%").concat(page.getFilter()).concat("%' OR company.name LIKE '%")
+                    .concat(page.getFilter()).concat("%'");
         }
 
         if (page.getOrder() != null) {
-            query = query.concat(" ORDER BY computer.")
-                         .concat(page.getOrder().getCol().toString())
-                         .concat(" " + page.getOrder().getType().toString());
+            query = query.concat(" ORDER BY computer.").concat(page.getOrder().getCol().toString())
+                    .concat(" " + page.getOrder().getType().toString());
         }
 
         query = query.concat(" LIMIT " + page.getOffset() + " OFFSET " + page.getStartIndex());
@@ -77,7 +77,7 @@ public class QueryBuilder {
      * @return the query
      */
     public static String getComputerQuery(String name) {
-        String query = GET_COMPUTER_QUERY.concat(" WHERE computer.name='" + name + "'");
+        String query = GET_COMPUTER_QUERY.concat(" WHERE computer.name=?");
 
         return query;
     }
@@ -88,84 +88,91 @@ public class QueryBuilder {
      * @return the query
      */
     public static String getComputerQuery(long id) {
-        String query = GET_COMPUTER_QUERY.concat(" WHERE computer.id=" + id);
+        String query = GET_COMPUTER_QUERY.concat(" WHERE computer.id=?");
 
         return query;
     }
 
     /**
-     * Get the query to create a computer.
-     * @return the query
-     */
-    public static String createQuery() {
-        return CREATE_COMPUTER_QUERY;
-    }
-
-    /**
      * Build the query to create a computer.
      * @param computer computer to create
-     * @param preparedStatement prepared statement to modify
-     * @throws SQLException thrown in case of SQL issues
      */
-    public static void buildCreateQuery(Computer computer, PreparedStatement preparedStatement) throws SQLException {
+    public static PreparedStatementCreator createQuery(Computer computer) {
 
-        preparedStatement.setString(1, computer.getName());
+        PreparedStatementCreator psc = new PreparedStatementCreator() {
 
-        if (computer.getIntroduced() == null) {
-            preparedStatement.setObject(2, null);
-        } else {
-            preparedStatement.setTimestamp(2, Timestamp.valueOf(LocalDateTime.of(computer.getIntroduced(), LocalTime.of(0, 0))));
-        }
+            @Override
+            public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
 
-        if (computer.getDiscontinued() == null) {
-            preparedStatement.setObject(3, null);
-        } else {
-            preparedStatement.setTimestamp(3, Timestamp.valueOf(LocalDateTime.of(computer.getDiscontinued(), LocalTime.of(0, 0))));
-        }
+                PreparedStatement preparedStatement = con.prepareStatement(CREATE_COMPUTER_QUERY, new String[] { "id" });
 
-        if (computer.getCompany() == null) {
-            preparedStatement.setObject(4, null);
-        } else {
-            preparedStatement.setLong(4, computer.getCompany().getId());
-        }
-    }
+                preparedStatement.setString(1, computer.getName());
 
-    /**
-     * Get the query to update a computer.
-     * @return the query
-     */
-    public static String updateQuery() {
-        return UPDATE_COMPUTER_QUERY;
+                if (computer.getIntroduced() == null) {
+                    preparedStatement.setObject(2, null);
+                } else {
+                    preparedStatement.setTimestamp(2, Timestamp.valueOf(LocalDateTime.of(computer.getIntroduced(), LocalTime.of(0, 0))));
+                }
+
+                if (computer.getDiscontinued() == null) {
+                    preparedStatement.setObject(3, null);
+                } else {
+                    preparedStatement.setTimestamp(3, Timestamp.valueOf(LocalDateTime.of(computer.getDiscontinued(), LocalTime.of(0, 0))));
+                }
+
+                if (computer.getCompany() == null) {
+                    preparedStatement.setObject(4, null);
+                } else {
+                    preparedStatement.setLong(4, computer.getCompany().getId());
+                }
+
+                return preparedStatement;
+            }
+        };
+
+        return psc;
     }
 
     /**
      * Build the query to update a computer.
      * @param computer computer to update
-     * @param preparedStatement prepared statement to modify
-     * @throws SQLException thrown in case of SQL issues
      */
-    public static void buildUpdateQuery(Computer computer, PreparedStatement preparedStatement) throws SQLException {
-        preparedStatement.setString(1, computer.getName());
-        
-        if (computer.getIntroduced() == null) {
-            preparedStatement.setObject(2, null);
-        } else {
-            preparedStatement.setTimestamp(2, Timestamp.valueOf(LocalDateTime.of(computer.getIntroduced(), LocalTime.of(0, 0))));
-        }
+    public static PreparedStatementCreator updateQuery(Computer computer) {
 
-        if (computer.getDiscontinued() == null) {
-            preparedStatement.setObject(3, null);
-        } else {
-            preparedStatement.setTimestamp(3, Timestamp.valueOf(LocalDateTime.of(computer.getDiscontinued(), LocalTime.of(0, 0))));
-        }
+        PreparedStatementCreator psc = new PreparedStatementCreator() {
 
-        if (computer.getCompany() == null) {
-            preparedStatement.setObject(4, null);
-        } else {
-            preparedStatement.setLong(4, computer.getCompany().getId());
-        }
-        
-        preparedStatement.setLong(5, computer.getId());
+            @Override
+            public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+
+                PreparedStatement preparedStatement = con.prepareStatement(UPDATE_COMPUTER_QUERY, new String[] { "id" });
+
+                preparedStatement.setString(1, computer.getName());
+
+                if (computer.getIntroduced() == null) {
+                    preparedStatement.setObject(2, null);
+                } else {
+                    preparedStatement.setTimestamp(2, Timestamp.valueOf(LocalDateTime.of(computer.getIntroduced(), LocalTime.of(0, 0))));
+                }
+
+                if (computer.getDiscontinued() == null) {
+                    preparedStatement.setObject(3, null);
+                } else {
+                    preparedStatement.setTimestamp(3, Timestamp.valueOf(LocalDateTime.of(computer.getDiscontinued(), LocalTime.of(0, 0))));
+                }
+
+                if (computer.getCompany() == null) {
+                    preparedStatement.setObject(4, null);
+                } else {
+                    preparedStatement.setLong(4, computer.getCompany().getId());
+                }
+
+                preparedStatement.setLong(5, computer.getId());
+
+                return preparedStatement;
+            }
+        };
+
+        return psc;
     }
 
     /**
@@ -199,11 +206,8 @@ public class QueryBuilder {
         String query = COUNT_COMPUTER_QUERY;
 
         if (page.getFilter() != null && !"".equals(page.getFilter())) {
-            query = query.concat(" WHERE computer.name LIKE '%")
-                         .concat(page.getFilter())
-                         .concat("%' OR company.name LIKE '%")
-                         .concat(page.getFilter())
-                         .concat("%'");
+            query = query.concat(" WHERE computer.name LIKE '%").concat(page.getFilter()).concat("%' OR company.name LIKE '%")
+                    .concat(page.getFilter()).concat("%'");
         }
 
         return query;
@@ -219,24 +223,28 @@ public class QueryBuilder {
 
     /**
      * Get the query to retrieve a company by name.
-     * @param name name of the company to retrieve
      * @return the query
      */
     public static String getCompanyQuery(String name) {
-        String query = GET_COMPANY_QUERY.concat(" WHERE company.name='" + name + "'");
-
-        return query;
+        return GET_COMPANY_QUERY.concat(" WHERE company.name=?");
     }
 
     /**
      * Get the query to retrieve a company by id.
-     * @param id id of the company to retrieve
      * @return the query
      */
     public static String getCompanyQuery(long id) {
-        String query = GET_COMPANY_QUERY.concat(" WHERE company.id=" + id);
+        return GET_COMPANY_QUERY.concat(" WHERE company.id=?");
+    }
+    
+    /**
+     * Get the query to delete a company by id.
+     * @param id id of the company to delete
+     * @return the query
+     */
+    public static String deleteCompanyQuery(Long id) {
+        String query = DELETE_COMPANY_QUERY.concat(id.toString());
 
         return query;
     }
-
 }

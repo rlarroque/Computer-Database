@@ -1,7 +1,6 @@
 package com.excilys.computer_database.persistence.dao;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -21,10 +20,11 @@ import org.mockito.MockitoAnnotations;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.excilys.computer_database.persistence.db.utils.DbUtils;
+import com.excilys.computer_database.persistence.dao.utils.DAOUtils;
 import com.excilys.computer_database.persistence.model.Company;
 import com.excilys.computer_database.persistence.model.Computer;
 import com.excilys.computer_database.persistence.model.Page;
@@ -81,8 +81,8 @@ public class TestComputerDAOImpl {
     public void executeAfterEachTests() {
 
         try {
-            DbUtils.close(statement);
-            DbUtils.close(connection);
+            DAOUtils.close(statement);
+            DAOUtils.close(connection);
         } catch (SQLException e) {
             LOGGER.error("Cannot close connection", e);
         }
@@ -174,13 +174,13 @@ public class TestComputerDAOImpl {
     /**
      * Test.
      */
-    @Test
+    
+    @SuppressWarnings("unused")
+    @Test(expected = EmptyResultDataAccessException.class)
     public void testGetComputerByNameWrong() {
 
         addDummyComputer();
-
         Computer computer = computerDAO.get("Not the right dummy computer");
-        assertEquals(null, computer);
     }
 
     /**
@@ -231,12 +231,7 @@ public class TestComputerDAOImpl {
 
         addDummyComputer();
 
-        try {
-            computerDAO.delete(1);
-        } catch (SQLException e) {
-            LOGGER.error("Delete computer failed", e);
-            fail("SQl exception thrown");
-        }
+        computerDAO.delete(1);
         assertEquals(0, computerDAO.getAll().size());
     }
 
