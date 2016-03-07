@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE xml>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:web="http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" version="3.1"
-	xmlns="http://xmlns.jcp.org/xml/ns/javaee">
+		 xmlns:web="http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" version="3.1"
+		 xmlns="http://xmlns.jcp.org/xml/ns/javaee">
 
 	<display-name>Archetype Created Web Application</display-name>
 
@@ -17,9 +17,20 @@
 		</listener-class>
 	</listener>
 
-	<welcome-file-list>
-		<welcome-file>/WEB-INFjsp/dashboard.jsp</welcome-file>
-	</welcome-file-list>
+	<servlet>
+        <servlet-name>dispatcher-servlet</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>/WEB-INF/dispatcher-servlet.xml</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>dispatcher-servlet</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
 
 	<error-page>
 		<error-code>404</error-code>

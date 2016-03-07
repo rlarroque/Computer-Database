@@ -1,3 +1,4 @@
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib tagdir="/WEB-INF/tags" prefix="customLib"%>
 <%@ page isErrorPage="true"%>
@@ -22,9 +23,7 @@
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
-			<customLib:link m_class="navbar-brand" 
-							uri="display_computers" 
-							text="Application - Computer Database"/>
+			<a href=<customLib:link uri="display_computers"/> class="navbar-brand"> <spring:message code="application.title"/> </a>
 		</div>
 	</header>
 

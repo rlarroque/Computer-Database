@@ -1,5 +1,6 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib tagdir="/WEB-INF/tags" prefix="customLib"%>
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
 <c:url value="/../resources/css" var="css" />
 <c:url value="/../resources/js" var="js" />
@@ -21,12 +22,10 @@
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
-			<customLib:link m_class="navbar-brand" 
-							uri="display_computers" 
-							text="Application - Computer Database"/>
+			<a href=<customLib:link uri="display_computers"/> class="navbar-brand"> <spring:message code="application.title"/> </a>
 		</div>
 	</header>
-
+	
 	<section id="main">
 		<div class="container">
 			<h1 id="homeTitle">${page.totalComputer} Computers found</h1>
@@ -68,32 +67,32 @@
 							</a>
 						</span></th>
 						<th> <div class="parent">
-								<customLib:link m_class="child fa fa-sort-asc" uri="display_computers" current_page="${page}" text="" override_order="name" override_order_type="ASC"/>
-							 	<customLib:link m_class="child fa fa-sort-desc" uri="display_computers" current_page="${page}" text="" override_order="name" override_order_type="DESC"/>
+								<a href=<customLib:link uri="dashboard" current_page="${page}" override_order="name" override_order_type="ASC"/> class="child fa fa-sort-asc"></a>
+							 	<a href=<customLib:link uri="dashboard" current_page="${page}" override_order="name" override_order_type="DESC"/> class="child fa fa-sort-desc"></a>
 						 	</div>
 						 	<div class="child_link" >Computer name</div>
 						 </th>
 						
 						<th>
 							<div class="parent">
-								<customLib:link m_class="child fa fa-sort-asc" uri="display_computers" current_page="${page}" text="" override_order="introduced" override_order_type="ASC"/>
-							 	<customLib:link m_class="child fa fa-sort-desc" uri="display_computers" current_page="${page}" text="" override_order="introduced" override_order_type="DESC"/>
+								<a href=<customLib:link uri="dashboard" current_page="${page}" override_order="introduced" override_order_type="ASC"/> class="child fa fa-sort-asc"></a>
+							 	<a href=<customLib:link uri="dashboard" current_page="${page}" override_order="introduced" override_order_type="DESC"/> class="child fa fa-sort-desc"></a>
 						 	</div>
 						 	<div class="child_link" >Introduced date</div>
 					 	</th>
 						
 						<th>
 						<div class="parent">
-								<customLib:link m_class="child fa fa-sort-asc" uri="display_computers" current_page="${page}" text="" override_order="discontinued" override_order_type="ASC"/>
-							 	<customLib:link m_class="child fa fa-sort-desc" uri="display_computers" current_page="${page}" text="" override_order="discontinued" override_order_type="DESC"/>
+								<a href=<customLib:link uri="dashboard" current_page="${page}" override_order="discontinued" override_order_type="ASC"/> class="child fa fa-sort-asc"></a>
+							 	<a href=<customLib:link uri="dashboard" current_page="${page}" override_order="discontinued" override_order_type="DESC"/> class="child fa fa-sort-desc"></a>
 						 	</div>
 						 	<div class="child_link" >Discontinued date</div>
 						</th>
 						
 						<th>
 							<div class="parent">
-								<customLib:link m_class="child fa fa-sort-asc" uri="display_computers" current_page="${page}" text="" override_order="company_id" override_order_type="ASC"/>
-							 	<customLib:link m_class="child fa fa-sort-desc" uri="display_computers" current_page="${page}" text="" override_order="company_id" override_order_type="DESC"/>
+								<a href=<customLib:link uri="dashboard" current_page="${page}" override_order="company_id" override_order_type="ASC"/> class="child fa fa-sort-asc"></a>
+							 	<a href=<customLib:link uri="dashboard" current_page="${page}" override_order="company_id" override_order_type="DESC"/> class="child fa fa-sort-desc"></a>
 						 	</div>
 						 	<div class="child_link" >Company</div>
 						</th>

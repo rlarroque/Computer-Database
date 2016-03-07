@@ -10,21 +10,18 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Matchers;
 import org.mockito.Mockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.excilys.computer_database.exception.IntegrityException;
 import com.excilys.computer_database.persistence.dao.ComputerDAO;
-import com.excilys.computer_database.persistence.dao.impl.ComputerDAOImpl;
 import com.excilys.computer_database.persistence.model.Company;
 import com.excilys.computer_database.persistence.model.Computer;
 import com.excilys.computer_database.persistence.model.Page;
 
 @ContextConfiguration(locations = {"classpath:/mock-context.xml"})
 @RunWith(SpringJUnit4ClassRunner.class)
-@PrepareForTest(ComputerDAOImpl.class)
 public class TestComputerService {
 
     @Autowired

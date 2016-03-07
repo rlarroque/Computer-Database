@@ -10,7 +10,7 @@
 			<c:when test="${page.currentPage < '2'}"> <c:set var="class_to_add" value="not-active"/> </c:when>
 			<c:otherwise> <c:set var="class_to_add" value=""/>  </c:otherwise>
 		</c:choose>	
-		<customLib:link m_class="${class_to_add}" uri="display_computers" current_page="${page}" text="&laquo;" override_page="1" span="true"/>
+		<a href=<customLib:link uri="dashboard" current_page="${page}" override_page="1"/> class="${class_to_add}"> <span aria-hidden="true">  &laquo; </span> </a>
 	</li>
 
 	<li>
@@ -18,12 +18,12 @@
 			<c:when test="${page.currentPage == '1'}"> <c:set var="class_to_add" value="not-active"/> </c:when>
 			<c:otherwise> <c:set var="class_to_add" value=""/>  </c:otherwise>
 		</c:choose>	
-		<customLib:link m_class="${class_to_add}" uri="display_computers" current_page="${page}" text="&lsaquo;" override_page="${page.currentPage - 1}" span="true"/>
+		<a href=<customLib:link uri="dashboard" current_page="${page}" override_page="${page.currentPage - 1}"/> class="${class_to_add}"> <span aria-hidden="true">  &lsaquo; </span> </a>
 	</li>
 	
 	<c:forEach begin="${page.startPage}" end="${page.endPage}" var="val">
 		<li <c:if test="${page.currentPage == val}"> class="active" </c:if> >
-			<customLib:link m_class="" uri="display_computers" current_page="${page}" text="${val}" override_page="${val}" span="true"/>
+			<a href=<customLib:link uri="dashboard" current_page="${page}" override_page="${val}"/> > <span aria-hidden="true"> ${val} </span> </a>
 		</li>
 	</c:forEach>
 	
@@ -32,7 +32,7 @@
 			<c:when test="${page.currentPage == page.totalPage}"> <c:set var="class_to_add" value="not-active"/> </c:when>
 			<c:otherwise> <c:set var="class_to_add" value=""/>  </c:otherwise>
 		</c:choose>	
-		<customLib:link m_class="${class_to_add}" uri="display_computers" current_page="${page}" text="&rsaquo;" override_page="${page.currentPage + 1}" span="true"/>
+		<a href=<customLib:link uri="dashboard" current_page="${page}" override_page="${page.currentPage + 1}"/> class="${class_to_add}"> <span aria-hidden="true">  &rsaquo; </span> </a>
 	</li>
 
 	<li>
@@ -40,7 +40,7 @@
 			<c:when test="${page.currentPage == page.totalPage}"> <c:set var="class_to_add" value="not-active"/> </c:when>
 			<c:otherwise> <c:set var="class_to_add" value=""/>  </c:otherwise>
 		</c:choose>	
-		<customLib:link m_class="${class_to_add}" uri="display_computers" current_page="${page}" text="&raquo;" override_page="${page.totalPage}" span="true"/>
+		<a href=<customLib:link uri="dashboard" current_page="${page}" override_page="${page.totalPage}"/> class="${class_to_add}"> <span aria-hidden="true">  &raquo; </span> </a>
 	</li>
 	
 </ul>
@@ -51,18 +51,18 @@
 		<c:when test="${page.offset == 10}"> <c:set var="class_to_add" value="not-active"/> </c:when>
 		<c:otherwise> <c:set var="class_to_add" value="active"/>  </c:otherwise>
 	</c:choose>	
-	<customLib:link m_class="${class_to_add} btn btn-default" uri="display_computers" current_page="${page}" text="10" override_offset="10" span="true"/>
+	<a href=<customLib:link  uri="dashboard" current_page="${page}" override_offset="10"/> class="${class_to_add} btn btn-default"> <span aria-hidden="true"> 10 </span> </a>
 	
 	<c:choose>
 		<c:when test="${page.offset == 50}"> <c:set var="class_to_add" value="not-active"/> </c:when>
 		<c:otherwise> <c:set var="class_to_add" value="active"/>  </c:otherwise>
 	</c:choose>	
-	<customLib:link m_class="${class_to_add} btn btn-default" uri="display_computers" current_page="${page}" text="50" override_offset="50" span="true"/>
+	<a href=<customLib:link uri="dashboard" current_page="${page}" override_offset="50"/> class="${class_to_add} btn btn-default"> <span aria-hidden="true">  50 </span> </a>
 	
 	<c:choose>
-		<c:when test="${page.offset == 100}"> <c:set var="class_to_add" value="not-active"/> </c:when>
+		<c:when test="${page.offset == 100}"> <c:set var="class_to_add" value="active"/> </c:when>
 		<c:otherwise> <c:set var="class_to_add" value="active"/>  </c:otherwise>
 	</c:choose>	
-	<customLib:link m_class="${class_to_add} btn btn-default" uri="display_computers" current_page="${page}" text="100" override_offset="100" span="true"/>
+	<a href=<customLib:link uri="dashboard" current_page="${page}" override_offset="100"/> class="${class_to_add} btn btn-default"> <span aria-hidden="true"> 100 </span> </a>
 
 </div>

@@ -86,22 +86,6 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- Mock tool for static mocking -->
-		<dependency>
-			<groupId>org.powermock</groupId>
-			<artifactId>powermock-api-mockito</artifactId>
-			<version>${powerMockitoAPI.version}</version>
-			<scope>test</scope>
-		</dependency>
-
-		<!-- Mock tool for static mocking -->
-		<dependency>
-			<groupId>org.powermock</groupId>
-			<artifactId>powermock-module-junit4</artifactId>
-			<version>${powerMockitoModule.version}</version>
-			<scope>test</scope>
-		</dependency>
-
 		<!-- UI testing tool -->
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
@@ -185,7 +169,13 @@
 			<artifactId>spring-beans</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
-		
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>

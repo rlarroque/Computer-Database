@@ -2,8 +2,6 @@ package com.excilys.computer_database.persistence.dao.impl;
 
 import java.util.List;
 
-import javax.sql.DataSource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -22,14 +20,12 @@ import com.excilys.computer_database.persistence.model.mapper.ComputerRowMapper;
  */
 @Repository
 public class ComputerDAOImpl implements ComputerDAO {
-
+    
     @Autowired
-    private DataSource dataSource;
+    private JdbcTemplate jdbcTemplate;
 
     @Override
     public List<Computer> getAll() {
-
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 
         List<Computer> computers = jdbcTemplate.query(QueryBuilder.getComputersQuery(), new ComputerRowMapper());
 
@@ -38,8 +34,6 @@ public class ComputerDAOImpl implements ComputerDAO {
 
     @Override
     public List<Computer> getPage(Page page) {
-        
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 
         List<Computer> computers = jdbcTemplate.query(QueryBuilder.getComputerPageQuery(page), new ComputerRowMapper());
 
@@ -48,8 +42,6 @@ public class ComputerDAOImpl implements ComputerDAO {
 
     @Override
     public Computer get(long id) {
-        
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 
         Computer computer = jdbcTemplate.queryForObject(QueryBuilder.getComputerQuery(id),
                                                         new Long[] { id },
@@ -60,8 +52,6 @@ public class ComputerDAOImpl implements ComputerDAO {
 
     @Override
     public Computer get(String name) {
-        
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 
         Computer computer = jdbcTemplate.queryForObject(QueryBuilder.getComputerQuery(name),
                                                         new String[] { name },
@@ -72,40 +62,31 @@ public class ComputerDAOImpl implements ComputerDAO {
 
     @Override
     public long create(Computer computer) {
-        
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+    	
         KeyHolder keyHolder = new GeneratedKeyHolder();
-
         jdbcTemplate.update(QueryBuilder.createQuery(computer), keyHolder);
         
         return (long) keyHolder.getKey();
     }
 
     @Override
-    public void update(Computer computer) {
-        
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);        
+    public void update(Computer computer) {      
         jdbcTemplate.update(QueryBuilder.updateQuery(computer));
     }
 
     @Override
     public void delete(long id) {
-        
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
         jdbcTemplate.update(QueryBuilder.deleteComputerQuery(id));
     }
 
     @Override
     public void deleteByCompany(long id) {
-        
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
         jdbcTemplate.update(QueryBuilder.deleteComputerByCompanyQuery(id));
     }
 
     @Override
     public int count(Page page) {
-        
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+    	
         int computerNumber = jdbcTemplate.queryForObject(QueryBuilder.countComputerQuery(page), Integer.class);
 
         return computerNumber;

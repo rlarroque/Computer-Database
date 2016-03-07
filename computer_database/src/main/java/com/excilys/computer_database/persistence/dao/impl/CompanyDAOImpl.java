@@ -2,8 +2,6 @@ package com.excilys.computer_database.persistence.dao.impl;
 
 import java.util.List;
 
-import javax.sql.DataSource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -19,25 +17,20 @@ import com.excilys.computer_database.persistence.model.mapper.CompanyRowMapper;
  */
 @Repository
 public class CompanyDAOImpl implements CompanyDAO {
-
+    
     @Autowired
-    DataSource dataSource;
+    private JdbcTemplate jdbcTemplate;
 
     @Override
     public List<Company> getAll() {
-
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 
         List<Company> companies = jdbcTemplate.query(QueryBuilder.getCompanyQuery(), new CompanyRowMapper());
 
         return companies;
     }
 
-    // TODO test it
     @Override
     public Company get(long id) {
-
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 
         Company company = jdbcTemplate.queryForObject(QueryBuilder.getCompanyQuery(id),
                                                       new Long[] { id },
@@ -49,8 +42,6 @@ public class CompanyDAOImpl implements CompanyDAO {
     @Override
     public Company get(String name) {
 
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-
         Company company = jdbcTemplate.queryForObject(QueryBuilder.getCompanyQuery(name),
                                                       new String[] { name },
                                                       new CompanyRowMapper());
@@ -60,8 +51,6 @@ public class CompanyDAOImpl implements CompanyDAO {
 
     @Override
     public void delete(long id) {
-        
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
         jdbcTemplate.update(QueryBuilder.deleteCompanyQuery(id));
     }
 }
