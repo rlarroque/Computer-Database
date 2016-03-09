@@ -1,4 +1,4 @@
-package com.excilys.computer_database.webapp.dto.validator;
+package com.excilys.computer_database.validator.dto_validator;
 
 import java.util.List;
 

@@ -2,21 +2,13 @@ package com.excilys.computer_database.persistence.model;
 
 import java.time.LocalDate;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
 /**
  * This class describe a computer with all its parameters. id, name, introduced date, discontinued date, and company id. This is a simple POJO.
  * @author rlarroque
  *
  */
-@Entity
 public class Computer {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private String name;
     private LocalDate introduced;

@@ -1,6 +1,7 @@
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib tagdir="/WEB-INF/tags" prefix="customLib"%>
-<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@page contentType="text/html; charset=UTF-8" %>
 
 <c:url value="/../resources/css" var="css" />
 <c:url value="/../resources/js" var="js" />
@@ -10,7 +11,6 @@
 <head>
 <title>Computer Database</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta charset="utf-8">
 <!-- Bootstrap -->
 <link href="<c:url value="${css}/bootstrap.min.css" />" rel="stylesheet"
 	media="screen">
@@ -18,37 +18,39 @@
 	media="screen">
 <link href="<c:url value="${css}/main.css" />" rel="stylesheet"
 	media="screen">
+<link href="<c:url value="${css}/bootstrap-formhelpers.css" />" rel="stylesheet"
+	media="screen">
 </head>
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
-			<a href=<customLib:link uri="display_computers"/> class="navbar-brand"> <spring:message code="application.title"/> </a>
+			<a href=<customLib:link uri="${pageContext.request.contextPath}/dashboard"/> class="navbar-brand"> <spring:message code="title"/> </a>
 		</div>
 	</header>
 	
 	<section id="main">
 		<div class="container">
-			<h1 id="homeTitle">${page.totalComputer} Computers found</h1>
+			<h1 id="homeTitle">${page.totalComputer} <spring:message code="computer.found"/> </h1>
 			<div id="actions" class="form-horizontal">
 				<div class="pull-left">
-					<form id="searchForm" action="search" method="GET" class="form-inline">
+					<form id="searchForm" action="${pageContext.request.contextPath}/dashboard" method="GET" class="form-inline">
 
-						<input type="search" id="searchbox" name="search"
-							class="form-control" placeholder="Search name" /> <input
-							type="submit" id="searchsubmit" value="Filter by name"
+						<input type="search" id="searchbox" name="filter"
+							class="form-control" placeholder="<spring:message code="placeholder.search"/>" /> <input
+							type="submit" id="searchsubmit" value="<spring:message code="button.filter"/>"
 							class="btn btn-primary" />
 					</form>
 				</div>
 				<div class="pull-right">
 					<a class="btn btn-success" id="addComputer"
-						href="add_computer">Add Computer</a> <a
+						href="${pageContext.request.contextPath}/computer/add"><spring:message code="button.add.computer"/></a> <a
 						class="btn btn-default" id="editComputer" href="#"
-						onclick="$.fn.toggleEditMode();">Edit</a>
+						onclick="$.fn.toggleEditMode();"><spring:message code="button.edit"/></a>
 				</div>
 			</div>
 		</div>
 
-		<form id="deleteForm" action="delete_computers" method="POST">
+		<form id="deleteForm" action="computer/delete" method="POST">
 			<input type="hidden" name="selection" value="">
 		</form>
 
@@ -70,7 +72,7 @@
 								<a href=<customLib:link uri="dashboard" current_page="${page}" override_order="name" override_order_type="ASC"/> class="child fa fa-sort-asc"></a>
 							 	<a href=<customLib:link uri="dashboard" current_page="${page}" override_order="name" override_order_type="DESC"/> class="child fa fa-sort-desc"></a>
 						 	</div>
-						 	<div class="child_link" >Computer name</div>
+						 	<div class="child_link" ><spring:message code="computer.name"/></div>
 						 </th>
 						
 						<th>
@@ -78,7 +80,7 @@
 								<a href=<customLib:link uri="dashboard" current_page="${page}" override_order="introduced" override_order_type="ASC"/> class="child fa fa-sort-asc"></a>
 							 	<a href=<customLib:link uri="dashboard" current_page="${page}" override_order="introduced" override_order_type="DESC"/> class="child fa fa-sort-desc"></a>
 						 	</div>
-						 	<div class="child_link" >Introduced date</div>
+						 	<div class="child_link" ><spring:message code="computer.introduced"/></div>
 					 	</th>
 						
 						<th>
@@ -86,7 +88,7 @@
 								<a href=<customLib:link uri="dashboard" current_page="${page}" override_order="discontinued" override_order_type="ASC"/> class="child fa fa-sort-asc"></a>
 							 	<a href=<customLib:link uri="dashboard" current_page="${page}" override_order="discontinued" override_order_type="DESC"/> class="child fa fa-sort-desc"></a>
 						 	</div>
-						 	<div class="child_link" >Discontinued date</div>
+						 	<div class="child_link" ><spring:message code="computer.discontinued"/></div>
 						</th>
 						
 						<th>
@@ -94,19 +96,18 @@
 								<a href=<customLib:link uri="dashboard" current_page="${page}" override_order="company_id" override_order_type="ASC"/> class="child fa fa-sort-asc"></a>
 							 	<a href=<customLib:link uri="dashboard" current_page="${page}" override_order="company_id" override_order_type="DESC"/> class="child fa fa-sort-desc"></a>
 						 	</div>
-						 	<div class="child_link" >Company</div>
+						 	<div class="child_link" ><spring:message code="computer.company"/></div>
 						</th>
 
 					</tr>
 				</thead>
-				<!-- Browse attribute computers -->
 
 				<tbody id="results">
 					<c:forEach items="${page.computers}" var="computer">
 						<tr>
 							<td class="editMode"><input type="checkbox" name="cb"
 								class="cb" value="${computer.id}"></td>
-							<td><a href="edit_computer?computer=${computer.id}" onclick="">${computer.name}</a></td>
+							<td><a href="${pageContext.request.contextPath}/computer/edit?computer=${computer.id}" onclick="">${computer.name}</a></td>
 							<td>${computer.introducedDate}</td>
 							<td>${computer.discontinuedDate}</td>
 							<td>${computer.companyName}</td>
@@ -116,17 +117,21 @@
 			</table>
 		</div>
 	</section>
-
+	
 	<footer class="navbar-fixed-bottom">
 		<div class="container text-center">
-		
-			<customLib:page page="${page}"></customLib:page>
-			
+			<customLib:page page="${page}" langList="${languageList}"></customLib:page>
 		</div>
 	</footer>
 	<script src="<c:url value="${js}/jquery.min.js" />"></script>
 	<script src="<c:url value="${js}/bootstrap.min.js" />"></script>
+	<script src="<c:url value="${js}/bootstrap-formhelpers.js" />"></script>
+	<script type="text/javascript">
+		var localized_strings = new Array();
+		localized_strings['button.edit'] = "<spring:message code='button.edit' javaScriptEscape='true' />";
+		localized_strings['button.view'] = "<spring:message code='button.view' javaScriptEscape='true' />";
+	</script>
 	<script src="<c:url value="${js}/dashboard.js" />"></script>
-
+	
 </body>
 </html>

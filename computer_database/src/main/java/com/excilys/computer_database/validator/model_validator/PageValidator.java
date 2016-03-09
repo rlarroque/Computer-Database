@@ -1,4 +1,4 @@
-package com.excilys.computer_database.persistence.model.validator;
+package com.excilys.computer_database.validator.model_validator;
 
 import com.excilys.computer_database.exception.IntegrityException;
 import com.excilys.computer_database.persistence.model.Page;

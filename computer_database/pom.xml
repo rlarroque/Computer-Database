@@ -9,29 +9,31 @@
 	<url>http://maven.apache.org</url>
 
 	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<jdk.version>1.8</jdk.version>
-		<junit.version>4.11</junit.version>
-		<mysql.version>5.1.6</mysql.version>
 		<bonecp.version>0.8.0.RELEASE</bonecp.version>
 		<checkStyle.version>2.5</checkStyle.version>
-		<logback.version>1.1.3</logback.version>
-		<slf4jAPI.version>1.7.16</slf4jAPI.version>
+		<cobertura.version>2.6</cobertura.version>
+		<commons.validator.version>1.5.0</commons.validator.version>
+		<failsafe.version>2.13</failsafe.version>
+		<hibernate.version>5.1.3.Final</hibernate.version>
+		<javax.persistence.version>1.0.2</javax.persistence.version>
+		<javaxServletAPI.version>3.0.1</javaxServletAPI.version>
 		<jcl.slf4j.version>1.7.10</jcl.slf4j.version>
+		<jdk.version>1.8</jdk.version>
+		<jstl.version>1.2</jstl.version>
+		<jspAPI.version>2.1</jspAPI.version>
+		<junit.version>4.11</junit.version>
+		<logback.version>1.1.3</logback.version>
+		<maven.compiler.version>3.5.1</maven.compiler.version>
 		<mockito.version>1.10.19</mockito.version>
+		<mysql.version>5.1.6</mysql.version>
 		<powerMockitoModule.version>1.6.4</powerMockitoModule.version>
 		<powerMockitoAPI.version>1.6.4</powerMockitoAPI.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<selenium.version>2.52.0</selenium.version>
 		<seleniumServer.version>2.52.0</seleniumServer.version>
-		<javax.persistence.version>1.0.2</javax.persistence.version>
-		<cobertura.version>2.6</cobertura.version>
-		<jstl.version>1.2</jstl.version>
-		<javaxServletAPI.version>3.0.1</javaxServletAPI.version>
-		<jspAPI.version>2.1</jspAPI.version>
+		<slf4jAPI.version>1.7.16</slf4jAPI.version>
 		<spring.version>4.2.5.RELEASE</spring.version>
-		<maven.compiler.version>3.5.1</maven.compiler.version>
 		<surefire.version>2.19.1</surefire.version>
-		<failsafe.version>2.13</failsafe.version>
 	</properties>
 
 	<dependencies>
@@ -176,6 +178,19 @@
 			<version>${spring.version}</version>
 		</dependency>
 
+		<!-- Validation dependency -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>${hibernate.version}</version>
+		</dependency>
+
+		<!-- used for date validation -->
+		<dependency>
+			<groupId>commons-validator</groupId>
+			<artifactId>commons-validator</artifactId>
+			<version>${commons.validator.version}</version>
+		</dependency>
 	</dependencies>
 
 	<build>

@@ -23,7 +23,7 @@
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
-			<a href=<customLib:link uri="display_computers"/> class="navbar-brand"> <spring:message code="application.title"/> </a>
+			<a href=<customLib:link uri="dashboard"/> class="navbar-brand"> <spring:message code="title"/> </a>
 		</div>
 	</header>
 
@@ -33,6 +33,7 @@
 				Error 500: An error has occured: ! 
 				<br/>
 				<!-- stacktrace -->
+				<p> stacktrace : ${exception.message}</p>
 			</div>
 		</div>
 	</section>

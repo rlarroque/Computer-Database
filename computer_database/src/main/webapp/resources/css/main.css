@@ -46,11 +46,16 @@ input[type='checkbox'] {
     top: 50%;
 }
 
-.child_link{
+.child_link {
 	margin-left:15px;
 	top: 50%;
+
+.fa-sort-desc {
+	margin-top: 7px;
 }
 
-.fa-sort-desc{
-	margin-top: 7px;
-}​
+div#lang_selector {
+    float: right;
+    margin-top: 10px;
+}
+​

@@ -1,4 +1,4 @@
-package com.excilys.computer_database.webapp.servlet.utils;
+package com.excilys.computer_database.webapp.controller.utils;
 
 import com.excilys.computer_database.webapp.dto.PageDTO;
 

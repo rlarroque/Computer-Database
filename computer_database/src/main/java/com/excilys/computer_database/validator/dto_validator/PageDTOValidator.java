@@ -1,4 +1,4 @@
-package com.excilys.computer_database.webapp.dto.validator;
+package com.excilys.computer_database.validator.dto_validator;
 
 import com.excilys.computer_database.exception.IntegrityException;
 import com.excilys.computer_database.webapp.dto.PageDTO;
@@ -47,5 +47,7 @@ public interface PageDTOValidator {
         if ((dto.getEndPage() < dto.getStartPage()) && dto.getTotalComputer() != 0) {
             throw new IntegrityException("End page cannot be before start page");
         }
+        
+        throw new IntegrityException("This is a test");
     }
 }

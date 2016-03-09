@@ -1,4 +1,4 @@
-package com.excilys.computer_database.persistence.model.validator;
+package com.excilys.computer_database.validator.model_validator;
 
 import java.util.List;
 

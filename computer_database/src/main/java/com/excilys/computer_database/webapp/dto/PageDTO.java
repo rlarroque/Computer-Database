@@ -3,9 +3,9 @@ package com.excilys.computer_database.webapp.dto;
 import java.util.List;
 
 public class PageDTO {
-
+    
     private int currentPage;
-    private int offset;
+    private int offset; 
     private int totalComputer;
     private int startPage;
     private int endPage;

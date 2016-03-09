@@ -8,38 +8,36 @@
 <%@ attribute name="override_filter" description="Filter to use" %>
 <%@ attribute name="override_order_type" description="order type to use" %>
 
-<c:set var="default_url" value="?page=1&offset=10&order=&filter="/>
+<c:set var="default_url" value=""/>
 
 "${uri}
 	<c:choose>
 		<c:when test="${not empty current_page}">
-			?page=
+			
 			<c:choose>
 				<c:when test="${not empty override_page}">
-					${override_page}
+					?page=${override_page}
 				</c:when>
 				<c:otherwise>
-					${page.currentPage}
+					?page=${page.currentPage}
 				</c:otherwise>
 			</c:choose>
 			
-			&offset=
 			<c:choose>
 				<c:when test="${not empty override_offset}">
-					${override_offset}
+					&offset=${override_offset}
 				</c:when>
 				<c:otherwise>
-					${page.offset}
+					&offset=${page.offset}
 				</c:otherwise>
 			</c:choose>
 			
-			&order=
 			<c:choose>
 				<c:when test="${not empty override_order}">
-					${override_order}
+					&order=${override_order}
 				</c:when>
 				<c:otherwise>
-					${page.order}
+					&order=${page.order}
 				</c:otherwise>
 			</c:choose>
 			
@@ -47,13 +45,12 @@
 				&order_type=${override_order_type}				
 			</c:if>
 			
-			&filter=
 			<c:choose>
 				<c:when test="${not empty override_filter}">
-					${override_filter}
+					&filter=${override_filter}
 				</c:when>
 				<c:otherwise>
-					${page.filter}
+					&filter=${page.filter}
 				</c:otherwise>
 			</c:choose>	
 			

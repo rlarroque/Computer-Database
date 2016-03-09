@@ -1,4 +1,4 @@
-$(function() {
+$(function(){
 
 	jQuery.validator.addMethod("dateComparison", function() {
 
@@ -27,22 +27,22 @@ $(function() {
 	$("#computer_form").validate({
 		
 		rules : {
-			computerName : "required",
+			"computerName": "required",
 
-			introduced : {
+			"introduced": {
 				dateComparison : true,
 				required : false,
 				date : true
 			},
 
-			discontinued : {
+			"discontinued": {
 				dateComparison : true,
 				needsIntroduced : true,
 				required : false,
 				date : true
 			},
 
-			companyId : {
+			"companyId": {
 				required : false,
 				number : true
 			}
@@ -54,18 +54,15 @@ $(function() {
 		},
 
 		highlight : function(element) {
-			$(element).parent().closest("div").addClass('has-error')
-					.removeClass('has-success')
+			$(element).parent().closest("div").removeClass('has-success').addClass('has-error')
 		},
 
 		unhighlight : function(element) {
-			$(element).parent().closest("div").removeClass('has-error')
-					.addClass('has-success')
+			$(element).parent().closest("div").removeClass('has-error').addClass('has-success')
 		},
 
 		submitHandler : function(form) {
 			form.submit();
-			alert('Computer Successfully created');
 		}
 	});
 });

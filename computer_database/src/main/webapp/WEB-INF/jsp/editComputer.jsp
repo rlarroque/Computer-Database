@@ -1,3 +1,5 @@
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib tagdir="/WEB-INF/tags" prefix="customLib"%>
 
@@ -20,9 +22,7 @@
 <body>
     <header class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
-           <customLib:link m_class="navbar-brand" 
-							uri="display_computers" 
-							text="Application - Computer Database"/>
+           <a href=<customLib:link uri="${pageContext.request.contextPath}/dashboard"/> class="navbar-brand"> <spring:message code="title"/> </a>
         </div>
     </header>
     <section id="main">
@@ -32,51 +32,56 @@
                     <div class="label label-default pull-right">
                         id: ${computer.id}
                     </div>
-                    <h1>Edit Computer</h1>
+                    <h1><spring:message code="computer.edit"/></h1>
 
-                    <form action="edit_computer" method="POST" id="computer_form">
-                        <fieldset>
-                        	<input type="text" id="computerId" name="computerId" value="${computer.id}" hidden="true" />
-                            <div class="form-group">
-                                <label for="computerName">Computer name</label>
-                                <input type="text" class="form-control" id="computerName" name="computerName" 
-                                	   placeholder="${computer.name}">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="introduced">Introduced date</label>
-                                <input type="date" class="form-control" id="introduced" name="introduced"
-                                       placeholder="${computer.introducedDate}" value="${computer.introducedDate}">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="discontinued">Discontinued date</label>
-                                <input type="date" class="form-control" id="discontinued" name="discontinued"
-                                	   placeholder="${computer.discontinuedDate}" value="${computer.discontinuedDate}">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="companyId">Company</label>
-                                <select class="form-control" id="companyId" name="companyId">
-                                    <option value="0">--</option>
-                                    
-                        			<c:forEach items="${companies}" var="companies">
-	                        			
-	                        			<!-- Make the computer's company the default choice -->
-										<option value="${companies.id}" 
-											<c:if test="${companies.id == computer.companyId}"> selected="selected" </c:if> >
-											${companies.name}</option>
-                        				
+                    <form:form modelAttribute="computerToEdit" action="${pageContext.request.contextPath}/computer/edit" method="POST" id="computer_form">
+						<fieldset>
+						
+							<form:input type="hidden" name="id" id="computerId" value="${computer.id}" path="id" />
+							
+							<form:errors cssClass="error" style="font-weight: bold; margin-bottom:20px;"/>
+							<div class="form-group">
+								<label for="computerName"><spring:message code="computer.name"/></label>
+								<form:input type="text" class="form-control has-feedback" id="computerName" 
+											name="computerName" placeholder="${computer.name}" 
+											path="name"/>
+								<form:errors path="name" cssClass="error" style="font-weight: bold;"/>
+							</div>
+							
+							<div class="form-group">
+								<label for="introduced"><spring:message code="computer.introduced"/></label>
+								<form:input type="date" class="form-control has-feedback" id="introduced"
+									   name="introduced" placeholder="${computer.introducedDate}"
+									   value="${computer.introducedDate}" path="introducedDate"/>
+								<form:errors path="introducedDate" cssClass="error" style="font-weight: bold;"/>
+							</div>
+							
+							<div class="form-group">
+								<label for="discontinued"><spring:message code="computer.discontinued"/></label>
+								<form:input type="date" class="form-control has-feedback" id="discontinued"
+									   		name="discontinued" placeholder="${computer.discontinuedDate}"
+									   		value="${computer.discontinuedDate}" path="discontinuedDate"/>
+								<form:errors path="discontinuedDate" class="error" style="font-weight: bold;"/>
+							</div>
+							
+							<div class="form-group">
+								<label for="companyId"><spring:message code="computer.company"/></label> 
+								<form:select class="form-control has-feedback" id="companyId" name="companyId" path="CompanyId">
+									<form:option value="0">--</form:option>
+
+									<c:forEach items="${companies}" var="companies">
+										<form:option value="${companies.id}">${companies.name}</form:option>
 									</c:forEach>
-                                </select>
-                            </div>            
-                        </fieldset>
+
+								</form:select>
+							</div>
+						</fieldset>
                         <div class="actions pull-right">
-                            <input type="submit" value="Edit" class="btn btn-primary">
+                            <input type="submit" value="<spring:message code="button.edit"/>" class="btn btn-primary">
                             or
-                            <customLib:link m_class="btn btn-default" uri="display_computers" current_page="${page}" text="Cancel"/>
+                            <a href=<customLib:link uri="${pageContext.request.contextPath}/dashboard" current_page="${page}"/> class="btn btn-default"><spring:message code="button.cancel"/></a>
                         </div>
-                    </form>
+                    </form:form>
                 </div>
             </div>
         </div>

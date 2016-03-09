@@ -6,9 +6,9 @@ import com.excilys.computer_database.persistence.model.Page;
 import com.excilys.computer_database.persistence.model.utils.Order;
 import com.excilys.computer_database.persistence.model.utils.OrderColumn;
 import com.excilys.computer_database.persistence.model.utils.OrderType;
-import com.excilys.computer_database.persistence.model.validator.PageValidator;
+import com.excilys.computer_database.validator.dto_validator.PageDTOValidator;
+import com.excilys.computer_database.validator.model_validator.PageValidator;
 import com.excilys.computer_database.webapp.dto.PageDTO;
-import com.excilys.computer_database.webapp.dto.validator.PageDTOValidator;
 
 /**
  * Mapper used to convert a page into DTO.
@@ -45,8 +45,18 @@ public interface PageMapper {
        
         Page page = new Page();
         
-        page.setPageNumber(Integer.parseInt(request.getParameter("page")));
-        page.setOffset(Integer.parseInt(request.getParameter("offset")));
+        if(request.getParameter("page") == null) {
+            page.setPageNumber(1);
+        } else {            
+            page.setPageNumber(Integer.parseInt(request.getParameter("page")));
+        }
+        
+        if(request.getParameter("page") == null) {
+            page.setOffset(10);
+        } else {            
+            page.setOffset(Integer.parseInt(request.getParameter("offset")));
+        }
+        
         page.setFilter(request.getParameter("filter"));
 
         if (request.getParameter("order") != null && !"".equals(request.getParameter("order"))) {

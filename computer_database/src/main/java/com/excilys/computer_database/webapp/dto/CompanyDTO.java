@@ -1,5 +1,7 @@
 package com.excilys.computer_database.webapp.dto;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 /**
  * Data Transfer Object used to bring information from the server to the view. Only primitive types
  * are allowed here.
@@ -8,9 +10,10 @@ package com.excilys.computer_database.webapp.dto;
  */
 public class CompanyDTO {
 
-    public String name;
     public long id;
-
+    @NotBlank(message = "Name is mandatory")
+    public String name;
+    
     /**
      * Constructor.
      * @param id id of the dto

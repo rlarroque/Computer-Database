@@ -10,9 +10,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.excilys.computer_database.exception.IntegrityException;
 import com.excilys.computer_database.persistence.model.Company;
-import com.excilys.computer_database.persistence.model.validator.CompanyValidator;
+import com.excilys.computer_database.validator.dto_validator.CompanyDTOValidator;
+import com.excilys.computer_database.validator.model_validator.CompanyValidator;
 import com.excilys.computer_database.webapp.dto.CompanyDTO;
-import com.excilys.computer_database.webapp.dto.validator.CompanyDTOValidator;
 
 /**
  * @author rlarroque

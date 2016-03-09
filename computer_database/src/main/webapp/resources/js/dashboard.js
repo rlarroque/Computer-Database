@@ -1,4 +1,4 @@
-//On load
+// On load
 $(function() {
     // Default: hide edit mode
     $(".editMode").hide();
@@ -24,7 +24,6 @@ $(function() {
 
 });
 
-
 // Function setCheckboxValues
 (function ( $ ) {
 
@@ -47,17 +46,16 @@ $(function() {
     $.fn.toggleEditMode = function() {
         if($(".editMode").is(":visible")) {
             $(".editMode").hide();
-            $("#editComputer").text("Edit");
+            $("#editComputer").text(localized_strings['button.edit']);
         }
         else {
             $(".editMode").show();
-            $("#editComputer").text("View");
+            $("#editComputer").text(localized_strings['button.view']);
         }
         return this;
     };
 
 }( jQuery ));
-
 
 // Function delete selected: Asks for confirmation to delete selected computers, then submits it to the deleteForm
 (function ( $ ) {
@@ -69,9 +67,7 @@ $(function() {
     };
 }( jQuery ));
 
-
-
-//Event handling Onkeydown
+// Event handling Onkeydown
 $(document).keydown(function(e) {
 
     switch (e.keyCode) {

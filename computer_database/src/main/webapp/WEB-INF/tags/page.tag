@@ -1,7 +1,26 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib tagdir="/WEB-INF/tags" prefix="customLib" %>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib tagdir="/WEB-INF/tags" prefix="customLib" %>
 
 <%@ attribute name="page" type="com.excilys.computer_database.webapp.dto.PageDTO" required="true" description="Contains the information to build page links" %>
+<%@ attribute name="langList" type="java.util.List" required="true" description="List of available languages" %>
+
+<div class="btn-group btn-group-sm pull-left" role="group" style="width:150px; margin-top:0px; padding-top:0px;">
+
+	<ul class="nav navbar-nav">
+		<li class="dropdown">
+		<a href="#" class="dropdown-toggle white-color" data-toggle="dropdown" role="button" aria-expanded="false">
+			<span class="bfh-languages" data-language="<spring:message code="data.lang"/>" data-flags="true"></span>
+			<span class="caret"></span>
+		</a>
+		<ul class="dropdown-menu" role="menu">
+			<li><a href="?lang=en"><span class="bfh-languages" data-language="en_US" data-flags="true"></span></a></li>
+			<li><a href="?lang=fr"><span class="bfh-languages" data-language="fr_FR" data-flags="true"></span></a></li>
+		</ul></li>
+	</ul>
+  	
+</div>
 
 <ul class="pagination">
 	
@@ -60,7 +79,7 @@
 	<a href=<customLib:link uri="dashboard" current_page="${page}" override_offset="50"/> class="${class_to_add} btn btn-default"> <span aria-hidden="true">  50 </span> </a>
 	
 	<c:choose>
-		<c:when test="${page.offset == 100}"> <c:set var="class_to_add" value="active"/> </c:when>
+		<c:when test="${page.offset == 100}"> <c:set var="class_to_add" value="not-active"/> </c:when>
 		<c:otherwise> <c:set var="class_to_add" value="active"/>  </c:otherwise>
 	</c:choose>	
 	<a href=<customLib:link uri="dashboard" current_page="${page}" override_offset="100"/> class="${class_to_add} btn btn-default"> <span aria-hidden="true"> 100 </span> </a>

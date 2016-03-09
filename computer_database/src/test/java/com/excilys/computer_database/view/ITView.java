@@ -46,7 +46,7 @@ public class ITView {
      */
     @Test
     public void testLinkClick() throws Exception {
-        driver.get(baseUrl + "/computer_database/display_computers?page=1&offset=10&order=&filter=");
+        driver.get(baseUrl + "/computer_database/dashboard");
         driver.findElement(By.linkText("2")).click();
         driver.findElement(By.linkText("3")).click();
         driver.findElement(By.linkText("1")).click();
@@ -63,7 +63,7 @@ public class ITView {
      */
     @Test
     public void testNextPreviousClick() throws Exception {
-        driver.get(baseUrl + "/computer_database/display_computers?page=1&offset=10&order=&filter=");
+        driver.get(baseUrl + "/computer_database/dashboard");
         driver.findElement(By.linkText("›")).click();
         driver.findElement(By.linkText("›")).click();
         assert (isElementPresent(By.linkText(("Macintosh IIfx"))));
@@ -79,7 +79,7 @@ public class ITView {
      */
     @Test
     public void testOffsetClick() throws Exception {
-        driver.get(baseUrl + "/computer_database/display_computers?page=1&offset=10&order=&filter=");
+        driver.get(baseUrl + "/computer_database/dashboard");
         assert (isElementPresent(By.linkText(("MacBook Pro 15.4 inch"))));
         assertEquals(10, driver.findElements(By.xpath("//table[@id='table_computers']/tbody/tr")).size());
         driver.findElement(By.linkText("50")).click();
@@ -101,7 +101,7 @@ public class ITView {
     public void testAddEditDeleteComputer() throws Exception {
 
         // Computer creation
-        driver.get(baseUrl + "/computer_database/display_computers?page=1&offset=10&order=&filter=");
+        driver.get(baseUrl + "/computer_database/dashboard");
         driver.findElement(By.id("addComputer")).click();
         driver.findElement(By.id("computerName")).clear();
         driver.findElement(By.id("computerName")).sendKeys("Test IT");
@@ -147,7 +147,7 @@ public class ITView {
      */
     @Test
     public void testAddNotValidating() throws Exception {
-      driver.get(baseUrl + "/computer_database/display_computers?page=1&offset=10&order=&filter=");
+      driver.get(baseUrl + "/computer_database/dashboard");
       driver.findElement(By.id("addComputer")).click();
       driver.findElement(By.cssSelector("input.btn.btn-primary")).click();
       assertEquals(false, isAlertPresent());
@@ -176,7 +176,7 @@ public class ITView {
      */
     @Test
     public void testFilter() throws Exception {
-        driver.get(baseUrl + "/computer_database/display_computers?page=1&offset=10&order=id&filter=");
+        driver.get(baseUrl + "/computer_database/dashboard");
         driver.findElement(By.id("searchbox")).clear();
         driver.findElement(By.id("searchbox")).sendKeys("apple");
         driver.findElement(By.id("searchsubmit")).click();
@@ -189,7 +189,7 @@ public class ITView {
      */
     @Test
     public void testOrder() throws Exception {
-        driver.get(baseUrl + "/computer_database/display_computers?page=1&offset=10&order=&filter=");
+        driver.get(baseUrl + "/computer_database/dashboard");
         driver.findElement(By.xpath("//section[@id='main']/div[2]/table/thead/tr/th[2]/div/a[2]")).click();
         assert (isElementPresent(By.linkText(("ZX Spectrum +3"))));
         driver.findElement(By.xpath("//section[@id='main']/div[2]/table/thead/tr/th[2]/div/a[2]")).click();

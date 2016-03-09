@@ -10,8 +10,8 @@ import com.excilys.computer_database.exception.IntegrityException;
 import com.excilys.computer_database.persistence.dao.ComputerDAO;
 import com.excilys.computer_database.persistence.model.Computer;
 import com.excilys.computer_database.persistence.model.Page;
-import com.excilys.computer_database.persistence.model.validator.ComputerValidator;
 import com.excilys.computer_database.service.ComputerService;
+import com.excilys.computer_database.validator.model_validator.ComputerValidator;
 
 /**
  * This class is the implementation of the ComputerService interface. It is a singleton and contains a DAO that is also a singleton. The layer service
@@ -72,6 +72,7 @@ public class ComputerServiceImpl implements ComputerService {
 
     @Override
     public long create(Computer computer) {
+        
         ComputerValidator.validate(computer);
 
         return computerDAO.create(computer);
@@ -79,7 +80,13 @@ public class ComputerServiceImpl implements ComputerService {
 
     @Override
     public void update(Computer computer) {
+        
         ComputerValidator.validate(computer);
+        
+        if (computer.getId() < 1l) {
+            throw new IntegrityException("The computer's id is invalid.");
+        }
+        
         computerDAO.update(computer);
     }
 

@@ -1,4 +1,4 @@
-package com.excilys.computer_database.persistence.model.validator;
+package com.excilys.computer_database.validator.model_validator;
 
 import java.util.List;
 
@@ -27,17 +27,14 @@ public interface ComputerValidator {
         }
 
         if (computer.getDiscontinued() != null && computer.getIntroduced() == null) {
-            throw new IntegrityException(
-                    "Discontinued date cannot exist if there is no introducing date for computer "
-                            + computer.getName());
+            throw new IntegrityException("Discontinued date cannot exist if there is no introducing date for computer " + computer.getName());
         }
 
-        if (computer.getDiscontinued() != null && computer.getIntroduced() != null
-                && computer.getDiscontinued().isBefore(computer.getIntroduced())) {
+        if (computer.getDiscontinued() != null && 
+            computer.getIntroduced() != null && 
+            computer.getDiscontinued().isBefore(computer.getIntroduced())) {
 
-            throw new IntegrityException(
-                    "Discontinued date cannot be earlier than introducing date for computer "
-                            + computer.getName());
+            throw new IntegrityException("Discontinued date cannot be earlier than introducing date for computer " + computer.getName());
         }
     }
 
