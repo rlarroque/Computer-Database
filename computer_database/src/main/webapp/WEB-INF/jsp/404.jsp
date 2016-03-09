@@ -29,8 +29,7 @@
 	<section id="main">
 		<div class="container">
 			<div class="alert alert-danger">
-				Error 404: Page not found. Too bad bitch! <br />
-				<!-- stacktrace -->
+				<spring:message code="error"/> 404 : <spring:message code="error.404"/>
 			</div>
 		</div>
 	</section>

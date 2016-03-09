@@ -47,7 +47,5 @@ public interface PageDTOValidator {
         if ((dto.getEndPage() < dto.getStartPage()) && dto.getTotalComputer() != 0) {
             throw new IntegrityException("End page cannot be before start page");
         }
-        
-        throw new IntegrityException("This is a test");
     }
 }

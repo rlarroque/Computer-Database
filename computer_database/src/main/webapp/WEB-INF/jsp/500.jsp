@@ -30,11 +30,12 @@
 	<section id="main">
 		<div class="container">	
 			<div class="alert alert-danger">
-				Error 500: An error has occured: ! 
+				<spring:message code="error"/> 500 : <spring:message code="error.500"/>
 				<br/>
-				<!-- stacktrace -->
-				<p> stacktrace : ${exception.message}</p>
 			</div>
+			
+			<!-- stacktrace -->
+			<p> <spring:message code="error.reason"/> : ${exception.message}</p>
 		</div>
 	</section>
 

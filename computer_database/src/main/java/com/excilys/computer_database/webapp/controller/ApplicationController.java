@@ -3,6 +3,7 @@
  */
 package com.excilys.computer_database.webapp.controller;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import com.excilys.computer_database.webapp.dto.ComputerDTO;
@@ -10,6 +11,7 @@ import com.excilys.computer_database.webapp.dto.ComputerDTO;
 /**
  * @author rlarroque
  */
+@Controller
 public abstract class  ApplicationController {
     
     // Mapping values
@@ -19,7 +21,8 @@ public abstract class  ApplicationController {
     protected static final String ADD = "/add";
     protected static final String EDIT = "/edit";
     protected static final String DELETE = "/delete";
-    protected static final String ERROR = "/error";
+    protected static final String ERROR_404 = "/error_404";
+    protected static final String ERROR_403 = "/error_403";
     protected static final String REDIRECT = "redirect:";
     
     // JSP pages
