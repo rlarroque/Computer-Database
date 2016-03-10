@@ -103,11 +103,11 @@ public class ITView {
         // Computer creation
         driver.get(baseUrl + "/computer_database/dashboard");
         driver.findElement(By.id("addComputer")).click();
-        driver.findElement(By.id("computerName")).clear();
-        driver.findElement(By.id("computerName")).sendKeys("Test IT");
+        driver.findElement(By.id("name")).clear();
+        driver.findElement(By.id("name")).sendKeys("Test IT");
         new Select(driver.findElement(By.id("companyId"))).selectByVisibleText("Apple Inc.");
         driver.findElement(By.cssSelector("input.btn.btn-primary")).click();
-        assertEquals("Computer Successfully created", closeAlertAndGetItsText());
+        assertEquals("Computer has been successfully created!", closeAlertAndGetItsText());
 
         driver.findElement(By.id("searchbox")).clear();
         driver.findElement(By.id("searchbox")).sendKeys("Test IT");
@@ -119,11 +119,11 @@ public class ITView {
         driver.findElement(By.id("searchbox")).sendKeys("Test IT");
         driver.findElement(By.id("searchsubmit")).click();
         driver.findElement(By.linkText("Test IT")).click();
-        driver.findElement(By.id("computerName")).clear();
-        driver.findElement(By.id("computerName")).sendKeys("Test IT Modified");
+        driver.findElement(By.id("name")).clear();
+        driver.findElement(By.id("name")).sendKeys("Test IT Modified");
         new Select(driver.findElement(By.id("companyId"))).selectByVisibleText("Thinking Machines");
         driver.findElement(By.cssSelector("input.btn.btn-primary")).click();
-        assertEquals("Computer Successfully created", closeAlertAndGetItsText());
+        assertEquals("Computer has been successfully created!", closeAlertAndGetItsText());
         
         // Computer deletion 
         driver.findElement(By.id("editComputer")).click();
@@ -152,21 +152,21 @@ public class ITView {
       driver.findElement(By.cssSelector("input.btn.btn-primary")).click();
       assertEquals(false, isAlertPresent());
       
-      driver.findElement(By.id("computerName")).clear();
-      driver.findElement(By.id("computerName")).sendKeys("Test wrong");
-      driver.findElement(By.id("introduced")).clear();
-      driver.findElement(By.id("introduced")).sendKeys("45a");
+      driver.findElement(By.id("name")).clear();
+      driver.findElement(By.id("name")).sendKeys("Test wrong");
+      driver.findElement(By.id("introducedDate")).clear();
+      driver.findElement(By.id("introducedDate")).sendKeys("45a");
       driver.findElement(By.cssSelector("input.btn.btn-primary")).click();
       assertEquals(false, isAlertPresent());
       
-      driver.findElement(By.id("introduced")).clear();
-      driver.findElement(By.id("introduced")).sendKeys("2015-02-02");
-      driver.findElement(By.id("discontinued")).clear();
-      driver.findElement(By.id("discontinued")).sendKeys("2014-03-05");
+      driver.findElement(By.id("introducedDate")).clear();
+      driver.findElement(By.id("introducedDate")).sendKeys("02/02/2015");
+      driver.findElement(By.id("discontinuedDate")).clear();
+      driver.findElement(By.id("discontinuedDate")).sendKeys("01/05/2014");
       driver.findElement(By.cssSelector("input.btn.btn-primary")).click();
       assertEquals(false, isAlertPresent());
 
-      driver.findElement(By.id("computerName")).clear();
+      driver.findElement(By.id("name")).clear();
       assertEquals(false, isAlertPresent());
     }
 

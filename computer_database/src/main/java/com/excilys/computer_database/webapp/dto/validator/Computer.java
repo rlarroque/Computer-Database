@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.excilys.computer_database.validator.dto_validator;
+package com.excilys.computer_database.webapp.dto.validator;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -12,15 +12,15 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 
 /**
- * Custom annotation for date validation.
+ * Custom annoation for computerDTO validation. Make sure that the introduced date is before the discontinued date.
  * @author rlarroque
  */
-@Constraint(validatedBy = DateValidatorConstraint.class)
-@Target(value = ElementType.FIELD)
+@Constraint(validatedBy = ComputerValidatorConstraint.class)
+@Target(value = ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Date {
-    
-    String message() default "Wrong Date format";
+public @interface Computer {
+
+    String message() default "Introduced date must be before discontinued date ";
 
     Class<?>[] groups() default {};
 

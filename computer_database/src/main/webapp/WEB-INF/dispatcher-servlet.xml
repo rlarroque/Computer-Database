@@ -8,15 +8,14 @@
 				        http://www.springframework.org/schema/mvc
 				        http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
 
+	<!-- Scan controllers -->
+	<context:component-scan base-package="com.excilys.computer_database.webapp.controller" />
+	
 	<!-- Declares explicit suppport of annotations for the mvc controllers -->
 	<mvc:annotation-driven />
 
 	<!-- Map the ressources such as css, js and fonts -->
 	<mvc:resources mapping="/resources/**" location="/resources/" />
-
-	<!-- Scan controllers -->
-	<context:component-scan
-		base-package="com.excilys.computer_database.webapp.controller" />
 
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">

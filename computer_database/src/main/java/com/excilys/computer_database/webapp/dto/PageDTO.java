@@ -2,6 +2,10 @@ package com.excilys.computer_database.webapp.dto;
 
 import java.util.List;
 
+/**
+ * Page item that contains all the manfatory information to build a page.
+ * @author rlarroque
+ */
 public class PageDTO {
     
     private int currentPage;

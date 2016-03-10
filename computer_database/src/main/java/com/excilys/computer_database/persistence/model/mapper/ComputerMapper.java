@@ -2,12 +2,14 @@ package com.excilys.computer_database.persistence.model.mapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
 
 import com.excilys.computer_database.exception.IntegrityException;
 import com.excilys.computer_database.persistence.model.Company;
@@ -19,7 +21,31 @@ import com.excilys.computer_database.webapp.dto.ComputerDTO;
  * @author rlarroque
  *
  */
-public interface ComputerMapper {
+@Component
+public class ComputerMapper implements RowMapper<Computer> {
+    
+    @Autowired
+    private DateMapper dateMapper;
+
+    @Override
+    public Computer mapRow(ResultSet rs, int rowNum) throws SQLException {
+        Computer computer = new Computer();
+
+        computer.setId(rs.getInt("id"));
+        computer.setName(rs.getString("computer.name"));
+
+        if (rs.getTimestamp("introduced") != null) {
+            computer.setIntroduced(rs.getTimestamp("introduced").toLocalDateTime().toLocalDate());
+        }
+
+        if (rs.getTimestamp("discontinued") != null) {
+            computer.setDiscontinued(rs.getTimestamp("discontinued").toLocalDateTime().toLocalDate());
+        }
+
+        computer.setCompany(new Company(rs.getLong("company.id"), rs.getString("company.name")));
+
+        return computer;
+    }
 
     /**
      * Take a resultSet as parameter and return a Computer.
@@ -28,7 +54,7 @@ public interface ComputerMapper {
      * @throws SQLException if a SQl exception occurred while reading the resultSet
      * @throws IntegrityException thrown if the integrity is not respected
      */
-    static Computer toComputer(ResultSet rs) throws SQLException, IntegrityException {
+    public Computer toComputer(ResultSet rs) throws SQLException, IntegrityException {
 
         Computer computer = new Computer();
 
@@ -40,8 +66,7 @@ public interface ComputerMapper {
         }
 
         if (rs.getTimestamp("discontinued") != null) {
-            computer.setDiscontinued(
-                    rs.getTimestamp("discontinued").toLocalDateTime().toLocalDate());
+            computer.setDiscontinued(rs.getTimestamp("discontinued").toLocalDateTime().toLocalDate());
         }
 
         Company company = new Company();
@@ -58,7 +83,7 @@ public interface ComputerMapper {
      * @return the Computer mapped
      * @throws IntegrityException thrown if the integrity is not respected
      */
-    static Computer toComputer(ComputerDTO dto) throws IntegrityException {
+    public Computer toComputer(ComputerDTO dto) throws IntegrityException {
 
         Computer computer = new Computer();
 
@@ -69,16 +94,14 @@ public interface ComputerMapper {
             computer.setIntroduced(null);
         } else {
             dto.setIntroducedDate(dto.getIntroducedDate().replace('/', '-'));
-            computer.setIntroduced(
-                    LocalDate.parse(dto.getIntroducedDate(), DateTimeFormatter.ISO_LOCAL_DATE));
+            computer.setIntroduced(dateMapper.toLocalDate(dto.getIntroducedDate()));
         }
 
         if ("".equals(dto.getDiscontinuedDate())) {
             computer.setDiscontinued(null);
         } else {
             dto.setDiscontinuedDate(dto.getDiscontinuedDate().replace('/', '-'));
-            computer.setDiscontinued(
-                    LocalDate.parse(dto.getDiscontinuedDate(), DateTimeFormatter.ISO_LOCAL_DATE));
+            computer.setDiscontinued(dateMapper.toLocalDate((dto.getDiscontinuedDate())));
         }
 
         if (dto.getCompanyId() != 0) {
@@ -95,7 +118,7 @@ public interface ComputerMapper {
      * @param dtoList list to map
      * @return the list of Computers mapped
      */
-    static List<Computer> toComputer(List<ComputerDTO> dtoList) {
+    public List<Computer> toComputer(List<ComputerDTO> dtoList) {
         List<Computer> computerList = new ArrayList<>();
 
         if (dtoList != null) {
@@ -113,7 +136,7 @@ public interface ComputerMapper {
      * @return the dto mapped
      * @throws IntegrityException thrown if the integrity is not respected
      */
-    static ComputerDTO toDTO(Computer computer) throws IntegrityException {
+    public ComputerDTO toDTO(Computer computer) throws IntegrityException {
 
         ComputerDTO dto = new ComputerDTO();
 
@@ -123,13 +146,13 @@ public interface ComputerMapper {
         if (computer.getIntroduced() == null) {
             dto.setIntroducedDate("");
         } else {
-            dto.setIntroducedDate(computer.getIntroduced().toString());
+            dto.setIntroducedDate(dateMapper.toString(computer.getIntroduced()));
         }
 
         if (computer.getDiscontinued() == null) {
             dto.setDiscontinuedDate("");
         } else {
-            dto.setDiscontinuedDate(computer.getDiscontinued().toString());
+            dto.setDiscontinuedDate(dateMapper.toString(computer.getDiscontinued()));
         }
 
         if (computer.getCompany() == null) {
@@ -138,8 +161,7 @@ public interface ComputerMapper {
         } else {
             dto.setCompanyId(computer.getCompany().getId());
 
-            if (computer.getCompany().getName() == null
-                    || "".equals(computer.getCompany().getName())) {
+            if (computer.getCompany().getName() == null || "".equals(computer.getCompany().getName())) {
                 dto.setCompanyName("");
             } else {
                 dto.setCompanyName(computer.getCompany().getName());
@@ -148,21 +170,21 @@ public interface ComputerMapper {
 
         return dto;
     }
-    
+
     /**
      * Used to map a request into a dto.
      * @param request request received
      * @return the mapped dto
      */
-    static ComputerDTO toDTO(HttpServletRequest request){
-        
+    public ComputerDTO toDTO(HttpServletRequest request) {
+
         ComputerDTO dto = new ComputerDTO();
-        
+
         dto.setName(request.getParameter("computerName"));
         dto.setIntroducedDate(request.getParameter("introduced"));
         dto.setDiscontinuedDate(request.getParameter("discontinued"));
         dto.setCompanyId(Long.parseLong(request.getParameter("companyId")));
-        
+
         return dto;
     }
 
@@ -171,7 +193,7 @@ public interface ComputerMapper {
      * @param computerList to map
      * @return the list of dto mapped
      */
-    static List<ComputerDTO> toDTO(List<Computer> computerList) {
+    public List<ComputerDTO> toDTO(List<Computer> computerList) {
         List<ComputerDTO> computerDTOList = new ArrayList<>();
 
         for (Computer computer : computerList) {

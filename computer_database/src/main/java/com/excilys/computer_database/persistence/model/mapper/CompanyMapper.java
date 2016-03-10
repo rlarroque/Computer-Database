@@ -5,6 +5,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
+
 import com.excilys.computer_database.exception.IntegrityException;
 import com.excilys.computer_database.persistence.model.Company;
 import com.excilys.computer_database.validator.dto_validator.CompanyDTOValidator;
@@ -16,7 +19,18 @@ import com.excilys.computer_database.webapp.dto.CompanyDTO;
  * @author rlarroque
  *
  */
-public interface CompanyMapper {
+@Component
+public class CompanyMapper implements RowMapper<Company> {
+    
+    @Override
+    public Company mapRow(ResultSet rs, int rowNum) throws SQLException {
+        Company company = new Company();
+        
+        company.setId(rs.getInt("id"));
+        company.setName(rs.getString("name"));
+        
+        return company;
+    }
 
     /**
      * Take a resultSet as parameter and return a Company.
@@ -25,7 +39,7 @@ public interface CompanyMapper {
      * @throws SQLException if a SQl exception occurred while reading the resultSet
      * @throws IntegrityException thrown if the integrity is not respected
      */
-    static Company toCompany(ResultSet rs) throws SQLException, IntegrityException {
+    public static Company toCompany(ResultSet rs) throws SQLException, IntegrityException {
         Company company = new Company(rs.getLong("id"), rs.getString("name"));
         CompanyValidator.validate(company);
 
@@ -38,7 +52,7 @@ public interface CompanyMapper {
      * @return the comapny mapped
      * @throws IntegrityException thrown if the integrity is not respected
      */
-    static Company toCompany(CompanyDTO dto) throws IntegrityException {
+    public static Company toCompany(CompanyDTO dto) throws IntegrityException {
         CompanyDTOValidator.validate(dto);
 
         return new Company(dto.id, dto.name);
@@ -49,7 +63,7 @@ public interface CompanyMapper {
      * @param dtoList list to map
      * @return the list of company mapped
      */
-    static List<Company> toCompany(List<CompanyDTO> dtoList) throws SQLException {
+    public static List<Company> toCompany(List<CompanyDTO> dtoList) throws SQLException {
         List<Company> companyList = new ArrayList<>();
 
         for (CompanyDTO dto : dtoList) {
@@ -65,7 +79,7 @@ public interface CompanyMapper {
      * @return the dto mapped
      * @throws IntegrityException thrown if the integrity is not respected
      */
-    static CompanyDTO toDTO(Company company) throws IntegrityException {
+    public static CompanyDTO toDTO(Company company) throws IntegrityException {
         CompanyValidator.validate(company);
 
         return new CompanyDTO(company.getId(), company.getName());
@@ -76,7 +90,7 @@ public interface CompanyMapper {
      * @param companyList to map
      * @return the list of dto mapped
      */
-    static List<CompanyDTO> toDTO(List<Company> companyList) {
+    public static List<CompanyDTO> toDTO(List<Company> companyList) {
         List<CompanyDTO> companyDTOList = new ArrayList<>();
 
         for (Company company : companyList) {

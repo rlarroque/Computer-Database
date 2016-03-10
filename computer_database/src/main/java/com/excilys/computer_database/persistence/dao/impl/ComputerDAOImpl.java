@@ -12,7 +12,7 @@ import com.excilys.computer_database.persistence.dao.ComputerDAO;
 import com.excilys.computer_database.persistence.dao.utils.QueryBuilder;
 import com.excilys.computer_database.persistence.model.Computer;
 import com.excilys.computer_database.persistence.model.Page;
-import com.excilys.computer_database.persistence.model.mapper.ComputerRowMapper;
+import com.excilys.computer_database.persistence.model.mapper.ComputerMapper;
 
 /**
  * Implementation of ComputerDAO that is used to manipulate the db.
@@ -27,7 +27,7 @@ public class ComputerDAOImpl implements ComputerDAO {
     @Override
     public List<Computer> getAll() {
 
-        List<Computer> computers = jdbcTemplate.query(QueryBuilder.getComputersQuery(), new ComputerRowMapper());
+        List<Computer> computers = jdbcTemplate.query(QueryBuilder.getComputersQuery(), new ComputerMapper());
 
         return computers;
     }
@@ -35,7 +35,7 @@ public class ComputerDAOImpl implements ComputerDAO {
     @Override
     public List<Computer> getPage(Page page) {
 
-        List<Computer> computers = jdbcTemplate.query(QueryBuilder.getComputerPageQuery(page), new ComputerRowMapper());
+        List<Computer> computers = jdbcTemplate.query(QueryBuilder.getComputerPageQuery(page), new ComputerMapper());
 
         return computers;
     }
@@ -45,7 +45,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 
         Computer computer = jdbcTemplate.queryForObject(QueryBuilder.getComputerQuery(id),
                                                         new Long[] { id },
-                                                        new ComputerRowMapper());
+                                                        new ComputerMapper());
 
         return computer;
     }
@@ -55,7 +55,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 
         Computer computer = jdbcTemplate.queryForObject(QueryBuilder.getComputerQuery(name),
                                                         new String[] { name },
-                                                        new ComputerRowMapper());
+                                                        new ComputerMapper());
 
         return computer;
     }

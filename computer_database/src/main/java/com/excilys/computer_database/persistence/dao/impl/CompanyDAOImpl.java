@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.excilys.computer_database.persistence.dao.CompanyDAO;
 import com.excilys.computer_database.persistence.dao.utils.QueryBuilder;
 import com.excilys.computer_database.persistence.model.Company;
-import com.excilys.computer_database.persistence.model.mapper.CompanyRowMapper;
+import com.excilys.computer_database.persistence.model.mapper.CompanyMapper;
 
 /**
  * Implementation of CompanyDAO that is used to manipulate the db.
@@ -24,7 +24,7 @@ public class CompanyDAOImpl implements CompanyDAO {
     @Override
     public List<Company> getAll() {
 
-        List<Company> companies = jdbcTemplate.query(QueryBuilder.getCompanyQuery(), new CompanyRowMapper());
+        List<Company> companies = jdbcTemplate.query(QueryBuilder.getCompanyQuery(), new CompanyMapper());
 
         return companies;
     }
@@ -34,7 +34,7 @@ public class CompanyDAOImpl implements CompanyDAO {
 
         Company company = jdbcTemplate.queryForObject(QueryBuilder.getCompanyQuery(id),
                                                       new Long[] { id },
-                                                      new CompanyRowMapper());
+                                                      new CompanyMapper());
 
         return company;
     }
@@ -44,7 +44,7 @@ public class CompanyDAOImpl implements CompanyDAO {
 
         Company company = jdbcTemplate.queryForObject(QueryBuilder.getCompanyQuery(name),
                                                       new String[] { name },
-                                                      new CompanyRowMapper());
+                                                      new CompanyMapper());
 
         return company;
     }

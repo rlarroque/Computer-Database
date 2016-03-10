@@ -19,23 +19,51 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.excilys.computer_database.persistence.model.Page;
 import com.excilys.computer_database.persistence.model.mapper.CompanyMapper;
 import com.excilys.computer_database.persistence.model.mapper.ComputerMapper;
+import com.excilys.computer_database.persistence.model.mapper.PageMapper;
 import com.excilys.computer_database.service.CompanyService;
 import com.excilys.computer_database.service.ComputerService;
+import com.excilys.computer_database.validator.dto_validator.PageDTOValidator;
+import com.excilys.computer_database.webapp.controller.utils.PageConstructor;
 import com.excilys.computer_database.webapp.dto.CompanyDTO;
 import com.excilys.computer_database.webapp.dto.ComputerDTO;
+import com.excilys.computer_database.webapp.dto.PageDTO;
 
 @Controller
 public class ComputerController extends ApplicationController{
     
     private static final Logger LOGGER = LoggerFactory.getLogger(ComputerController.class);
+    
+    @Autowired
+    ComputerMapper computerMapper;
+    
+    @Autowired 
+    PageMapper pageMapper;
 
     @Autowired
     ComputerService computerService;
 
     @Autowired
     CompanyService companyService;
+    
+    @RequestMapping(method = RequestMethod.GET, value = {DASHBOARD, "/", ""})
+    public String getDashboard(ModelMap map, HttpServletRequest request){
+        
+        LOGGER.info("GET Dashboard");   
+        
+        Page page = pageMapper.toPage(request);
+        computerService.fillPage(page);
+        
+        PageDTO dto = pageMapper.toDTO(page);
+        PageConstructor.construct(dto);
+        PageDTOValidator.validate(dto);
+    
+        map.addAttribute("page", dto);
+        
+        return JSP_DASHBOARD;
+    }
     
     @RequestMapping(method = RequestMethod.GET, value = COMPUTER + ADD)
     public String getAddComputer(ModelMap map){
@@ -58,7 +86,7 @@ public class ComputerController extends ApplicationController{
             
             return JSP_ADD;
         } else {
-            computerService.create(ComputerMapper.toComputer(dto));
+            computerService.create(computerMapper.toComputer(dto));
             
             return REDIRECT + JSP_DASHBOARD;
         }
@@ -70,7 +98,7 @@ public class ComputerController extends ApplicationController{
         LOGGER.info("GET computer edit");
 
         List<CompanyDTO> listCompanies = CompanyMapper.toDTO(companyService.getAll());
-        ComputerDTO dto = ComputerMapper.toDTO(computerService.get(Integer.parseInt(request.getParameter("computer"))));
+        ComputerDTO dto = computerMapper.toDTO(computerService.get(Integer.parseInt(request.getParameter("computer"))));
 
         map.addAttribute("computer", dto);
         map.addAttribute("companies", listCompanies);
@@ -88,7 +116,7 @@ public class ComputerController extends ApplicationController{
             
             return JSP_EDIT;
         } else {
-            computerService.update(ComputerMapper.toComputer(dto));
+            computerService.update(computerMapper.toComputer(dto));
             
             return REDIRECT + JSP_DASHBOARD;
         }

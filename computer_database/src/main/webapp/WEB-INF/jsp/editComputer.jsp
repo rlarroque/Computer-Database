@@ -32,24 +32,24 @@
 							<form:errors cssClass="error" style="font-weight: bold; margin-bottom:20px;"/>
 							<div class="form-group">
 								<label for="computerName"><spring:message code="computer.name"/></label>
-								<form:input type="text" class="form-control has-feedback" id="computerName" 
-											name="computerName" placeholder="${computer.name}" 
+								<form:input type="text" class="form-control has-feedback" id="name" 
+											name="name" placeholder="${computer.name}" 
 											path="name"/>
 								<form:errors path="name" cssClass="error" style="font-weight: bold;"/>
 							</div>
 							
 							<div class="form-group">
 								<label for="introduced"><spring:message code="computer.introduced"/></label>
-								<form:input type="date" class="form-control has-feedback" id="introduced"
-									   name="introduced" placeholder="${computer.introducedDate}"
+								<form:input type="date" class="form-control has-feedback" id="introducedDate"
+									   name="introducedDate" placeholder="${computer.introducedDate}"
 									   value="${computer.introducedDate}" path="introducedDate"/>
 								<form:errors path="introducedDate" cssClass="error" style="font-weight: bold;"/>
 							</div>
 							
 							<div class="form-group">
 								<label for="discontinued"><spring:message code="computer.discontinued"/></label>
-								<form:input type="date" class="form-control has-feedback" id="discontinued"
-									   		name="discontinued" placeholder="${computer.discontinuedDate}"
+								<form:input type="date" class="form-control has-feedback" id="discontinuedDate"
+									   		name="discontinuedDate" placeholder="${computer.discontinuedDate}"
 									   		value="${computer.discontinuedDate}" path="discontinuedDate"/>
 								<form:errors path="discontinuedDate" class="error" style="font-weight: bold;"/>
 							</div>
@@ -78,9 +78,22 @@
     </section>
     
     <jsp:include page="global/scripts.jsp" />
+    
 	<script src="<c:url value="${js}/jquery.validate.js" />"></script>
 	<script src="<c:url value="${js}/jquery.validate.additional.js" />"></script>
 	<script src="<c:url value="${js}/validator.js" />"></script>
+	
+	<script type="text/javascript">
+		var localized_strings = new Array();
+		localized_strings['pattern'] = "<spring:message code='date.pattern.validation' javaScriptEscape='true' />";
+		localized_strings['date.pattern'] = "<spring:message code='date.pattern' javaScriptEscape='true' />";
+		localized_strings['validation.name'] = "<spring:message code='validation.name' javaScriptEscape='true' />";
+		localized_strings['validation.introduced'] = "<spring:message code='validation.introduced' javaScriptEscape='true' />";
+		localized_strings['validation.discontinued'] = "<spring:message code='validation.discontinued' javaScriptEscape='true' />";
+		localized_strings['validation.date'] = "<spring:message code='validation.date' javaScriptEscape='true' />";
+		localized_strings['validation.company'] = "<spring:message code='validation.company' javaScriptEscape='true' />";
+		localized_strings['validation.success'] = "<spring:message code='validation.success' javaScriptEscape='true' />";
+	</script>
 	
 </body>
 </html>

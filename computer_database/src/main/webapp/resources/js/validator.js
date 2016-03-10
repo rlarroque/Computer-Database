@@ -2,14 +2,15 @@ $(function(){
 
 	jQuery.validator.addMethod("dateComparison", function() {
 
-		if ($("#introduced").val() == ""
-				|| $("#discontinuedDate").val() == "") {
+		if ($("#introducedDate").val() == "" || $("#discontinuedDate").val() == "") {
 			return true;
 		} else {
-			return $("#introducedDate").val() < $("#discontinued").val();
+			var dateIntroduced = new Date($("#introducedDate").val());
+			var dateDiscontinued = new Date($("#discontinuedDate").val())
+			return dateIntroduced < dateDiscontinued;
 		}
 
-	}, "The ending date must be a later date than the start date");
+	}, localized_strings['validation.introduced']);
 
 	jQuery.validator.addMethod("needsIntroduced", function() {
 		
@@ -21,7 +22,17 @@ $(function(){
 			return true;
 		}
 
-	}, "An introduced date in mandatory with a discontinued date.");
+	}, localized_strings['validation.discontinued']);
+	
+	jQuery.validator.addMethod("validateDate", function(value, element) {
+		
+		if(value == "") {
+			return true;
+		}
+	    
+		return value.match(localized_strings['pattern']);
+		
+	}, localized_strings['validation.date'] + ' ' + localized_strings['date.pattern']);
 
 	$("#computer_form").validate({
 		
@@ -31,13 +42,14 @@ $(function(){
 			"introducedDate": {
 				dateComparison : true,
 				required : false,
-				date : true
+				validateDate : true
 			},
 
 			"discontinuedDate": {
+				dateComparison : true,
 				needsIntroduced : true,
-				required : false,
-				date : true
+				required : false, 
+				validateDate : true
 			},
 
 			"companyId": {
@@ -47,8 +59,8 @@ $(function(){
 		},
 
 		messages : {
-			name : "Please enter a computer name.",
-			companyId : "Invalid company."
+			name : localized_strings['validation.name'],
+			companyId : localized_strings['validation.company']
 		},
 
 		highlight : function(element) {
@@ -61,6 +73,7 @@ $(function(){
 
 		submitHandler : function(form) {
 			form.submit();
+			alert(localized_strings['validation.success']);
 		}
 	});
 });

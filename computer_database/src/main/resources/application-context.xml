@@ -9,7 +9,9 @@
 	<context:property-placeholder location="classpath:database.properties"/>
 	<context:component-scan base-package="com.excilys.computer_database.persistence.dao" />
 	<context:component-scan base-package="com.excilys.computer_database.service" />
-
+	<context:component-scan base-package="com.excilys.computer_database.validator.dto_validator" />
+	<context:component-scan base-package="com.excilys.computer_database.persistence.model.mapper" />
+	
 	<!-- Enable Annotation based Declarative Transaction Management -->
 	<tx:annotation-driven transaction-manager="transactionManager" />
 	
@@ -30,4 +32,17 @@
 	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
 	    <property name="dataSource" ref="dataSource"/>
 	</bean>
+	
+	<!-- MessageSource for localization -->
+	<bean id="messageSource"
+		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basenames" value="classpath:messages/message" />
+		<property name="defaultEncoding" value="ISO-8859-1" />
+	</bean>
+	
+	<bean id="localeResolver"
+		class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
+		<property name="defaultLocale" value="en"></property>
+	</bean>
+	
 </beans>

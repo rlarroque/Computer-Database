@@ -2,6 +2,9 @@ package com.excilys.computer_database.persistence.model.mapper;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.excilys.computer_database.persistence.model.Page;
 import com.excilys.computer_database.persistence.model.utils.Order;
 import com.excilys.computer_database.persistence.model.utils.OrderColumn;
@@ -15,19 +18,23 @@ import com.excilys.computer_database.webapp.dto.PageDTO;
  * @author rlarroque
  *
  */
-public interface PageMapper {
+@Component
+public class PageMapper {
+    
+    @Autowired
+    private ComputerMapper computerMapper;
 
     /**
      * Map a dto into a page.
      * @param dto dto to map
      * @return the mapped page
      */
-    static Page toPage(PageDTO dto) {
+    public Page toPage(PageDTO dto) {
 
         PageDTOValidator.validate(dto);
 
         Page page = new Page(dto.getCurrentPage(), dto.getOffset(), dto.getFilter());
-        page.setComputers(ComputerMapper.toComputer(dto.getComputers()));
+        page.setComputers(computerMapper.toComputer(dto.getComputers()));
         page.setTotalComputer(dto.getTotalComputer());
         page.setStartIndex((dto.getTotalPage() - 1) * dto.getOffset());
 
@@ -41,7 +48,7 @@ public interface PageMapper {
      * @param request request received
      * @return the mapped page
      */
-    static Page toPage(HttpServletRequest request) {
+    public Page toPage(HttpServletRequest request) {
        
         Page page = new Page();
         
@@ -79,12 +86,12 @@ public interface PageMapper {
      * @param page page to map
      * @return the mapped dto
      */
-    static PageDTO toDTO(Page page) {
+    public PageDTO toDTO(Page page) {
 
         PageValidator.validate(page);
 
         PageDTO dto = new PageDTO(page.getPageNumber(), page.getOffset());
-        dto.setComputers(ComputerMapper.toDTO(page.getComputers()));
+        dto.setComputers(computerMapper.toDTO(page.getComputers()));
         dto.setTotalComputer(page.getTotalComputer());
         dto.setFilter(page.getFilter());
         if (page.getOrder() != null) {
