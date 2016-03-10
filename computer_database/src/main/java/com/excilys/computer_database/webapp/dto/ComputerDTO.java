@@ -15,7 +15,7 @@ import com.excilys.computer_database.validator.dto_validator.Date;
 public class ComputerDTO {
 
     public long id;
-    @NotBlank(message = "Name is mandatory")
+    @NotBlank(message = "Please enter a computer name.")
     public String name;
     @Date
     public String introducedDate;

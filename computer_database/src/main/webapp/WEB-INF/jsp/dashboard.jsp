@@ -3,30 +3,14 @@
 <%@taglib tagdir="/WEB-INF/tags" prefix="customLib"%>
 <%@page contentType="text/html; charset=UTF-8" %>
 
-<c:url value="/../resources/css" var="css" />
-<c:url value="/../resources/js" var="js" />
-
 <!DOCTYPE html>
 <html>
 <head>
-<title>Computer Database</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- Bootstrap -->
-<link href="<c:url value="${css}/bootstrap.min.css" />" rel="stylesheet"
-	media="screen">
-<link href="<c:url value="${css}/font-awesome.css" />" rel="stylesheet"
-	media="screen">
-<link href="<c:url value="${css}/main.css" />" rel="stylesheet"
-	media="screen">
-<link href="<c:url value="${css}/bootstrap-formhelpers.css" />" rel="stylesheet"
-	media="screen">
+	<jsp:include page="global/head.jsp" />
 </head>
 <body>
-	<header class="navbar navbar-inverse navbar-fixed-top">
-		<div class="container">
-			<a href=<customLib:link uri="${pageContext.request.contextPath}/dashboard"/> class="navbar-brand"> <spring:message code="title"/> </a>
-		</div>
-	</header>
+
+	<jsp:include page="global/navbar.jsp" />
 	
 	<section id="main">
 		<div class="container">
@@ -64,13 +48,12 @@
 						<th class="editMode" style="width: 60px; height: 22px;"><input
 							type="checkbox" id="selectall" /> <span id="deleteContainer"
 							style="vertical-align: top;"> - <a href="#"
-								id="deleteSelected" onclick="$.fn.deleteSelected();"> <i
-									class="fa fa-trash-o fa-lg"></i>
+								id="deleteSelected" onclick="$.fn.deleteSelected();"> <i class="fa fa-trash-o fa-lg"></i>
 							</a>
 						</span></th>
 						<th> <div class="parent">
 								<a href=<customLib:link uri="dashboard" current_page="${page}" override_order="name" override_order_type="ASC"/> class="child fa fa-sort-asc"></a>
-							 	<a href=<customLib:link uri="dashboard" current_page="${page}" override_order="name" override_order_type="DESC"/> class="child fa fa-sort-desc"></a>
+							 	<a href=<customLib:link uri="dashboard" current_page="${page}" override_order="name" override_order_type="DESC"/> style="margin-top: 7px;" class="child fa fa-sort-desc"></a>
 						 	</div>
 						 	<div class="child_link" ><spring:message code="computer.name"/></div>
 						 </th>
@@ -78,7 +61,7 @@
 						<th>
 							<div class="parent">
 								<a href=<customLib:link uri="dashboard" current_page="${page}" override_order="introduced" override_order_type="ASC"/> class="child fa fa-sort-asc"></a>
-							 	<a href=<customLib:link uri="dashboard" current_page="${page}" override_order="introduced" override_order_type="DESC"/> class="child fa fa-sort-desc"></a>
+							 	<a href=<customLib:link uri="dashboard" current_page="${page}" override_order="introduced" override_order_type="DESC"/>  style="margin-top: 7px;" class="child fa fa-sort-desc"></a>
 						 	</div>
 						 	<div class="child_link" ><spring:message code="computer.introduced"/></div>
 					 	</th>
@@ -86,7 +69,7 @@
 						<th>
 						<div class="parent">
 								<a href=<customLib:link uri="dashboard" current_page="${page}" override_order="discontinued" override_order_type="ASC"/> class="child fa fa-sort-asc"></a>
-							 	<a href=<customLib:link uri="dashboard" current_page="${page}" override_order="discontinued" override_order_type="DESC"/> class="child fa fa-sort-desc"></a>
+							 	<a href=<customLib:link uri="dashboard" current_page="${page}" override_order="discontinued" override_order_type="DESC"/>  style="margin-top: 7px;" class="child fa fa-sort-desc"></a>
 						 	</div>
 						 	<div class="child_link" ><spring:message code="computer.discontinued"/></div>
 						</th>
@@ -94,7 +77,7 @@
 						<th>
 							<div class="parent">
 								<a href=<customLib:link uri="dashboard" current_page="${page}" override_order="company_id" override_order_type="ASC"/> class="child fa fa-sort-asc"></a>
-							 	<a href=<customLib:link uri="dashboard" current_page="${page}" override_order="company_id" override_order_type="DESC"/> class="child fa fa-sort-desc"></a>
+							 	<a href=<customLib:link uri="dashboard" current_page="${page}" override_order="company_id" override_order_type="DESC"/>  style="margin-top: 7px;" class="child fa fa-sort-desc"></a>
 						 	</div>
 						 	<div class="child_link" ><spring:message code="computer.company"/></div>
 						</th>
@@ -123,15 +106,14 @@
 			<customLib:page page="${page}" langList="${languageList}"></customLib:page>
 		</div>
 	</footer>
-	<script src="<c:url value="${js}/jquery.min.js" />"></script>
-	<script src="<c:url value="${js}/bootstrap.min.js" />"></script>
-	<script src="<c:url value="${js}/bootstrap-formhelpers.js" />"></script>
+	
+	<jsp:include page="global/scripts.jsp" />
+	
 	<script type="text/javascript">
 		var localized_strings = new Array();
 		localized_strings['button.edit'] = "<spring:message code='button.edit' javaScriptEscape='true' />";
 		localized_strings['button.view'] = "<spring:message code='button.view' javaScriptEscape='true' />";
 	</script>
-	<script src="<c:url value="${js}/dashboard.js" />"></script>
 	
 </body>
 </html>

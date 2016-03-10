@@ -11,6 +11,7 @@ import com.excilys.computer_database.exception.IntegrityException;
 import com.excilys.computer_database.webapp.controller.ApplicationController;
 
 /**
+ * Handling of execptions.
  * @author rlarroque
  */
 @ControllerAdvice

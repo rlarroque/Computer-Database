@@ -9,6 +9,7 @@ import javax.validation.ConstraintValidatorContext;
 import org.apache.commons.validator.routines.DateValidator;
 
 /**
+ * Constraint of date validation.
  * @author rlarroque
  */
 public class DateValidatorConstraint implements ConstraintValidator<Date, String> {
@@ -27,6 +28,12 @@ public class DateValidatorConstraint implements ConstraintValidator<Date, String
     }
 
     private static boolean isValidDate(String date) {
-        return DateValidator.getInstance().isValid(date, "yyyy-MM-dd");
+        return DateValidator.getInstance().isValid(date, getPattern());
+    }
+    
+    private static String getPattern() {
+        String pattern = null;        
+        
+        return pattern;
     }
 }

@@ -1,5 +1,9 @@
 package com.excilys.computer_database.persistence.model.utils;
 
+/**
+ * Data about how a page is ordered.
+ * @author rlarroque
+ */
 public class Order {
 
     private OrderType type;

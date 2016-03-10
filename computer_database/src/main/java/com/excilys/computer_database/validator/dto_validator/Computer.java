@@ -12,6 +12,7 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 
 /**
+ * Custom annoation for computerDTO validation. Make sure that the introduced date is before the discontinued date.
  * @author rlarroque
  */
 @Constraint(validatedBy = ComputerValidatorConstraint.class)

@@ -12,6 +12,7 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 
 /**
+ * Custom annotation for date validation.
  * @author rlarroque
  */
 @Constraint(validatedBy = DateValidatorConstraint.class)

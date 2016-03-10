@@ -12,6 +12,7 @@ import com.excilys.computer_database.persistence.model.Company;
 import com.excilys.computer_database.persistence.model.Computer;
 
 /**
+ * Class used to map row into computer
  * @author rlarroque
  */
 public class ComputerRowMapper implements RowMapper<Computer> {

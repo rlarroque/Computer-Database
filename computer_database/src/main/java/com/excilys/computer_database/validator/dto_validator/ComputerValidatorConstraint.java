@@ -11,6 +11,7 @@ import javax.validation.ConstraintValidatorContext;
 import com.excilys.computer_database.webapp.dto.ComputerDTO;
 
 /**
+ * Validation constraint of a computerDTO.
  * @author rlarroque
  */
 public class ComputerValidatorConstraint implements ConstraintValidator <Computer, ComputerDTO> {

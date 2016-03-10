@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import com.excilys.computer_database.webapp.dto.ComputerDTO;
 
 /**
+ * Abstract controller.
  * @author rlarroque
  */
 @Controller
@@ -33,7 +34,7 @@ public abstract class  ApplicationController {
     protected static final String JSP_404 = "/404";
     protected static final String JSP_500 = "/500";
     
-    // Binding
+    // Binding method parameter to a named model attribute, exposed to a web view
     @ModelAttribute("computerToAdd")
     public ComputerDTO getComputerToAdd() {
         return new ComputerDTO();

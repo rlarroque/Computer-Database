@@ -1,5 +1,9 @@
 package com.excilys.computer_database.persistence.model.utils;
 
+/**
+ * Enumeration of the possible column ordering in a page.
+ * @author rlarroque
+ */
 public enum OrderColumn {
     ID("id"), NAME("name"), INTRO("introduced"), DISC("discontinued"), COMPANY("company_id");
 

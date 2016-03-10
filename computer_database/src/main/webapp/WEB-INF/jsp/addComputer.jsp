@@ -9,22 +9,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Computer Database</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- Bootstrap -->
-<link href="<c:url value="${css}/bootstrap.min.css" />" rel="stylesheet"
-	media="screen">
-<link href="<c:url value="${css}/font-awesome.css" />" rel="stylesheet"
-	media="screen">
-<link href="<c:url value="${css}/main.css" />" rel="stylesheet"
-	media="screen">
+	<jsp:include page="global/head.jsp" />
 </head>
 <body>
-	<header class="navbar navbar-inverse navbar-fixed-top">
-		<div class="container">
-			<a href=<customLib:link uri="${pageContext.request.contextPath}/dashboard"/> class="navbar-brand"> <spring:message code="title"/> </a>
-		</div>
-	</header>
+
+	<jsp:include page="global/navbar.jsp" />
 
 	<section id="main">
 		<div class="container">
@@ -32,31 +21,34 @@
 				<div class="col-xs-8 col-xs-offset-2 box">
 					<h1><spring:message code="computer.add"/></h1>
 					
-					<form:form modelAttribute="computerToAdd" action="${pageContext.request.contextPath}/computer/add" method="POST" id="computer_form">
+					<form:form modelAttribute="computerToAdd" action="${pageContext.request.contextPath}/computer/add" method="POST" id="computer_form" name="computer_form">
 						<fieldset>
 							<form:errors cssClass="error" style="font-weight: bold; margin-bottom:20px;"/>
 							<div class="form-group">
 								<label for="computerName"><spring:message code="computer.name"/></label>
 								<c:set var="name_placeholder"><spring:message code="placeholder.computer.name"/></c:set>
-								<form:input type="text" class="form-control has-feedback" id="computerName" 
-											name="computerName" placeholder="${name_placeholder}" 
+								<form:input type="text" class="form-control has-feedback" id="name" 
+											name="name" placeholder="${name_placeholder}" 
 											path="name"/>
+								<form:errors path="name" cssClass="error" style="font-weight: bold; margin-bottom:20px;"/>
 							</div>
 							
 							<div class="form-group">
 								<label for="introduced"><spring:message code="computer.introduced"/></label>
 								<c:set var="introduced_placeholder"><spring:message code="placeholder.computer.introduced"/></c:set>
-								<form:input type="date" class="form-control has-feedback" id="introduced"
-									   name="introduced" placeholder="${introduced_placeholder}"
+								<form:input type="date" class="form-control has-feedback" id="introducedDate"
+									   name="introducedDate" placeholder="${introduced_placeholder}"
 									   path="introducedDate"/>
+								<form:errors path="introducedDate" cssClass="error" style="font-weight: bold; margin-bottom:20px;"/>
 							</div>
 							
 							<div class="form-group">
 								<label for="discontinued"><spring:message code="computer.discontinued"/></label>  
 								<c:set var="discontinued_placeholder"><spring:message code="placeholder.computer.discontinued"/></c:set>
-								<form:input type="date" class="form-control has-feedback" id="discontinued"
-									   		name="discontinued" placeholder="${discontinued_placeholder}"
+								<form:input type="date" class="form-control has-feedback" id="discontinuedDate"
+									   		name="discontinuedDate" placeholder="${discontinued_placeholder}"
 									   		path="discontinuedDate"/>
+								<form:errors path="discontinuedDate" cssClass="error" style="font-weight: bold; margin-bottom:20px;"/>
 							</div>
 							
 							<div class="form-group">
@@ -81,7 +73,7 @@
 		</div>
 	</section>
 
-	<script src="<c:url value="${js}/jquery.min.js" />"></script>
+	<jsp:include page="global/scripts.jsp" />
 	<script src="<c:url value="${js}/jquery.validate.js" />"></script>
 	<script src="<c:url value="${js}/jquery.validate.additional.js" />"></script>
 	<script src="<c:url value="${js}/validator.js" />"></script>

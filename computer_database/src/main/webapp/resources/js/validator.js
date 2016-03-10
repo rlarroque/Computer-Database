@@ -2,21 +2,20 @@ $(function(){
 
 	jQuery.validator.addMethod("dateComparison", function() {
 
-		if ($("#introduced").val().toString() == ""
-				|| $("#discontinued").val().toString() == "") {
+		if ($("#introduced").val() == ""
+				|| $("#discontinuedDate").val() == "") {
 			return true;
 		} else {
-			return $("#introduced").val() < $("#discontinued").val()
-					.toString();
+			return $("#introducedDate").val() < $("#discontinued").val();
 		}
 
 	}, "The ending date must be a later date than the start date");
 
 	jQuery.validator.addMethod("needsIntroduced", function() {
 		
-		if ($("#discontinued").val().toString() == "") {
+		if ($("#discontinuedDate").val() == "") {
 			return true;
-		} else if ($("#introduced").val().toString() == "") {
+		} else if ($("#introducedDate").val() == "") {
 			return false;
 		} else {
 			return true;
@@ -27,16 +26,15 @@ $(function(){
 	$("#computer_form").validate({
 		
 		rules : {
-			"computerName": "required",
+			"name": "required",
 
-			"introduced": {
+			"introducedDate": {
 				dateComparison : true,
 				required : false,
 				date : true
 			},
 
-			"discontinued": {
-				dateComparison : true,
+			"discontinuedDate": {
 				needsIntroduced : true,
 				required : false,
 				date : true
@@ -49,7 +47,7 @@ $(function(){
 		},
 
 		messages : {
-			computerName : "Please enter a computer name.",
+			name : "Please enter a computer name.",
 			companyId : "Invalid company."
 		},
 

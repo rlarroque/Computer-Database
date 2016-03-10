@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.excilys.computer_database.webapp.controller.ApplicationController;
 
 /**
+ * Handling of 404 and 403 pages
  * @author rlarroque
  */
 @Controller

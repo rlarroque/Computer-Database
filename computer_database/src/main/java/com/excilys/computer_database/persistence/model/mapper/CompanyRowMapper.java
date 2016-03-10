@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.RowMapper;
 import com.excilys.computer_database.persistence.model.Company;
 
 /**
+ * Class used to map row into company
  * @author rlarroque
  */
 public class CompanyRowMapper implements RowMapper<Company> {
