@@ -2,93 +2,114 @@ package com.excilys.computer_database.persistence.dao.impl;
 
 import java.util.List;
 
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.excilys.computer_database.persistence.dao.ComputerDAO;
-import com.excilys.computer_database.persistence.dao.utils.QueryBuilder;
 import com.excilys.computer_database.persistence.model.Computer;
 import com.excilys.computer_database.persistence.model.Page;
-import com.excilys.computer_database.persistence.model.mapper.ComputerMapper;
 
 /**
  * Implementation of ComputerDAO that is used to manipulate the db.
  * @author rlarroque
  */
 @Repository
+@Transactional
+@SuppressWarnings("unchecked")
 public class ComputerDAOImpl implements ComputerDAO {
-    
+        
     @Autowired
-    private JdbcTemplate jdbcTemplate;
+    private SessionFactory sessionFactory; 
 
     @Override
     public List<Computer> getAll() {
 
-        List<Computer> computers = jdbcTemplate.query(QueryBuilder.getComputersQuery(), new ComputerMapper());
-
-        return computers;
+        return sessionFactory.getCurrentSession()
+                             .createQuery("from computer as computer left join fetch computer.company as company")
+                             .list();
     }
 
     @Override
     public List<Computer> getPage(Page page) {
-
-        List<Computer> computers = jdbcTemplate.query(QueryBuilder.getComputerPageQuery(page), new ComputerMapper());
-
-        return computers;
+        
+        String hqlQuery = "select computer from computer computer left join computer.company as company";
+        
+        /* if (page.getFilter() != null && !"".equals(page.getFilter())) {
+            hqlQuery = hqlQuery.concat(" where computer.name like '%")
+                               .concat(page.getFilter())
+                               .concat("%' or company.name like '%")
+                               .concat(page.getFilter())
+                               .concat("%'");
+        }
+        
+        if (page.getOrder() != null) {
+            hqlQuery = hqlQuery.concat(" order by computer.")
+                               .concat(page.getOrder().getCol().toString())
+                               .concat(" " + page.getOrder().getType().toString());
+        } */
+        
+        return (List<Computer>) sessionFactory.getCurrentSession()
+                             .createQuery(hqlQuery)
+                             .setFirstResult(page.getStartIndex())
+                             .setMaxResults(page.getOffset())
+                             .list();
     }
 
     @Override
     public Computer get(long id) {
 
-        Computer computer = jdbcTemplate.queryForObject(QueryBuilder.getComputerQuery(id),
-                                                        new Long[] { id },
-                                                        new ComputerMapper());
-
-        return computer;
+        return (Computer) sessionFactory.getCurrentSession()
+                                        .createQuery("from computer as computer left join fetch computer.company as company where computer.id= :id")
+                                        .setLong("id", id)
+                                        .uniqueResult();
     }
 
     @Override
     public Computer get(String name) {
 
-        Computer computer = jdbcTemplate.queryForObject(QueryBuilder.getComputerQuery(name),
-                                                        new String[] { name },
-                                                        new ComputerMapper());
-
-        return computer;
+        return (Computer) sessionFactory.getCurrentSession()
+                                        .createQuery("from computer as computer left join fetch computer.company as company where computer.name= :name")
+                                        .setString("name", name)
+                                        .uniqueResult();
     }
 
     @Override
     public long create(Computer computer) {
     	
-        KeyHolder keyHolder = new GeneratedKeyHolder();
-        jdbcTemplate.update(QueryBuilder.createQuery(computer), keyHolder);
-        
-        return (long) keyHolder.getKey();
+        return (long) sessionFactory.getCurrentSession()
+                                    .save(computer);
     }
 
     @Override
     public void update(Computer computer) {      
-        jdbcTemplate.update(QueryBuilder.updateQuery(computer));
+        sessionFactory.getCurrentSession().update(computer);
     }
 
     @Override
     public void delete(long id) {
-        jdbcTemplate.update(QueryBuilder.deleteComputerQuery(id));
+        sessionFactory.getCurrentSession()
+                      .createQuery("delete from computer where id= :id")
+                      .setLong("id", id)
+                      .executeUpdate();
     }
 
     @Override
     public void deleteByCompany(long id) {
-        jdbcTemplate.update(QueryBuilder.deleteComputerByCompanyQuery(id));
+        sessionFactory.getCurrentSession()
+                      .createQuery("delete from computer where company_id= :id")
+                      .setLong("id", id);
     }
 
     @Override
     public int count(Page page) {
-    	
-        int computerNumber = jdbcTemplate.queryForObject(QueryBuilder.countComputerQuery(page), Integer.class);
-
-        return computerNumber;
+        
+        return (int) sessionFactory.getCurrentSession()
+                                   .createQuery("select count(*) from computer as computer left join fetch computer.company as company " +
+                                                "where computer.name like :computer_name or company.name like :company_name")
+                                   .setString("computer_name", "%" + page.getFilter() + "%")
+                                   .setString("company_name", "%" + page.getFilter() + "%")
+                                   .uniqueResult();
     }
 }

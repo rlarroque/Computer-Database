@@ -1,18 +1,35 @@
 package com.excilys.computer_database.persistence.model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
+
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 /**
  * This class describe a computer with all its parameters. id, name, introduced date, discontinued date, and company id. This is a simple POJO.
  * @author rlarroque
  *
  */
-public class Computer {
-
+@Entity(name = "computer")
+public class Computer implements Serializable{
+    
+    private static final long serialVersionUID = 3529447147619528271L;
+    
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private long id;
     private String name;
     private LocalDate introduced;
     private LocalDate discontinued;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "company_id")
     private Company company;
 
     public long getId() {
@@ -160,5 +177,4 @@ public class Computer {
 
         return true;
     }
-
 }

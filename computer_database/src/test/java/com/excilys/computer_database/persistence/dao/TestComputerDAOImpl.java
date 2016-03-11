@@ -20,7 +20,6 @@ import org.mockito.MockitoAnnotations;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -175,12 +174,11 @@ public class TestComputerDAOImpl {
      * Test.
      */
     
-    @SuppressWarnings("unused")
-    @Test(expected = EmptyResultDataAccessException.class)
     public void testGetComputerByNameWrong() {
 
         addDummyComputer();
         Computer computer = computerDAO.get("Not the right dummy computer");
+        assertEquals(null, computer);
     }
 
     /**

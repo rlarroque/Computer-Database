@@ -17,7 +17,6 @@ import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -102,7 +101,7 @@ public class TestCompanyDAOImpl {
      * Test.
      */
     @Test
-    public void testGetComputerById() {
+    public void testGetCompanyById() {
 
         addDummyCompany();
 
@@ -114,7 +113,7 @@ public class TestCompanyDAOImpl {
      * Test.
      */
     @Test
-    public void testGetComputerByName() {
+    public void testGetCompanyByName() {
 
         addDummyCompany();
 
@@ -125,12 +124,12 @@ public class TestCompanyDAOImpl {
     /**
      * Test.
      */
-    @SuppressWarnings("unused")
-    @Test(expected = EmptyResultDataAccessException.class)
-    public void testGetComputerByNameWrong() {
+    public void testGetCompanyByNameWrong() {
         
         addDummyCompany();
+        
         Company company = companyDAO.get("Not the right dummy company");
+        assertEquals(null, company);
     }
 
     /**

@@ -207,7 +207,7 @@ public class QueryBuilder {
 
         if (page.getFilter() != null && !"".equals(page.getFilter())) {
             query = query.concat(" WHERE computer.name LIKE '%").concat(page.getFilter()).concat("%' OR company.name LIKE '%")
-                    .concat(page.getFilter()).concat("%'");
+                            .concat(page.getFilter()).concat("%'");
         }
 
         return query;

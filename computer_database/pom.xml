@@ -14,7 +14,7 @@
 		<cobertura.version>2.6</cobertura.version>
 		<commons.validator.version>1.5.0</commons.validator.version>
 		<failsafe.version>2.13</failsafe.version>
-		<hibernate.version>5.1.3.Final</hibernate.version>
+		<hibernate.version>5.1.0.Final</hibernate.version>
 		<javax.persistence.version>1.0.2</javax.persistence.version>
 		<javaxServletAPI.version>3.0.1</javaxServletAPI.version>
 		<jcl.slf4j.version>1.7.10</jcl.slf4j.version>
@@ -39,6 +39,53 @@
 	<dependencies>
 
 		<dependency>
+			<groupId>xml-apis</groupId>
+			<artifactId>xml-apis</artifactId>
+			<version>1.4.01</version>
+		</dependency>
+
+		<!-- Connection pool manager -->
+		<dependency>
+			<groupId>com.jolbox</groupId>
+			<artifactId>bonecp</artifactId>
+			<version>${bonecp.version}</version>
+		</dependency>
+
+		<!-- used for date validation -->
+		<dependency>
+			<groupId>commons-validator</groupId>
+			<artifactId>commons-validator</artifactId>
+			<version>${commons.validator.version}</version>
+		</dependency>
+
+		<!-- Hibernate -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>${hibernate.version}</version>
+		</dependency>
+
+		<!-- Validation dependency -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>${hibernate.version}</version>
+		</dependency>
+
+		<!-- Used to auto convert local date to timestamp -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-java8</artifactId>
+			<version>${hibernate.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.logging</groupId>
+			<artifactId>jboss-logging</artifactId>
+			<version>3.3.0.Final</version>
+		</dependency>
+
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>${junit.version}</version>
@@ -49,13 +96,6 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>${mysql.version}</version>
-		</dependency>
-
-		<!-- Connection pool manager -->
-		<dependency>
-			<groupId>com.jolbox</groupId>
-			<artifactId>bonecp</artifactId>
-			<version>${bonecp.version}</version>
 		</dependency>
 
 		<!-- Logging API -->
@@ -178,24 +218,17 @@
 			<version>${spring.version}</version>
 		</dependency>
 
-		<!-- Validation dependency -->
+		<!-- For hibernate use -->
 		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-validator</artifactId>
-			<version>${hibernate.version}</version>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version>${spring.version}</version>
 		</dependency>
 
-		<!-- used for date validation -->
-		<dependency>
-			<groupId>commons-validator</groupId>
-			<artifactId>commons-validator</artifactId>
-			<version>${commons.validator.version}</version>
-		</dependency>
 	</dependencies>
 
 	<build>
 		<finalName>computer_database</finalName>
-
 
 		<!-- To specify the test resources -->
 		<testResources>

@@ -11,7 +11,7 @@
 	<context:component-scan base-package="com.excilys.computer_database.service" />
 	<context:component-scan base-package="com.excilys.computer_database.validator.dto_validator" />
 	<context:component-scan base-package="com.excilys.computer_database.persistence.model.mapper" />
-	
+		
 	<!-- Enable Annotation based Declarative Transaction Management -->
 	<tx:annotation-driven transaction-manager="transactionManager" />
 	
@@ -28,9 +28,16 @@
 	   <property name="password" value="${datasource.password}"/>
 	</bean>
 	
-	<!-- JdbcTemplate to use in DAOs -->
-	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
-	    <property name="dataSource" ref="dataSource"/>
+	<!-- SessionFactory setup -->
+	<bean id="SessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="packagesToScan" value="com.excilys.computer_database.persistence.model"/>
+		<property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.HSQLDialect</prop>
+                <prop key="hibernate.show_sql">true</prop>
+            </props>
+        </property>
 	</bean>
 	
 	<!-- MessageSource for localization -->

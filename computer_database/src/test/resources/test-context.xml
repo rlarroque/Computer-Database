@@ -1,13 +1,25 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
 	http://www.springframework.org/schema/context
-	http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+	http://www.springframework.org/schema/context/spring-context-4.0.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
 	<context:property-placeholder location="classpath:database.properties" />
 	<context:component-scan base-package="com.excilys.computer_database.persistence.dao" />
 	<context:component-scan base-package="com.excilys.computer_database.service" />
 	<context:component-scan base-package="com.excilys.computer_database.persistence.model.mapper" />
+	
+	<!-- Enable Annotation based Declarative Transaction Management -->
+	<tx:annotation-driven transaction-manager="transactionManager" />
+	<tx:annotation-driven proxy-target-class="true"/> 
+	
+	<!-- Transaction manager configuration -->
+	<bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
 
 	<!-- dataSource configuration -->
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -17,9 +29,16 @@
 		<property name="password" value="${datasource.password}" />
 	</bean>
 	
-	<!-- JdbcTemplate to use in DAOs -->
-	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
-	    <property name="dataSource" ref="dataSource"/>
+	<!-- SessionFactory setup -->
+	<bean id="SessionFactory" name="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="packagesToScan" value="com.excilys.computer_database.persistence.model"/>
+		<property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.format_sql">true</prop>
+                <prop key="hibernate.show_sql">true</prop>
+            </props>
+        </property>
 	</bean>
 	
 	<!-- MessageSource for localization -->
