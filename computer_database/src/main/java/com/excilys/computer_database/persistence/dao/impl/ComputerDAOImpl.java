@@ -27,7 +27,7 @@ public class ComputerDAOImpl implements ComputerDAO {
     public List<Computer> getAll() {
 
         return sessionFactory.getCurrentSession()
-                             .createQuery("from computer as computer left join fetch computer.company as company")
+                             .createQuery("select computer from computer computer left join computer.company as company")
                              .list();
     }
 
@@ -36,7 +36,7 @@ public class ComputerDAOImpl implements ComputerDAO {
         
         String hqlQuery = "select computer from computer computer left join computer.company as company";
         
-        /* if (page.getFilter() != null && !"".equals(page.getFilter())) {
+         if (page.getFilter() != null && !"".equals(page.getFilter())) {
             hqlQuery = hqlQuery.concat(" where computer.name like '%")
                                .concat(page.getFilter())
                                .concat("%' or company.name like '%")
@@ -48,20 +48,20 @@ public class ComputerDAOImpl implements ComputerDAO {
             hqlQuery = hqlQuery.concat(" order by computer.")
                                .concat(page.getOrder().getCol().toString())
                                .concat(" " + page.getOrder().getType().toString());
-        } */
+        }
         
         return (List<Computer>) sessionFactory.getCurrentSession()
-                             .createQuery(hqlQuery)
-                             .setFirstResult(page.getStartIndex())
-                             .setMaxResults(page.getOffset())
-                             .list();
+                                              .createQuery(hqlQuery)
+                                              .setFirstResult(page.getStartIndex())
+                                              .setMaxResults(page.getOffset())
+                                              .list();
     }
 
     @Override
     public Computer get(long id) {
 
         return (Computer) sessionFactory.getCurrentSession()
-                                        .createQuery("from computer as computer left join fetch computer.company as company where computer.id= :id")
+                                        .createQuery("select computer from computer computer left join computer.company as company where computer.id= :id")
                                         .setLong("id", id)
                                         .uniqueResult();
     }
@@ -70,7 +70,7 @@ public class ComputerDAOImpl implements ComputerDAO {
     public Computer get(String name) {
 
         return (Computer) sessionFactory.getCurrentSession()
-                                        .createQuery("from computer as computer left join fetch computer.company as company where computer.name= :name")
+                                        .createQuery("select computer from computer computer left join computer.company as company where computer.name= :name")
                                         .setString("name", name)
                                         .uniqueResult();
     }
@@ -105,11 +105,16 @@ public class ComputerDAOImpl implements ComputerDAO {
     @Override
     public int count(Page page) {
         
-        return (int) sessionFactory.getCurrentSession()
-                                   .createQuery("select count(*) from computer as computer left join fetch computer.company as company " +
-                                                "where computer.name like :computer_name or company.name like :company_name")
-                                   .setString("computer_name", "%" + page.getFilter() + "%")
-                                   .setString("company_name", "%" + page.getFilter() + "%")
-                                   .uniqueResult();
+        String filter = "%";
+        filter = filter.concat(((page.getFilter() == null) ? "" : page.getFilter()) + "%");
+        
+        Number number = (Number) sessionFactory.getCurrentSession()
+                                               .createQuery("select count(*) from computer computer left join computer.company as company " +
+                                                            "where computer.name like :computer_name or company.name like :company_name")
+                                               .setString("computer_name", filter)
+                                               .setString("company_name", filter)
+                                               .uniqueResult();
+        
+        return number.intValue();
     }
 }

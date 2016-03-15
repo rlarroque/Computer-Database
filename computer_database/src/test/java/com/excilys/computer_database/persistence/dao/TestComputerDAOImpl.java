@@ -152,7 +152,7 @@ public class TestComputerDAOImpl {
 
         addDummyComputer();
 
-        Computer computer = computerDAO.get(1);
+        Computer computer = (Computer) computerDAO.get(1);
         assertEquals("Dummy computer", computer.getName());
         assertEquals("Dummy Company", computer.getCompany().getName());
     }

@@ -29,12 +29,12 @@
 	</bean>
 	
 	<!-- SessionFactory setup -->
-	<bean id="SessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+	<bean id="SessionFactory" name="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"/>
 		<property name="packagesToScan" value="com.excilys.computer_database.persistence.model"/>
 		<property name="hibernateProperties">
             <props>
-                <prop key="hibernate.dialect">org.hibernate.dialect.HSQLDialect</prop>
+                <prop key="hibernate.show_sql">true</prop>
                 <prop key="hibernate.show_sql">true</prop>
             </props>
         </property>

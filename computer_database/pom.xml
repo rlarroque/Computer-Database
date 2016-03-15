@@ -72,7 +72,7 @@
 			<version>${hibernate.version}</version>
 		</dependency>
 
-		<!-- Used to auto convert local date to timestamp -->
+		<!-- Used to auto convert local date to timestamp (works with hibernate 5 and further)-->
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-java8</artifactId>
@@ -143,13 +143,6 @@
 			<version>${seleniumServer.version}</version>
 			<scope>test</scope>
 		</dependency>
-
-		<dependency>
-			<groupId>javax.persistence</groupId>
-			<artifactId>persistence-api</artifactId>
-			<version>${javax.persistence.version}</version>
-		</dependency>
-
 
 		<dependency>
 			<groupId>jstl</groupId>
