@@ -17,12 +17,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.excilys.computer_database.model.Page;
-import com.excilys.computer_database.dto.mapper.CompanyMapper;
-import com.excilys.computer_database.dto.mapper.ComputerMapper;
-import com.excilys.computer_database.dto.mapper.PageMapper;
 import com.excilys.computer_database.services.CompanyService;
 import com.excilys.computer_database.services.ComputerService;
 import com.excilys.computer_database.dto.validator.PageDTOValidator;
+import com.excilys.computer_database.mapper.CompanyMapper;
+import com.excilys.computer_database.mapper.ComputerMapper;
+import com.excilys.computer_database.mapper.PageMapper;
 import com.excilys.computer_database.controller.utils.PageConstructor;
 import com.excilys.computer_database.dto.model.CompanyDTO;
 import com.excilys.computer_database.dto.model.ComputerDTO;
@@ -32,6 +32,9 @@ import com.excilys.computer_database.dto.model.PageDTO;
 public class ComputerController extends ApplicationController{
     
     private static final Logger LOGGER = LoggerFactory.getLogger(ComputerController.class);
+    
+    @Autowired
+    CompanyMapper companyMapper;
     
     @Autowired
     ComputerMapper computerMapper;
@@ -67,7 +70,7 @@ public class ComputerController extends ApplicationController{
         
         LOGGER.info("GET computer add");
         
-        List<CompanyDTO> listCompanies = CompanyMapper.toDTO(companyService.getAll());
+        List<CompanyDTO> listCompanies = companyMapper.toDTO(companyService.getAll());
         
         map.addAttribute("companies", listCompanies);
         return JSP_ADD;
@@ -94,7 +97,7 @@ public class ComputerController extends ApplicationController{
         
         LOGGER.info("GET computer edit");
 
-        List<CompanyDTO> listCompanies = CompanyMapper.toDTO(companyService.getAll());
+        List<CompanyDTO> listCompanies = companyMapper.toDTO(companyService.getAll());
         ComputerDTO dto = computerMapper.toDTO(computerService.get(Integer.parseInt(request.getParameter("computer"))));
 
         map.addAttribute("computer", dto);

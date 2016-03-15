@@ -2,8 +2,8 @@ package com.excilys.computer_database.dto.model;
 
 import org.hibernate.validator.constraints.NotBlank;
 
-import com.excilys.computer_database.dto.validator.Computer;
-import com.excilys.computer_database.dto.validator.Date;
+import com.excilys.computer_database.dto.validator.annotation.Computer;
+import com.excilys.computer_database.dto.validator.annotation.Date;
 
 /**
  * Data Transfer Object used to bring information from the server to the view. Only primitive types
