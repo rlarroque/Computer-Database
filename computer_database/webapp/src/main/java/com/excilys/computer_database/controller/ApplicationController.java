@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.excilys.computer_database.controller;
 
 import org.springframework.stereotype.Controller;
@@ -24,15 +21,17 @@ public abstract class  ApplicationController {
     protected static final String DELETE = "/delete";
     protected static final String ERROR_404 = "/error_404";
     protected static final String ERROR_403 = "/error_403";
+    protected static final String LOGIN = "/login";
     protected static final String REDIRECT = "redirect:";
     
     // JSP pages
     protected static final String JSP_ADD = "/addComputer";
     protected static final String JSP_EDIT = "/editComputer";
     protected static final String JSP_DASHBOARD = "/dashboard";
-    protected static final String JSP_403 = "/403";
-    protected static final String JSP_404 = "/404";
-    protected static final String JSP_500 = "/500";
+    protected static final String JSP_LOGIN = "/login";
+    protected static final String JSP_403 = "/error/403";
+    protected static final String JSP_404 = "/error/404";
+    protected static final String JSP_500 = "/error/500";
     
     // Binding method parameter to a named model attribute, exposed to a web view
     @ModelAttribute("computerToAdd")

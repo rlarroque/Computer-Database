@@ -18,7 +18,6 @@
 	</modules>
 
 	<properties>
-		<bonecp.version>0.8.0.RELEASE</bonecp.version>
 		<checkStyle.version>2.5</checkStyle.version>
 		<cobertura.version>2.6</cobertura.version>
 		<commons.validator.version>1.5.0</commons.validator.version>
@@ -42,57 +41,15 @@
 		<seleniumServer.version>2.52.0</seleniumServer.version>
 		<slf4jAPI.version>1.7.16</slf4jAPI.version>
 		<spring.version>4.2.5.RELEASE</spring.version>
+		<springSecurity.version>4.0.4.RELEASE</springSecurity.version>
 		<surefire.version>2.19.1</surefire.version>
 	</properties>
 
 	<dependencies>
-
 		<dependency>
 			<groupId>xml-apis</groupId>
 			<artifactId>xml-apis</artifactId>
 			<version>1.4.01</version>
-		</dependency>
-
-		<!-- Connection pool manager -->
-		<dependency>
-			<groupId>com.jolbox</groupId>
-			<artifactId>bonecp</artifactId>
-			<version>${bonecp.version}</version>
-		</dependency>
-
-		<!-- used for date validation -->
-		<dependency>
-			<groupId>commons-validator</groupId>
-			<artifactId>commons-validator</artifactId>
-			<version>${commons.validator.version}</version>
-		</dependency>
-
-		<!-- Hibernate -->
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-core</artifactId>
-			<version>${hibernate.version}</version>
-		</dependency>
-
-		<!-- Validation dependency -->
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-validator</artifactId>
-			<version>${hibernate.version}</version>
-		</dependency>
-
-		<!-- Used to auto convert local date to timestamp (works with hibernate 
-			5 and further) -->
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-java8</artifactId>
-			<version>${hibernate.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.jboss.logging</groupId>
-			<artifactId>jboss-logging</artifactId>
-			<version>3.3.0.Final</version>
 		</dependency>
 
 		<dependency>
@@ -120,6 +77,7 @@
 			<groupId>org.slf4j</groupId>
 			<artifactId>jcl-over-slf4j</artifactId>
 			<version>${jcl.slf4j.version}</version>
+			<scope>runtime</scope>
 		</dependency>
 
 		<!-- Logging API -->
@@ -146,36 +104,6 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- Embeded server for selenium -->
-		<dependency>
-			<groupId>org.seleniumhq.selenium</groupId>
-			<artifactId>selenium-server</artifactId>
-			<version>${seleniumServer.version}</version>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>jstl</groupId>
-			<artifactId>jstl</artifactId>
-			<version>${jstl.version}</version>
-		</dependency>
-
-		<!-- Servlet -->
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-			<version>${javaxServletAPI.version}</version>
-			<scope>provided</scope>
-		</dependency>
-
-		<!-- jsp servlet API -->
-		<dependency>
-			<groupId>javax.servlet.jsp</groupId>
-			<artifactId>jsp-api</artifactId>
-			<version>${jspAPI.version}</version>
-			<scope>provided</scope>
-		</dependency>
-
 		<!-- Spring dependencies -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -183,21 +111,10 @@
 			<version>${spring.version}</version>
 		</dependency>
 
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-web</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-
+		<!-- Spring transaction -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-tx</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-jdbc</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
 
@@ -215,6 +132,7 @@
 			<version>${spring.version}</version>
 		</dependency>
 
+		<!-- Spring MVC architecture -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
@@ -228,7 +146,121 @@
 			<version>${spring.version}</version>
 		</dependency>
 
+		<!-- Spring security -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+			<version>${springSecurity.version}</version>
+		</dependency>
+
+		<!-- Spring security -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+			<version>${springSecurity.version}</version>
+		</dependency>
+		
 	</dependencies>
+
+	<dependencyManagement>
+		<dependencies>
+
+			<!-- Modules -->
+			<dependency>
+				<groupId>com.excilys</groupId>
+				<artifactId>computer-database-core</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.excilys</groupId>
+				<artifactId>computer-database-persistence</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.excilys</groupId>
+				<artifactId>computer-database-service</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.excilys</groupId>
+				<artifactId>computer-database-binding</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.excilys</groupId>
+				<artifactId>computer-database-webapp</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.excilys</groupId>
+				<artifactId>computer-database-console</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<!-- Hibernate -->
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-core</artifactId>
+				<version>${hibernate.version}</version>
+			</dependency>
+
+			<!-- Validation dependency -->
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-validator</artifactId>
+				<version>${hibernate.version}</version>
+			</dependency>
+
+			<!-- Used to auto convert local date to timestamp (works with hibernate 
+				5 and further) -->
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-java8</artifactId>
+				<version>${hibernate.version}</version>
+			</dependency>
+
+			<!-- used for date validation -->
+			<dependency>
+				<groupId>commons-validator</groupId>
+				<artifactId>commons-validator</artifactId>
+				<version>${commons.validator.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>jstl</groupId>
+				<artifactId>jstl</artifactId>
+				<version>${jstl.version}</version>
+			</dependency>
+
+			<!-- Servlet -->
+			<dependency>
+				<groupId>javax.servlet</groupId>
+				<artifactId>javax.servlet-api</artifactId>
+				<version>${javaxServletAPI.version}</version>
+				<scope>provided</scope>
+			</dependency>
+
+			<!-- jsp servlet API -->
+			<dependency>
+				<groupId>javax.servlet.jsp</groupId>
+				<artifactId>jsp-api</artifactId>
+				<version>${jspAPI.version}</version>
+				<scope>provided</scope>
+			</dependency>
+			
+			<!-- Spring security JSP Taglib -->
+			<dependency>
+				<groupId>org.springframework.security</groupId>
+				<artifactId>spring-security-taglibs</artifactId>
+				<version>${springSecurity.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 	<build>
 		<finalName>computer_database</finalName>
@@ -328,8 +360,6 @@
 					</execution>
 				</executions>
 			</plugin>
-
 		</plugins>
 	</build>
-
 </project>

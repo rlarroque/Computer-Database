@@ -14,103 +14,97 @@ import com.excilys.computer_database.services.ComputerService;
 import com.excilys.computer_database.validator.ComputerValidator;
 
 /**
- * This class is the implementation of the ComputerService interface. It is a singleton and contains a DAO that is also a singleton. The layer service
- * is calling the DAO methods and also contains some validation of the integrity of the data passed.
+ * This class is the implementation of the ComputerService interface. The layer
+ * service is calling the DAO methods and also contains some validation of the
+ * integrity of the data passed.
  * @author rlarroque
  *
  */
 @Service
 public class ComputerServiceImpl implements ComputerService {
 
-    @Autowired
-    private ComputerDAO computerDAO;
+	@Autowired
+	private ComputerDAO computerDAO;
 
-    /**
-     * Constructor.
-     */
-    private ComputerServiceImpl() {
+	@Override
+	public List<Computer> getAll() {
+		return computerDAO.getAll();
+	}
 
-    }
+	@Override
+	public void fillPage(Page page) {
+		page.setStartIndex((page.getPageNumber() - 1) * page.getOffset());
+		page.setComputers(computerDAO.getPage(page));
 
-    @Override
-    public List<Computer> getAll() {
-        return computerDAO.getAll();
-    }
+		page.setTotalComputer(count(page));
+		page.setTotalPage(page.getTotalComputer() / page.getOffset());
 
-    @Override
-    public void fillPage(Page page) {
-        page.setStartIndex((page.getPageNumber() - 1) * page.getOffset());
-        page.setComputers(computerDAO.getPage(page));
+		if (page.getTotalComputer() % page.getOffset() != 0) {
+			page.setTotalPage(page.getPageNumber() + 1);
+		}
+	}
 
-        page.setTotalComputer(count(page));
-        page.setTotalPage(page.getTotalComputer() / page.getOffset());
+	@Override
+	public Computer get(long id) {
 
-        if (page.getTotalComputer() % page.getOffset() != 0) {
-            page.setTotalPage(page.getPageNumber() + 1);
-        }
-    }
+		if (id < 1) {
+			throw new IntegrityException("Id cannot be negativ.");
+		}
 
-    @Override
-    public Computer get(long id) {
+		return computerDAO.get(id);
+	}
 
-        if (id < 1) {
-            throw new IntegrityException("Id cannot be negativ.");
-        }
+	@Override
+	public Computer get(String name) {
 
-        return computerDAO.get(id);
-    }
+		if (name == null || name == "") {
+			throw new IntegrityException("A name is mandatory for a computer.");
+		}
 
-    @Override
-    public Computer get(String name) {
+		return computerDAO.get(name);
+	}
 
-        if (name == null || name == "") {
-            throw new IntegrityException("A name is mandatory for a computer.");
-        }
+	@Override
+	public long create(Computer computer) {
 
-        return computerDAO.get(name);
-    }
+		ComputerValidator.validate(computer);
 
-    @Override
-    public long create(Computer computer) {
-        
-        ComputerValidator.validate(computer);
+		return computerDAO.create(computer);
+	}
 
-        return computerDAO.create(computer);
-    }
+	@Override
+	public void update(Computer computer) {
 
-    @Override
-    public void update(Computer computer) {
-        
-        ComputerValidator.validate(computer);
-        
-        if (computer.getId() < 1l) {
-            throw new IntegrityException("The computer's id is invalid.");
-        }
-        
-        computerDAO.update(computer);
-    }
+		ComputerValidator.validate(computer);
 
-    @Override
-    public void delete(long id) {
+		if (computer.getId() < 1l) {
+			throw new IntegrityException("The computer's id is invalid.");
+		}
 
-        if (id < 1) {
-            throw new IntegrityException("Id cannot be negativ.");
-        }
-        
-        computerDAO.delete(id);
-    }
+		computerDAO.update(computer);
+	}
 
-    @Override
-    public int count(Page page) {
-        return computerDAO.count(page);
-    }
+	@Override
+	public void delete(long id) {
 
-    @Override
-    public void deleteByCompany(long id) throws SQLException {
-        if (id < 1) {
-            throw new IntegrityException("Id cannot be negativ.");
-        }
+		if (id < 1) {
+			throw new IntegrityException("Id cannot be negativ.");
+		}
 
-        computerDAO.deleteByCompany(id);
-    }
+		computerDAO.delete(id);
+	}
+
+	@Override
+	public int count(Page page) {
+		return computerDAO.count(page);
+	}
+
+	@Override
+	public void deleteByCompany(long id) throws SQLException {
+		if (id < 1) {
+			throw new IntegrityException("Id cannot be negativ.");
+		}
+
+		computerDAO.deleteByCompany(id);
+	}
 }

@@ -9,11 +9,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<jsp:include page="global/head.jsp" />
+	<jsp:include page="../global/head.jsp" />
 </head>
 <body>
 
-    <jsp:include page="global/navbar.jsp" />
+    <jsp:include page="../global/navbar.jsp" />
     
 	<section id="main">
 		<div class="container">
@@ -23,7 +23,7 @@
 		</div>
 	</section>
 
-	<jsp:include page="global/scripts.jsp" />
+	<jsp:include page="../global/scripts.jsp" />
 
 </body>
 </html>

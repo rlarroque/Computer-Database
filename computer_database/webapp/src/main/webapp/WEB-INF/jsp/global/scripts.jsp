@@ -6,3 +6,4 @@
 <script src="<c:url value="${js}bootstrap.min.js" />"></script>
 <script src="<c:url value="${js}bootstrap-formhelpers.js" />"></script>
 <script src="<c:url value="${js}dashboard.js" />"></script>
+<script src="<c:url value="${js}login.js" />"></script>

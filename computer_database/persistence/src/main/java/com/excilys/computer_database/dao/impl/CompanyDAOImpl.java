@@ -52,6 +52,7 @@ public class CompanyDAOImpl implements CompanyDAO {
     public void delete(long id) {
         sessionFactory.getCurrentSession()
                       .createQuery("delete from company where id= :id")
+                      .setLong("id", id)
                       .executeUpdate();
     }
 }

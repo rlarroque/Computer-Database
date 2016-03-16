@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.excilys.computer_database.exception.IntegrityException;
 import com.excilys.computer_database.controller.ApplicationController;
+import com.excilys.computer_database.exception.IntegrityException;
 
 /**
  * Handling of execptions.

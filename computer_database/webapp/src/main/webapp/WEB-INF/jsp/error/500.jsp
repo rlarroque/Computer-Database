@@ -9,22 +9,25 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<jsp:include page="global/head.jsp" />
+	<jsp:include page="../global/head.jsp" />
 </head>
 <body>
 
-    <jsp:include page="global/navbar.jsp" />
-    
-    <section id="main">
-		<div class="container">
+    <jsp:include page="../global/navbar.jsp" />
+
+	<section id="main">
+		<div class="container">	
 			<div class="alert alert-danger">
-				<spring:message code="error"/> 403 : <spring:message code="error.403"/>
+				<spring:message code="error"/> 500 : <spring:message code="error.500"/>
 				<br/>
 			</div>
+			
+			<!-- stacktrace -->
+			<p> <spring:message code="error.reason"/> : ${exception.message}</p>
 		</div>
 	</section>
 
-	<jsp:include page="global/scripts.jsp" />
+	<jsp:include page="../global/scripts.jsp" />
 
 </body>
 </html>

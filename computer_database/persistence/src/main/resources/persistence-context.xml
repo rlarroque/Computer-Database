@@ -7,38 +7,11 @@
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
 	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
 	
+	<!-- Imports -->
 	<import resource="classpath:/core-context.xml"/>
+	<import resource="classpath:/database-management.xml"/>
 	
-	<context:property-placeholder location="classpath:database.properties"/>
-	
+	<!-- Package scanning -->
 	<context:component-scan base-package="com.excilys.computer_database.dao" />
-		
-	<!-- Enable Annotation based Declarative Transaction Management -->
-	<tx:annotation-driven transaction-manager="transactionManager" />
-	
-	<!-- Transaction manager configuration -->
-	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource" ref="dataSource" />
-	</bean>
-	
-	<!-- DataSource configuration -->
-	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-	   <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-	   <property name="url" value="${datasource.url}" />
-	   <property name="username" value="${datasource.username}"/>
-	   <property name="password" value="${datasource.password}"/>
-	</bean>
-	
-	<!-- SessionFactory setup -->
-	<bean id="SessionFactory" name="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
-		<property name="dataSource" ref="dataSource"/>
-		<property name="packagesToScan" value="com.excilys.computer_database.model"/>
-		<property name="hibernateProperties">
-            <props>
-                <prop key="hibernate.show_sql">true</prop>
-                <prop key="hibernate.show_sql">true</prop>
-            </props>
-        </property>
-	</bean>
 	
 </beans>
