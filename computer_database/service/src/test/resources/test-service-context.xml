@@ -1,10 +1,12 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
-	http://www.springframework.org/schema/context
-	http://www.springframework.org/schema/context/spring-context-4.0.xsd">
-
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+	
 	<!-- Package scanning -->
 	<context:component-scan base-package="com.excilys.computer_database.services" />
 	<context:component-scan base-package="com.excilys.computer_database.dao" />
@@ -16,5 +18,37 @@
 
 	<bean id="companyDAOImpl" name="mockCompanyDao" class="com.excilys.computer_database.utils.MockitoFactoryBean">
 		<constructor-arg name="classToBeMocked" value="com.excilys.computer_database.dao.impl.CompanyDAOImpl" />
+	</bean>
+	
+	<!-- Enable Annotation based Declarative Transaction Management -->
+	<tx:annotation-driven transaction-manager="transactionManager" />
+	<tx:annotation-driven proxy-target-class="true"/> 
+	
+	<context:property-placeholder location="classpath:database.properties" />
+	
+	<!-- Transaction manager configuration -->
+	<bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+
+	<!-- dataSource configuration -->
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="${datasource.url}" />
+		<property name="username" value="${datasource.username}" />
+		<property name="password" value="${datasource.password}" />
+	</bean>
+	
+	<!-- SessionFactory setup -->
+	<bean id="SessionFactory" name="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="packagesToScan" value="com.excilys.computer_database.model"/>
+		<property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.format_sql">true</prop>
+                <prop key="hibernate.show_sql">true</prop>
+            </props>
+        </property>
 	</bean>
 </beans>

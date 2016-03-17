@@ -6,5 +6,11 @@
 	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
 	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+	
+	<!-- Imports -->
+    <import resource="classpath:/binding-context.xml"/>
+    
+   	<!-- Package scanning -->
+	<context:component-scan base-package="com.excilys.computer_database.cli" />
 
 </beans>

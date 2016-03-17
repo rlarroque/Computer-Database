@@ -76,4 +76,67 @@ $(function(){
 			alert(localized_strings['validation.success']);
 		}
 	});
+	
+$("#login-form").validate({
+		
+		rules : {
+			"username": "required",
+			"password": "required"
+		},
+
+		messages : {
+			"username" : localized_strings['validation.username'],
+			"password" : localized_strings['validation.password']
+		},
+
+		highlight : function(element) {
+			$(element).parent().closest("div").removeClass('has-success').addClass('has-error')
+		},
+
+		unhighlight : function(element) {
+			$(element).parent().closest("div").removeClass('has-error').addClass('has-success')
+		},
+
+		submitHandler : function(form) {
+			form.submit();
+		}
+	});
+	
+	jQuery.validator.addMethod("validatePsw", function(value, element) {
+		return ($("#password").val() == $("#confirm-password").val())
+	});
+	
+	$("#register-form").validate({
+		
+		rules : {
+			"username": "required",
+			"password": "required",
+			"confirm-password": {
+				validatePsw : true,
+				required : true
+			}
+		},
+
+		messages : {
+			"username" : localized_strings['validation.username'],
+			"password" : localized_strings['validation.password'],
+			"confirm-password" : {
+				"required": localized_strings['validation.password'],
+				"validatePsw": localized_strings['validation.password.confirm']
+			}
+		},
+
+		highlight : function(element) {
+			$(element).parent().closest("div").removeClass('has-success').addClass('has-error')
+		},
+
+		unhighlight : function(element) {
+			$(element).parent().closest("div").removeClass('has-error').addClass('has-success')
+		},
+
+		submitHandler : function(form) {
+			form.submit();
+		}
+	});
+	
 });

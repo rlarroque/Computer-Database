@@ -27,7 +27,7 @@ public class User  implements Serializable{
 	@Column(nullable = false, length = 100)
 	private String password;
 	
-	@OneToMany(fetch = FetchType.LAZY)
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
 	private Set<UserRole> userRole = new HashSet<UserRole>(0);
 	
 	public String getUsername() {

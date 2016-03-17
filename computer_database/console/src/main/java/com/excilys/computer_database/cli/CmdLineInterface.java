@@ -6,6 +6,8 @@ import java.util.Scanner;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.excilys.computer_database.exception.IntegrityException;
 import com.excilys.computer_database.services.CompanyService;
@@ -16,27 +18,30 @@ import com.excilys.computer_database.services.ComputerService;
  * @author rlarroque
  *
  */
+@Component
 public class CmdLineInterface {
-
-    private Logger logger = LoggerFactory.getLogger(getClass().getName());
-    private ComputerService computerService;
-    private CompanyService companyService;
-    private CLIUtils utils;
-
+	
+    private static final Logger LOGGER = LoggerFactory.getLogger(CmdLineInterface.class);
     private static final Scanner SC;
 
     static {
         SC = new Scanner(System.in);
     }
+    
+    private CLIUtils utils;
+
+    @Autowired
+    private ComputerService computerService;
+    
+    @Autowired
+    private CompanyService companyService;
 
     /**
      * Constructor.
      * @param computerService computer service
      * @param companyService company service
      */
-    public CmdLineInterface(ComputerService computerService, CompanyService companyService) {
-        this.computerService = computerService;
-        this.companyService = companyService;
+    public CmdLineInterface() {
         utils = new CLIUtils(SC);
     }
 
@@ -108,9 +113,9 @@ public class CmdLineInterface {
             }
 
         } catch (IntegrityException ie) {
-            logger.warn("An integrity exception happend: " + ie.getMessage());
+        	LOGGER.warn("An integrity exception happend: " + ie.getMessage());
         } catch (IOException ioe) {
-            logger.warn(ioe.getMessage());
+        	LOGGER.warn(ioe.getMessage());
         } finally {
             SC.close();
         }

@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import com.excilys.computer_database.dto.model.ComputerDTO;
+import com.excilys.computer_database.dto.model.PageDTO;
 
 /**
  * Abstract controller.
@@ -22,6 +23,7 @@ public abstract class  ApplicationController {
     protected static final String ERROR_404 = "/error_404";
     protected static final String ERROR_403 = "/error_403";
     protected static final String LOGIN = "/login";
+    protected static final String LOGOUT = "/logout";
     protected static final String REDIRECT = "redirect:";
     
     // JSP pages
@@ -29,6 +31,7 @@ public abstract class  ApplicationController {
     protected static final String JSP_EDIT = "/editComputer";
     protected static final String JSP_DASHBOARD = "/dashboard";
     protected static final String JSP_LOGIN = "/login";
+    protected static final String JSP_LOGOUT = "/login?logout";
     protected static final String JSP_403 = "/error/403";
     protected static final String JSP_404 = "/error/404";
     protected static final String JSP_500 = "/error/500";
@@ -42,5 +45,10 @@ public abstract class  ApplicationController {
     @ModelAttribute("computerToEdit")
     public ComputerDTO getComputerToEdit() {
         return new ComputerDTO();
+    }
+
+    @ModelAttribute("page")
+    public PageDTO getPage() {
+    	return new PageDTO();
     }
 }

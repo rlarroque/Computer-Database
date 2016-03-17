@@ -33,7 +33,7 @@ public class UserDAOImpl implements UserDAO{
 	@Override
 	public User get(String username) {
 		return (User) sessionFactory.getCurrentSession()
-                					.createQuery("from user where username= :name")
+                					.createQuery("from user where username= :username")
                 					.setString("username", username)
                 					.uniqueResult();
 	}

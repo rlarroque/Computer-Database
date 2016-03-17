@@ -3,9 +3,6 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib tagdir="/WEB-INF/tags" prefix="customLib"%>
 
-<c:url value="/../resources/css" var="css" />
-<c:url value="/../resources/js" var="js" />
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -75,9 +72,9 @@
 
 	<jsp:include page="global/scripts.jsp" />
 	
-	<script src="<c:url value="${js}/jquery.validate.js" />"></script>
-	<script src="<c:url value="${js}/jquery.validate.additional.js" />"></script>
-	<script src="<c:url value="${js}/validator.js" />"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/jquery.validate.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/jquery.validate.additional.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/validator.js"></script>
 	
 	<script type="text/javascript">
 		var localized_strings = new Array();
@@ -88,7 +85,7 @@
 		localized_strings['validation.discontinued'] = "<spring:message code='validation.discontinued' javaScriptEscape='true' />";
 		localized_strings['validation.date'] = "<spring:message code='validation.date' javaScriptEscape='true' />";
 		localized_strings['validation.company'] = "<spring:message code='validation.company' javaScriptEscape='true' />";
-		localized_strings['validation.success'] = "<spring:message code='validation.success' javaScriptEscape='true' />";
+		localized_strings['validation.success'] = "<spring:message code='success.computer.created' javaScriptEscape='true' />";
 	</script>
 	
 </body>

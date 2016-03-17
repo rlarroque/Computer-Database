@@ -216,8 +216,7 @@
 				<version>${hibernate.version}</version>
 			</dependency>
 
-			<!-- Used to auto convert local date to timestamp (works with hibernate 
-				5 and further) -->
+			<!-- Used to auto convert local date to timestamp (works with hibernate 5 and further) -->
 			<dependency>
 				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-java8</artifactId>
@@ -242,7 +241,6 @@
 				<groupId>javax.servlet</groupId>
 				<artifactId>javax.servlet-api</artifactId>
 				<version>${javaxServletAPI.version}</version>
-				<scope>provided</scope>
 			</dependency>
 
 			<!-- jsp servlet API -->
@@ -276,6 +274,7 @@
 				<filtering>true</filtering>
 			</testResource>
 		</testResources>
+		
 		<!-- To specify the main resources -->
 		<resources>
 			<resource>
