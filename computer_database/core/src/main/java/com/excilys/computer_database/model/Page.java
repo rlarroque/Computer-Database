@@ -4,9 +4,13 @@ import java.util.List;
 
 import com.excilys.computer_database.model.utils.Order;
 
+/**
+ * Page model that store information of a page from the point of view of the database.
+ * @author rlarroque
+ */
 public class Page {
 
-    private int pageNumber;
+    private int currentPage;
     private int offset;
     private int totalComputer;
     private int startIndex;
@@ -15,12 +19,12 @@ public class Page {
     private String filter;
     private List<Computer> computers;
 
-    public int getPageNumber() {
-        return pageNumber;
+    public int getCurrentPage() {
+        return currentPage;
     }
 
-    public void setPageNumber(int pageNumber) {
-        this.pageNumber = pageNumber;
+    public void setCurrentPage(int currentPage) {
+        this.currentPage = currentPage;
     }
 
     public int getOffset() {
@@ -81,12 +85,12 @@ public class Page {
 
     /**
      * Constructor.
-     * @param pageNumber page number
+     * @param currentPage page number
      * @param offset offset
      * @param filter filter
      */
-    public Page(int pageNumber, int offset, String filter) {
-        this.pageNumber = pageNumber;
+    public Page(int currentPage, int offset, String filter) {
+        this.currentPage = currentPage;
         this.offset = offset;
         this.filter = filter;
     }

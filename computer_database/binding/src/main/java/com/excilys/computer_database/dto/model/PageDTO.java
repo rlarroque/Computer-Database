@@ -3,7 +3,7 @@ package com.excilys.computer_database.dto.model;
 import java.util.List;
 
 /**
- * Page item that contains all the manfatory information to build a page.
+ * Page item that contains all the mandatory information to build a page.
  * @author rlarroque
  */
 public class PageDTO {
@@ -15,8 +15,8 @@ public class PageDTO {
     private int endPage;
     private int totalPage;
     private String order;
+    private String order_type;
     private String filter;
-
     private List<ComputerDTO> computers;
 
     public int getStartPage() {
@@ -83,6 +83,14 @@ public class PageDTO {
         this.order = order;
     }
 
+    public String getOrder_type() {
+        return order_type;
+    }
+
+    public void setOrder_type(String order_type) {
+        this.order_type = order_type;
+    }
+
     public String getFilter() {
         return filter;
     }
@@ -102,10 +110,24 @@ public class PageDTO {
     }
 
     /**
+     * Constructor
+     * @param pageNumber page number
+     * @param offset offset
+     * @param order order
+     * @param order_type order type
+     * @param filter filter
+     */
+    public PageDTO(int pageNumber, int offset, String order, String order_type,String filter) {
+        this.currentPage = pageNumber;
+        this.offset = offset;
+        this.order = order;
+        this.order_type = order_type;
+        this.filter = filter;
+    }
+
+    /**
      * Default constructor.
      */
     public PageDTO() {
-
     }
-
 }

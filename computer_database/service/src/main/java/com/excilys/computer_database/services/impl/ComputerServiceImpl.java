@@ -32,16 +32,8 @@ public class ComputerServiceImpl implements ComputerService {
 	}
 
 	@Override
-	public void fillPage(Page page) {
-		page.setStartIndex((page.getPageNumber() - 1) * page.getOffset());
-		page.setComputers(computerDAO.getPage(page));
-
-		page.setTotalComputer(count(page));
-		page.setTotalPage(page.getTotalComputer() / page.getOffset());
-
-		if (page.getTotalComputer() % page.getOffset() != 0) {
-			page.setTotalPage(page.getPageNumber() + 1);
-		}
+	public List<Computer> getPage(Page page) {
+		return computerDAO.getPage(page);
 	}
 
 	@Override

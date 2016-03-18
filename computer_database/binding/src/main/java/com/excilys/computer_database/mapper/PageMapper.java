@@ -2,6 +2,7 @@ package com.excilys.computer_database.mapper;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.excilys.computer_database.dto.model.PageParams;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +17,6 @@ import com.excilys.computer_database.dto.model.PageDTO;
 /**
  * Mapper used to convert a page into DTO.
  * @author rlarroque
- *
  */
 @Component
 public class PageMapper {
@@ -31,14 +31,11 @@ public class PageMapper {
      */
     public Page toPage(PageDTO dto) {
 
-        PageDTOValidator.validate(dto);
-
         Page page = new Page(dto.getCurrentPage(), dto.getOffset(), dto.getFilter());
         page.setComputers(computerMapper.toComputer(dto.getComputers()));
         page.setTotalComputer(dto.getTotalComputer());
-        page.setStartIndex((dto.getTotalPage() - 1) * dto.getOffset());
-
-        System.out.println(page);
+        page.setStartIndex((page.getCurrentPage() - 1) * page.getOffset());
+        page.setOrder(new Order(OrderType.valueOf(dto.getOrder_type()), OrderColumn.fromString(dto.getOrder())));
 
         return page;
     }
@@ -53,9 +50,9 @@ public class PageMapper {
         Page page = new Page();
         
         if(request.getParameter("page") == null) {
-            page.setPageNumber(1);
+            page.setCurrentPage(1);
         } else {            
-            page.setPageNumber(Integer.parseInt(request.getParameter("page")));
+            page.setCurrentPage(Integer.parseInt(request.getParameter("page")));
         }
         
         if(request.getParameter("page") == null) {
@@ -88,9 +85,7 @@ public class PageMapper {
      */
     public PageDTO toDTO(Page page) {
 
-        PageValidator.validate(page);
-
-        PageDTO dto = new PageDTO(page.getPageNumber(), page.getOffset());
+        PageDTO dto = new PageDTO(page.getCurrentPage(), page.getOffset());
         dto.setComputers(computerMapper.toDTO(page.getComputers()));
         dto.setTotalComputer(page.getTotalComputer());
         dto.setFilter(page.getFilter());
@@ -99,6 +94,15 @@ public class PageMapper {
         }
 
         return dto;
+    }
+
+    /**
+     * Map a PageParams into a pagDTO
+     * @param params params to map
+     * @return the mapped dto
+     */
+    public PageDTO toDTO(PageParams params) {
+        return new PageDTO(params.getPage(), params.getOffset(), params.getOrder(), params.getOrder_type(), params.getFilter());
     }
     
 }

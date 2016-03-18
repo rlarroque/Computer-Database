@@ -1,5 +1,8 @@
 package com.excilys.computer_database.controller;
 
+import com.excilys.computer_database.dto.model.PageParams;
+import com.excilys.computer_database.model.utils.OrderColumn;
+import com.excilys.computer_database.model.utils.OrderType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
@@ -47,8 +50,8 @@ public abstract class  ApplicationController {
         return new ComputerDTO();
     }
 
-    @ModelAttribute("page")
-    public PageDTO getPage() {
-    	return new PageDTO();
+    @ModelAttribute("params")
+    public PageParams getPage() {
+    	return new PageParams(1, 10, OrderColumn.ID.toString(), OrderType.ASC.toString(), "");
     }
 }

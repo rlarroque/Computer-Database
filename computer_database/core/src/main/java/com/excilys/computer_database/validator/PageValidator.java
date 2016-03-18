@@ -24,7 +24,7 @@ public interface PageValidator {
             throw new IntegrityException("Total computer information is not valid");
         }
 
-        if (page.getPageNumber() < 1) {
+        if (page.getCurrentPage() < 1) {
             throw new IntegrityException("Page number information is not valid");
         }
 

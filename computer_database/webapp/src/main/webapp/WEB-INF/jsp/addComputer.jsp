@@ -22,7 +22,7 @@
 						<fieldset>
 							<form:errors cssClass="error" style="font-weight: bold; margin-bottom:20px;"/>
 							<div class="form-group">
-								<label for="computerName"><spring:message code="computer.name"/></label>
+								<label for="name"><spring:message code="computer.name"/></label>
 								<c:set var="name_placeholder"><spring:message code="placeholder.computer.name"/></c:set>
 								<form:input type="text" class="form-control has-feedback" id="name" 
 											name="name" placeholder="${name_placeholder}" 
@@ -31,7 +31,7 @@
 							</div>
 							
 							<div class="form-group">
-								<label for="introduced"><spring:message code="computer.introduced"/></label>
+								<label for="introducedDate"><spring:message code="computer.introduced"/></label>
 								<c:set var="introduced_placeholder"><spring:message code="placeholder.computer.introduced"/></c:set>
 								<form:input type="text" class="form-control has-feedback" id="introducedDate"
 									   name="introducedDate" placeholder="${introduced_placeholder}"
@@ -40,7 +40,7 @@
 							</div>
 							
 							<div class="form-group">
-								<label for="discontinued"><spring:message code="computer.discontinued"/></label>  
+								<label for="discontinuedDate"><spring:message code="computer.discontinued"/></label>
 								<c:set var="discontinued_placeholder"><spring:message code="placeholder.computer.discontinued"/></c:set>
 								<form:input type="text" class="form-control has-feedback" id="discontinuedDate"
 									   		name="discontinuedDate" placeholder="${discontinued_placeholder}"
@@ -62,7 +62,7 @@
 						</fieldset>
 						<div class="actions pull-right">
 							<input type="submit" value="<spring:message code="button.add"/>" class="btn btn-primary"/>
-							or <a href=<customLib:link uri="${pageContext.request.contextPath}/dashboard" current_page="${page}"/> class="btn btn-default"><spring:message code="button.cancel"/></a>
+							or <a href=<customLib:link uri="${pageContext.request.contextPath}/dashboard" current_page="${page}"/> ><spring:message code="button.cancel"/></a>
 						</div>
 					</form:form>
 				</div>

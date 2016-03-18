@@ -16,7 +16,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-xs-8 col-xs-offset-2 box">
-                    <div class="label label-default pull-right">
+					<div class="label label-default pull-right">
                         id: ${computer.id}
                     </div>
                     <h1><spring:message code="computer.edit"/></h1>
@@ -28,32 +28,31 @@
 							
 							<form:errors cssClass="error" style="font-weight: bold; margin-bottom:20px;"/>
 							<div class="form-group">
-								<label for="computerName"><spring:message code="computer.name"/></label>
+								<label for="name"><spring:message code="computer.name"/></label>
 								<form:input type="text" class="form-control has-feedback" id="name" 
-											name="name" placeholder="${computer.name}" 
+											name="name" value="${computer.name}"
 											path="name"/>
 								<form:errors path="name" cssClass="error" style="font-weight: bold;"/>
 							</div>
 							
 							<div class="form-group">
-								<label for="introduced"><spring:message code="computer.introduced"/></label>
-								<form:input type="date" class="form-control has-feedback" id="introducedDate"
-									   name="introducedDate" placeholder="${computer.introducedDate}"
-									   value="${computer.introducedDate}" path="introducedDate"/>
+								<label for="introducedDate"><spring:message code="computer.introduced"/></label>
+								<form:input type="text" class="form-control has-feedback" id="introducedDate"
+									   name="introducedDate" value="${computer.introducedDate}" path="introducedDate"/>
 								<form:errors path="introducedDate" cssClass="error" style="font-weight: bold;"/>
 							</div>
 							
 							<div class="form-group">
-								<label for="discontinued"><spring:message code="computer.discontinued"/></label>
-								<form:input type="date" class="form-control has-feedback" id="discontinuedDate"
-									   		name="discontinuedDate" placeholder="${computer.discontinuedDate}"
-									   		value="${computer.discontinuedDate}" path="discontinuedDate"/>
+								<label for="discontinuedDate"><spring:message code="computer.discontinued"/></label>
+								<form:input type="text" class="form-control has-feedback" id="discontinuedDate"
+									   		name="discontinuedDate" value="${computer.discontinuedDate}" path="discontinuedDate"/>
 								<form:errors path="discontinuedDate" class="error" style="font-weight: bold;"/>
 							</div>
 							
 							<div class="form-group">
 								<label for="companyId"><spring:message code="computer.company"/></label> 
-								<form:select class="form-control has-feedback" id="companyId" name="companyId" path="CompanyId">
+								<form:select class="form-control has-feedback" id="companyId" name="companyId"
+											 path="CompanyId" value="${computer.companyId}">
 									<form:option value="0">--</form:option>
 
 									<c:forEach items="${companies}" var="companies">

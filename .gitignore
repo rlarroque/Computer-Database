@@ -53,3 +53,35 @@ dependency-reduced-pom.xml
 buildNumber.properties
 .mvn/timing.properties
 
+# User-specific stuff:
+computer_database/.idea/*
+*.iml
+
+# Gradle:
+computer_database/.idea/gradle.xml
+computer_database/.idea/libraries
+
+# Mongo Explorer plugin:
+computer_database/.idea/mongoSettings.xml
+
+## File-based project format:
+*.iws
+
+## Plugin-specific files:
+
+# IntelliJ
+/out/
+
+# mpeltonen/sbt-idea plugin
+computer_database/.idea_modules/
+
+# JIRA plugin
+atlassian-ide-plugin.xml
+
+# Crashlytics plugin (for Android Studio and IntelliJ)
+com_crashlytics_export_strings.xml
+crashlytics.properties
+crashlytics-build.properties
+fabric.properties
+
+

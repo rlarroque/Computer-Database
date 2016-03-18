@@ -20,10 +20,11 @@ public interface ComputerService {
     List<Computer> getAll();
 
     /**
-     * Get the list of all the computers and fill the given page. This method is used for pagination needs..
+     * Get a page of computers. This method is used for pagination needs..
      * @param page the page passed with current page and offset information
+     * @return the list of computers
      */
-    void fillPage(Page page);
+    List<Computer> getPage(Page page);
 
     /**
      * Returns a computer according to the id passed.

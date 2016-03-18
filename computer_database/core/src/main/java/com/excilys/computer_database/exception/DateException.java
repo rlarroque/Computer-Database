@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.excilys.computer_database.exception;
 
 /**

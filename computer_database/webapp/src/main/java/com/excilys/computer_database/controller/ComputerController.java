@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import com.excilys.computer_database.dto.model.PageParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,10 @@ import com.excilys.computer_database.dto.model.CompanyDTO;
 import com.excilys.computer_database.dto.model.ComputerDTO;
 import com.excilys.computer_database.dto.model.PageDTO;
 
+/**
+ * Controller in charge of all computer related actions
+ * @author rlarroque
+ */
 @Controller
 public class ComputerController extends ApplicationController{
     
@@ -47,20 +52,19 @@ public class ComputerController extends ApplicationController{
 
     @Autowired
     CompanyService companyService;
+
+    @Autowired
+    PageConstructor pageConstructor;
     
     @RequestMapping(method = RequestMethod.GET, value = {DASHBOARD, "/", ""})
-    public String getDashboard(ModelMap map, HttpServletRequest request){
-        
+    public String getDashboard(@ModelAttribute("params") PageParams params, ModelMap map){
+
         LOGGER.info("GET Dashboard");   
-        
-        Page page = pageMapper.toPage(request);
-        computerService.fillPage(page);
-        
-        PageDTO dto = pageMapper.toDTO(page);
-        PageConstructor.construct(dto);
-        PageDTOValidator.validate(dto);
+
+        PageDTO constructedPage = pageConstructor.construct(pageMapper.toDTO(params));
+        PageDTOValidator.validate(constructedPage);
     
-        map.addAttribute("page", dto);
+        map.addAttribute("page", constructedPage);
         
         return JSP_DASHBOARD;
     }
@@ -77,16 +81,16 @@ public class ComputerController extends ApplicationController{
     }
     
     @RequestMapping(method = RequestMethod.POST, value = COMPUTER + ADD)
-    public String postAddComputer(ModelMap map, @Valid @ModelAttribute("computerToAdd") ComputerDTO dto, BindingResult errors) {
+    public String postAddComputer(@Valid ComputerDTO computerToAdd, BindingResult errors) {
         
-        LOGGER.info("POST computer add: " + dto);
+        LOGGER.info("POST computer add: " + computerToAdd);
         
         if(errors.hasErrors()) {
             LOGGER.warn("Input has some errors");
             
             return JSP_ADD;
         } else {
-            computerService.create(computerMapper.toComputer(dto));
+            computerService.create(computerMapper.toComputer(computerToAdd));
             
             return REDIRECT + JSP_DASHBOARD;
         }
@@ -107,7 +111,7 @@ public class ComputerController extends ApplicationController{
     }
 
     @RequestMapping(method = RequestMethod.POST, value = COMPUTER + EDIT)
-    protected String postEditComputer(ModelMap map, @Valid @ModelAttribute("computerToEdit") ComputerDTO dto, BindingResult errors) {
+    protected String postEditComputer(@Valid @ModelAttribute("computerToEdit") ComputerDTO dto, BindingResult errors) {
         
         LOGGER.info("POST computer edit: " + dto);
         
@@ -123,7 +127,7 @@ public class ComputerController extends ApplicationController{
     }
     
     @RequestMapping(method = RequestMethod.POST, value = COMPUTER + DELETE)
-    protected String postDeleteComputer(ModelMap map, HttpServletRequest request) {
+    protected String postDeleteComputer(HttpServletRequest request) {
         
         LOGGER.info("POST computer delete");
         

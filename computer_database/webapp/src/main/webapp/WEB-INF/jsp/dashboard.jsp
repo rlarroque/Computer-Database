@@ -1,7 +1,6 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib tagdir="/WEB-INF/tags" prefix="customLib"%>
-<%@page contentType="text/html; charset=UTF-8" %>
 
 <!DOCTYPE html>
 <html>
@@ -19,7 +18,7 @@
 				<div class="pull-left">
 					<form id="searchForm" action="${pageContext.request.contextPath}/dashboard" method="GET" class="form-inline">
 
-						<input type="search" id="searchbox" name="filter"
+                        <input type="search" id="searchbox" name="filter"
 							class="form-control" placeholder="<spring:message code="placeholder.search"/>" /> <input
 							type="submit" id="searchsubmit" value="<spring:message code="button.filter"/>"
 							class="btn btn-primary" />
