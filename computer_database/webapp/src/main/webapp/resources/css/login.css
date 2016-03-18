@@ -109,3 +109,11 @@
 	background-color: #1CA347;
 	border-color: #1CA347;
 }
+
+label.checkbox input[type=checkbox]{
+	position: relative;
+	vertical-align: middle;
+	bottom: 1px;
+}
+
+

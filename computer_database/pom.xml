@@ -59,12 +59,6 @@
 			<scope>test</scope>
 		</dependency>
 
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>${mysql.version}</version>
-		</dependency>
-
 		<!-- Logging API -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -200,6 +194,13 @@
 				<groupId>com.excilys</groupId>
 				<artifactId>computer-database-console</artifactId>
 				<version>${project.version}</version>
+			</dependency>
+
+			<!-- mySQL connector-->
+			<dependency>
+				<groupId>mysql</groupId>
+				<artifactId>mysql-connector-java</artifactId>
+				<version>${mysql.version}</version>
 			</dependency>
 
 			<!-- Hibernate -->

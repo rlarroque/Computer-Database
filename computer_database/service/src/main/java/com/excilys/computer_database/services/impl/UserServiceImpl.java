@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	@Override
 	public User get(String username) {
 		if (username == null || "".equals(username)) {
-            throw new IntegrityException("A name is mandatory for a computer.");
+            throw new IntegrityException("A name is mandatory for a user.");
         }
 
         return userDAO.get(username);

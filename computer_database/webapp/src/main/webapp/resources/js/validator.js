@@ -80,13 +80,13 @@ $(function(){
 $("#login-form").validate({
 		
 		rules : {
-			"username": "required",
-			"password": "required"
+			"username_login": "required",
+			"password_login": "required"
 		},
 
 		messages : {
-			"username" : localized_strings['validation.username'],
-			"password" : localized_strings['validation.password']
+			"username_login" : localized_strings['validation.username'],
+			"password_login" : localized_strings['validation.password']
 		},
 
 		highlight : function(element) {
@@ -103,14 +103,14 @@ $("#login-form").validate({
 	});
 	
 	jQuery.validator.addMethod("validatePsw", function(value, element) {
-		return ($("#password").val() == $("#confirm-password").val())
+		return ($("#password_register").val() == $("#confirm-password").val())
 	});
 	
 	$("#register-form").validate({
 		
 		rules : {
-			"username": "required",
-			"password": "required",
+			"username_register": "required",
+			"password_register": "required",
 			"confirm-password": {
 				validatePsw : true,
 				required : true
@@ -118,8 +118,8 @@ $("#login-form").validate({
 		},
 
 		messages : {
-			"username" : localized_strings['validation.username'],
-			"password" : localized_strings['validation.password'],
+			"username_register" : localized_strings['validation.username'],
+			"password_register" : localized_strings['validation.password'],
 			"confirm-password" : {
 				"required": localized_strings['validation.password'],
 				"validatePsw": localized_strings['validation.password.confirm']

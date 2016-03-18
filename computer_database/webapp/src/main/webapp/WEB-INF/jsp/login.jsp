@@ -33,18 +33,23 @@
 							
 								<form id="login-form" action="${pageContext.request.contextPath}/login" method="post" role="form" style="display: block;">
 									<div class="form-group">
-										<input type="text" name="username" id="username" tabindex="1" class="form-control" 
+										<input type="text" name="username_login" id="username_login" tabindex="1" class="form-control"
 										       placeholder="<spring:message code="placeholder.login.username"/>" value="">
 									</div>
 									<div class="form-group">
-										<input type="password" name="password" id="password" tabindex="2" class="form-control" 
+										<input type="password" name="password_login" id="password_login" tabindex="2" class="form-control"
 											   placeholder="<spring:message code="placeholder.login.password"/>">
+									</div>
+									<div class="form-group">
+										<label class="checkbox">
+											<label class="checkbox"><input type="checkbox" value="remember-me" id="rememberMe" name="rememberMe">       Remember me</label>
+										</label>
 									</div>
 									<input type="hidden" name="${_csrf.parameterName}"   value="${_csrf.token}" />
 									<div class="form-group">
 										<div class="row">
 											<div class="col-sm-6 col-sm-offset-3">
-												<input type="submit" name="login-submit" id="login-submit" tabindex="4" 
+												<input type="submit" name="login-submit" id="login-submit" tabindex="4"
 													   class="form-control btn btn-login" value="<spring:message code="button.login"/>">
 											</div>
 										</div>
@@ -61,14 +66,14 @@
 										</div>
 									</div>
 								</form>
-								
+
 								<form id="register-form" action="" method="post" role="form" style="display: none;">
 									<div class="form-group">
-										<input type="text" name="username" id="username" tabindex="1" class="form-control" 
+										<input type="text" name="username_register" id="username_register" tabindex="1" class="form-control"
 											   placeholder="<spring:message code="placeholder.login.username"/>">
 									</div>
 									<div class="form-group">
-										<input type="password" name="password" id="password" tabindex="2" class="form-control" 
+										<input type="password" name="password_register" id="password_register" tabindex="2" class="form-control"
 											   placeholder="<spring:message code="placeholder.login.password"/>">
 									</div>
 									<div class="form-group">

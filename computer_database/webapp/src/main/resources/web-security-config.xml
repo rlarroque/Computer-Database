@@ -21,10 +21,14 @@
 		<access-denied-handler error-page="/login?fail" />
 
 		<!-- Login form -->
-		<form-login login-page="/login" username-parameter="username"
-			password-parameter="password" />
+		<form-login login-page="/login"
+					username-parameter="username_login"
+					password-parameter="password_login" />
 
 		<logout logout-success-url="/logout" />
+
+		<!-- Remember me! -->
+		<remember-me key="uniqueAndSecret"/>
 
 		<!-- enable csrf protection -->
 		<csrf />
