@@ -161,37 +161,37 @@
 
 			<!-- Modules -->
 			<dependency>
-				<groupId>com.excilys</groupId>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>computer-database-core</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 
 			<dependency>
-				<groupId>com.excilys</groupId>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>computer-database-persistence</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 
 			<dependency>
-				<groupId>com.excilys</groupId>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>computer-database-service</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 
 			<dependency>
-				<groupId>com.excilys</groupId>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>computer-database-binding</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 
 			<dependency>
-				<groupId>com.excilys</groupId>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>computer-database-webapp</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 
 			<dependency>
-				<groupId>com.excilys</groupId>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>computer-database-console</artifactId>
 				<version>${project.version}</version>
 			</dependency>
