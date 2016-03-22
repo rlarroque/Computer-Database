@@ -85,10 +85,14 @@ public class PageMapper {
      */
     public PageDTO toDTO(Page page) {
 
-        PageDTO dto = new PageDTO(page.getCurrentPage(), page.getOffset());
-        dto.setComputers(computerMapper.toDTO(page.getComputers()));
+        PageDTO dto = new PageDTO();
+
         dto.setTotalComputer(page.getTotalComputer());
+        dto.setCurrentPage(page.getCurrentPage());
+        dto.setOffset(page.getOffset());
         dto.setFilter(page.getFilter());
+        dto.setComputers(computerMapper.toDTO(page.getComputers()));
+
         if (page.getOrder() != null) {
             dto.setOrder(page.getOrder().getCol().toString());
         }

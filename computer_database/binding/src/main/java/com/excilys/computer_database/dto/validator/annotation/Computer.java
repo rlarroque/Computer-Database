@@ -11,7 +11,7 @@ import javax.validation.Payload;
 import com.excilys.computer_database.dto.validator.ComputerDTOValidator;
 
 /**
- * Custom annoation for computerDTO validation. Make sure that the introduced date is before the discontinued date.
+ * Custom annotation for computerDTO validation. Make sure that the introduced date is before the discontinued date.
  * @author rlarroque
  */
 @Constraint(validatedBy = ComputerDTOValidator.class)

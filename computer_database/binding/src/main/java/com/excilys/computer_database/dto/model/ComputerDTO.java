@@ -72,19 +72,16 @@ public class ComputerDTO {
         this.companyId = companyId;
     }
 
-    /**
-     * Default constructor.
-     */
-    public ComputerDTO() {
-
+    public ComputerDTO(long id, String name, String introducedDate, String discontinuedDate, String companyName, long companyId) {
+        this.id = id;
+        this.name = name;
+        this.introducedDate = introducedDate;
+        this.discontinuedDate = discontinuedDate;
+        this.companyName = companyName;
+        this.companyId = companyId;
     }
 
-    /**
-     * Constructor.
-     * @param name name of the dto
-     */
-    public ComputerDTO(String name) {
-        this.name = name;
+    public ComputerDTO() {
     }
 
     @Override

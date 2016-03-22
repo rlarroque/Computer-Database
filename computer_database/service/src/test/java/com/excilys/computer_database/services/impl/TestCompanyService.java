@@ -33,7 +33,7 @@ public class TestCompanyService {
      */
     @Before
     public void executeBeforeTests() {
-        Mockito.when(mockCompanyDao.getAll()).thenReturn(new ArrayList<Company>());        
+        Mockito.when(mockCompanyDao.getAll()).thenReturn(new ArrayList<>());
         Mockito.when(mockCompanyDao.get(Matchers.anyInt())).thenReturn(new Company("Dummy Company"));
         Mockito.when(mockCompanyDao.get(Matchers.anyString())).thenReturn(new Company("Dummy Company"));
     }

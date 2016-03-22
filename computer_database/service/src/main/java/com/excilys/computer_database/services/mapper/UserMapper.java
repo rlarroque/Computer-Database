@@ -16,7 +16,6 @@ import com.excilys.computer_database.model.UserRole;
 /**
  * Mapper used to convert users into authentified user or dtos
  * @author rlarroque
- *
  */
 @Component
 public class UserMapper {

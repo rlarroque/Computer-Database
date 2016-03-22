@@ -21,6 +21,7 @@
 		<checkStyle.version>2.5</checkStyle.version>
 		<cobertura.version>2.6</cobertura.version>
 		<commons.validator.version>1.5.0</commons.validator.version>
+		<el.version>3.0.0</el.version>
 		<failsafe.version>2.13</failsafe.version>
 		<hibernate.version>5.1.0.Final</hibernate.version>
 		<javax.persistence.version>1.0.2</javax.persistence.version>
@@ -46,12 +47,8 @@
 	</properties>
 
 	<dependencies>
-		<dependency>
-			<groupId>xml-apis</groupId>
-			<artifactId>xml-apis</artifactId>
-			<version>1.4.01</version>
-		</dependency>
 
+		<!-- Unit test framework-->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -87,14 +84,6 @@
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-all</artifactId>
 			<version>${mockito.version}</version>
-			<scope>test</scope>
-		</dependency>
-
-		<!-- UI testing tool -->
-		<dependency>
-			<groupId>org.seleniumhq.selenium</groupId>
-			<artifactId>selenium-java</artifactId>
-			<version>${selenium.version}</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -153,7 +142,6 @@
 			<artifactId>spring-security-config</artifactId>
 			<version>${springSecurity.version}</version>
 		</dependency>
-		
 	</dependencies>
 
 	<dependencyManagement>
@@ -258,6 +246,22 @@
 				<artifactId>spring-security-taglibs</artifactId>
 				<version>${springSecurity.version}</version>
 			</dependency>
+
+			<!-- UI testing tool -->
+			<dependency>
+				<groupId>org.seleniumhq.selenium</groupId>
+				<artifactId>selenium-java</artifactId>
+				<version>${selenium.version}</version>
+				<scope>test</scope>
+			</dependency>
+
+			<!-- Expresssion language for unit test-->
+			<dependency>
+				<groupId>javax.el</groupId>
+				<artifactId>javax.el-api</artifactId>
+				<version>${el.version}</version>
+				<scope>test</scope>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
@@ -295,6 +299,7 @@
 						<format>html</format>
 						<format>xml</format>
 					</formats>
+					<check/>
 				</configuration>
 			</plugin>
 

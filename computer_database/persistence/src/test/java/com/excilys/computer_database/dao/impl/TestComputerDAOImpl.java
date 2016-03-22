@@ -28,9 +28,11 @@ import com.excilys.computer_database.dao.utils.DAOUtils;
 import com.excilys.computer_database.model.Company;
 import com.excilys.computer_database.model.Computer;
 import com.excilys.computer_database.model.Page;
+import org.springframework.transaction.annotation.Transactional;
 
 @ContextConfiguration(locations = { "classpath:/test-persistence-context.xml" })
 @RunWith(SpringJUnit4ClassRunner.class)
+@Transactional
 public class TestComputerDAOImpl {
 
     // Test queries

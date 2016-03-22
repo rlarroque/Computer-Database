@@ -5,7 +5,6 @@ import java.util.List;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.excilys.computer_database.dao.ComputerDAO;
 import com.excilys.computer_database.model.Computer;
@@ -16,25 +15,28 @@ import com.excilys.computer_database.model.Page;
  * @author rlarroque
  */
 @Repository
-@Transactional
 @SuppressWarnings("unchecked")
 public class ComputerDAOImpl implements ComputerDAO {
         
     @Autowired
-    private SessionFactory sessionFactory; 
+    private SessionFactory sessionFactory;
+
+    private static final String GET_ALL_QUERY = "select computer from computer computer left join computer.company as company";
 
     @Override
     public List<Computer> getAll() {
 
         return sessionFactory.getCurrentSession()
-                             .createQuery("select computer from computer computer left join computer.company as company")
+                             .createQuery(GET_ALL_QUERY)
                              .list();
     }
+
+    private static final String GET_BY_PAGE_QUERY = "select computer from computer computer left join computer.company as company";
 
     @Override
     public List<Computer> getPage(Page page) {
         
-        String hqlQuery = "select computer from computer computer left join computer.company as company";
+        String hqlQuery = GET_BY_PAGE_QUERY;
         
          if (page.getFilter() != null && !"".equals(page.getFilter())) {
             hqlQuery = hqlQuery.concat(" where computer.name like '%")
@@ -57,20 +59,24 @@ public class ComputerDAOImpl implements ComputerDAO {
                                               .list();
     }
 
+    private static final String GET_BY_ID_QUERY = "select computer from computer computer left join computer.company as company where computer.id= :id";
+
     @Override
     public Computer get(long id) {
 
         return (Computer) sessionFactory.getCurrentSession()
-                                        .createQuery("select computer from computer computer left join computer.company as company where computer.id= :id")
+                                        .createQuery(GET_BY_ID_QUERY)
                                         .setLong("id", id)
                                         .uniqueResult();
     }
+
+    private static final String GET_BY_NAME_QUERY = "select computer from computer computer left join computer.company as company where computer.name= :name";
 
     @Override
     public Computer get(String name) {
 
         return (Computer) sessionFactory.getCurrentSession()
-                                        .createQuery("select computer from computer computer left join computer.company as company where computer.name= :name")
+                                        .createQuery(GET_BY_NAME_QUERY)
                                         .setString("name", name)
                                         .uniqueResult();
     }
@@ -83,24 +89,32 @@ public class ComputerDAOImpl implements ComputerDAO {
     }
 
     @Override
-    public void update(Computer computer) {      
+    public void update(Computer computer) {
         sessionFactory.getCurrentSession().update(computer);
     }
+
+
+    private static final String DELETE_QUERY = "delete from computer where company_id= :id";
 
     @Override
     public void delete(long id) {
         sessionFactory.getCurrentSession()
-                      .createQuery("delete from computer where id= :id")
+                      .createQuery(DELETE_QUERY)
                       .setLong("id", id)
                       .executeUpdate();
     }
 
+    private static final String DELETE_BY_COMPANY_QUERY = "delete from computer where company_id= :id";
+
     @Override
     public void deleteByCompany(long id) {
         sessionFactory.getCurrentSession()
-                      .createQuery("delete from computer where company_id= :id")
+                      .createQuery(DELETE_BY_COMPANY_QUERY)
                       .setLong("id", id);
     }
+
+    private static final String COUNT_QUERY = "select count(*) from computer computer left join computer.company as company " +
+                                             "where computer.name like :computer_name or company.name like :company_name";
 
     @Override
     public int count(Page page) {
@@ -109,8 +123,7 @@ public class ComputerDAOImpl implements ComputerDAO {
         filter = filter.concat(((page.getFilter() == null) ? "" : page.getFilter()) + "%");
         
         Number number = (Number) sessionFactory.getCurrentSession()
-                                               .createQuery("select count(*) from computer computer left join computer.company as company " +
-                                                            "where computer.name like :computer_name or company.name like :company_name")
+                                               .createQuery(COUNT_QUERY)
                                                .setString("computer_name", filter)
                                                .setString("company_name", filter)
                                                .uniqueResult();

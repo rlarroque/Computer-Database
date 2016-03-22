@@ -13,6 +13,7 @@ import com.excilys.computer_database.exception.IntegrityException;
 import com.excilys.computer_database.model.User;
 import com.excilys.computer_database.services.UserService;
 import com.excilys.computer_database.services.mapper.UserMapper;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * This class is the implementation of the UserService interface. 
@@ -20,6 +21,7 @@ import com.excilys.computer_database.services.mapper.UserMapper;
  *
  */
 @Service("userDetailsService")
+@Transactional
 public class UserServiceImpl implements UserService, UserDetailsService {
 	
     @Autowired

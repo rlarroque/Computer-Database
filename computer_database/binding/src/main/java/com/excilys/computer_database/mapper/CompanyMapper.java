@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.excilys.computer_database.exception.MappingException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
@@ -23,26 +24,16 @@ import com.excilys.computer_database.dto.model.CompanyDTO;
 public class CompanyMapper implements RowMapper<Company> {
     
     @Override
-    public Company mapRow(ResultSet rs, int rowNum) throws SQLException {
+    public Company mapRow(ResultSet rs, int rowNum) {
         Company company = new Company();
-        
-        company.setId(rs.getInt("id"));
-        company.setName(rs.getString("name"));
-        
-        return company;
-    }
 
-    /**
-     * Take a resultSet as parameter and return a Company.
-     * @param rs resultSet that is returned from a SQL query
-     * @return a company corresponding to the resultSet
-     * @throws SQLException if a SQl exception occurred while reading the resultSet
-     * @throws IntegrityException thrown if the integrity is not respected
-     */
-    public Company toCompany(ResultSet rs) throws SQLException, IntegrityException {
-        Company company = new Company(rs.getLong("id"), rs.getString("name"));
-        CompanyValidator.validate(company);
-
+        try {
+            company.setId(rs.getInt("id"));
+            company.setName(rs.getString("name"));
+        } catch (SQLException e) {
+            throw new MappingException("Cannot map result set into company.", e);
+        }
+        
         return company;
     }
 
@@ -63,7 +54,7 @@ public class CompanyMapper implements RowMapper<Company> {
      * @param dtoList list to map
      * @return the list of company mapped
      */
-    public List<Company> toCompany(List<CompanyDTO> dtoList) throws SQLException {
+    public List<Company> toCompany(List<CompanyDTO> dtoList) {
         List<Company> companyList = new ArrayList<>();
 
         for (CompanyDTO dto : dtoList) {

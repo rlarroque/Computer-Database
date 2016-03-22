@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.excilys.computer_database.controller.global;
 
 import org.springframework.stereotype.Controller;

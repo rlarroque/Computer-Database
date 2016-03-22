@@ -29,6 +29,15 @@ public class ITView {
         driver = new FirefoxDriver();
         baseUrl = "http://localhost:8181";
         driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
+
+        driver.get(baseUrl + "/dashboard");
+        if(isElementPresent(By.id("login-panel"))) {
+            driver.findElement(By.id("username_login")).clear();
+            driver.findElement(By.id("username_login")).sendKeys("test");
+            driver.findElement(By.id("password_login")).clear();
+            driver.findElement(By.id("password_login")).sendKeys("test");
+            driver.findElement(By.id("login-submit")).click();
+        }
     }
 
     /**
@@ -53,8 +62,8 @@ public class ITView {
         assert (isElementPresent(By.linkText(("MacBook Pro 15.4 inch"))));
         driver.findElement(By.linkText("6")).click();
         driver.findElement(By.linkText("8")).click();
-        assert (isElementPresent(By.linkText(("Macintosh 128K"))));
-        assert (isElementPresent(By.linkText(("11"))));
+        assert (isElementPresent(By.linkText("Macintosh 128K")));
+        assert (isElementPresent(By.linkText("11")));
     }
 
     /**
@@ -123,7 +132,7 @@ public class ITView {
         driver.findElement(By.id("name")).sendKeys("Test IT Modified");
         new Select(driver.findElement(By.id("companyId"))).selectByVisibleText("Thinking Machines");
         driver.findElement(By.cssSelector("input.btn.btn-primary")).click();
-        assertEquals("Computer has been successfully created!", closeAlertAndGetItsText());
+        assertEquals("Computer has been successfully edited!", closeAlertAndGetItsText());
         
         // Computer deletion 
         driver.findElement(By.id("editComputer")).click();
@@ -189,7 +198,6 @@ public class ITView {
      */
     @Test
     public void testOrder() throws Exception {
-        driver.get(baseUrl + "/dashboard");
         driver.findElement(By.xpath("//section[@id='main']/div[2]/table/thead/tr/th[2]/div/a[2]")).click();
         assert (isElementPresent(By.linkText(("ZX Spectrum +3"))));
         driver.findElement(By.xpath("//section[@id='main']/div[2]/table/thead/tr/th[2]/div/a[2]")).click();

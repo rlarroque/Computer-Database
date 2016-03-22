@@ -5,7 +5,6 @@ import java.util.List;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.excilys.computer_database.dao.CompanyDAO;
 import com.excilys.computer_database.model.Company;
@@ -15,7 +14,6 @@ import com.excilys.computer_database.model.Company;
  * @author rlarroque
  */
 @Repository
-@Transactional
 @SuppressWarnings("unchecked")
 public class CompanyDAOImpl implements CompanyDAO {
     

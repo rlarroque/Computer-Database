@@ -1,13 +1,13 @@
 package com.excilys.computer_database.exception;
 
 /**
- * Integrity exception used to validate backend integrity of passed values.
+ * Mapping exception.
  * @author rlarroque
  */
-public class IntegrityException extends RuntimeException {
+public class MappingException extends RuntimeException {
 
     private String message;
-    
+
     public String getMessage() {
         return message;
     }
@@ -19,7 +19,7 @@ public class IntegrityException extends RuntimeException {
     /**
      * Default constructor.
      */
-    public IntegrityException() {
+    public MappingException() {
         super();
     }
 
@@ -27,7 +27,7 @@ public class IntegrityException extends RuntimeException {
      * Constructor with message.
      * @param message message
      */
-    public IntegrityException(String message) {
+    public MappingException(String message) {
         super(message);
         this.setMessage(message);
     }
@@ -36,7 +36,7 @@ public class IntegrityException extends RuntimeException {
      * Constructor with cause.
      * @param cause cause
      */
-    public IntegrityException(Throwable cause) {
+    public MappingException(Throwable cause) {
         super(cause);
     }
 
@@ -45,7 +45,7 @@ public class IntegrityException extends RuntimeException {
      * @param message message
      * @param cause causes
      */
-    public IntegrityException(String message, Throwable cause) {
+    public MappingException(String message, Throwable cause) {
         super(message, cause);
         this.setMessage(message);
     }

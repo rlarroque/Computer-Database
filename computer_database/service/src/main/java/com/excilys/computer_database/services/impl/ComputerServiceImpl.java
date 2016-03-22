@@ -12,6 +12,7 @@ import com.excilys.computer_database.model.Computer;
 import com.excilys.computer_database.model.Page;
 import com.excilys.computer_database.services.ComputerService;
 import com.excilys.computer_database.validator.ComputerValidator;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * This class is the implementation of the ComputerService interface. The layer
@@ -21,6 +22,7 @@ import com.excilys.computer_database.validator.ComputerValidator;
  *
  */
 @Service
+@Transactional
 public class ComputerServiceImpl implements ComputerService {
 
 	@Autowired

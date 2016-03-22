@@ -2,6 +2,7 @@ package com.excilys.computer_database.validator;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -14,7 +15,7 @@ import com.excilys.computer_database.model.Company;
 @ContextConfiguration(locations = { "classpath:/test-core-context.xml" })
 @RunWith(SpringJUnit4ClassRunner.class)
 public class TestCompanyValidator {
-    
+
     /**
      * Test.
      */

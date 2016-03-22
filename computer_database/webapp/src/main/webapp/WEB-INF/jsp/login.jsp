@@ -42,7 +42,9 @@
 									</div>
 									<div class="form-group">
 										<label class="checkbox">
-											<label class="checkbox"><input type="checkbox" value="remember-me" id="rememberMe" name="rememberMe">       Remember me</label>
+											<label class="checkbox">
+												<input type="checkbox" value="true"
+													   id="rememberMe" name="_spring_security_remember_me"> Remember me</label>
 										</label>
 									</div>
 									<input type="hidden" name="${_csrf.parameterName}"   value="${_csrf.token}" />

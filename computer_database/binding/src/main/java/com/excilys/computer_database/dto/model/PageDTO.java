@@ -99,25 +99,17 @@ public class PageDTO {
         this.filter = filter;
     }
 
-    /**
-     * Constructor.
-     * @param pageNumber page number
-     * @param offset offset
-     */
-    public PageDTO(int pageNumber, int offset) {
-        this.currentPage = pageNumber;
-        this.offset = offset;
-    }
 
     /**
      * Constructor
+     *
      * @param pageNumber page number
      * @param offset offset
      * @param order order
      * @param order_type order type
      * @param filter filter
      */
-    public PageDTO(int pageNumber, int offset, String order, String order_type,String filter) {
+    public PageDTO(int pageNumber, int offset, String order, String order_type, String filter) {
         this.currentPage = pageNumber;
         this.offset = offset;
         this.order = order;

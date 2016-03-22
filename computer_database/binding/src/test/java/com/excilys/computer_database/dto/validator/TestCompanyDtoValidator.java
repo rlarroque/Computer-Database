@@ -13,7 +13,7 @@ import com.excilys.computer_database.exception.IntegrityException;
  */
 @ContextConfiguration(locations = { "classpath:/test-binding-context.xml" })
 @RunWith(SpringJUnit4ClassRunner.class)
-public class TestCompanyValidator {
+public class TestCompanyDtoValidator {
     
     /**
      * Test.

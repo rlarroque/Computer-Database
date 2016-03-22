@@ -9,26 +9,20 @@
 	<http auto-config="true">
 
 		<!-- USER -->
-		<intercept-url pattern="/dashboard**"
-			access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')" />
-		<intercept-url pattern="/computer/**"
-			access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')" />
-
-		<!-- ADMIN -->
-		<intercept-url pattern="/admin**" access="hasRole('ROLE_ADMIN')" />
-
-		<!-- Access denied page -->
-		<access-denied-handler error-page="/login?fail" />
+		<intercept-url pattern="/dashboard**" access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')" />
+		<intercept-url pattern="/computer/**" access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')" />
 
 		<!-- Login form -->
 		<form-login login-page="/login"
+					default-target-url="/dashboard"
 					username-parameter="username_login"
-					password-parameter="password_login" />
+					password-parameter="password_login"
+					authentication-failure-url="/login?error"/>
 
 		<logout logout-success-url="/logout" />
 
 		<!-- Remember me! -->
-		<remember-me key="uniqueAndSecret"/>
+		<remember-me key="cdbKey"/>
 
 		<!-- enable csrf protection -->
 		<csrf />

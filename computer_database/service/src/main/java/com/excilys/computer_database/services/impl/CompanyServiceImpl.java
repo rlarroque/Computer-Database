@@ -19,6 +19,7 @@ import com.excilys.computer_database.services.CompanyService;
  *
  */
 @Service
+@Transactional
 public class CompanyServiceImpl implements CompanyService {
     
     @Autowired

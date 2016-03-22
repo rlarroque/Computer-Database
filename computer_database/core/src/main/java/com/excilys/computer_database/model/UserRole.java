@@ -17,7 +17,7 @@ public class UserRole implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_role_id", unique = true, nullable = false)
+	@Column(name = "user_role_id", unique = true, nullable = false)
 	private Integer userroleId;
 	
 	@ManyToOne
@@ -26,7 +26,7 @@ public class UserRole implements Serializable {
 	
 	@Column(name = "role", nullable = false)
 	private String role;
-	
+
 	public Integer getUserroleId() {
 		return userroleId;
 	}

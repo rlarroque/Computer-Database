@@ -38,8 +38,6 @@ public class CmdLineInterface {
 
     /**
      * Constructor.
-     * @param computerService computer service
-     * @param companyService company service
      */
     public CmdLineInterface() {
         utils = new CLIUtils(SC);
