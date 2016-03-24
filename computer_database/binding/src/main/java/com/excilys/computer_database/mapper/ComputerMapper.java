@@ -91,17 +91,19 @@ public class ComputerMapper implements RowMapper<Computer> {
         computer.setId(dto.getId());
         computer.setName(dto.getName());
 
-        if ("".equals(dto.getIntroducedDate())) {
+        if ("".equals(dto.getIntroducedDate()) || dto.getIntroducedDate() == null) {
             computer.setIntroduced(null);
         } else {
-            dto.setIntroducedDate(dto.getIntroducedDate().replace('/', '-'));
+            String date = dto.getIntroducedDate().replace('/', '-');
+            dto.setIntroducedDate(date);
             computer.setIntroduced(dateMapper.toLocalDate(dto.getIntroducedDate()));
         }
 
-        if ("".equals(dto.getDiscontinuedDate())) {
+        if ("".equals(dto.getDiscontinuedDate()) || dto.getDiscontinuedDate() == null) {
             computer.setDiscontinued(null);
         } else {
-            dto.setDiscontinuedDate(dto.getDiscontinuedDate().replace('/', '-'));
+            String date = dto.getIntroducedDate().replace('/', '-');
+            dto.setDiscontinuedDate(date);
             computer.setDiscontinued(dateMapper.toLocalDate((dto.getDiscontinuedDate())));
         }
 

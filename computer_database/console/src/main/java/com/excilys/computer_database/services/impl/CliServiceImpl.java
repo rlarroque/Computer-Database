@@ -3,10 +3,6 @@ package com.excilys.computer_database.services.impl;
 import com.excilys.computer_database.dto.model.CompanyDTO;
 import com.excilys.computer_database.dto.model.ComputerDTO;
 import com.excilys.computer_database.exception.CliException;
-import com.excilys.computer_database.mapper.CompanyMapper;
-import com.excilys.computer_database.mapper.ComputerMapper;
-import com.excilys.computer_database.model.Company;
-import com.excilys.computer_database.model.Computer;
 import com.excilys.computer_database.services.CliService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -16,7 +12,6 @@ import com.sun.jersey.api.client.GenericType;
 import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 import org.codehaus.jackson.jaxrs.JacksonJsonProvider;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.ws.rs.core.MediaType;
@@ -72,7 +67,10 @@ public class CliServiceImpl implements CliService {
     @Override
     public ComputerDTO get(long id) {
 
-        ClientResponse response = Client.create()
+        ClientConfig cfg = new DefaultClientConfig();
+        cfg.getClasses().add(JacksonJsonProvider.class);
+
+        ClientResponse response = Client.create(cfg)
                                         .resource(REST_URL + COMPUTER + "/" + id)
                                         .type(MediaType.APPLICATION_JSON)
                                         .accept(MediaType.APPLICATION_JSON)
@@ -89,16 +87,18 @@ public class CliServiceImpl implements CliService {
     @Override
     public long create(ComputerDTO computer) {
 
+        String dfsdf = gson.toJson(computer);
+
         ClientResponse response = Client.create()
                                         .resource(REST_URL + COMPUTER)
-                                        .type(MediaType.APPLICATION_JSON)
+                                        .type(MediaType.APPLICATION_JSON_TYPE)
                                         .post(ClientResponse.class, gson.toJson(computer));
 
-        if (response.getStatus() != 201) {
+        if (response.getStatus() != 200) {
             throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
         }
 
-        return response.getEntity(Computer.class).getId();
+        return response.getEntity(ComputerDTO.class).getId();
     }
 
     @Override
@@ -106,10 +106,10 @@ public class CliServiceImpl implements CliService {
 
         ClientResponse response = Client.create()
                                         .resource(REST_URL + COMPUTER)
-                                        .type(MediaType.APPLICATION_JSON)
+                                        .type(MediaType.APPLICATION_JSON_TYPE)
                                         .put(ClientResponse.class, gson.toJson(computer));
 
-        if (response.getStatus() != 204) {
+        if (response.getStatus() != 200) {
             throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
         }
     }
@@ -133,7 +133,7 @@ public class CliServiceImpl implements CliService {
                                         .type(MediaType.APPLICATION_JSON)
                                         .delete(ClientResponse.class);
 
-        if (response.getStatus() != 204) {
+        if (response.getStatus() != 200) {
             throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
         }
     }

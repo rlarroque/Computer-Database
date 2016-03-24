@@ -48,7 +48,7 @@ public class RestAPIController extends ApplicationController {
     @RequestMapping(method = RequestMethod.POST, value = REST_API + COMPUTER)
     public ComputerDTO postComputer(@RequestBody ComputerDTO computer) {
 
-        LOGGER.info("[POST rest] computer");
+        LOGGER.info("[POST rest] computer: " + computer);
         computerService.create(computerMapper.toComputer(computer));
 
         return computer;

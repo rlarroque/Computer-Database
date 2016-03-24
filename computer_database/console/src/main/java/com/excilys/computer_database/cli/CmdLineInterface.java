@@ -144,8 +144,8 @@ class CmdLineInterface {
         ComputerDTO computer = new ComputerDTO();
 
         computer.setName(askString("Enter the name of the computer"));
-        computer.setIntroducedDate(askString("Introducing date, format YYYY-MM-DD"));
-        computer.setDiscontinuedDate(askString("Discontinuing date, format YYYY-MM-DD"));
+        computer.setIntroducedDate(askString("Introducing date, format MM-dd-yyyy"));
+        computer.setDiscontinuedDate(askString("Discontinuing date, format MM-dd-yyyy"));
         computer.setCompanyId(askLong("Enter the new company id:"));
 
         System.out.println("Computer created with id: " + cliService.create(computer));
@@ -176,8 +176,8 @@ class CmdLineInterface {
         System.out.println("Computer retrieved: " + computer);
 
         computer.setName(askString("Enter the new name:"));
-        computer.setIntroducedDate(askString("New introducing date of the computer, format YYYY-MM-DD:"));
-        computer.setDiscontinuedDate(askString("New discontinuing date of the computer, format YYYY-MM-DD:"));
+        computer.setIntroducedDate(askString("New introducing date of the computer, format MM-dd-yyyy:"));
+        computer.setDiscontinuedDate(askString("New discontinuing date of the computer, format MM-dd-yyyy:"));
         computer.setCompanyId(askLong("Enter the new company tag of the computer:"));
 
         cliService.update(computer);
