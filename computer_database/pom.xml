@@ -4,7 +4,7 @@
 	<groupId>com.excilys</groupId>
 	<artifactId>computer-database-base</artifactId>
 	<packaging>pom</packaging>
-	<version>0.7.0-SNAPSHOT</version>
+	<version>0.8.0-SNAPSHOT</version>
 	<name>computer_database Maven Webapp</name>
 	<url>http://maven.apache.org</url>
 
@@ -24,10 +24,12 @@
 		<el.version>3.0.0</el.version>
 		<failsafe.version>2.13</failsafe.version>
 		<hibernate.version>5.1.0.Final</hibernate.version>
+		<jackson.version>2.7.3</jackson.version>
 		<javax.persistence.version>1.0.2</javax.persistence.version>
 		<javaxServletAPI.version>3.0.1</javaxServletAPI.version>
 		<jcl.slf4j.version>1.7.10</jcl.slf4j.version>
 		<jdk.version>1.8</jdk.version>
+		<jersey.version>1.19</jersey.version>
 		<jstl.version>1.2</jstl.version>
 		<jspAPI.version>2.1</jspAPI.version>
 		<junit.version>4.11</junit.version>
@@ -47,6 +49,12 @@
 	</properties>
 
 	<dependencies>
+
+		<dependency>
+			<groupId>javax.el</groupId>
+			<artifactId>javax.el-api</artifactId>
+			<version>${el.version}</version>
+		</dependency>
 
 		<!-- Unit test framework-->
 		<dependency>
@@ -261,6 +269,39 @@
 				<artifactId>javax.el-api</artifactId>
 				<version>${el.version}</version>
 				<scope>test</scope>
+			</dependency>
+
+			<!-- For json parsing -->
+			<dependency>
+				<groupId>com.google.code.gson</groupId>
+				<artifactId>gson</artifactId>
+				<version>1.7.1</version>
+			</dependency>
+
+			<!-- Adding Jackson dependencies and jax-rs implementation -->
+			<dependency>
+				<groupId>com.sun.jersey</groupId>
+				<artifactId>jersey-core</artifactId>
+				<version>${jersey.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.sun.jersey</groupId>
+				<artifactId>jersey-client</artifactId>
+				<version>${jersey.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.sun.jersey</groupId>
+				<artifactId>jersey-json</artifactId>
+				<version>${jersey.version}</version>
+			</dependency>
+
+			<!-- Jackson converter and databind -->
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-databind</artifactId>
+				<version>${jackson.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
