@@ -1,7 +1,7 @@
 package com.excilys.computer_database.validator.dto;
 
 import com.excilys.computer_database.exception.IntegrityException;
-import com.excilys.computer_database.dto.model.PageDTO;
+import com.excilys.computer_database.dto.PageDTO;
 
 /**
  * Interface with static methods used to validate the integrity of a PageDTO.

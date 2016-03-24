@@ -1,4 +1,4 @@
-package com.excilys.computer_database.dto.model;
+package com.excilys.computer_database.dto;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%@ attribute name="uri" required="true" description="URI of the page to go" %>
-<%@ attribute name="current_page" type="com.excilys.computer_database.dto.model.PageDTO" description="Contains the information to build page links" %>
+<%@ attribute name="current_page" type="com.excilys.computer_database.dto.PageDTO" description="Contains the information to build page links" %>
 <%@ attribute name="override_page" description="Page number to use" %>
 <%@ attribute name="override_offset" description="Offset to use" %>
 <%@ attribute name="override_order" description="Order to use" %>

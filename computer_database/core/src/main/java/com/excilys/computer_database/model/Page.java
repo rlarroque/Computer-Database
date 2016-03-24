@@ -74,6 +74,7 @@ public class Page {
         this.order = order;
     }
 
+    // Pattern builder
     public Page(PageBuilder builder) {
         this.currentPage = builder.currentPage;
         this.offset = builder.offset;

@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.excilys.computer_database.dto.model.ComputerDTO;
+import com.excilys.computer_database.dto.ComputerDTO;
 import com.excilys.computer_database.model.Company;
 import com.excilys.computer_database.model.Computer;
 
@@ -28,7 +28,7 @@ public class TestComputerMapper {
     public void testComputerToDTO() {
 
         Company company = new Company(1l, "Dummy Company");
-        Computer computer = new Computer("Dummy Computer");
+        Computer computer = new Computer.ComputerBuilder("Dummy Computer").build();
         computer.setIntroduced(LocalDate.of(2000, 1, 1));
         computer.setDiscontinued(LocalDate.of(2001, 1, 1));
         computer.setCompany(company);
@@ -47,7 +47,7 @@ public class TestComputerMapper {
     @Test
     public void testComputerToDTOWithNull() {
 
-        Computer computer = new Computer("Dummy Computer");
+        Computer computer = new Computer.ComputerBuilder("Dummy Computer").build();
         ComputerDTO dto = computerMapper.toDTO(computer);
 
         assertEquals(computer.getName(), dto.getName());

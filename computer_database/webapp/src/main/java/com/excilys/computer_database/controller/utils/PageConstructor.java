@@ -1,6 +1,6 @@
 package com.excilys.computer_database.controller.utils;
 
-import com.excilys.computer_database.dto.model.PageDTO;
+import com.excilys.computer_database.dto.PageDTO;
 import com.excilys.computer_database.mapper.ComputerMapper;
 import com.excilys.computer_database.mapper.PageMapper;
 import com.excilys.computer_database.model.Page;

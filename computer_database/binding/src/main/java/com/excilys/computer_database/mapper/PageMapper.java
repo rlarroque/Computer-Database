@@ -1,7 +1,7 @@
 package com.excilys.computer_database.mapper;
 
-import com.excilys.computer_database.dto.model.PageDTO;
-import com.excilys.computer_database.dto.model.PageParams;
+import com.excilys.computer_database.dto.PageDTO;
+import com.excilys.computer_database.dto.PageParams;
 import com.excilys.computer_database.model.Page;
 import com.excilys.computer_database.model.utils.Order;
 import com.excilys.computer_database.model.utils.OrderColumn;

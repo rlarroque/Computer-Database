@@ -1,7 +1,7 @@
 package com.excilys.computer_database.controller;
 
-import com.excilys.computer_database.dto.model.ComputerDTO;
-import com.excilys.computer_database.dto.model.PageParams;
+import com.excilys.computer_database.dto.ComputerDTO;
+import com.excilys.computer_database.dto.PageParams;
 import com.excilys.computer_database.model.utils.OrderColumn;
 import com.excilys.computer_database.model.utils.OrderType;
 import org.springframework.stereotype.Controller;

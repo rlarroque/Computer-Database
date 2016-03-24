@@ -13,7 +13,7 @@ import com.excilys.computer_database.exception.IntegrityException;
 import com.excilys.computer_database.model.Company;
 import com.excilys.computer_database.validator.dto.CompanyDTOValidator;
 import com.excilys.computer_database.validator.CompanyValidator;
-import com.excilys.computer_database.dto.model.CompanyDTO;
+import com.excilys.computer_database.dto.CompanyDTO;
 
 /**
  * Mapper used to convert a resultSet or DTO into a Company object.

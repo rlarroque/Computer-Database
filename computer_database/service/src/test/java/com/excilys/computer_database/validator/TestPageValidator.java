@@ -32,7 +32,7 @@ public class TestPageValidator {
                              .filter("filter")
                              .startIndex(1)
                              .totalPage(1)
-                             .computers(Arrays.asList(new Computer("Dummy Computer")))
+                             .computers(Arrays.asList(new Computer.ComputerBuilder("Dummy Computer").build()))
                              .build();
     }
 

@@ -130,7 +130,7 @@ public class TestComputerDAOImpl {
                             .build();
 
         for (int i = 0; i < 50; i++) {
-            computerDAO.create(new Computer("Dummy computer " + i));
+            computerDAO.create(new Computer.ComputerBuilder("Dummy computer " + i).build());
         }
 
         computers = computerDAO.getAll();
@@ -158,7 +158,7 @@ public class TestComputerDAOImpl {
 
         addDummyComputer();
 
-        Computer computer = (Computer) computerDAO.get(1);
+        Computer computer = computerDAO.get(1);
         assertEquals("Dummy computer", computer.getName());
         assertEquals("Dummy Company", computer.getCompany().getName());
     }
@@ -194,7 +194,7 @@ public class TestComputerDAOImpl {
     public void testCreateComputer() {
 
         Company company = new Company(1l, "Dummy Company");
-        Computer computer = new Computer("Dummy computer");
+        Computer computer = new Computer.ComputerBuilder("Dummy computer").build();
         computer.setIntroduced(LocalDate.of(2000, 1, 1));
         computer.setDiscontinued(LocalDate.of(2001, 1, 1));
         computer.setCompany(company);
@@ -213,7 +213,7 @@ public class TestComputerDAOImpl {
         addDummyComputer();
 
         Company company = new Company(1l, "Dummy Company");
-        Computer computer = new Computer("Not so dummy computer");
+        Computer computer = new Computer.ComputerBuilder("Not so dummy computer").build();
         computer.setId(1);
         computer.setIntroduced(LocalDate.of(2005, 1, 1));
         computer.setDiscontinued(LocalDate.of(2010, 6, 1));

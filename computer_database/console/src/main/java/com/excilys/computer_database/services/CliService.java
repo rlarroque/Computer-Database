@@ -1,9 +1,8 @@
 package com.excilys.computer_database.services;
 
-import com.excilys.computer_database.dto.model.CompanyDTO;
-import com.excilys.computer_database.dto.model.ComputerDTO;
+import com.excilys.computer_database.dto.CompanyDTO;
+import com.excilys.computer_database.dto.ComputerDTO;
 
-import java.sql.SQLException;
 import java.util.List;
 
 /**

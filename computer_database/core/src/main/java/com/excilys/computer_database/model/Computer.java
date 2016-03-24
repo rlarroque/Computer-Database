@@ -1,5 +1,7 @@
 package com.excilys.computer_database.model;
 
+import org.springframework.cglib.core.Local;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 
@@ -71,32 +73,54 @@ public class Computer implements Serializable{
         this.company = company;
     }
 
-    /**
-     * Instantiates a new computer.
-     * @param name the name
-     * @param introduced the introduced
-     * @param discontinued the discontinued
-     * @param company the company
-     */
-    public Computer(String name, LocalDate introduced, LocalDate discontinued, Company company) {
-        this.name = name;
-        this.introduced = introduced;
-        this.discontinued = discontinued;
-        this.company = company;
+    // Pattern builder
+    public Computer(ComputerBuilder builder) {
+        this.id = builder.id;
+        this.name = builder.name;
+        this.introduced = builder.introduced;
+        this.discontinued = builder.discontinued;
+        this.company = builder.company;
     }
 
-    /**
-     * Instantiates a new computer.
-     * @param name the name
-     */
-    public Computer(String name) {
-        this.name = name;
+    public static class ComputerBuilder {
+        private int id;
+        private String name;
+        private LocalDate introduced;
+        private LocalDate discontinued;
+        private Company company;
+
+        // Name is mandatory
+        public ComputerBuilder (String name) {
+            this.name = name;
+        }
+
+        public ComputerBuilder id(int id) {
+            this.id = id;
+            return this;
+        }
+
+        public ComputerBuilder introduced(LocalDate introduced) {
+            this.introduced = introduced;
+            return this;
+        }
+
+        public ComputerBuilder discontinued(LocalDate discontinued) {
+            this.discontinued = discontinued;
+            return this;
+        }
+
+        public ComputerBuilder company(Company company) {
+            this.company = company;
+            return this;
+        }
+
+        public Computer build() {
+            return new Computer(this);
+        }
     }
 
-    /**
-     * Instantiates a new computer.
-     */
     public Computer() {
+
     }
 
     @Override

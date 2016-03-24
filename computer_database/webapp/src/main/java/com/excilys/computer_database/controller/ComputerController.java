@@ -1,10 +1,10 @@
 package com.excilys.computer_database.controller;
 
 import com.excilys.computer_database.controller.utils.PageConstructor;
-import com.excilys.computer_database.dto.model.CompanyDTO;
-import com.excilys.computer_database.dto.model.ComputerDTO;
-import com.excilys.computer_database.dto.model.PageDTO;
-import com.excilys.computer_database.dto.model.PageParams;
+import com.excilys.computer_database.dto.CompanyDTO;
+import com.excilys.computer_database.dto.ComputerDTO;
+import com.excilys.computer_database.dto.PageDTO;
+import com.excilys.computer_database.dto.PageParams;
 import com.excilys.computer_database.validator.dto.PageDTOValidator;
 import com.excilys.computer_database.mapper.CompanyMapper;
 import com.excilys.computer_database.mapper.ComputerMapper;
@@ -56,7 +56,7 @@ public class ComputerController extends ApplicationController{
     @RequestMapping(method = RequestMethod.GET, value = {DASHBOARD, "/", ""})
     public String getDashboard(@ModelAttribute("params") PageParams params, ModelMap map){
 
-        LOGGER.info("GET Dashboard");   
+        LOGGER.info("[GET] Dashboard");
 
         PageDTO constructedPage = pageConstructor.construct(pageMapper.toDTO(params));
         PageDTOValidator.validate(constructedPage);
@@ -69,18 +69,18 @@ public class ComputerController extends ApplicationController{
     @RequestMapping(method = RequestMethod.GET, value = COMPUTER + ADD)
     public String getAddComputer(ModelMap map){
         
-        LOGGER.info("GET computer add");
+        LOGGER.info("[GET] computer add");
         
         List<CompanyDTO> listCompanies = companyMapper.toDTO(companyService.getAll());
-        
         map.addAttribute("companies", listCompanies);
+
         return JSP_ADD;
     }
     
     @RequestMapping(method = RequestMethod.POST, value = COMPUTER + ADD)
     public String postAddComputer(@Valid ComputerDTO computerToAdd, BindingResult errors) {
         
-        LOGGER.info("POST computer add: " + computerToAdd);
+        LOGGER.info("[POST] computer add: " + computerToAdd);
         
         if(errors.hasErrors()) {
             LOGGER.warn("Input has some errors");
@@ -96,7 +96,7 @@ public class ComputerController extends ApplicationController{
     @RequestMapping(method = RequestMethod.GET, value = COMPUTER + EDIT)
     protected String getEditComputer(ModelMap map, HttpServletRequest request) {
         
-        LOGGER.info("GET computer edit");
+        LOGGER.info("[GET] computer edit");
 
         List<CompanyDTO> listCompanies = companyMapper.toDTO(companyService.getAll());
         ComputerDTO dto = computerMapper.toDTO(computerService.get(Integer.parseInt(request.getParameter("computer"))));
@@ -110,7 +110,7 @@ public class ComputerController extends ApplicationController{
     @RequestMapping(method = RequestMethod.POST, value = COMPUTER + EDIT)
     protected String postEditComputer(@Valid @ModelAttribute("computerToEdit") ComputerDTO dto, BindingResult errors) {
         
-        LOGGER.info("POST computer edit: " + dto);
+        LOGGER.info("[POST] computer edit: " + dto);
         
         if(errors.hasErrors()) {
             LOGGER.warn("Input has some errors");
@@ -126,7 +126,7 @@ public class ComputerController extends ApplicationController{
     @RequestMapping(method = RequestMethod.POST, value = COMPUTER + DELETE)
     protected String postDeleteComputer(HttpServletRequest request) {
         
-        LOGGER.info("POST computer delete");
+        LOGGER.info("[POST] computer delete");
         
         List<String> ids = Arrays.asList(request.getParameter("selection").split("\\s*,\\s*"));
 

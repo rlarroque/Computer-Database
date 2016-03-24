@@ -1,4 +1,4 @@
-package com.excilys.computer_database.dto.model;
+package com.excilys.computer_database.dto;
 
 import com.excilys.computer_database.validator.dto.annotation.Computer;
 import com.excilys.computer_database.validator.dto.annotation.Date;

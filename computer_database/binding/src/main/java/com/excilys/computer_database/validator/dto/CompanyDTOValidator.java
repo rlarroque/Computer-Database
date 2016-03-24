@@ -3,7 +3,7 @@ package com.excilys.computer_database.validator.dto;
 import java.util.List;
 
 import com.excilys.computer_database.exception.IntegrityException;
-import com.excilys.computer_database.dto.model.CompanyDTO;
+import com.excilys.computer_database.dto.CompanyDTO;
 
 /**
  * Interface with static methods used to validate the integrity of a companyDTO.

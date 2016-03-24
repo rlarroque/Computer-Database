@@ -1,6 +1,6 @@
 package com.excilys.computer_database.validator;
 
-import com.excilys.computer_database.dto.model.ComputerDTO;
+import com.excilys.computer_database.dto.ComputerDTO;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;

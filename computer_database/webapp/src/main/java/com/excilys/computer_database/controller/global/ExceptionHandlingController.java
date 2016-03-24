@@ -25,8 +25,8 @@ public class ExceptionHandlingController extends ApplicationController {
         return model;
     }
 
-    @ExceptionHandler(CliException.class)
-    public ModelAndView getInternalError(CliException exception){
+    @ExceptionHandler(Exception.class)
+    public ModelAndView getInternalError(Exception exception){
 
         ModelAndView model = new ModelAndView();
         model.addObject("exception", exception);

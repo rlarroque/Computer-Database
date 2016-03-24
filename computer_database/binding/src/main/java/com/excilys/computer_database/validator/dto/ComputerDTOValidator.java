@@ -7,7 +7,7 @@ import javax.validation.ConstraintValidatorContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.excilys.computer_database.dto.model.ComputerDTO;
+import com.excilys.computer_database.dto.ComputerDTO;
 import com.excilys.computer_database.validator.dto.annotation.Computer;
 import com.excilys.computer_database.mapper.DateMapper;
 

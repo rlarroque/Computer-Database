@@ -38,8 +38,8 @@ public class TestComputerService {
     public void executeBeforeEachTests() {
         Mockito.when(mockComputerDao.getAll()).thenReturn(new ArrayList<Computer>());
         Mockito.when(mockComputerDao.getPage(Matchers.any(Page.class))).thenReturn(new ArrayList<Computer>());
-        Mockito.when(mockComputerDao.get(Matchers.anyInt())).thenReturn(new Computer("Dummy Computer"));
-        Mockito.when(mockComputerDao.get(Matchers.anyString())).thenReturn(new Computer("Dummy Computer"));
+        Mockito.when(mockComputerDao.get(Matchers.anyInt())).thenReturn(new Computer.ComputerBuilder("Dummy Computer").build());
+        Mockito.when(mockComputerDao.get(Matchers.anyString())).thenReturn(new Computer.ComputerBuilder("Dummy Computer").build());
         Mockito.when(mockComputerDao.create(Matchers.any(Computer.class))).thenReturn(100l);
     }
 
@@ -91,7 +91,7 @@ public class TestComputerService {
     @Test
     public void createComputer() {
 
-        Computer computer = new Computer("Dummy Computer");
+        Computer computer = new Computer.ComputerBuilder("Dummy Computer").build();
         assertEquals(100, computerService.create(computer));
 
         computer.setCompany(new Company(1l, "Dummy Comypany"));
@@ -113,7 +113,7 @@ public class TestComputerService {
      */
     @Test(expected = IntegrityException.class)
     public void createComputerInvalidName() {
-        computerService.create(new Computer(""));
+        computerService.create(new Computer.ComputerBuilder("").build());
     }
 
     /**
@@ -121,7 +121,7 @@ public class TestComputerService {
      */
     @Test(expected = IntegrityException.class)
     public void createComputerNullName() {
-        computerService.create(new Computer(null));
+        computerService.create(new Computer.ComputerBuilder(null).build());
     }
 
     /**
@@ -129,12 +129,13 @@ public class TestComputerService {
      */
     @Test(expected = IntegrityException.class)
     public void createComputerInvalidDateType() {
-        Computer computer = new Computer();
-        computer.setCompany(new Company(1l, "Dummy Comypany"));
-        computer.setIntroduced(LocalDate.now());
-        computer.setDiscontinued(LocalDate.of(2012, 1, 1));
+        Computer computer = new Computer.ComputerBuilder("Dummy Computer")
+                                        .company(new Company(1l, "Dummy Comypany"))
+                                        .introduced(LocalDate.now())
+                                        .discontinued(LocalDate.of(2012, 1, 1))
+                                        .build();
 
-        computerService.update(computer);
+        computerService.create(computer);
     }
 
     /**
@@ -150,7 +151,7 @@ public class TestComputerService {
      */
     @Test(expected = IntegrityException.class)
     public void updateComputerInvalidName() {
-        computerService.update(new Computer(""));
+        computerService.update(new Computer.ComputerBuilder("").build());
     }
 
     /**
@@ -158,7 +159,7 @@ public class TestComputerService {
      */
     @Test(expected = IntegrityException.class)
     public void updateComputerNullName() {
-        computerService.update(new Computer(null));
+        computerService.update(new Computer.ComputerBuilder(null).build());
     }
 
     /**
@@ -166,10 +167,11 @@ public class TestComputerService {
      */
     @Test(expected = IntegrityException.class)
     public void updateComputerInvalidDateType() {
-        Computer computer = new Computer();
-        computer.setCompany(new Company(1l, "Dummy Comypany"));
-        computer.setIntroduced(LocalDate.now());
-        computer.setDiscontinued(LocalDate.of(2012, 1, 1));
+        Computer computer = new Computer.ComputerBuilder("Dummy Computer")
+                .company(new Company(1l, "Dummy Comypany"))
+                .introduced(LocalDate.now())
+                .discontinued(LocalDate.of(2012, 1, 1))
+                .build();
 
         computerService.update(computer);
     }

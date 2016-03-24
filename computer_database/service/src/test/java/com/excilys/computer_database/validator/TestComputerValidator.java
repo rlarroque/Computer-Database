@@ -22,7 +22,12 @@ public class TestComputerValidator {
      */
     @Test
     public void validateComputer() {
-        Computer computer = new Computer("Dummy computer", LocalDate.ofYearDay(2012, 65), LocalDate.ofYearDay(2012, 89), new Company(1l, "Dummy company"));
+        Computer computer = new Computer.ComputerBuilder("Dummy computer")
+                                        .company(new Company(1l, "Dummy company"))
+                                        .introduced(LocalDate.ofYearDay(2012, 65))
+                                        .discontinued( LocalDate.ofYearDay(2012, 89))
+                                        .build();
+
         ComputerValidator.validate(computer);
     }
 
@@ -40,7 +45,7 @@ public class TestComputerValidator {
      */
     @Test(expected = IntegrityException.class)
     public void validateComputerNameInvalid() {
-        Computer computer = new Computer(null);
+        Computer computer = new Computer.ComputerBuilder(null).build();
         ComputerValidator.validate(computer);
     }
 
@@ -49,7 +54,12 @@ public class TestComputerValidator {
      */
     @Test(expected = IntegrityException.class)
     public void validateComputerDiscontinuedInvalid() {
-        Computer computer = new Computer("Dummy computer", null, LocalDate.ofYearDay(2012, 89), new Company(1l, "Dummy company"));
+        Computer computer = new Computer.ComputerBuilder("Dummy computer")
+                                        .company(new Company(1l, "Dummy company"))
+                                        .introduced(null)
+                                        .discontinued( LocalDate.ofYearDay(2012, 89))
+                                        .build();
+
         ComputerValidator.validate(computer);
     }
 
@@ -58,7 +68,12 @@ public class TestComputerValidator {
      */
     @Test(expected = IntegrityException.class)
     public void validateComputerDatesInvalid() {
-        Computer computer = new Computer("Dummy computer", LocalDate.ofYearDay(2012, 187), LocalDate.ofYearDay(2012, 89), new Company(1l, "Dummy company"));
+        Computer computer = new Computer.ComputerBuilder("Dummy computer")
+                                        .company(new Company(1l, "Dummy company"))
+                                        .introduced(LocalDate.ofYearDay(2012, 187))
+                                        .discontinued( LocalDate.ofYearDay(2012, 89))
+                                        .build();
+
         ComputerValidator.validate(computer);
     }
 }

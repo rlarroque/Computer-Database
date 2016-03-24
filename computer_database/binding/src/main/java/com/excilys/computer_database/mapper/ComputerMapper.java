@@ -12,10 +12,9 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 import com.excilys.computer_database.exception.IntegrityException;
-import com.excilys.computer_database.mapper.DateMapper;
 import com.excilys.computer_database.model.Company;
 import com.excilys.computer_database.model.Computer;
-import com.excilys.computer_database.dto.model.ComputerDTO;
+import com.excilys.computer_database.dto.ComputerDTO;
 
 /**
  * Mapper used to convert a resultSet or DTO into a Computer object.
@@ -30,10 +29,9 @@ public class ComputerMapper implements RowMapper<Computer> {
 
     @Override
     public Computer mapRow(ResultSet rs, int rowNum) throws SQLException {
-        Computer computer = new Computer();
+        Computer computer = new Computer.ComputerBuilder(rs.getString("computer.name")).build();
 
         computer.setId(rs.getInt("id"));
-        computer.setName(rs.getString("computer.name"));
 
         if (rs.getTimestamp("introduced") != null) {
             computer.setIntroduced(rs.getTimestamp("introduced").toLocalDateTime().toLocalDate());
@@ -57,10 +55,9 @@ public class ComputerMapper implements RowMapper<Computer> {
      */
     public Computer toComputer(ResultSet rs) throws SQLException, IntegrityException {
 
-        Computer computer = new Computer();
+        Computer computer = new Computer.ComputerBuilder(rs.getString("computer.name")).build();
 
         computer.setId(rs.getInt("computer.id"));
-        computer.setName(rs.getString("computer.name"));
 
         if (rs.getTimestamp("introduced") != null) {
             computer.setIntroduced(rs.getTimestamp("introduced").toLocalDateTime().toLocalDate());
@@ -86,10 +83,9 @@ public class ComputerMapper implements RowMapper<Computer> {
      */
     public Computer toComputer(ComputerDTO dto) throws IntegrityException {
 
-        Computer computer = new Computer();
+        Computer computer = new Computer.ComputerBuilder(dto.getName()).build();
 
         computer.setId(dto.getId());
-        computer.setName(dto.getName());
 
         if ("".equals(dto.getIntroducedDate()) || dto.getIntroducedDate() == null) {
             computer.setIntroduced(null);

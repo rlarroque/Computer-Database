@@ -3,7 +3,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib tagdir="/WEB-INF/tags" prefix="customLib" %>
 
-<%@ attribute name="page" type="com.excilys.computer_database.dto.model.PageDTO" required="true" description="Contains the information to build page links" %>
+<%@ attribute name="page" type="com.excilys.computer_database.dto.PageDTO" required="true" description="Contains the information to build page links" %>
 <%@ attribute name="langList" type="java.util.List" required="true" description="List of available languages" %>
 
 <ul class="pagination">

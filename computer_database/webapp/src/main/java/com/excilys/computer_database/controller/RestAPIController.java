@@ -1,6 +1,6 @@
 package com.excilys.computer_database.controller;
 
-import com.excilys.computer_database.dto.model.ComputerDTO;
+import com.excilys.computer_database.dto.ComputerDTO;
 import com.excilys.computer_database.mapper.ComputerMapper;
 import com.excilys.computer_database.services.ComputerService;
 import org.slf4j.Logger;

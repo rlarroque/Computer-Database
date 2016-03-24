@@ -1,6 +1,6 @@
 package com.excilys.computer_database.cli;
 
-import com.excilys.computer_database.dto.model.ComputerDTO;
+import com.excilys.computer_database.dto.ComputerDTO;
 import com.excilys.computer_database.services.CliService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
