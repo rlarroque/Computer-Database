@@ -14,6 +14,7 @@ import javax.ws.rs.core.MediaType;
 import java.util.List;
 
 /**
+ * Controller in charge of exposing a full rest api of the application.
  * @author rlarroque
  */
 @RestController

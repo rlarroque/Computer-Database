@@ -7,6 +7,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+/**
+ * Controller in charge of security routes. ie: login and logout from the application.
+ * @author rlarroque
+ */
 @Controller
 public class SecurityController extends ApplicationController {
 

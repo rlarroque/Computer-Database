@@ -5,14 +5,13 @@
            http://www.springframework.org/schema/security
            http://www.springframework.org/schema/security/spring-security.xsd">
 
-    <http pattern="/api/rest/**" security="none"/>
-
     <!-- enable use-expressions -->
     <http auto-config="true">
 
         <!-- USER -->
         <intercept-url pattern="/dashboard**" access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')" />
         <intercept-url pattern="/computer/**" access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')" />
+        <intercept-url pattern="/api/rest/**" access="isAuthenticated"/>
 
         <!-- Login form -->
         <form-login login-page="/login"

@@ -1,12 +1,10 @@
 package com.excilys.computer_database.controller.global;
 
-import com.excilys.computer_database.exception.CliException;
+import com.excilys.computer_database.controller.ApplicationController;
+import com.excilys.computer_database.exception.IntegrityException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.excilys.computer_database.controller.ApplicationController;
-import com.excilys.computer_database.exception.IntegrityException;
 
 /**
  * Handling of exceptions.
@@ -16,7 +14,7 @@ import com.excilys.computer_database.exception.IntegrityException;
 public class ExceptionHandlingController extends ApplicationController {
     
     @ExceptionHandler(IntegrityException.class)
-    public ModelAndView getInternalIntegrationError(IntegrityException exception){
+    public ModelAndView getInternalIntegrationException(IntegrityException exception){
         
         ModelAndView model = new ModelAndView();
         model.addObject("exception", exception);
@@ -26,7 +24,7 @@ public class ExceptionHandlingController extends ApplicationController {
     }
 
     @ExceptionHandler(Exception.class)
-    public ModelAndView getInternalError(Exception exception){
+    public ModelAndView getInternalException(Exception exception){
 
         ModelAndView model = new ModelAndView();
         model.addObject("exception", exception);

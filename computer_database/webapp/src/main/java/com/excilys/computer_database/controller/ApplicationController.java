@@ -8,7 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 /**
- * Abstract controller.
+ * Abstract controller where all default routes and JSP path are exposed.
  * @author rlarroque
  */
 @Controller
