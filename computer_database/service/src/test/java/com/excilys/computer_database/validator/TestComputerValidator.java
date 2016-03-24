@@ -13,7 +13,7 @@ import java.time.LocalDate;
 /**
  * @author rlarroque
  */
-@ContextConfiguration(locations = { "classpath:/test-core-context.xml" })
+@ContextConfiguration(locations = { "classpath:/test-service-context.xml" })
 @RunWith(SpringJUnit4ClassRunner.class)
 public class TestComputerValidator {
 

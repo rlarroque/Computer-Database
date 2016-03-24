@@ -94,7 +94,7 @@ public class ComputerDAOImpl implements ComputerDAO {
     }
 
 
-    private static final String DELETE_QUERY = "delete from computer where company_id= :id";
+    private static final String DELETE_QUERY = "delete from computer where id= :id";
 
     @Override
     public void delete(long id) {
@@ -114,7 +114,7 @@ public class ComputerDAOImpl implements ComputerDAO {
     }
 
     private static final String COUNT_QUERY = "select count(*) from computer computer left join computer.company as company " +
-                                             "where computer.name like :computer_name or company.name like :company_name";
+                                              "where computer.name like :computer_name or company.name like :company_name";
 
     @Override
     public int count(Page page) {

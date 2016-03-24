@@ -3,6 +3,7 @@ package com.excilys.computer_database.services.impl;
 import java.sql.SQLException;
 import java.util.List;
 
+import com.excilys.computer_database.validator.ComputerValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +12,6 @@ import com.excilys.computer_database.dao.ComputerDAO;
 import com.excilys.computer_database.model.Computer;
 import com.excilys.computer_database.model.Page;
 import com.excilys.computer_database.services.ComputerService;
-import com.excilys.computer_database.validator.ComputerValidator;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

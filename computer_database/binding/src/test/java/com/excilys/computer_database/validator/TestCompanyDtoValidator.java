@@ -1,5 +1,6 @@
-package com.excilys.computer_database.dto.validator;
+package com.excilys.computer_database.validator;
 
+import com.excilys.computer_database.validator.dto.CompanyDTOValidator;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;

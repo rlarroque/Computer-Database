@@ -1,4 +1,4 @@
-package com.excilys.computer_database.dto.validator.annotation;
+package com.excilys.computer_database.validator.dto.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
-import com.excilys.computer_database.dto.validator.ComputerDTOValidator;
+import com.excilys.computer_database.validator.dto.ComputerDTOValidator;
 
 /**
  * Custom annotation for computerDTO validation. Make sure that the introduced date is before the discontinued date.

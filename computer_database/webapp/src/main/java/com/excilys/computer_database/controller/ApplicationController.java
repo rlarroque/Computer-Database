@@ -1,13 +1,11 @@
 package com.excilys.computer_database.controller;
 
+import com.excilys.computer_database.dto.model.ComputerDTO;
 import com.excilys.computer_database.dto.model.PageParams;
 import com.excilys.computer_database.model.utils.OrderColumn;
 import com.excilys.computer_database.model.utils.OrderType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
-
-import com.excilys.computer_database.dto.model.ComputerDTO;
-import com.excilys.computer_database.dto.model.PageDTO;
 
 /**
  * Abstract controller.
@@ -18,6 +16,7 @@ public abstract class  ApplicationController {
     
     // Mapping values
     protected static final String CONTEXT = "/computer_database/";
+    protected static final String REST_API = "/api/rest";
     protected static final String DASHBOARD = "/dashboard";
     protected static final String COMPUTER = "/computer";
     protected static final String ADD = "/add";
@@ -28,7 +27,10 @@ public abstract class  ApplicationController {
     protected static final String LOGIN = "/login";
     protected static final String LOGOUT = "/logout";
     protected static final String REDIRECT = "redirect:";
-    
+
+    // Path variables
+    protected static final String ID = "/{id}";
+
     // JSP pages
     protected static final String JSP_ADD = "/addComputer";
     protected static final String JSP_EDIT = "/editComputer";
@@ -39,7 +41,7 @@ public abstract class  ApplicationController {
     protected static final String JSP_404 = "/error/404";
     protected static final String JSP_500 = "/error/500";
     
-    // Binding method parameter to a named model attribute, exposed to a web view
+    // Binding method parameter to a named model attribute, exposed to the web view
     @ModelAttribute("computerToAdd")
     public ComputerDTO getComputerToAdd() {
         return new ComputerDTO();

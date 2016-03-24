@@ -17,7 +17,7 @@ import java.util.Arrays;
 /**
  * @author rlarroque
  */
-@ContextConfiguration(locations = { "classpath:/test-core-context.xml" })
+@ContextConfiguration(locations = { "classpath:/test-service-context.xml" })
 @RunWith(SpringJUnit4ClassRunner.class)
 public class TestPageValidator {
 
@@ -25,15 +25,15 @@ public class TestPageValidator {
 
     @Before
     public void executeBeforeEachTest() {
-        pageToTest = new Page();
-        pageToTest.setOrder(new Order(OrderType.ASC, OrderColumn.ID));
-        pageToTest.setFilter("filter");
-        pageToTest.setOffset(10);
-        pageToTest.setComputers(Arrays.asList(new Computer("Dummy Computer")));
-        pageToTest.setStartIndex(1);
-        pageToTest.setCurrentPage(1);
-        pageToTest.setTotalComputer(1);
-        pageToTest.setTotalPage(1);
+        pageToTest = new Page.PageBuilder()
+                             .currentPage(1)
+                             .offset(10)
+                             .order(new Order(OrderType.ASC, OrderColumn.ID))
+                             .filter("filter")
+                             .startIndex(1)
+                             .totalPage(1)
+                             .computers(Arrays.asList(new Computer("Dummy Computer")))
+                             .build();
     }
 
     /**
@@ -50,15 +50,6 @@ public class TestPageValidator {
     @Test(expected = IntegrityException.class)
     public void validatePageNull() {
         pageToTest = null;
-        PageValidator.validate(pageToTest);
-    }
-
-    /**
-     * Test.
-     */
-    @Test(expected = IntegrityException.class)
-    public void validatePageTotalCompInvalid() {
-        pageToTest.setTotalComputer(-1);
         PageValidator.validate(pageToTest);
     }
 

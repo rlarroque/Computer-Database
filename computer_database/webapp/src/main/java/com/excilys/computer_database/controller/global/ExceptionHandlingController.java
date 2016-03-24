@@ -1,5 +1,6 @@
 package com.excilys.computer_database.controller.global;
 
+import com.excilys.computer_database.exception.CliException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
@@ -24,8 +25,8 @@ public class ExceptionHandlingController extends ApplicationController {
         return model;
     }
 
-    @ExceptionHandler(Exception.class)
-    public ModelAndView getInternalError(Exception exception){
+    @ExceptionHandler(CliException.class)
+    public ModelAndView getInternalError(CliException exception){
 
         ModelAndView model = new ModelAndView();
         model.addObject("exception", exception);

@@ -1,18 +1,13 @@
 package com.excilys.computer_database.mapper;
 
-import javax.servlet.http.HttpServletRequest;
-
+import com.excilys.computer_database.dto.model.PageDTO;
 import com.excilys.computer_database.dto.model.PageParams;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import com.excilys.computer_database.model.Page;
 import com.excilys.computer_database.model.utils.Order;
 import com.excilys.computer_database.model.utils.OrderColumn;
 import com.excilys.computer_database.model.utils.OrderType;
-import com.excilys.computer_database.dto.validator.PageDTOValidator;
-import com.excilys.computer_database.validator.PageValidator;
-import com.excilys.computer_database.dto.model.PageDTO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * Mapper used to convert a page into DTO.
@@ -31,50 +26,16 @@ public class PageMapper {
      */
     public Page toPage(PageDTO dto) {
 
-        Page page = new Page(dto.getCurrentPage(), dto.getOffset(), dto.getFilter());
-        page.setComputers(computerMapper.toComputer(dto.getComputers()));
-        page.setTotalComputer(dto.getTotalComputer());
-        page.setStartIndex((page.getCurrentPage() - 1) * page.getOffset());
-        page.setOrder(new Order(OrderType.valueOf(dto.getOrder_type()), OrderColumn.fromString(dto.getOrder())));
+        Page page = new Page.PageBuilder()
+                            .currentPage(dto.getCurrentPage())
+                            .offset(dto.getOffset())
+                            .startIndex((dto.getCurrentPage() - 1) * dto.getOffset())
+                            .totalPage(1)
+                            .order(new Order(OrderType.valueOf(dto.getOrder_type()), OrderColumn.fromString(dto.getOrder())))
+                            .filter(dto.getFilter())
+                            .computers(computerMapper.toComputer(dto.getComputers()))
+                            .build();
 
-        return page;
-    }
-    
-    /**
-     * Used to map a servlet request into a page 
-     * @param request request received
-     * @return the mapped page
-     */
-    public Page toPage(HttpServletRequest request) {
-       
-        Page page = new Page();
-        
-        if(request.getParameter("page") == null) {
-            page.setCurrentPage(1);
-        } else {            
-            page.setCurrentPage(Integer.parseInt(request.getParameter("page")));
-        }
-        
-        if(request.getParameter("page") == null) {
-            page.setOffset(10);
-        } else {            
-            page.setOffset(Integer.parseInt(request.getParameter("offset")));
-        }
-        
-        page.setFilter(request.getParameter("filter"));
-
-        if (request.getParameter("order") != null && !"".equals(request.getParameter("order"))) {
-
-            if (request.getParameter("order_type") != null && !"".equals(request.getParameter("order_type"))) {
-                page.setOrder(
-                        new Order(OrderType.valueOf(request.getParameter("order_type")), OrderColumn.fromString(request.getParameter("order"))));
-            } else {
-                page.setOrder(new Order(OrderType.ASC, OrderColumn.fromString(request.getParameter("order"))));
-            }
-        } else {
-            page.setOrder(new Order(OrderType.ASC, OrderColumn.ID));
-        }
-        
         return page;
     }
 
@@ -87,7 +48,7 @@ public class PageMapper {
 
         PageDTO dto = new PageDTO();
 
-        dto.setTotalComputer(page.getTotalComputer());
+        dto.setTotalComputer(page.getComputers().size());
         dto.setCurrentPage(page.getCurrentPage());
         dto.setOffset(page.getOffset());
         dto.setFilter(page.getFilter());

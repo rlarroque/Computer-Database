@@ -10,9 +10,9 @@ import org.hibernate.validator.constraints.NotBlank;
  */
 public class CompanyDTO {
 
-    public long id;
+    private long id;
     @NotBlank(message = "Name is mandatory")
-    public String name;
+    private String name;
     
     /**
      * Constructor.

@@ -1,4 +1,4 @@
-package com.excilys.computer_database.services.mapper;
+package com.excilys.computer_database.mapper;
 
 import java.util.ArrayList;
 import java.util.HashSet;

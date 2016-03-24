@@ -9,6 +9,7 @@
 	
 	<!-- Package scanning -->
 	<context:component-scan base-package="com.excilys.computer_database.services" />
+	<context:component-scan base-package="com.excilys.computer_database.mapper" />
 	<context:component-scan base-package="com.excilys.computer_database.dao" />
 	
 	<!-- Enable dao mocking by using custom bean factory -->

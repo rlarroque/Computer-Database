@@ -1,12 +1,16 @@
 package com.excilys.computer_database.controller;
 
-import java.util.Arrays;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
-
+import com.excilys.computer_database.controller.utils.PageConstructor;
+import com.excilys.computer_database.dto.model.CompanyDTO;
+import com.excilys.computer_database.dto.model.ComputerDTO;
+import com.excilys.computer_database.dto.model.PageDTO;
 import com.excilys.computer_database.dto.model.PageParams;
+import com.excilys.computer_database.validator.dto.PageDTOValidator;
+import com.excilys.computer_database.mapper.CompanyMapper;
+import com.excilys.computer_database.mapper.ComputerMapper;
+import com.excilys.computer_database.mapper.PageMapper;
+import com.excilys.computer_database.services.CompanyService;
+import com.excilys.computer_database.services.ComputerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,17 +21,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.excilys.computer_database.model.Page;
-import com.excilys.computer_database.services.CompanyService;
-import com.excilys.computer_database.services.ComputerService;
-import com.excilys.computer_database.dto.validator.PageDTOValidator;
-import com.excilys.computer_database.mapper.CompanyMapper;
-import com.excilys.computer_database.mapper.ComputerMapper;
-import com.excilys.computer_database.mapper.PageMapper;
-import com.excilys.computer_database.controller.utils.PageConstructor;
-import com.excilys.computer_database.dto.model.CompanyDTO;
-import com.excilys.computer_database.dto.model.ComputerDTO;
-import com.excilys.computer_database.dto.model.PageDTO;
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Controller in charge of all computer related actions

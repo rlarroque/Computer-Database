@@ -1,15 +1,15 @@
 /**
  * 
  */
-package com.excilys.computer_database.dto.validator;
+package com.excilys.computer_database.validator.dto;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
+import com.excilys.computer_database.validator.dto.annotation.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.excilys.computer_database.dto.validator.annotation.Date;
 import com.excilys.computer_database.mapper.DateMapper;
 
 /**

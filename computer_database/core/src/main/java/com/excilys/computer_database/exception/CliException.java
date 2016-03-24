@@ -3,12 +3,12 @@ package com.excilys.computer_database.exception;
 /**
  * @author rlarroque
  */
-public class DateException extends RuntimeException {
+public class CliException extends RuntimeException {
 
     /**
      * Default constructor.
      */
-    public DateException() {
+    public CliException() {
         super();
     }
 
@@ -16,7 +16,7 @@ public class DateException extends RuntimeException {
      * Constructor with message.
      * @param message message
      */
-    public DateException(String message) {
+    public CliException(String message) {
         super(message);
     }
 
@@ -24,7 +24,7 @@ public class DateException extends RuntimeException {
      * Constructor with cause.
      * @param cause cause
      */
-    public DateException(Throwable cause) {
+    public CliException(Throwable cause) {
         super(cause);
     }
 
@@ -33,7 +33,8 @@ public class DateException extends RuntimeException {
      * @param message message
      * @param cause causes
      */
-    public DateException(String message, Throwable cause) {
+    public CliException(String message, Throwable cause) {
         super(message, cause);
     }
 }
+

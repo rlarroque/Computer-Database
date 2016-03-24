@@ -1,17 +1,15 @@
-package com.excilys.computer_database.dto.validator;
+package com.excilys.computer_database.validator;
 
 import com.excilys.computer_database.dto.model.ComputerDTO;
-import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import javax.annotation.Resource;
 import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
 import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
 import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
@@ -23,13 +21,8 @@ import static org.junit.Assert.assertEquals;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class TestComputerDtoValidator {
 
-    private static ValidatorFactory factory;
-    private static Validator validator;
-
-    @BeforeClass
-    public static void executeBeforeAllTest() {
-
-    }
+    @Resource
+    private Validator validator;
 
     @Ignore
     @Test

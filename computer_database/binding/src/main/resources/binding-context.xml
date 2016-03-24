@@ -9,7 +9,19 @@
 	<import resource="classpath:/service-context.xml"/>
 	
 	<!-- Package scanning -->
-	<context:component-scan base-package="com.excilys.computer_database.dto.validator" />
+	<context:component-scan base-package="com.excilys.computer_database.validator.dto" />
 	<context:component-scan base-package="com.excilys.computer_database.mapper" />
+
+	<!-- MessageSource for localization -->
+	<bean id="messageSource"
+		  class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basename" value="classpath:messages/message" />
+		<property name="defaultEncoding" value="ISO-8859-1" />
+		<property name="fallbackToSystemLocale" value="false"/>
+	</bean>
+
+	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
+		<property name="defaultLocale" value="en"></property>
+	</bean>
 
 </beans>

@@ -123,8 +123,11 @@ public class TestComputerDAOImpl {
         List<Computer> computers = computerDAO.getAll();
         assertEquals(0, computers.size());
 
-        Page page = new Page(1, 10, "id");
-        page.setFilter("");
+        Page page = new Page.PageBuilder()
+                            .currentPage(1)
+                            .offset(10)
+                            .filter("")
+                            .build();
 
         for (int i = 0; i < 50; i++) {
             computerDAO.create(new Computer("Dummy computer " + i));

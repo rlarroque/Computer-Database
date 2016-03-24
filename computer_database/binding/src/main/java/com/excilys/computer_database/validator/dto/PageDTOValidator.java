@@ -1,4 +1,4 @@
-package com.excilys.computer_database.dto.validator;
+package com.excilys.computer_database.validator.dto;
 
 import com.excilys.computer_database.exception.IntegrityException;
 import com.excilys.computer_database.dto.model.PageDTO;

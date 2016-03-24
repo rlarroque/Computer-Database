@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 import com.excilys.computer_database.exception.IntegrityException;
 import com.excilys.computer_database.model.Company;
-import com.excilys.computer_database.dto.validator.CompanyDTOValidator;
+import com.excilys.computer_database.validator.dto.CompanyDTOValidator;
 import com.excilys.computer_database.validator.CompanyValidator;
 import com.excilys.computer_database.dto.model.CompanyDTO;
 
@@ -46,7 +46,7 @@ public class CompanyMapper implements RowMapper<Company> {
     public Company toCompany(CompanyDTO dto) throws IntegrityException {
         CompanyDTOValidator.validate(dto);
 
-        return new Company(dto.id, dto.name);
+        return new Company(dto.getId(), dto.getName());
     }
 
     /**

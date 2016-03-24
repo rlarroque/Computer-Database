@@ -1,9 +1,11 @@
 package com.excilys.computer_database.dto.model;
 
+import com.excilys.computer_database.validator.dto.annotation.Computer;
+import com.excilys.computer_database.validator.dto.annotation.Date;
 import org.hibernate.validator.constraints.NotBlank;
 
-import com.excilys.computer_database.dto.validator.annotation.Computer;
-import com.excilys.computer_database.dto.validator.annotation.Date;
+import javax.xml.bind.annotation.XmlRootElement;
+import java.io.Serializable;
 
 /**
  * Data Transfer Object used to bring information from the server to the view. Only primitive types
@@ -12,17 +14,19 @@ import com.excilys.computer_database.dto.validator.annotation.Date;
  *
  */
 @Computer
-public class ComputerDTO {
+public class ComputerDTO implements Serializable {
 
-    public long id;
+    private static final long serialVersionUID = 7688863162139310127L;
+
+    private long id;
     @NotBlank(message = "Please enter a computer name.")
-    public String name;
+    private String name;
     @Date
-    public String introducedDate;
+    private String introducedDate;
     @Date
-    public String discontinuedDate;
-    public String companyName;
-    public long companyId;
+    private String discontinuedDate;
+    private String companyName;
+    private long companyId;
 
     public long getId() {
         return id;

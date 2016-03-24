@@ -1,4 +1,4 @@
-package com.excilys.computer_database.dto.validator.annotation;
+package com.excilys.computer_database.validator.dto.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
-import com.excilys.computer_database.dto.validator.DateValidator;
+import com.excilys.computer_database.validator.dto.DateValidator;
 
 /**
  * Custom annotation for date validation.

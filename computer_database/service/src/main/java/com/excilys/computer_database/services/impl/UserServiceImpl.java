@@ -12,7 +12,7 @@ import com.excilys.computer_database.dao.UserDAO;
 import com.excilys.computer_database.exception.IntegrityException;
 import com.excilys.computer_database.model.User;
 import com.excilys.computer_database.services.UserService;
-import com.excilys.computer_database.services.mapper.UserMapper;
+import com.excilys.computer_database.mapper.UserMapper;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
