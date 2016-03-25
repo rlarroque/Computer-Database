@@ -16,7 +16,6 @@ public abstract class  ApplicationController {
     
     // Mapping values
     protected static final String CONTEXT = "/computer_database/";
-    protected static final String REST_API = "/api/rest";
     protected static final String DASHBOARD = "/dashboard";
     protected static final String COMPUTER = "/computer";
     protected static final String ADD = "/add";
@@ -27,9 +26,6 @@ public abstract class  ApplicationController {
     protected static final String LOGIN = "/login";
     protected static final String LOGOUT = "/logout";
     protected static final String REDIRECT = "redirect:";
-
-    // Path variables
-    protected static final String ID = "/{id}";
 
     // JSP pages
     protected static final String JSP_ADD = "/addComputer";

@@ -29,7 +29,6 @@ public class CliServiceImpl implements CliService {
     private static final String COMPANY = "/company";
     private static final Gson gson = new GsonBuilder().create();
 
-
     private static ClientConfig cfg = new DefaultClientConfig();
     static {
         // Jackson's MessageBodyReader seems better than the Jersey'ss one.
@@ -79,7 +78,6 @@ public class CliServiceImpl implements CliService {
         }
 
         return response.getEntity(new GenericType<ComputerDTO>() {});
-
     }
 
     @Override

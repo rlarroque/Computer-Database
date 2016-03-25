@@ -11,7 +11,7 @@
 	<!-- Scan controllers -->
 	<context:component-scan base-package="com.excilys.computer_database.controller" />
 	
-	<!-- Declares explicit suppport of annotations for the mvc controllers -->
+	<!-- Declares explicit support of annotations for the mvc controllers -->
 	<mvc:annotation-driven />
 
 	<!-- Map the ressources such as css, js and fonts -->

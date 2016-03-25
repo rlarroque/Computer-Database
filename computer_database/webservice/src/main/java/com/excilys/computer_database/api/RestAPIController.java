@@ -1,7 +1,10 @@
-package com.excilys.computer_database.controller;
+package com.excilys.computer_database.api;
 
+import com.excilys.computer_database.dto.CompanyDTO;
 import com.excilys.computer_database.dto.ComputerDTO;
+import com.excilys.computer_database.mapper.CompanyMapper;
 import com.excilys.computer_database.mapper.ComputerMapper;
+import com.excilys.computer_database.services.CompanyService;
 import com.excilys.computer_database.services.ComputerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +23,7 @@ import java.util.List;
 @RestController
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-public class RestAPIController extends ApplicationController {
+public class RestAPIController extends ApiController{
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RestAPIController.class);
 
@@ -28,7 +31,15 @@ public class RestAPIController extends ApplicationController {
     private ComputerService computerService;
 
     @Autowired
+    private CompanyService companyService;
+
+    @Autowired
     private ComputerMapper computerMapper;
+
+    @Autowired
+    private CompanyMapper companyMapper;
+
+    /*          Computer related routes           */
 
     @RequestMapping(method = RequestMethod.GET, value = REST_API + COMPUTER)
     public List<ComputerDTO> getComputer() {
@@ -69,5 +80,22 @@ public class RestAPIController extends ApplicationController {
 
         LOGGER.info("[DELETE rest] computer");
         computerService.delete(id);
+    }
+
+    /*          Company related routes           */
+
+    @RequestMapping(method = RequestMethod.GET, value = REST_API + COMPANY)
+    public List<CompanyDTO> getCompany() {
+
+        LOGGER.info("[GET rest] all companies");
+
+        return companyMapper.toDTO(companyService.getAll());
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE, value = REST_API + COMPANY  + ID)
+    public void deleteCompany(@PathVariable("id") long id) {
+
+        LOGGER.info("[DELETE rest] company");
+        companyService.delete(id);
     }
 }

@@ -15,6 +15,7 @@
 		<module>binding</module>
 		<module>console</module>
 		<module>webapp</module>
+		<module>webservice</module>
 	</modules>
 
 	<properties>
@@ -50,7 +51,6 @@
 	</properties>
 
 	<dependencies>
-
 		<dependency>
 			<groupId>javax.el</groupId>
 			<artifactId>javax.el-api</artifactId>
