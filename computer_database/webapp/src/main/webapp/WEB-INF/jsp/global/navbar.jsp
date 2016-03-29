@@ -14,7 +14,7 @@
 						<span class="glyphicon glyphicon-user"></span> ${pageContext.request.userPrincipal.name}
 					</a>
 					<ul class="dropdown-menu" role="menu">
-						<li><a href="${pageContext.request.contextPath}/logout">Logout</a></li>
+						<li><a href="${pageContext.request.contextPath}/logout"><spring:message code="login.logout"/></a></li>
 					</ul>
 				</li>
 			</ul>

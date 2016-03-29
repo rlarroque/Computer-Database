@@ -40,8 +40,8 @@ public class DateMapper {
             return null;
         } 
         
-        if(DateValidator.getInstance().isValid(date, getPattern())) {
-            return LocalDate.parse(date, DateTimeFormatter.ofPattern(getPattern()));
+        if(DateValidator.getInstance().isValid(date.replace('/', '-'), getPattern())) {
+            return LocalDate.parse(date.replace('/', '-'), DateTimeFormatter.ofPattern(getPattern()));
         } else {
             throw new DateException("The date '" + date + "' is not following the pattern " + getPattern());
         }

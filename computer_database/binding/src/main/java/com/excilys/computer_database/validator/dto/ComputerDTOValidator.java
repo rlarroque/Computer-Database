@@ -31,7 +31,7 @@ public class ComputerDTOValidator implements ConstraintValidator <Computer, Comp
             return true;
         }
         
-        if(computer.getDiscontinuedDate().isEmpty() && !computer.getDiscontinuedDate().isEmpty()) {
+        if(computer.getIntroducedDate().isEmpty() && !computer.getDiscontinuedDate().isEmpty()) {
             return false;
         }
         
