@@ -50,20 +50,20 @@
 <div class="btn-group btn-group-sm pull-right" role="group">
 
 	<c:choose>
-		<c:when test="${page.offset == 10}"> <c:set var="class_to_add" value="not-active"/> </c:when>
-		<c:otherwise> <c:set var="class_to_add" value="active"/>  </c:otherwise>
+		<c:when test="${page.offset == 10}"> <c:set var="class_to_add" value="active"/> </c:when>
+		<c:otherwise> <c:set var="class_to_add" value=""/>  </c:otherwise>
 	</c:choose>	
 	<a href=<customLib:link  uri="dashboard" current_page="${page}" override_offset="10"/> class="${class_to_add} btn btn-default"> <span aria-hidden="true"> 10 </span> </a>
 	
 	<c:choose>
-		<c:when test="${page.offset == 50}"> <c:set var="class_to_add" value="not-active"/> </c:when>
-		<c:otherwise> <c:set var="class_to_add" value="active"/>  </c:otherwise>
+		<c:when test="${page.offset == 50}"> <c:set var="class_to_add" value="active"/> </c:when>
+		<c:otherwise> <c:set var="class_to_add" value=""/>  </c:otherwise>
 	</c:choose>	
 	<a href=<customLib:link uri="dashboard" current_page="${page}" override_offset="50"/> class="${class_to_add} btn btn-default"> <span aria-hidden="true">  50 </span> </a>
 	
 	<c:choose>
-		<c:when test="${page.offset == 100}"> <c:set var="class_to_add" value="not-active"/> </c:when>
-		<c:otherwise> <c:set var="class_to_add" value="active"/>  </c:otherwise>
+		<c:when test="${page.offset == 100}"> <c:set var="class_to_add" value="active"/> </c:when>
+		<c:otherwise> <c:set var="class_to_add" value=""/>  </c:otherwise>
 	</c:choose>	
 	<a href=<customLib:link uri="dashboard" current_page="${page}" override_offset="100"/> class="${class_to_add} btn btn-default"> <span aria-hidden="true"> 100 </span> </a>
 

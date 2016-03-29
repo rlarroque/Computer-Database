@@ -130,10 +130,15 @@ public class ComputerController extends ApplicationController{
         
         List<String> ids = Arrays.asList(request.getParameter("selection").split("\\s*,\\s*"));
 
-        for (String id : ids) {
-            computerService.delete(Integer.parseInt(id));
+        if(ids != null) {
+
+            for (String id : ids) {
+                if(id != null && !"".equals(id)) {
+                    computerService.delete(Integer.parseInt(id));
+                }
+            }
         }
-        
+
         return REDIRECT + JSP_DASHBOARD;
     }
 }

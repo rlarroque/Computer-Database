@@ -1,14 +1,14 @@
 package com.excilys.computer_database.dao.impl;
 
-import java.util.List;
-
+import com.excilys.computer_database.dao.ComputerDAO;
+import com.excilys.computer_database.model.Computer;
+import com.excilys.computer_database.model.Page;
+import com.excilys.computer_database.model.utils.OrderColumn;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.excilys.computer_database.dao.ComputerDAO;
-import com.excilys.computer_database.model.Computer;
-import com.excilys.computer_database.model.Page;
+import java.util.List;
 
 /**
  * Implementation of ComputerDAO that is used to manipulate the db.
@@ -47,9 +47,15 @@ public class ComputerDAOImpl implements ComputerDAO {
         }
         
         if (page.getOrder() != null) {
-            hqlQuery = hqlQuery.concat(" order by computer.")
-                               .concat(page.getOrder().getCol().toString())
-                               .concat(" " + page.getOrder().getType().toString());
+
+            if(page.getOrder().getCol() == OrderColumn.COMPANY) {
+                hqlQuery = hqlQuery.concat(" order by company.name")
+                                   .concat(" " + page.getOrder().getType().toString());
+            } else {
+                hqlQuery = hqlQuery.concat(" order by computer.")
+                                   .concat(page.getOrder().getCol().toString())
+                                   .concat(" " + page.getOrder().getType().toString());
+            }
         }
         
         return (List<Computer>) sessionFactory.getCurrentSession()

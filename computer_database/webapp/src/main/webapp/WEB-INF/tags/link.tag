@@ -40,10 +40,15 @@
 					&order=${page.order}
 				</c:otherwise>
 			</c:choose>
-			
-			<c:if test="${not empty override_order_type}">
-				&order_type=${override_order_type}				
-			</c:if>
+
+			<c:choose>
+				<c:when test="${not empty override_order_type}">
+					&order_type=${override_order_type}
+				</c:when>
+				<c:otherwise>
+					&order_type=${page.order_type}
+				</c:otherwise>
+			</c:choose>
 			
 			<c:choose>
 				<c:when test="${not empty override_filter}">
