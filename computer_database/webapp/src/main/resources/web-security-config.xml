@@ -5,16 +5,25 @@
            http://www.springframework.org/schema/security
            http://www.springframework.org/schema/security/spring-security.xsd">
 
+    <http pattern="/resources/css/**" security="none"/>
+    <http pattern="/resources/fonts/**" security="none"/>
+    <http pattern="/resources/js/**" security="none"/>
+    <http pattern="/resources/img/**" security="none"/>
+
     <!-- enable use-expressions -->
     <http auto-config="true">
 
         <!-- USER -->
+        <intercept-url pattern="/login**" access="permitAll()" />
+        <intercept-url pattern="/logout**" access="permitAll()" />
         <intercept-url pattern="/dashboard**" access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')" />
         <intercept-url pattern="/computer/**" access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')" />
         <intercept-url pattern="/api/rest/**" access="isAuthenticated"/>
+        <intercept-url pattern="/**" access="denyAll()" />
 
         <!-- Login form -->
         <form-login login-page="/login"
+                    always-use-default-target='true'
                     default-target-url="/dashboard"
                     username-parameter="username_login"
                     password-parameter="password_login"

@@ -53,7 +53,7 @@ public class ComputerController extends ApplicationController{
     @Autowired
     PageConstructor pageConstructor;
     
-    @RequestMapping(method = RequestMethod.GET, value = {DASHBOARD, "/", ""})
+    @RequestMapping(method = RequestMethod.GET, value = DASHBOARD)
     public String getDashboard(@ModelAttribute("params") PageParams params, ModelMap map){
 
         LOGGER.info("[GET] Dashboard");

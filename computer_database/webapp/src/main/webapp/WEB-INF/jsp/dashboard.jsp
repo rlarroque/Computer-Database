@@ -1,6 +1,7 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib tagdir="/WEB-INF/tags" prefix="customLib"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
 <html>
@@ -10,7 +11,7 @@
 <body>
 
 	<jsp:include page="global/navbar.jsp" />
-	
+
 	<section id="main">
 		<div class="container">
 			<h1 id="homeTitle">${page.totalComputer} <spring:message code="computer.found"/> </h1>
@@ -113,6 +114,7 @@
 		var localized_strings = new Array();
 		localized_strings['button.edit'] = "<spring:message code='button.edit' javaScriptEscape='true' />";
 		localized_strings['button.view'] = "<spring:message code='button.view' javaScriptEscape='true' />";
+		localized_strings['alert.delete'] = "<spring:message code='alert.delete' javaScriptEscape='true' />";
 	</script>
 	
 </body>
