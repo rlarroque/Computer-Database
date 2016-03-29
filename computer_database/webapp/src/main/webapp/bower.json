@@ -1,0 +1,21 @@
+{
+  "name": "webapp-cdb-material",
+  "description": "cdb with nice material ux.",
+  "main": "index.js",
+  "authors": [
+    "louisamoros <amoros.louis@gmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/rlarroque/Computer_Database",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "Materialize": "materialize#^0.97.5"
+  }
+}
