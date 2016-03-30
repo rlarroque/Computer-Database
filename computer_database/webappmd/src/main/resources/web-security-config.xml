@@ -1,0 +1,38 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+		   http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+           http://www.springframework.org/schema/security
+           http://www.springframework.org/schema/security/spring-security.xsd">
+
+    <!-- enable use-expressions -->
+    <http auto-config="true">
+
+        <!-- USER -->
+        <intercept-url pattern="/dashboard**" access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')" />
+        <intercept-url pattern="/computer/**" access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')" />
+        <intercept-url pattern="/api/rest/**" access="isAuthenticated"/>
+
+        <!-- Login form -->
+        <form-login login-page="/login"
+                    default-target-url="/dashboard"
+                    username-parameter="username_login"
+                    password-parameter="password_login"
+                    authentication-failure-url="/login?error"/>
+
+        <logout logout-success-url="/logout" />
+
+        <!-- Remember me! -->
+        <remember-me key="cdbKey"/>
+
+        <!-- enable csrf protection -->
+        <csrf />
+    </http>
+
+    <authentication-manager>
+        <authentication-provider user-service-ref="userDetailsService">
+            <password-encoder hash="bcrypt" />
+        </authentication-provider>
+    </authentication-manager>
+
+</beans:beans>

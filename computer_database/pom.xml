@@ -15,6 +15,7 @@
 		<module>binding</module>
 		<module>console</module>
 		<module>webapp</module>
+		<module>webappmd</module>
 		<module>webservice</module>
 	</modules>
 

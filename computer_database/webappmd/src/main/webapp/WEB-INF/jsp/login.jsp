@@ -5,11 +5,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <jsp:include page="global/head-md.jsp"/>
+    <jsp:include page="global/head.jsp"/>
 </head>
 <body>
 
-<jsp:include page="global/navbar-md.jsp"/>
+<jsp:include page="global/navbar.jsp"/>
 
 <form id="login-form" action="${pageContext.request.contextPath}/login" method="post" role="form"
       style="display: block;">
@@ -59,7 +59,7 @@
 </div>
 </div>
 
-<jsp:include page="global/scripts-md.jsp"/>
+<jsp:include page="global/scripts.jsp"/>
 
 <script src="${pageContext.request.contextPath}/resources/js/jquery.validate.js"></script>
 <script src="${pageContext.request.contextPath}/resources/js/jquery.validate.additional.js"></script>
