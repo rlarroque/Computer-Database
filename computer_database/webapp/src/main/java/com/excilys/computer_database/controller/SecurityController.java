@@ -21,9 +21,9 @@ public class SecurityController extends ApplicationController {
 		
 		LOGGER.info("GET login");
 		
-		return JSP_LOGIN;
+		return "login-md";
 	}
-	
+
 	@RequestMapping(method = RequestMethod.GET, value = LOGOUT)
     public String logoutPage () {
 		

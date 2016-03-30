@@ -16,6 +16,7 @@
 
 	<!-- Map the ressources such as css, js and fonts -->
 	<mvc:resources mapping="/resources/**" location="/resources/" />
+	<mvc:resources mapping="/bower_components/**" location="/bower_components/" />
 
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
