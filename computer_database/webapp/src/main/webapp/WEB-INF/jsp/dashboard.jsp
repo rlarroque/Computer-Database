@@ -19,28 +19,32 @@
 		<div class="container">
 			<h1 id="homeTitle">${page.totalComputer} <spring:message code="computer.found"/> </h1>
 			<div id="actions" class="form-horizontal">
-				<div class="pull-left">
-					<form id="searchForm" action="${pageContext.request.contextPath}/dashboard" method="GET" class="form-inline">
 
-						<c:choose>
-							<c:when test="${page.filter != ''}"> <c:set var="placeholder" value="${page.filter}"/> </c:when>
-							<c:otherwise> <spring:message code="placeholder.search" var="placeholder"/>  </c:otherwise>
-						</c:choose>
+                <sec:authorize access="hasRole('ROLE_ADMIN')">
+                <div class="pull-left">
+                    <a href="#" class="btn btn-primary btn-danger" id="deleteSelected" onclick="$.fn.deleteSelected();"><span class="glyphicon glyphicon-trash"></span></a>
+                </div>
+                </sec:authorize>
+                <div class="pull-left <sec:authorize access="hasRole('ROLE_ADMIN')"> col-xs-12 col-sm-6 col-md-9 col-lg-10 </sec:authorize>">
+                    <form id="searchForm" action="${pageContext.request.contextPath}/dashboard" method="GET" class="form-inline">
 
-						<input type="search" id="searchbox" name="filter"
-							class="form-control" placeholder="${placeholder}" /> <input
-							type="submit" id="searchsubmit" value="<spring:message code="button.filter"/>"
-							class="btn btn-primary" />
-					</form>
-				</div>
-				<sec:authorize access="hasRole('ROLE_ADMIN')">
-					<div class="pull-right">
-						<a class="btn btn-success" id="addComputer"
-							href="${pageContext.request.contextPath}/computer/add"><spring:message code="button.add.computer"/></a> <a
-							class="btn btn-default" id="editComputer" href="#"
-							onclick="$.fn.toggleEditMode();"><spring:message code="button.edit"/></a>
-					</div>
-				</sec:authorize>
+                        <c:choose>
+                            <c:when test="${page.filter != ''}"> <c:set var="placeholder" value="${page.filter}"/> </c:when>
+                            <c:otherwise> <spring:message code="placeholder.search" var="placeholder"/>  </c:otherwise>
+                        </c:choose>
+
+                        <input type="search" id="searchbox" name="filter"
+                            class="form-control" placeholder="${placeholder}" /> <input
+                            type="submit" id="searchsubmit" value="<spring:message code="button.filter"/>"
+                            class="btn btn-primary" />
+                    </form>
+                </div>
+                <sec:authorize access="hasRole('ROLE_ADMIN')">
+                    <div class="pull-right">
+                        <a class="btn btn-success pull-right" id="addComputer"
+                           href="${pageContext.request.contextPath}/computer/add"><spring:message code="button.add.computer"/></a>
+                    </div>
+                </sec:authorize>
 			</div>
 		</div>
 
@@ -56,12 +60,12 @@
 						<!-- Variable declarations for passing labels as parameters -->
 						<!-- Table header for Computer Name -->
 
-						<th class="editMode" style="width: 60px; height: 22px;"><input
+                        <sec:authorize access="hasRole('ROLE_ADMIN')">
+						<th class="editMode" style="width: 30px; height: 22px;"><input
 							type="checkbox" id="selectall" /> <span id="deleteContainer"
-							style="vertical-align: top;"> - <a href="#"
-								id="deleteSelected" onclick="$.fn.deleteSelected();"> <i class="fa fa-trash-o fa-lg"></i>
-							</a>
+							style="vertical-align: top;">
 						</span></th>
+                        </sec:authorize>
 						<th> <div class="parent">
 								<a href=<customLib:link uri="dashboard" current_page="${page}" override_order="name" override_order_type="ASC"/> class="child fa fa-sort-asc"></a>
 							 	<a href=<customLib:link uri="dashboard" current_page="${page}" override_order="name" override_order_type="DESC"/> style="margin-top: 7px;" class="child fa fa-sort-desc"></a>
@@ -99,8 +103,10 @@
 				<tbody id="results">
 					<c:forEach items="${page.computers}" var="computer">
 						<tr>
+                            <sec:authorize access="hasRole('ROLE_ADMIN')">
 							<td class="editMode"><input type="checkbox" name="cb"
 								class="cb" value="${computer.id}"></td>
+                            </sec:authorize>
 							<td> <sec:authorize access="hasRole('ROLE_ADMIN')">
                                 <a href="${pageContext.request.contextPath}/computer/edit?computer=${computer.id}" onclick="">
                                  </sec:authorize>
@@ -115,7 +121,7 @@
 					</c:forEach>
 				</tbody>
 			</table>
-		</div>
+        </div>
 	</section>
 	
 	<footer class="navbar-fixed-bottom">
