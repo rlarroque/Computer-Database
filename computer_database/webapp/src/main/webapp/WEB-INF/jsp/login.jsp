@@ -17,11 +17,8 @@
 				<div class="panel panel-login">
 					<div class="panel-heading">
 						<div class="row">
-							<div class="col-xs-6">
+							<div class="col-xs-12">
 								<a href="#" class="active" id="login-form-link"><spring:message code="login.login"/></a>
-							</div>
-							<div class="col-xs-6">
-								<a href="#" id="register-form-link"><spring:message code="login.register"/></a>
 							</div>
 						</div>
 						<hr>
@@ -40,13 +37,6 @@
 										<input type="password" name="password_login" id="password_login" tabindex="2" class="form-control"
 											   placeholder="<spring:message code="placeholder.login.password"/>">
 									</div>
-									<div class="form-group">
-										<label class="checkbox">
-											<label class="checkbox">
-												<input type="checkbox" value="true"
-													   id="rememberMe" name="_spring_security_remember_me"> Remember me</label>
-										</label>
-									</div>
 									<input type="hidden" name="${_csrf.parameterName}"   value="${_csrf.token}" />
 									<div class="form-group">
 										<div class="row">
@@ -64,29 +54,6 @@
 														<spring:message code="login.forgot-password"/>
 													</button>
 												</div>
-											</div>
-										</div>
-									</div>
-								</form>
-
-								<form id="register-form" action="" method="post" role="form" style="display: none;">
-									<div class="form-group">
-										<input type="text" name="username_register" id="username_register" tabindex="1" class="form-control"
-											   placeholder="<spring:message code="placeholder.login.username"/>">
-									</div>
-									<div class="form-group">
-										<input type="password" name="password_register" id="password_register" tabindex="2" class="form-control"
-											   placeholder="<spring:message code="placeholder.login.password"/>">
-									</div>
-									<div class="form-group">
-										<input type="password" name="confirm-password" id="confirm-password" tabindex="2" class="form-control" 
-											   placeholder="<spring:message code="placeholder.login.password.confirm"/>">
-									</div>
-									<div class="form-group">
-										<div class="row">
-											<div class="col-sm-6 col-sm-offset-3">
-												<input type="submit" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-register" 
-													   value="<spring:message code="button.register"/>">
 											</div>
 										</div>
 									</div>
