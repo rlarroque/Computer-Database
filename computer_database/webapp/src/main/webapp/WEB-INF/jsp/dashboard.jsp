@@ -39,13 +39,13 @@
                             class="btn btn-primary" />
                     </form>
                 </div>
-                <sec:authorize access="hasRole('ROLE_ADMIN')">
-                    <div class="pull-right">
-                        <a class="btn btn-success pull-right" id="addComputer"
-                           href="${pageContext.request.contextPath}/computer/add"><spring:message code="button.add.computer"/></a>
-                    </div>
-                </sec:authorize>
 			</div>
+            <sec:authorize access="hasRole('ROLE_ADMIN')">
+                <div class="pull-right">
+                    <a class="btn btn-success pull-right" id="addComputer"
+                       href="${pageContext.request.contextPath}/computer/add"><spring:message code="button.add.computer"/></a>
+                </div>
+            </sec:authorize>
 		</div>
 
 		<form id="deleteForm" action="${pageContext.request.contextPath}/computer/delete" method="POST">
