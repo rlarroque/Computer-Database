@@ -54,5 +54,4 @@ public class UserDAOImpl implements UserDAO{
         			  .setString("username", username)
         			  .executeUpdate();
 	}
-
 }

@@ -103,24 +103,24 @@ $("#login-form").validate({
 	});
 	
 	jQuery.validator.addMethod("validatePsw", function(value, element) {
-		return ($("#password_register").val() == $("#confirm-password").val())
+		return ($("#password").val() == $("#confirm_password").val())
 	});
 	
 	$("#register-form").validate({
 		
 		rules : {
-			"username_register": "required",
-			"password_register": "required",
-			"confirm-password": {
+			"username": "required",
+			"password": "required",
+			"confirm_password": {
 				validatePsw : true,
 				required : true
 			}
 		},
 
 		messages : {
-			"username_register" : localized_strings['validation.username'],
-			"password_register" : localized_strings['validation.password'],
-			"confirm-password" : {
+			"username" : localized_strings['validation.username'],
+			"password" : localized_strings['validation.password'],
+			"confirm_password" : {
 				"required": localized_strings['validation.password'],
 				"validatePsw": localized_strings['validation.password.confirm']
 			}
@@ -138,5 +138,4 @@ $("#login-form").validate({
 			form.submit();
 		}
 	});
-	
 });

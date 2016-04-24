@@ -1,6 +1,7 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page contentType="text/html; charset=UTF-8" %>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
 <!DOCTYPE html>
 <html>
@@ -69,18 +70,22 @@
 									</div>
 								</form>
 
-								<form id="register-form" action="" method="post" role="form" style="display: none;">
+								<form:form modelAttribute="user" id="register-form" action="${pageContext.request.contextPath}/user/create" method="post" role="form" style="display: none;">
+								<fieldset>
 									<div class="form-group">
-										<input type="text" name="username_register" id="username_register" tabindex="1" class="form-control"
-											   placeholder="<spring:message code="placeholder.login.username"/>">
+										<c:set var="username_placeholder"><spring:message code="placeholder.login.username"/></c:set>
+										<form:input type="text" path="username" id="username" tabindex="1" class="form-control"
+											   placeholder="${username_placeholder}"/>
 									</div>
 									<div class="form-group">
-										<input type="password" name="password_register" id="password_register" tabindex="2" class="form-control"
-											   placeholder="<spring:message code="placeholder.login.password"/>">
+										<c:set var="password_placeholder"><spring:message code="placeholder.login.password"/></c:set>
+										<form:input type="password" path="password" id="password" tabindex="2" class="form-control"
+											   placeholder="${password_placeholder}"/>
 									</div>
 									<div class="form-group">
-										<input type="password" name="confirm-password" id="confirm-password" tabindex="2" class="form-control" 
-											   placeholder="<spring:message code="placeholder.login.password.confirm"/>">
+										<c:set var="confirm_password_placeholder"><spring:message code="placeholder.login.password.confirm"/></c:set>
+										<form:input type="password" path="confirm_password" id="confirm_password" tabindex="2" class="form-control"
+											   placeholder="${confirm_password_placeholder}"/>
 									</div>
 									<div class="form-group">
 										<div class="row">
@@ -90,7 +95,8 @@
 											</div>
 										</div>
 									</div>
-								</form>
+									</fieldset>
+								</form:form>
 							</div>
 						</div>
 					</div>

@@ -2,6 +2,7 @@ package com.excilys.computer_database.controller;
 
 import com.excilys.computer_database.dto.ComputerDTO;
 import com.excilys.computer_database.dto.PageParams;
+import com.excilys.computer_database.dto.UserDTO;
 import com.excilys.computer_database.model.utils.OrderColumn;
 import com.excilys.computer_database.model.utils.OrderType;
 import org.springframework.stereotype.Controller;
@@ -25,6 +26,7 @@ public abstract class  ApplicationController {
     protected static final String ERROR_403 = "/error_403";
     protected static final String LOGIN = "/login";
     protected static final String LOGOUT = "/logout";
+    protected static final String USER = "/user";
     protected static final String REDIRECT = "redirect:";
 
     // JSP pages
@@ -51,5 +53,10 @@ public abstract class  ApplicationController {
     @ModelAttribute("params")
     public PageParams getPage() {
     	return new PageParams(1, 10, OrderColumn.ID.toString(), OrderType.ASC.toString(), "");
+    }
+
+    @ModelAttribute("user")
+    public UserDTO getUser() {
+        return new UserDTO();
     }
 }
