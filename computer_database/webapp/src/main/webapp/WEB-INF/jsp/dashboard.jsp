@@ -19,8 +19,13 @@
 				<div class="pull-left">
 					<form id="searchForm" action="${pageContext.request.contextPath}/dashboard" method="GET" class="form-inline">
 
-                        <input type="search" id="searchbox" name="filter"
-							class="form-control" placeholder="<spring:message code="placeholder.search"/>" /> <input
+						<c:choose>
+							<c:when test="${page.filter != ''}"> <c:set var="placeholder" value="${page.filter}"/> </c:when>
+							<c:otherwise> <spring:message code="placeholder.search" var="placeholder"/>  </c:otherwise>
+						</c:choose>
+
+						<input type="search" id="searchbox" name="filter"
+							class="form-control" placeholder="${placeholder}" /> <input
 							type="submit" id="searchsubmit" value="<spring:message code="button.filter"/>"
 							class="btn btn-primary" />
 					</form>

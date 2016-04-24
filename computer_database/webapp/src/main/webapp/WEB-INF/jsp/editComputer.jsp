@@ -76,8 +76,7 @@
 						</fieldset>
                         <div class="actions pull-right">
                             <input type="submit" value="<spring:message code="button.edit"/>" class="btn btn-primary">
-                            or
-                            <a href=<customLib:link uri="${pageContext.request.contextPath}/dashboard" current_page="${page}"/> class="btn btn-default"><spring:message code="button.cancel"/></a>
+                            <a class="btn btn-default" href=<customLib:link uri="${pageContext.request.contextPath}/dashboard" current_page="${page}"/> class="btn btn-default"><spring:message code="button.cancel"/></a>
                         </div>
                     </form:form>
                 </div>
