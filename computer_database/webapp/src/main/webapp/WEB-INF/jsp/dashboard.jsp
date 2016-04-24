@@ -1,5 +1,6 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@taglib tagdir="/WEB-INF/tags" prefix="customLib"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
@@ -32,12 +33,14 @@
 							class="btn btn-primary" />
 					</form>
 				</div>
-				<div class="pull-right">
-					<a class="btn btn-success" id="addComputer"
-						href="${pageContext.request.contextPath}/computer/add"><spring:message code="button.add.computer"/></a> <a
-						class="btn btn-default" id="editComputer" href="#"
-						onclick="$.fn.toggleEditMode();"><spring:message code="button.edit"/></a>
-				</div>
+				<sec:authorize access="hasRole('ROLE_ADMIN')">
+					<div class="pull-right">
+						<a class="btn btn-success" id="addComputer"
+							href="${pageContext.request.contextPath}/computer/add"><spring:message code="button.add.computer"/></a> <a
+							class="btn btn-default" id="editComputer" href="#"
+							onclick="$.fn.toggleEditMode();"><spring:message code="button.edit"/></a>
+					</div>
+				</sec:authorize>
 			</div>
 		</div>
 
@@ -98,7 +101,13 @@
 						<tr>
 							<td class="editMode"><input type="checkbox" name="cb"
 								class="cb" value="${computer.id}"></td>
-							<td><a href="${pageContext.request.contextPath}/computer/edit?computer=${computer.id}" onclick="">${computer.name}</a></td>
+							<td> <sec:authorize access="hasRole('ROLE_ADMIN')">
+                                <a href="${pageContext.request.contextPath}/computer/edit?computer=${computer.id}" onclick="">
+                                 </sec:authorize>
+                                 ${computer.name}
+                                 <sec:authorize access="hasRole('ROLE_ADMIN')">
+                                 </a>
+                                 </sec:authorize></td>
 							<td>${computer.introducedDate}</td>
 							<td>${computer.discontinuedDate}</td>
 							<td>${computer.companyName}</td>

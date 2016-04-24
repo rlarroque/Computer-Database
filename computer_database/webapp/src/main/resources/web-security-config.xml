@@ -17,7 +17,7 @@
         <intercept-url pattern="/login**" access="permitAll()" />
         <intercept-url pattern="/logout**" access="permitAll()" />
         <intercept-url pattern="/dashboard**" access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')" />
-        <intercept-url pattern="/computer/**" access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')" />
+        <intercept-url pattern="/computer/**" access="hasRole('ROLE_ADMIN')" />
         <intercept-url pattern="/api/rest/**" access="isAuthenticated"/>
         <intercept-url pattern="/**" access="denyAll()" />
 
