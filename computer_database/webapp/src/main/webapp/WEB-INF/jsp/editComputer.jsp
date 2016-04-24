@@ -53,10 +53,19 @@
 								<label for="companyId"><spring:message code="computer.company"/></label> 
 								<form:select class="form-control has-feedback" id="companyId" name="companyId"
 											 path="CompanyId" value="${computer.companyId}">
-									<form:option value="0">--</form:option>
 
+                                    <c:choose>
+                                        <c:when test="${computer.companyId > 0}">
+                                            <form:option value="${computer.companyId}">${computer.companyName}</form:option>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <form:option value="0">--</form:option>
+                                        </c:otherwise>
+                                    </c:choose>
 									<c:forEach items="${companies}" var="companies">
-										<form:option value="${companies.id}">${companies.name}</form:option>
+                                        <c:if test="${companies.id != computer.companyId}">
+                                            <form:option value="${companies.id}">${companies.name}</form:option>
+                                        </c:if>
 									</c:forEach>
 
 								</form:select>
