@@ -21,9 +21,8 @@
 				<spring:message code="error"/> 500 : <spring:message code="error.500"/>
 				<br/>
 			</div>
-			
+
 			<!-- stacktrace -->
-			<p> <spring:message code="error.reason"/> : ${exception.message}</p>
 		</div>
 	</section>
 
