@@ -28,8 +28,8 @@
 					<span class="caret"></span>
 				</a>
 				<ul class="dropdown-menu" role="menu">
-					<li><a href="?lang=en"><span class="bfh-languages" data-language="en_US" data-flags="true"></span></a></li>
-					<li><a href="?lang=fr"><span class="bfh-languages" data-language="fr_FR" data-flags="true"></span></a></li>
+					<li><a href="?lang=en&${attr}"><span class="bfh-languages" data-language="en_US" data-flags="true"></span></a></li>
+					<li><a href="?lang=fr&${attr}"><span class="bfh-languages" data-language="fr_FR" data-flags="true"></span></a></li>
 				</ul>
 			</li>
 		</ul>

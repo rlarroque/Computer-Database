@@ -9,8 +9,8 @@
 </head>
 <body>
 
-	<jsp:include page="global/navbar.jsp" />
-	
+	<%@include file="global/navbar.jsp" %>	
+   	
    	<div id="login-panel" class="container">
     	<div class="row">
 			<div class="col-md-6 col-md-offset-3">

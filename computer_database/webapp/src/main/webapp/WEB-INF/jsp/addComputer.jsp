@@ -10,7 +10,7 @@
 </head>
 <body>
 
-	<jsp:include page="global/navbar.jsp" />
+	<%@include file="global/navbar.jsp" %>
 
 	<section id="main">
 		<div class="container">

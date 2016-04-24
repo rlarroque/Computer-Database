@@ -10,7 +10,9 @@
 </head>
 <body>
 
-	<jsp:include page="global/navbar.jsp" />
+	<!-- Options used in the navbar.jsp file -->
+	<c:set var="attr" value="page=${page.currentPage}&offset=${page.offset}&order=${page.order}&order_type=${page.order_type}&filter=${page.filter}"></c:set>
+	<%@include file="global/navbar.jsp" %>
 
 	<section id="main">
 		<div class="container">

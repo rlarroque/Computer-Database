@@ -10,7 +10,10 @@
 </head>
 <body>
 
-    <jsp:include page="global/navbar.jsp" />
+   	<!-- Options used in the navbar.jsp file -->
+	<c:set var="attr" value="computer=${computer.id}"></c:set>
+	<%@include file="global/navbar.jsp" %>
+
     
     <section id="main">
         <div class="container">
