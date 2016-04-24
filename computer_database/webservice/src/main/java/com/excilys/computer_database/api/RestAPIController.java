@@ -1,11 +1,16 @@
 package com.excilys.computer_database.api;
 
+import com.excilys.computer_database.api.utils.PageConstructor;
 import com.excilys.computer_database.dto.CompanyDTO;
 import com.excilys.computer_database.dto.ComputerDTO;
+import com.excilys.computer_database.dto.PageDTO;
+import com.excilys.computer_database.dto.PageParams;
 import com.excilys.computer_database.mapper.CompanyMapper;
 import com.excilys.computer_database.mapper.ComputerMapper;
+import com.excilys.computer_database.mapper.PageMapper;
 import com.excilys.computer_database.services.CompanyService;
 import com.excilys.computer_database.services.ComputerService;
+import com.excilys.computer_database.validator.dto.PageDTOValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +44,12 @@ public class RestAPIController extends ApiController{
     @Autowired
     private CompanyMapper companyMapper;
 
+    @Autowired
+    private PageConstructor pageConstructor;
+
+    @Autowired
+    private PageMapper pageMapper;
+
     /*          Computer related routes           */
 
     @RequestMapping(method = RequestMethod.GET, value = REST_API + COMPUTER)
@@ -47,6 +58,16 @@ public class RestAPIController extends ApiController{
         LOGGER.info("[GET rest] all computers");
 
         return computerMapper.toDTO(computerService.getAll());
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = REST_API + COMPUTER + PAGINATED)
+    public List<ComputerDTO> getComputerPaginated(@ModelAttribute("params") PageParams params) {
+        LOGGER.info("[GET rest] computers paginated");
+
+        PageDTO constructedPage = pageConstructor.construct(pageMapper.toDTO(params));
+        PageDTOValidator.validate(constructedPage);
+
+        return constructedPage.getComputers();
     }
 
     @RequestMapping(method = RequestMethod.GET, value = REST_API + COMPUTER + ID)

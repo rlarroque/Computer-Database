@@ -7,21 +7,23 @@
 <%@ attribute name="langList" type="java.util.List" required="true" description="List of available languages" %>
 
 <ul class="pagination">
-	
-	<li>
-		<c:choose>
-			<c:when test="${page.currentPage < '2'}"> <c:set var="class_to_add" value="not-active"/> </c:when>
-			<c:otherwise> <c:set var="class_to_add" value=""/>  </c:otherwise>
-		</c:choose>	
-		<a href=<customLib:link uri="dashboard" current_page="${page}" override_page="1"/> class="${class_to_add}"> <span aria-hidden="true">  &laquo; </span> </a>
+
+	<c:choose>
+		<c:when test="${page.currentPage < '2'}"> <c:set var="class_to_add" value="not-active disabled"/> </c:when>
+		<c:otherwise> <c:set var="class_to_add" value=""/>  </c:otherwise>
+	</c:choose>
+
+	<li class="${class_to_add}">
+		<a href=<customLib:link uri="dashboard" current_page="${page}" override_page="1"/> class="${class_to_add}"> <span aria-hidden="true" style="font-weight:bold">  &laquo; </span> </a>
 	</li>
 
-	<li>
-		<c:choose>
-			<c:when test="${page.currentPage == '1'}"> <c:set var="class_to_add" value="not-active"/> </c:when>
-			<c:otherwise> <c:set var="class_to_add" value=""/>  </c:otherwise>
-		</c:choose>	
-		<a href=<customLib:link uri="dashboard" current_page="${page}" override_page="${page.currentPage - 1}"/> class="${class_to_add}"> <span aria-hidden="true">  &lsaquo; </span> </a>
+	<c:choose>
+		<c:when test="${page.currentPage == '1'}"> <c:set var="class_to_add" value="not-active disabled"/> </c:when>
+		<c:otherwise> <c:set var="class_to_add" value=""/>  </c:otherwise>
+	</c:choose>
+
+	<li class="${class_to_add}">
+		<a href=<customLib:link uri="dashboard" current_page="${page}" override_page="${page.currentPage - 1}"/> class="${class_to_add}"> <span aria-hidden="true" style="font-weight:bold">  &lsaquo; </span> </a>
 	</li>
 	
 	<c:forEach begin="${page.startPage}" end="${page.endPage}" var="val">
@@ -29,20 +31,24 @@
 			<a href=<customLib:link uri="dashboard" current_page="${page}" override_page="${val}"/> > <span aria-hidden="true"> ${val} </span> </a>
 		</li>
 	</c:forEach>
-	
-	<li>
-		<c:choose>
-			<c:when test="${page.currentPage == page.totalPage}"> <c:set var="class_to_add" value="not-active"/> </c:when>
-			<c:otherwise> <c:set var="class_to_add" value=""/>  </c:otherwise>
-		</c:choose>	
-		<a href=<customLib:link uri="dashboard" current_page="${page}" override_page="${page.currentPage + 1}"/> class="${class_to_add}"> <span aria-hidden="true">  &rsaquo; </span> </a>
+
+	<c:choose>
+		<c:when test="${page.currentPage == page.totalPage}"> <c:set var="class_to_add" value="not-active disabled"/> </c:when>
+		<c:otherwise> <c:set var="class_to_add" value=""/>  </c:otherwise>
+	</c:choose>
+
+	<li class="${class_to_add}">
+		<a href=<customLib:link uri="dashboard" current_page="${page}" override_page="${page.currentPage + 1}"/> class="${class_to_add}"> <span aria-hidden="true" style="font-weight:bold">  &rsaquo; </span> </a>
 	</li>
 
-	<li>
-		<c:choose>
-			<c:when test="${page.currentPage == page.totalPage}"> <c:set var="class_to_add" value="not-active"/> </c:when>
-		</c:choose>	
-		<a href=<customLib:link uri="dashboard" current_page="${page}" override_page="${page.totalPage}"/> class="${class_to_add}"> <span aria-hidden="true">  &raquo; </span> </a>
+
+	<c:choose>
+		<c:when test="${page.currentPage == page.totalPage}"> <c:set var="class_to_add" value="not-active disabled"/> </c:when>
+		<c:otherwise> <c:set var="class_to_add" value=""/>  </c:otherwise>
+	</c:choose>
+
+	<li class="${class_to_add}">
+		<a href=<customLib:link uri="dashboard" current_page="${page}" override_page="${page.totalPage}"/> class="${class_to_add}"> <span aria-hidden="true" style="font-weight:bold">  &raquo; </span> </a>
 	</li>
 	
 </ul>
