@@ -73,27 +73,30 @@
 							</div>
 						</div>
 					</div>
+					<c:if test="${param.error != null}">
+						<div id="loginError" class="alert alert-danger text-center"
+							role="alert">
+							<spring:message code="error.authentification" />
+						</div>
+					</c:if>
+
+					<c:if test="${param.logout != null}">
+						<div id="logout" class="alert alert-success text-center"
+							role="alert">
+							<spring:message code="success.logout" />
+						</div>
+					</c:if>
 				</div>
 			</div>
 		</div>
 	</sec:authorize>
-	<c:if test="${param.error != null}">
-		<div id="loginError" class="alert alert-danger text-center"
-			role="alert">
-			<spring:message code="error.authentification" />
-		</div>
-	</c:if>
-
-	<c:if test="${param.logout != null}">
-		<div id="logout" class="alert alert-success text-center" role="alert">
-			<spring:message code="success.logout" />
-		</div>
-	</c:if>
 
 	<sec:authorize access="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
-				<div class="container">
-					<p class="alert alert-info" style="text-align: center;"><spring:message code="login.already.logged" /></p>
-				</div>
+		<div class="container">
+			<p class="alert alert-info" style="text-align: center;">
+				<spring:message code="login.already.logged" />
+			</p>
+		</div>
 	</sec:authorize>
 
 	<jsp:include page="global/scripts.jsp" />
