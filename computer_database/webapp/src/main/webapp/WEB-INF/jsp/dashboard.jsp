@@ -22,7 +22,7 @@
 
                 <sec:authorize access="hasRole('ROLE_ADMIN')">
                 <div class="pull-left">
-                    <a href="#" class="btn btn-primary btn-danger" id="deleteSelected" onclick="$.fn.deleteSelected();"><span class="glyphicon glyphicon-trash"></span></a>
+                    <a href="#" class="btn btn-primary btn-danger disabled not-active" id="deleteSelected" onclick="$.fn.deleteSelected();"><span class="glyphicon glyphicon-trash"></span></a>
                 </div>
                 </sec:authorize>
                 <div class="pull-left <sec:authorize access="hasRole('ROLE_ADMIN')"> col-xs-12 col-sm-6 col-md-9 col-lg-10 </sec:authorize>">
@@ -61,7 +61,7 @@
 						<!-- Table header for Computer Name -->
 
                         <sec:authorize access="hasRole('ROLE_ADMIN')">
-						<th class="editMode" style="width: 30px; height: 22px;"><input
+						<th class="editMode" style="width: 30px; height: 22px;"><input class="cb"
 							type="checkbox" id="selectall" /> <span id="deleteContainer"
 							style="vertical-align: top;">
 						</span></th>

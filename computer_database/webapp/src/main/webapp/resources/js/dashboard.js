@@ -20,6 +20,21 @@ $(function() {
         } else {
             $("#deleteContainer").addClass("unclickable");
         }
+
+        var boxes = $('input[type=checkbox]');
+        var doActivate = false;
+
+        for(var i = 0; i < boxes.length && !doActivate; ++i) {
+            if(boxes[i].checked) {
+                doActivate = true;
+            }
+        }
+
+        if(doActivate) {
+            $('#deleteSelected').removeClass('not-active disabled');
+        } else {
+            $('#deleteSelected').addClass('not-active disabled');
+        }
     });
 
 });
