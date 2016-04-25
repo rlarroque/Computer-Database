@@ -49,10 +49,12 @@ public class ComputerDAOImpl implements ComputerDAO {
         if (page.getOrder() != null) {
 
             if(page.getOrder().getCol() == OrderColumn.COMPANY) {
-                hqlQuery = hqlQuery.concat(" order by company.name")
+                hqlQuery = hqlQuery.concat(" order by ISNULL(company.name), company.name")
                                    .concat(" " + page.getOrder().getType().toString());
             } else {
-                hqlQuery = hqlQuery.concat(" order by computer.")
+                hqlQuery = hqlQuery.concat(" order by ISNULL(computer."
+                                   .concat(page.getOrder().getCol().toString())
+                                   .concat("), computer."))
                                    .concat(page.getOrder().getCol().toString())
                                    .concat(" " + page.getOrder().getType().toString());
             }
