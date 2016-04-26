@@ -5,12 +5,27 @@ $(function(){
 		if ($("#introducedDate").val() == "" || $("#discontinuedDate").val() == "") {
 			return true;
 		} else {
-			var dateIntroduced = new Date($("#introducedDate").val());
-			var dateDiscontinued = new Date($("#discontinuedDate").val())
+			var dateIntroduced = new getDateFromStr($("#introducedDate").val());
+			var dateDiscontinued = new getDateFromStr($("#discontinuedDate").val())
 			return dateIntroduced < dateDiscontinued;
 		}
 
 	}, localized_strings['validation.introduced']);
+
+	function getDateFromStr(dateStr){
+
+		var array = dateStr.split("-");
+
+		if(localized_strings['data.lang'] === 'en_US'){
+			date = new Date(array[2], array[0], array[1]);
+		}
+		else if(localized_strings['data.lang'] === 'fr_FR'){
+			date = new Date(array[2], array[1], array[0]);
+		}
+
+		return date;
+
+	}
 
 	jQuery.validator.addMethod("needsIntroduced", function() {
 		
@@ -25,14 +40,38 @@ $(function(){
 	}, localized_strings['validation.discontinued']);
 	
 	jQuery.validator.addMethod("validateDate", function(value, element) {
-		
+
 		if(value == "") {
 			return true;
-		}
-	    
+        }
+
 		return value.match(localized_strings['pattern']);
-		
+
 	}, localized_strings['validation.date'] + ' ' + localized_strings['date.pattern']);
+
+    jQuery.validator.addMethod("dateBefore70", function(value, element) {
+
+        if(value == "") {
+            return true;
+        } else{
+
+            if(localized_strings['data.lang'] === 'en_US'){
+                var minDate = new Date("01-02-1970");
+
+                if(value < minDate){
+                    return false;
+                }
+            }
+            else if(localized_strings['data.lang'] === 'fr_FR'){
+                var minDate = new Date("02-01-1970");
+
+                if(value < minDate){
+                    return false;
+                }
+            }
+        }
+
+    }, localized_strings['validation.date.before']);
 
 	$("#computer_form").validate({
 		
@@ -42,14 +81,16 @@ $(function(){
 			"introducedDate": {
 				dateComparison : true,
 				required : false,
-				validateDate : true
+				validateDate : true,
+                dateBefore70: true
 			},
 
 			"discontinuedDate": {
 				dateComparison : true,
 				needsIntroduced : true,
 				required : false, 
-				validateDate : true
+				validateDate : true,
+                dateBefore70: true
 			},
 
 			"companyId": {

@@ -98,7 +98,7 @@ public class ComputerMapper implements RowMapper<Computer> {
         if ("".equals(dto.getDiscontinuedDate()) || dto.getDiscontinuedDate() == null) {
             computer.setDiscontinued(null);
         } else {
-            String date = dto.getIntroducedDate().replace('/', '-');
+            String date = dto.getDiscontinuedDate().replace('/', '-');
             dto.setDiscontinuedDate(date);
             computer.setDiscontinued(dateMapper.toLocalDate((dto.getDiscontinuedDate())));
         }

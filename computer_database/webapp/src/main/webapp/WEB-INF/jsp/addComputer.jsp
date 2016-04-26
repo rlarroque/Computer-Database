@@ -76,6 +76,7 @@
 	<script type="text/javascript">
 		var localized_strings = new Array();
 		localized_strings['pattern'] = "<spring:message code='date.pattern.validation' javaScriptEscape='true' />";
+		localized_strings['data.lang'] = "<spring:message code='data.lang' javaScriptEscape='true' />";
 		localized_strings['date.pattern'] = "<spring:message code='date.pattern' javaScriptEscape='true' />";
 		localized_strings['validation.name'] = "<spring:message code='validation.name' javaScriptEscape='true' />";
 		localized_strings['validation.introduced'] = "<spring:message code='validation.introduced' javaScriptEscape='true' />";
@@ -83,6 +84,7 @@
 		localized_strings['validation.date'] = "<spring:message code='validation.date' javaScriptEscape='true' />";
 		localized_strings['validation.company'] = "<spring:message code='validation.company' javaScriptEscape='true' />";
 		localized_strings['validation.success'] = "<spring:message code='success.computer.created' javaScriptEscape='true' />";
+		localized_strings['validation.date.before'] = "<spring:message code='validation.date.before' javaScriptEscape='true' />";
 	</script>
 	
 </body>
