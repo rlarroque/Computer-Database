@@ -53,21 +53,25 @@ $(function(){
 
         if(value == "") {
             return true;
-        } else{
-
+        } else {
             if(localized_strings['data.lang'] === 'en_US'){
                 var minDate = new Date("01-02-1970");
-
-                if(value < minDate){
+				var valueDate = new Date(value);
+				if(valueDate.getTime() < minDate.getTime()){
                     return false;
-                }
+                } else {
+					return true;
+				}
             }
-            else if(localized_strings['data.lang'] === 'fr_FR'){
-                var minDate = new Date("02-01-1970");
-
-                if(value < minDate){
+            else {
+				var minDate = new Date("01-02-1970");
+				var array = value.toString().replace("/", "-").split("-");
+				var frenchDate = new Date(array[2], array[1], array[0]);
+				if(frenchDate.getTime() < minDate.getTime()){
                     return false;
-                }
+                } else {
+					return true
+				}
             }
         }
 
