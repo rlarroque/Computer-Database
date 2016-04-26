@@ -1,30 +1,33 @@
 package com.excilys.computer_database.controller;
 
-import com.excilys.computer_database.controller.utils.PageConstructor;
-import com.excilys.computer_database.dto.CompanyDTO;
-import com.excilys.computer_database.dto.ComputerDTO;
-import com.excilys.computer_database.dto.PageDTO;
-import com.excilys.computer_database.dto.PageParams;
-import com.excilys.computer_database.validator.dto.PageDTOValidator;
-import com.excilys.computer_database.mapper.CompanyMapper;
-import com.excilys.computer_database.mapper.ComputerMapper;
-import com.excilys.computer_database.mapper.PageMapper;
-import com.excilys.computer_database.services.CompanyService;
-import com.excilys.computer_database.services.ComputerService;
+import java.util.Arrays;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
-import java.util.Arrays;
-import java.util.List;
+import com.excilys.computer_database.controller.utils.PageConstructor;
+import com.excilys.computer_database.dto.CompanyDTO;
+import com.excilys.computer_database.dto.ComputerDTO;
+import com.excilys.computer_database.dto.PageDTO;
+import com.excilys.computer_database.dto.PageParams;
+import com.excilys.computer_database.mapper.CompanyMapper;
+import com.excilys.computer_database.mapper.ComputerMapper;
+import com.excilys.computer_database.mapper.PageMapper;
+import com.excilys.computer_database.services.CompanyService;
+import com.excilys.computer_database.services.ComputerService;
+import com.excilys.computer_database.validator.dto.PageDTOValidator;
 
 /**
  * Controller in charge of all computer related actions
@@ -78,7 +81,7 @@ public class ComputerController extends ApplicationController{
     }
     
     @RequestMapping(method = RequestMethod.POST, value = COMPUTER + ADD)
-    public String postAddComputer(@Valid ComputerDTO computerToAdd, BindingResult errors) {
+    public String postAddComputer(@ModelAttribute("computerToAdd") @Valid ComputerDTO computerToAdd, BindingResult errors, Model model) {
         
         LOGGER.info("[POST] computer add: " + computerToAdd);
         
@@ -108,7 +111,7 @@ public class ComputerController extends ApplicationController{
     }
 
     @RequestMapping(method = RequestMethod.POST, value = COMPUTER + EDIT)
-    protected String postEditComputer(@Valid @ModelAttribute("computerToEdit") ComputerDTO dto, BindingResult errors) {
+    protected String postEditComputer(@Valid @ModelAttribute("computerToEdit") ComputerDTO dto, BindingResult errors, Model model) {
         
         LOGGER.info("[POST] computer edit: " + dto);
         
@@ -127,8 +130,10 @@ public class ComputerController extends ApplicationController{
     protected String postDeleteComputer(HttpServletRequest request) {
         
         LOGGER.info("[POST] computer delete");
-        
-        List<String> ids = Arrays.asList(request.getParameter("selection").split("\\s*,\\s*"));
+
+        String selection = request.getParameter("selection");
+        selection = selection.replace("on,","");
+        List<String> ids = Arrays.asList(selection.split("\\s*,\\s*"));
 
         if(ids != null) {
 
