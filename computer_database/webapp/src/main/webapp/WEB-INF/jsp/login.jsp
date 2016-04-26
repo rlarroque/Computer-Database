@@ -57,17 +57,6 @@
 												</div>
 											</div>
 										</div>
-										<div class="form-group">
-											<div class="row">
-												<div class="col-lg-12">
-													<div class="text-center">
-														<button type="button" id="forgot-psw" class="btn btn-link">
-															<spring:message code="login.forgot-password" />
-														</button>
-													</div>
-												</div>
-											</div>
-										</div>
 									</form>
 								</div>
 							</div>
